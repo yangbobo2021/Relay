@@ -1,0 +1,252 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 780px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.toolbar {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.total,
+.counts,
+.rowState,
+.monitorTimes small,
+.message,
+.empty {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.iconButton {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  cursor: pointer;
+}
+
+.iconButton:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.iconButton:focus-visible,
+.sessionButton:focus-visible {
+  outline: 2px solid var(--dsw-alias-state-business-primary);
+  outline-offset: 1px;
+}
+
+.iconButton:disabled {
+  cursor: default;
+  opacity: .4;
+}
+
+.message,
+.empty,
+.failure p,
+.error,
+.summary {
+  margin: 0;
+}
+
+.empty {
+  padding: 48px 8px;
+  text-align: center;
+}
+
+.failure {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dsw-alias-state-error-primary);
+  font-size: 13px;
+}
+
+.error {
+  color: var(--dsw-alias-state-error-primary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.registrations,
+.waits,
+.monitors {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.registrations {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registration {
+  overflow: hidden;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 8px;
+  background: var(--dsw-alias-bg-layer-3);
+}
+
+.registrationHeader {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 14px;
+}
+
+.sessionButton {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  padding: 3px 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.title {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statusBadge {
+  flex: none;
+  border-radius: 5px;
+  padding: 2px 7px;
+  background: color-mix(in srgb, var(--dsw-alias-state-business-primary) 10%, transparent);
+  color: var(--dsw-alias-state-business-primary);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.summary {
+  overflow-wrap: anywhere;
+  padding: 0 14px 6px;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.counts {
+  display: flex;
+  gap: 12px;
+  padding: 0 14px 10px;
+}
+
+.waits,
+.monitors {
+  border-top: 1px solid var(--dsw-alias-border-l2);
+}
+
+.waits li,
+.monitors li {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px 8px 14px;
+}
+
+.waits li + li,
+.monitors li + li {
+  border-top: 1px solid var(--dsw-alias-border-l2);
+}
+
+.waitText {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.stateDot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--dsw-alias-label-tertiary);
+}
+
+.stateDot[data-state='active'] {
+  background: var(--dsw-alias-state-success-primary);
+}
+
+.stateDot[data-state='claimed'],
+.stateDot[data-state='triggered'] {
+  background: var(--dsw-alias-state-business-primary);
+}
+
+.stateDot[data-state='degraded'],
+.stateDot[data-state='failed'] {
+  background: var(--dsw-alias-state-error-primary);
+}
+
+.monitorMain {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 9px;
+}
+
+.monitorTimes {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.monitorTimes small {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 620px) {
+  .registrationHeader {
+    flex-wrap: wrap;
+  }
+
+  .actions {
+    margin-left: auto;
+  }
+
+  .statusBadge {
+    order: 3;
+  }
+}
