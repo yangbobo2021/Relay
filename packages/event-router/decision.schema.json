@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["disposition", "actionable", "deliveries", "evidence", "summary"],
+  "properties": {
+    "disposition": {
+      "enum": ["deliver", "escalate", "dismiss"]
+    },
+    "actionable": {
+      "type": "boolean"
+    },
+    "deliveries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["session_id", "wait_ids", "relation", "confidence"],
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "wait_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "relation": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "suite": "trigger-monitoring",
+  "version": 1,
+  "cases": [
+    {
+      "id": "approval_status_transition",
+      "description": "A one-shot bound Monitor emits exactly once when an approval changes from pending to approved.",
+      "monitor": {
+        "monitor_id": "monitor-po-1042",
+        "binding": {
+          "session_id": "session-procurement",
+          "wait_id": "wait-po-1042-approval"
+        },
+        "lifecycle": "one_shot",
+        "fire_on_initial_match": false,
+        "detector": {
+          "kind": "field_transition",
+          "field": "status",
+          "to": "approved",
+          "event_type": "procurement.approved"
+        },
+        "retry": {
+          "degraded_after": 1,
+          "fail_after": 3
+        }
+      },
+      "baseline": {
+        "approval_id": "PO-1042",
+        "status": "pending"
+      },
+      "steps": [
+        {
+          "operation": "check",
+          "observation": {
+            "approval_id": "PO-1042",
+            "status": "approved"
+          },
+          "expected": {
+            "monitor_state": "completed",
+            "wait_status": "claimed",
+            "events": [
+              {
+                "type": "procurement.approved",
+                "trigger_key": "PO-1042:approved",
+                "claim_wait": true
+              }
+            ],
+            "total_unique_triggers": 1
+          }
+        },
+        {
+          "operation": "check",
+          "observation": {
+            "approval_id": "PO-1042",
+            "status": "approved"
+          },
+          "expected": {
+            "monitor_state": "completed",
+            "wait_status": "claimed",
+            "events": [],
+            "total_unique_triggers": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "new_collection_item",
+      "description": "A recurring Monitor emits unseen tickets, pauses after delivery, and resumes only after Session rearm.",
+      "monitor": {
+        "monitor_id": "monitor-support-inbox",
+        "binding": {
+          "session_id": "session-support-queue",
+          "wait_id": "wait-new-support-ticket-1"
+        },
+        "lifecycle": "recurring",
+        "fire_on_initial_match": false,
+        "detector": {
+          "kind": "unseen_items",
+          "identity_field": "ticket_ids",
+          "event_type": "support.ticket.created"
+        },
+        "retry": {
+          "degraded_after": 1,
+          "fail_after": 3
+        }
+      },
+      "baseline": {
+        "ticket_ids": ["T-100"]
+      },
+      "steps": [
+        {
+          "operation": "check",
+          "observation": {
+            "ticket_ids": ["T-100", "T-101"]
+          },
+          "expected": {
+            "monitor_state": "triggered",
+            "wait_status": "claimed",
+            "events": [
+              {
+                "type": "support.ticket.created",
+                "trigger_key": "ticket:T-101",
+                "claim_wait": true
+              }
+            ],
+            "total_unique_triggers": 1
+          }
+        },
+        {
+          "operation": "rearm",
+          "wait_id": "wait-new-support-ticket-2",
+          "expected": {
+            "monitor_state": "active",
+            "wait_status": "active",
+            "events": [],
+            "total_unique_triggers": 1
+          }
+        },
+        {
+          "operation": "check",
+          "observation": {
+            "ticket_ids": ["T-100", "T-101"]
+          },
+          "expected": {
+            "monitor_state": "active",
+            "wait_status": "active",
+            "events": [],
+            "total_unique_triggers": 1
+          }
+        },
+        {
+          "operation": "check",
+          "observation": {
+            "ticket_ids": ["T-100", "T-101", "T-102"]
+          },
+          "expected": {
+            "monitor_state": "triggered",
+            "wait_status": "claimed",
+            "events": [
+              {
+                "type": "support.ticket.created",
+                "trigger_key": "ticket:T-102",
+                "claim_wait": true
+              }
+            ],
+            "total_unique_triggers": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "page_contract_failure",
+      "description": "A changed page contract retries visibly and wakes its owner once after exhausting recovery.",
+      "monitor": {
+        "monitor_id": "monitor-shipment-status",
+        "binding": {
+          "session_id": "session-shipment",
+          "wait_id": "wait-shipment-dispatched"
+        },
+        "lifecycle": "one_shot",
+        "fire_on_initial_match": false,
+        "detector": {
+          "kind": "field_transition",
+          "field": "status",
+          "to": "shipped",
+          "event_type": "shipment.dispatched"
+        },
+        "retry": {
+          "degraded_after": 1,
+          "fail_after": 3
+        }
+      },
+      "baseline": {
+        "order_id": "ORDER-7",
+        "status": "processing"
+      },
+      "steps": [
+        {
+          "operation": "check",
+          "error_class": "contract_changed",
+          "expected": {
+            "monitor_state": "degraded",
+            "wait_status": "active",
+            "events": [],
+            "total_unique_triggers": 0
+          }
+        },
+        {
+          "operation": "check",
+          "error_class": "contract_changed",
+          "expected": {
+            "monitor_state": "degraded",
+            "wait_status": "active",
+            "events": [],
+            "total_unique_triggers": 0
+          }
+        },
+        {
+          "operation": "check",
+          "error_class": "contract_changed",
+          "expected": {
+            "monitor_state": "failed",
+            "wait_status": "active",
+            "events": [
+              {
+                "type": "monitor.failed",
+                "trigger_key": "monitor-shipment-status:failed:contract_changed",
+                "claim_wait": false
+              }
+            ],
+            "total_unique_triggers": 1
+          }
+        }
+      ]
+    }
+  ]
+}

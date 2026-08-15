@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["suite", "version", "cases"],
+  "properties": {
+    "suite": { "const": "trigger-monitoring" },
+    "version": { "type": "integer", "minimum": 1 },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/case" }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "monitor", "baseline", "steps"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "monitor": { "$ref": "#/$defs/monitor" },
+        "baseline": { "type": "object" },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/step" }
+        }
+      }
+    },
+    "monitor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["monitor_id", "binding", "lifecycle", "fire_on_initial_match", "detector", "retry"],
+      "properties": {
+        "monitor_id": { "type": "string", "minLength": 1 },
+        "binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["session_id", "wait_id"],
+          "properties": {
+            "session_id": { "type": "string", "minLength": 1 },
+            "wait_id": { "type": "string", "minLength": 1 }
+          }
+        },
+        "lifecycle": { "enum": ["one_shot", "recurring"] },
+        "fire_on_initial_match": { "type": "boolean" },
+        "detector": { "type": "object" },
+        "retry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["degraded_after", "fail_after"],
+          "properties": {
+            "degraded_after": { "type": "integer", "minimum": 1 },
+            "fail_after": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation", "expected"],
+      "properties": {
+        "operation": { "enum": ["check", "rearm"] },
+        "observation": { "type": "object" },
+        "error_class": { "type": "string" },
+        "wait_id": { "type": "string" },
+        "expected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["monitor_state", "wait_status", "events", "total_unique_triggers"],
+          "properties": {
+            "monitor_state": {
+              "enum": ["active", "triggered", "completed", "degraded", "failed"]
+            },
+            "wait_status": { "enum": ["active", "claimed", "consumed"] },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["type", "trigger_key", "claim_wait"],
+                "properties": {
+                  "type": { "type": "string", "minLength": 1 },
+                  "trigger_key": { "type": "string", "minLength": 1 },
+                  "claim_wait": { "type": "boolean" }
+                }
+              }
+            },
+            "total_unique_triggers": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    }
+  }
+}

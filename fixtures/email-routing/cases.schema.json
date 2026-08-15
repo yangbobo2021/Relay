@@ -1,0 +1,315 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://relay.example/schemas/email-routing-cases.schema.json",
+  "title": "Relay email routing fixture suite",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["suite", "version", "cases"],
+  "properties": {
+    "suite": {
+      "const": "email-routing"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description",
+        "critical",
+        "sessions",
+        "event",
+        "expected"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "critical": {
+          "type": "boolean"
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/session"
+          }
+        },
+        "existing_event": {
+          "$ref": "#/$defs/existingEvent"
+        },
+        "event": {
+          "$ref": "#/$defs/event"
+        },
+        "expected": {
+          "$ref": "#/$defs/expected"
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "state", "task_summary", "waits"],
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": ["waiting", "running"]
+        },
+        "task_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "waits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/wait"
+          }
+        }
+      }
+    },
+    "wait": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wait_id",
+        "status",
+        "exclusive",
+        "expected_event",
+        "caused_by",
+        "actors",
+        "entities",
+        "phase",
+        "prior_exchange"
+      ],
+      "properties": {
+        "wait_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": ["active", "claimed", "consumed", "superseded", "cancelled"]
+        },
+        "exclusive": {
+          "type": "boolean"
+        },
+        "expected_event": {
+          "type": "string",
+          "minLength": 1
+        },
+        "caused_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "phase": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prior_exchange": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "existingEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "source", "source_event_id", "fingerprint", "state"],
+      "properties": {
+        "event_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "source_event_id": {
+          "type": ["string", "null"]
+        },
+        "fingerprint": {
+          "type": "string"
+        },
+        "state": {
+          "enum": ["received", "routing", "dispatched", "dismissed", "resolved"]
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "source",
+        "source_event_id",
+        "fingerprint",
+        "channel",
+        "from",
+        "to",
+        "cc",
+        "subject",
+        "body",
+        "headers",
+        "attachments"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_event_id": {
+          "type": ["string", "null"]
+        },
+        "fingerprint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "channel": {
+          "const": "email"
+        },
+        "from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cc": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subject": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "headers": {
+          "$ref": "#/$defs/headers"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/attachment"
+          }
+        }
+      }
+    },
+    "headers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_thread_id", "in_reply_to", "references"],
+      "properties": {
+        "provider_thread_id": {
+          "type": ["string", "null"]
+        },
+        "in_reply_to": {
+          "type": ["string", "null"]
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "attachment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "media_type", "text_summary"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "media_type": {
+          "type": "string"
+        },
+        "text_summary": {
+          "type": "string"
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "disposition",
+        "target_session_ids",
+        "matched_wait_ids",
+        "must_not_target_session_ids",
+        "reason"
+      ],
+      "properties": {
+        "disposition": {
+          "enum": ["deliver", "escalate", "dismiss", "deduplicate"]
+        },
+        "target_session_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "matched_wait_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "must_not_target_session_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "delivery_mode": {
+          "enum": ["start", "queue"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

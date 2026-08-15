@@ -1,0 +1,696 @@
+{
+  "suite": "email-routing",
+  "version": 1,
+  "cases": [
+    {
+      "id": "reply_with_reliable_thread_metadata",
+      "description": "A normal quote acceptance has both semantic and thread evidence.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-northwind-quote",
+          "state": "waiting",
+          "task_summary": "Prepare and close the Northwind migration quote.",
+          "waits": [
+            {
+              "wait_id": "wait-northwind-quote-approval",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Northwind confirms whether Quote Q-104 is accepted.",
+              "caused_by": "Sent Quote Q-104 for USD 28000.",
+              "actors": ["buyer@northwind.example"],
+              "entities": ["Northwind migration", "Quote Q-104", "USD 28000"],
+              "phase": "quote_confirmation",
+              "prior_exchange": "The buyer requested a final migration price and received Quote Q-104."
+            }
+          ]
+        },
+        {
+          "session_id": "session-contoso-bug",
+          "state": "waiting",
+          "task_summary": "Resolve Contoso export failures.",
+          "waits": [
+            {
+              "wait_id": "wait-contoso-log",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Contoso sends a failing export log.",
+              "caused_by": "Asked the administrator for a fresh export log.",
+              "actors": ["admin@contoso.example"],
+              "entities": ["Contoso export"],
+              "phase": "diagnosis",
+              "prior_exchange": "The export fails near completion but no log has been provided."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-001",
+        "source": "fixture-mail",
+        "source_event_id": "mail-001",
+        "fingerprint": "fp-001",
+        "channel": "email",
+        "from": "buyer@northwind.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Re: Northwind migration quote",
+        "body": "The USD 28000 price works for us. Please proceed.",
+        "headers": {
+          "provider_thread_id": "thread-northwind-quote",
+          "in_reply_to": "message-q104",
+          "references": ["message-q104"]
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-northwind-quote"],
+        "matched_wait_ids": ["wait-northwind-quote-approval"],
+        "must_not_target_session_ids": ["session-contoso-bug"],
+        "delivery_mode": "start",
+        "reason": "The sender, amount, project, and acceptance all match the Northwind quote wait."
+      }
+    },
+    {
+      "id": "missing_thread_id_same_sender_two_topics",
+      "description": "Message meaning selects one of two sessions involving the same customer.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-fabrikam-renewal",
+          "state": "waiting",
+          "task_summary": "Complete Fabrikam annual renewal.",
+          "waits": [
+            {
+              "wait_id": "wait-fabrikam-renewal-price",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Fabrikam approves the USD 12000 annual renewal.",
+              "caused_by": "Sent the annual renewal proposal.",
+              "actors": ["ops@fabrikam.example"],
+              "entities": ["Fabrikam renewal", "USD 12000"],
+              "phase": "commercial_approval",
+              "prior_exchange": "Operations asked for a final annual renewal price."
+            }
+          ]
+        },
+        {
+          "session_id": "session-fabrikam-import",
+          "state": "waiting",
+          "task_summary": "Diagnose Fabrikam product import errors.",
+          "waits": [
+            {
+              "wait_id": "wait-fabrikam-import-sample",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Fabrikam sends a sample CSV that fails to import.",
+              "caused_by": "Requested one failing input file.",
+              "actors": ["ops@fabrikam.example"],
+              "entities": ["Fabrikam product import", "CSV"],
+              "phase": "reproduction",
+              "prior_exchange": "Operations reported malformed row errors during product import."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-002",
+        "source": "fixture-mail",
+        "source_event_id": "mail-002",
+        "fingerprint": "fp-002",
+        "channel": "email",
+        "from": "ops@fabrikam.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Approved",
+        "body": "The annual USD 12000 amount is approved. Go ahead with the renewal.",
+        "headers": {
+          "provider_thread_id": null,
+          "in_reply_to": null,
+          "references": []
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-fabrikam-renewal"],
+        "matched_wait_ids": ["wait-fabrikam-renewal-price"],
+        "must_not_target_session_ids": ["session-fabrikam-import"],
+        "delivery_mode": "start",
+        "reason": "The message approves the renewal amount and does not concern an import file."
+      }
+    },
+    {
+      "id": "one_session_multiple_active_waits",
+      "description": "One reply satisfies only one of several waits owned by the same session.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-adatum-onboarding",
+          "state": "waiting",
+          "task_summary": "Finish Adatum enterprise onboarding.",
+          "waits": [
+            {
+              "wait_id": "wait-adatum-dpa",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Adatum returns the signed data processing agreement.",
+              "caused_by": "Sent the final DPA for signature.",
+              "actors": ["legal@adatum.example"],
+              "entities": ["Adatum onboarding", "DPA"],
+              "phase": "legal",
+              "prior_exchange": "Legal approved the text and requested the signature copy."
+            },
+            {
+              "wait_id": "wait-adatum-technical-contact",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Adatum names the technical onboarding contact.",
+              "caused_by": "Asked who should receive environment setup instructions.",
+              "actors": ["sponsor@adatum.example"],
+              "entities": ["Adatum onboarding", "technical contact"],
+              "phase": "technical_setup",
+              "prior_exchange": "The sponsor agreed to nominate an engineer."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-003",
+        "source": "fixture-mail",
+        "source_event_id": "mail-003",
+        "fingerprint": "fp-003",
+        "channel": "email",
+        "from": "sponsor@adatum.example",
+        "to": ["relay@example.test"],
+        "cc": ["engineer@adatum.example"],
+        "subject": "Onboarding contact",
+        "body": "Our technical contact will be engineer@adatum.example. Please coordinate setup with her.",
+        "headers": {
+          "provider_thread_id": "thread-adatum-onboarding",
+          "in_reply_to": "message-contact-request",
+          "references": ["message-contact-request"]
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-adatum-onboarding"],
+        "matched_wait_ids": ["wait-adatum-technical-contact"],
+        "must_not_target_session_ids": [],
+        "delivery_mode": "start",
+        "reason": "The email names the technical contact but does not return the DPA."
+      }
+    },
+    {
+      "id": "same_thread_later_wait_phase",
+      "description": "A reused thread must match the current phase instead of a consumed wait.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-tailspin-contract",
+          "state": "waiting",
+          "task_summary": "Close the Tailspin services agreement.",
+          "waits": [
+            {
+              "wait_id": "wait-tailspin-price-old",
+              "status": "consumed",
+              "exclusive": true,
+              "expected_event": "Tailspin accepts the project price.",
+              "caused_by": "Sent the commercial proposal.",
+              "actors": ["owner@tailspin.example"],
+              "entities": ["Tailspin project", "Proposal P-77"],
+              "phase": "price_approval",
+              "prior_exchange": "Tailspin accepted Proposal P-77."
+            },
+            {
+              "wait_id": "wait-tailspin-signature-current",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Tailspin returns the signed services agreement.",
+              "caused_by": "Sent the agreement after price approval.",
+              "actors": ["owner@tailspin.example"],
+              "entities": ["Tailspin project", "Services Agreement SA-77"],
+              "phase": "contract_signature",
+              "prior_exchange": "Price is approved and SA-77 is awaiting signature."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-004",
+        "source": "fixture-mail",
+        "source_event_id": "mail-004",
+        "fingerprint": "fp-004",
+        "channel": "email",
+        "from": "owner@tailspin.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Re: Tailspin proposal",
+        "body": "Attached is the signed agreement.",
+        "headers": {
+          "provider_thread_id": "thread-tailspin-commercial",
+          "in_reply_to": "message-sa77",
+          "references": ["message-p77", "message-sa77"]
+        },
+        "attachments": [
+          {
+            "name": "SA-77-signed.pdf",
+            "media_type": "application/pdf",
+            "text_summary": "Services Agreement SA-77 signed by Tailspin."
+          }
+        ]
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-tailspin-contract"],
+        "matched_wait_ids": ["wait-tailspin-signature-current"],
+        "must_not_target_session_ids": [],
+        "delivery_mode": "start",
+        "reason": "The signed attachment satisfies the current signature wait, not the consumed price wait."
+      }
+    },
+    {
+      "id": "new_business_inquiry_escalates_event",
+      "description": "An actionable inquiry with no existing relationship is escalated without creating a conversation.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-woodgrove-support",
+          "state": "waiting",
+          "task_summary": "Resolve Woodgrove login failures.",
+          "waits": [
+            {
+              "wait_id": "wait-woodgrove-screenshot",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Woodgrove sends a screenshot of the login error.",
+              "caused_by": "Requested evidence from the affected user.",
+              "actors": ["user@woodgrove.example"],
+              "entities": ["Woodgrove login"],
+              "phase": "diagnosis",
+              "prior_exchange": "The user cannot sign in after password reset."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-005",
+        "source": "fixture-mail",
+        "source_event_id": "mail-005",
+        "fingerprint": "fp-005",
+        "channel": "email",
+        "from": "procurement@coho.example",
+        "to": ["sales@example.test"],
+        "cc": [],
+        "subject": "Pricing request for 200 seats",
+        "body": "We are evaluating your product for 200 employees. Please send pricing and implementation timing this week.",
+        "headers": {
+          "provider_thread_id": null,
+          "in_reply_to": null,
+          "references": []
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "escalate",
+        "target_session_ids": [],
+        "matched_wait_ids": [],
+        "must_not_target_session_ids": ["session-woodgrove-support"],
+        "reason": "This is a new sales opportunity unrelated to existing waits."
+      }
+    },
+    {
+      "id": "newsletter_is_dismissed",
+      "description": "A clearly promotional bulk message requires no task.",
+      "critical": false,
+      "sessions": [],
+      "event": {
+        "event_id": "event-006",
+        "source": "fixture-mail",
+        "source_event_id": "mail-006",
+        "fingerprint": "fp-006",
+        "channel": "email",
+        "from": "news@vendor.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "August product newsletter",
+        "body": "Read our monthly feature roundup. You received this because you subscribed. Unsubscribe at any time.",
+        "headers": {
+          "provider_thread_id": null,
+          "in_reply_to": null,
+          "references": []
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "dismiss",
+        "target_session_ids": [],
+        "matched_wait_ids": [],
+        "must_not_target_session_ids": [],
+        "reason": "The message is an informational bulk newsletter with no requested action."
+      }
+    },
+    {
+      "id": "ambiguous_exclusive_reply_escalates_event",
+      "description": "An actionable reply cannot safely choose between two exclusive waits.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-proseware-alpha",
+          "state": "waiting",
+          "task_summary": "Start Proseware Project Alpha after approval.",
+          "waits": [
+            {
+              "wait_id": "wait-proseware-alpha-go",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "The Proseware sponsor authorizes Project Alpha to start.",
+              "caused_by": "Sent the final Alpha plan for approval.",
+              "actors": ["sponsor@proseware.example"],
+              "entities": ["Proseware Project Alpha"],
+              "phase": "start_approval",
+              "prior_exchange": "The sponsor said a go or no-go decision would follow."
+            }
+          ]
+        },
+        {
+          "session_id": "session-proseware-beta",
+          "state": "waiting",
+          "task_summary": "Start Proseware Project Beta after approval.",
+          "waits": [
+            {
+              "wait_id": "wait-proseware-beta-go",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "The Proseware sponsor authorizes Project Beta to start.",
+              "caused_by": "Sent the final Beta plan for approval.",
+              "actors": ["sponsor@proseware.example"],
+              "entities": ["Proseware Project Beta"],
+              "phase": "start_approval",
+              "prior_exchange": "The sponsor said a go or no-go decision would follow."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-007",
+        "source": "fixture-mail",
+        "source_event_id": "mail-007",
+        "fingerprint": "fp-007",
+        "channel": "email",
+        "from": "sponsor@proseware.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Approved",
+        "body": "Please proceed as discussed.",
+        "headers": {
+          "provider_thread_id": null,
+          "in_reply_to": null,
+          "references": []
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "escalate",
+        "target_session_ids": [],
+        "matched_wait_ids": [],
+        "must_not_target_session_ids": ["session-proseware-alpha", "session-proseware-beta"],
+        "reason": "The reply is actionable but lacks evidence to select one exclusive project safely."
+      }
+    },
+    {
+      "id": "nonexclusive_incident_update_delivers_to_multiple_sessions",
+      "description": "One provider update is relevant to two non-exclusive waits.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-lucerne-payment",
+          "state": "waiting",
+          "task_summary": "Resolve Lucerne payment delays caused by the provider incident.",
+          "waits": [
+            {
+              "wait_id": "wait-lucerne-provider-recovery",
+              "status": "active",
+              "exclusive": false,
+              "expected_event": "The payment provider reports that Incident INC-9 is resolved.",
+              "caused_by": "Paused remediation while the upstream provider was unavailable.",
+              "actors": ["status@payments.example"],
+              "entities": ["Incident INC-9", "Lucerne payments"],
+              "phase": "upstream_wait",
+              "prior_exchange": "Provider Incident INC-9 is delaying payment confirmations."
+            }
+          ]
+        },
+        {
+          "session_id": "session-graphicdesign-payment",
+          "state": "waiting",
+          "task_summary": "Resolve Graphic Design Institute checkout failures caused by the provider incident.",
+          "waits": [
+            {
+              "wait_id": "wait-graphicdesign-provider-recovery",
+              "status": "active",
+              "exclusive": false,
+              "expected_event": "The payment provider reports that Incident INC-9 is resolved.",
+              "caused_by": "Paused checkout verification during the upstream outage.",
+              "actors": ["status@payments.example"],
+              "entities": ["Incident INC-9", "checkout"],
+              "phase": "upstream_wait",
+              "prior_exchange": "Provider Incident INC-9 is causing checkout failures."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-008",
+        "source": "fixture-mail",
+        "source_event_id": "mail-008",
+        "fingerprint": "fp-008",
+        "channel": "email",
+        "from": "status@payments.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Incident INC-9 resolved",
+        "body": "Service has recovered and queued transactions are processing normally. Incident INC-9 is resolved.",
+        "headers": {
+          "provider_thread_id": "thread-incident-inc9",
+          "in_reply_to": null,
+          "references": []
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-lucerne-payment", "session-graphicdesign-payment"],
+        "matched_wait_ids": ["wait-lucerne-provider-recovery", "wait-graphicdesign-provider-recovery"],
+        "must_not_target_session_ids": [],
+        "delivery_mode": "start",
+        "reason": "Both sessions explicitly wait for the same non-exclusive provider recovery event."
+      }
+    },
+    {
+      "id": "duplicate_provider_delivery_is_deduplicated",
+      "description": "Repeated provider delivery does not route or execute twice.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-northwind-quote",
+          "state": "waiting",
+          "task_summary": "Prepare and close the Northwind migration quote.",
+          "waits": []
+        }
+      ],
+      "existing_event": {
+        "event_id": "event-009-original",
+        "source": "fixture-mail",
+        "source_event_id": "mail-009",
+        "fingerprint": "fp-009",
+        "state": "resolved"
+      },
+      "event": {
+        "event_id": "event-009-retry",
+        "source": "fixture-mail",
+        "source_event_id": "mail-009",
+        "fingerprint": "fp-009",
+        "channel": "email",
+        "from": "buyer@northwind.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Re: Northwind migration quote",
+        "body": "The price works for us. Please proceed.",
+        "headers": {
+          "provider_thread_id": "thread-northwind-quote",
+          "in_reply_to": "message-q104",
+          "references": ["message-q104"]
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "deduplicate",
+        "target_session_ids": [],
+        "matched_wait_ids": [],
+        "must_not_target_session_ids": [],
+        "reason": "The source event identifier and fingerprint identify an already accepted event."
+      }
+    },
+    {
+      "id": "related_event_queues_while_session_runs",
+      "description": "A second related email is queued instead of starting a concurrent run.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-contoso-export",
+          "state": "running",
+          "task_summary": "Diagnose and fix Contoso export failures.",
+          "waits": [
+            {
+              "wait_id": "wait-contoso-export-log-claimed",
+              "status": "claimed",
+              "exclusive": true,
+              "expected_event": "Contoso provides evidence from the latest failed export.",
+              "caused_by": "Requested a log and sample export settings.",
+              "actors": ["admin@contoso.example"],
+              "entities": ["Contoso export", "job EX-44"],
+              "phase": "diagnosis",
+              "prior_exchange": "A first log arrived and the session is currently analyzing job EX-44."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-010",
+        "source": "fixture-mail",
+        "source_event_id": "mail-010",
+        "fingerprint": "fp-010",
+        "channel": "email",
+        "from": "admin@contoso.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "One correction for EX-44",
+        "body": "The failed job used the EU export profile, not the US profile shown in my first message.",
+        "headers": {
+          "provider_thread_id": "thread-contoso-ex44",
+          "in_reply_to": "message-first-log",
+          "references": ["message-first-log"]
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-contoso-export"],
+        "matched_wait_ids": [],
+        "must_not_target_session_ids": [],
+        "delivery_mode": "queue",
+        "reason": "The correction belongs to the active diagnosis and queues behind the current run without claiming the wait again."
+      }
+    },
+    {
+      "id": "unexpected_change_belongs_to_existing_session",
+      "description": "A relevant correction wakes a session without satisfying its expected wait.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-wingtip-contract",
+          "state": "waiting",
+          "task_summary": "Finalize the Wingtip consulting agreement.",
+          "waits": [
+            {
+              "wait_id": "wait-wingtip-signature",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Wingtip returns the signed consulting agreement.",
+              "caused_by": "Sent the approved agreement for signature.",
+              "actors": ["director@wingtip.example"],
+              "entities": ["Wingtip consulting agreement", "Wingtip LLC"],
+              "phase": "signature",
+              "prior_exchange": "The agreement names Wingtip LLC and is awaiting signature."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-011",
+        "source": "fixture-mail",
+        "source_event_id": "mail-011",
+        "fingerprint": "fp-011",
+        "channel": "email",
+        "from": "director@wingtip.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Agreement correction before signing",
+        "body": "Please change our legal entity from Wingtip LLC to Wingtip Toys Ltd before we sign.",
+        "headers": {
+          "provider_thread_id": "thread-wingtip-contract",
+          "in_reply_to": "message-wingtip-agreement",
+          "references": ["message-wingtip-agreement"]
+        },
+        "attachments": []
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-wingtip-contract"],
+        "matched_wait_ids": [],
+        "must_not_target_session_ids": [],
+        "delivery_mode": "start",
+        "reason": "The correction belongs to the contract task even though it is not the expected signature event."
+      }
+    },
+    {
+      "id": "attachment_evidence_satisfies_wait",
+      "description": "A terse email is routed using its attachment evidence.",
+      "critical": true,
+      "sessions": [
+        {
+          "session_id": "session-alpine-security",
+          "state": "waiting",
+          "task_summary": "Complete Alpine security review.",
+          "waits": [
+            {
+              "wait_id": "wait-alpine-questionnaire",
+              "status": "active",
+              "exclusive": true,
+              "expected_event": "Alpine returns the completed security questionnaire.",
+              "caused_by": "Sent questionnaire SEC-12 to the security lead.",
+              "actors": ["security@alpine.example"],
+              "entities": ["Alpine security review", "Questionnaire SEC-12"],
+              "phase": "security_evidence",
+              "prior_exchange": "The security lead agreed to complete SEC-12."
+            }
+          ]
+        }
+      ],
+      "event": {
+        "event_id": "event-012",
+        "source": "fixture-mail",
+        "source_event_id": "mail-012",
+        "fingerprint": "fp-012",
+        "channel": "email",
+        "from": "security@alpine.example",
+        "to": ["relay@example.test"],
+        "cc": [],
+        "subject": "Re: Security review",
+        "body": "Attached.",
+        "headers": {
+          "provider_thread_id": null,
+          "in_reply_to": null,
+          "references": []
+        },
+        "attachments": [
+          {
+            "name": "SEC-12-completed.xlsx",
+            "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "text_summary": "Completed Alpine responses for security questionnaire SEC-12."
+          }
+        ]
+      },
+      "expected": {
+        "disposition": "deliver",
+        "target_session_ids": ["session-alpine-security"],
+        "matched_wait_ids": ["wait-alpine-questionnaire"],
+        "must_not_target_session_ids": [],
+        "delivery_mode": "start",
+        "reason": "The attachment name and extracted summary identify the awaited questionnaire."
+      }
+    }
+  ]
+}
