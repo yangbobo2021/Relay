@@ -1,7 +1,11 @@
+import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
 import type { ClientContext, SessionId } from '@deepseek-ai/dsh-client-runtime/client'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
+import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type { TypertRemoteContribution } from '@deepseek-ai/dsh-typert-protocol'
+import { CodexActivityView } from './CodexActivityView.tsx'
+import { codexActivityDefinition } from './codex-activity.ts'
 import { WaitingEventsSection, type ManagementSnapshot, type WaitingEventsInjected } from './WaitingEventsSection.tsx'
 import { en, zh, type RelayManagementLocaleKey } from './locales.ts'
 import { RELAY_REMOTE } from './remote.ts'
@@ -24,15 +28,26 @@ interface RelayManagementRemote {
   runNow(monitorId: string): Promise<RemoteResult<unknown>>
 }
 
-export const inject = ['slots', 'locale', 'remote', 'sessions']
+interface ConnectionFace {
+  api: { sessions: Pick<IApiClient['sessions'], 'models' | 'selectModel'> }
+}
+
+export const inject = ['slots', 'locale', 'remote', 'sessions', 'connection', 'conversationEvents']
 
 export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
   const unmount = await ctx.remote.$mount(RELAY_REMOTE as TypertRemoteContribution)
   const remote = ctx.get('remote.relayManagement' as never) as RelayManagementRemote | undefined
+  const connection = ctx.get('connection' as never) as ConnectionFace
   if (remote === undefined) {
     await unmount()
     throw new Error('Relay management Remote did not mount')
   }
+
+  ctx.conversationEvents.register(codexActivityDefinition)
+  ctx.slots.inject('conversation.chat.node', () => ctx.slots.register({
+    name: 'conversation.chat.node',
+    key: 'relay-codex-activity',
+  }, CodexActivityView))
 
   ctx.effect(() => ctx.locale.register('relay.management', { zh, en }), 'relay-management: dictionaries')
   const t = ctx.locale.bind('relay.management') as WaitingEventsInjected['t']
@@ -57,5 +72,45 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
     inject: injected,
   }, WaitingEventsSection))
 
-  return unmount
+  const selecting = new Set<string>()
+  const ensurePresetModel = async (sessionId: SessionId, codex: boolean): Promise<void> => {
+    if (selecting.has(sessionId)) return
+    selecting.add(sessionId)
+    try {
+      const { result } = await connection.api.sessions.models({ sessionId })
+      if (!result.ok) return
+      const currentIsCodex = result.value.current.provider === 'relay-codex'
+      if (currentIsCodex === codex) return
+      const group = result.value.groups.find(candidate => codex
+        ? candidate.id === 'relay-codex'
+        : candidate.id !== 'relay-codex')
+      const model = group?.models[0]
+      if (model === undefined) return
+      await connection.api.sessions.selectModel({
+        sessionId,
+        provider: group.id,
+        model: model.id,
+        ...(model.reasoning?.defaultEffort === undefined
+          ? {}
+          : { reasoningEffort: model.reasoning.defaultEffort }),
+      })
+    } finally {
+      selecting.delete(sessionId)
+    }
+  }
+  const syncCodexModel = (): void => {
+    const list = ctx.sessions.list.getSnapshot()
+    const sessionId = list.current
+    if (sessionId === undefined) return
+    const summary = list.byId[sessionId]
+    if (summary?.blank !== true) return
+    void ensurePresetModel(sessionId, summary.agentPreset === 'relay-codex').catch(() => {})
+  }
+  const unsubscribe = ctx.sessions.list.subscribe(syncCodexModel)
+  syncCodexModel()
+
+  return async () => {
+    unsubscribe()
+    await unmount()
+  }
 }

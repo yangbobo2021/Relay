@@ -7,9 +7,10 @@ conversation can delegate conditions that may become true much later. Relay obse
 those conditions, finds relevant conversations, and reliably injects external events
 back into their existing inboxes.
 
-Relay does not own conversations, execute their tasks, or replace the Agent harness.
-DeepSeek Harness (DSH) owns conversation creation, history, context, Agent execution,
-and message ordering.
+Relay does not own conversation transcripts, execute tasks independently, or replace
+the Agent harness. DeepSeek Harness (DSH) owns every visible Session and its native
+Web experience. A Session may use DSH's Agent path or bind one Codex Thread; Codex
+then owns model context and execution for that Session.
 
 ## First Users And Scenario
 
@@ -28,40 +29,42 @@ Waits. Email must work without magic text, special links, or reliable thread IDs
 
 ## Product Boundary
 
-All new conversations are ordinary DSH conversations. User messages, including
-messages sent while a Wait is active, go directly to DSH. The Agent decides during
-that normal turn whether to keep, replace, or cancel its Waits.
+Conversation creation uses DSH's native new-Session menu and may select an execution
+preset such as Codex. User messages, including messages sent while a Wait is active,
+enter through DSH and continue through that Session's execution backend. The Agent
+decides during the normal turn whether to keep, replace, or cancel its Waits.
 
 Relay owns only:
 
 - Wait and Monitor registration;
 - durable external Event ingestion and semantic routing;
-- reliable Event injection into an existing DSH inbox;
+- reliable Event injection through the owning backend adapter;
 - inspection and management of Waits and Monitors.
 
-The DSH inbox is the sole ordering boundary. A user message and Relay Event that
-arrive close together are processed in admission order, like any two messages.
+The owning backend's admission path is the ordering boundary. A user message and
+Relay Event that arrive close together are processed according to that backend's
+native ordering rules.
 
 ## Control Surfaces
 
-Conversation history, continuing a conversation, and creating a conversation belong
-to DSH on desktop or mobile. Relay supplies a separate automation-style view for
+Conversation creation, navigation, input, and presentation belong to DSH Web. Relay
+may project backend events into DSH's native slots without creating a second chat
+application. Relay also supplies an automation-style view for
 "what is being waited for": active Waits, Monitor health, next checks, recent
 triggers, pause/resume, cancel, run-now, and a link to the owning conversation.
 
 ## Conversation Activity
 
-A Relay Event resumes work through DSH's normal Agent lifecycle. DSH remains the
-single authority for conversation activity and streams its ordinary status and
-Session events to every connected client:
+A Relay Event resumes work through the Session's execution backend. DSH remains the
+visible activity surface and projects backend state to connected clients:
 
-- when Event processing starts, the owning Session shows DSH's running indicator;
+- when Event processing starts, the owning Session shows the backend running state;
 - opening that Session while it runs shows output as it is produced, without reload;
 - another selected Session is not replaced or interrupted by the background activity;
-- when an unselected Session finishes, DSH keeps its completion marker until opened.
+- when an unselected Session finishes, its completion remains visible until opened.
 
-Relay must not create a parallel execution-state model or require history reload to
-observe an Event-triggered turn.
+Relay must not create a parallel execution-state authority or require a full-page
+reload to observe an Event-triggered turn.
 
 ## Priorities
 
@@ -76,9 +79,9 @@ provider delivery must not cause duplicate Relay injection.
 ## Initial Scope
 
 The first complete slice covers normalized email Events, several concurrent DSH
-conversations, several Waits per conversation, semantic routing without dependable
+Sessions, several Waits per conversation, semantic routing without dependable
 correlation IDs, repeated wait/event/wait cycles, local bound Monitors, retryable
-delivery, and inspection records.
+delivery, inspection records, and Codex App Server inside native DSH Web Sessions.
 
 Production connector breadth, multi-tenant authorization, a visual workflow builder,
 unrestricted generated Monitor code, and a standalone conversation dashboard are not

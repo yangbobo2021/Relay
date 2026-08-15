@@ -2,14 +2,15 @@
 
 ## Ownership
 
-DSH Session is the only conversation identity and the authority for transcript,
-execution state, context, and inbox ordering. Relay stores a waiting projection keyed
-by that existing Session ID. The projection is not a second Session and does not say
-whether the DSH Agent is running, idle, or cold.
+The DSH Session is the only user-facing conversation identity. DSH owns navigation,
+input, title, and presentation history. Its selected execution backend owns model
+context and execution ordering. A Codex-backed Session binds exactly one Codex Thread.
+Relay stores a waiting projection keyed by `<runtime>:<backend-id>`; it is not a
+second conversation or execution-state authority.
 
 Relay never creates a conversation in response to a user message or external Event.
-It never intercepts ordinary user input and never acquires an execution lease over a
-DSH conversation.
+The DSH Web UI may create a Session with a selected Agent preset. Relay never creates
+a Session in response to an Event and never acquires an execution lease over it.
 
 ## Records
 
@@ -21,9 +22,10 @@ condition changes.
 
 `Event` is normalized external input durably accepted by Relay.
 
-`Delivery` assigns one Event to one existing DSH Session and records matched Waits.
+`Delivery` assigns one Event to one existing conversation backend and records matched
+Waits; the owning DSH Session remains its presentation target.
 
-`Activation` is one stable Delivery batch for one DSH Session. Its identity and
+`Activation` is one stable Delivery batch for one backend-bound DSH Session. Its identity and
 Delivery set survive retries. It is a Relay delivery record, not an Agent run.
 
 ## Agent Operations
@@ -44,9 +46,10 @@ are committed. A registration failure leaves the previous set unchanged.
 1. A connector or Monitor durably ingests an Event.
 2. Semantic routing commits `deliver`, `escalate`, or `dismiss`.
 3. `deliver` creates durable Deliveries and claims matched Waits.
-4. Relay creates or reuses a stable Activation and calls the shared DSH inbox adapter.
-5. The adapter resolves the existing Session through DSH's shared resolver and admits
-   the message into that Session's normal inbox.
+4. Relay creates or reuses a stable Activation and calls the Session's execution-backend
+   adapter.
+5. The adapter resolves the existing native Session and admits the message at that
+   backend's normal acceptance boundary.
 6. After the adapter's durable acceptance boundary, Relay commits the Activation,
    resolves Deliveries, and consumes matched Waits.
 7. The Agent processes the message in normal inbox order and may register its next
@@ -76,13 +79,13 @@ ordinary queued message.
 
 ## Invariants
 
-- User messages bypass Relay and enter DSH directly.
-- Relay Events and user messages share one DSH inbox and therefore one order.
+- User messages bypass Relay routing and enter their conversation backend directly.
+- Relay Events and user messages share the owning backend's admission path.
 - One expected exclusive reply cannot have multiple known live owners.
 - A non-exclusive Event may target several conversations.
 - An Event cannot be resolved before all required Deliveries are accepted.
 - Retry reuses Event, Delivery, and Activation identities.
-- Consuming one Wait does not complete or terminate its DSH conversation.
+- Consuming one Wait does not complete or terminate its DSH Session or Codex Thread.
 - Relay never infers DSH conversation completion from the absence of Waits.
 - A bound one-shot Monitor ends with its Wait; a recurring Monitor pauses after a
   trigger until the Agent explicitly rearms it.
@@ -93,13 +96,13 @@ ordinary queued message.
 The harness-neutral runtime exposes conceptual operations equivalent to:
 
 ```text
-registerWaits(dshSessionId, taskSummary, waits, monitors?, monitorRearms?)
-cancelWaits(dshSessionId)
+registerWaits(runtimeSessionId, taskSummary, waits, monitors?, monitorRearms?)
+cancelWaits(runtimeSessionId)
 listWaits()
 ingestAndRoute(event)
 dispatchSession(dshSessionId)
-inbox.deliver(dshSessionId, activationId, deliveries)
+inbox.deliver(runtimeSessionId, activationId, deliveries)
 ```
 
-No operation creates, resumes, disposes, or serializes a DSH Agent independently of
-the harness's shared resolver and inbox.
+No Relay Event operation creates, disposes, or serializes an Agent independently of
+the selected backend adapter.

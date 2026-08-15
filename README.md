@@ -3,8 +3,8 @@
 Relay is the waiting and external-event subsystem for long-running Agent work.
 
 An ordinary DSH conversation can register Waits and durable local Monitors. Relay
-routes incoming Events and injects them into that conversation's existing DSH inbox;
-DSH remains responsible for conversations, user messages, and Agent execution.
+routes incoming Events back into that conversation. A DSH Session may use DSH's
+default Agent or bind a Codex Thread as its execution and model-context backend.
 
 ## Initial Layout
 
@@ -56,8 +56,31 @@ npm run start:web -- --host 127.0.0.1 --port 4317
 ```
 
 Open `http://127.0.0.1:4317`, choose a workspace, and start an ordinary conversation.
-The Agent can call `relay_schedule_timer` with `after_seconds` and a continuation
-prompt; Relay persists the timer and resumes the same DSH Session when it expires.
+Choose the directly visible **Codex** mode on the native New Session screen to run
+the conversation through Codex App Server without leaving DSH Web. The Codex
+Session keeps DSH's native composer, model/reasoning selector, permission control,
+Chat/Trajectory views and message rendering. Choose another mode before the first
+message for the ordinary DSH path.
+
+An ordinary DSH Agent can call `relay_schedule_timer` with `after_seconds` and a
+continuation prompt; Relay persists the timer and resumes the same DSH Session when
+it expires. A Codex-backed Session can register an external-event Wait in its native
+conversation view; that Event path does not create a timer or Codex Automation.
+
+Local integrations deliver a real external Event through the running DSH Web host:
+
+```bash
+curl -X POST http://127.0.0.1:4317/api/relay/events \
+  -H 'content-type: application/json' \
+  -d '{"type":"build.completed","source_event_id":"build-42","status":"passed"}'
+```
+
+Non-loopback callers must send `Authorization: Bearer <token>` and the host must set
+`RELAY_INGRESS_TOKEN`. The response includes the durable Relay Event and Delivery
+states; an unmatched Event is accepted without starting a Session turn.
 
 Open **Settings > Waiting events** to inspect live waits and Monitors, open the
 owning conversation, cancel its waits, or ask an active Monitor to check now.
+
+The [Codex in DSH Web specification](docs/spec/codex-app-server.md) defines this
+integration and its ownership boundary.

@@ -64,3 +64,23 @@ separate Agent handles for Relay wakeups.
 Consequences: DSH's shared resolver and inbox are the sole concurrency boundary.
 Relay Activation means a retryable Delivery batch, and Wait management is a separate
 automation-style surface linked to DSH conversations.
+
+## 2026-08-15: Codex Runs Inside Native DSH Sessions
+
+Decision: Add Codex App Server as an execution backend inside DSH's native Web
+conversation. The visible object is always a DSH Session. A Session created with the
+Codex preset binds one Codex Thread, and Relay keys waiting state as
+`codex:<thread-id>`.
+
+Context: Treating Codex as one opaque tool loses streaming output, tool items,
+generated images, approvals, and native multi-turn continuity. The App Server
+protocol exposes those capabilities while retaining Codex ownership of model context
+and execution.
+
+Alternatives: Invoke Codex as an opaque DSH tool; build a separate Relay Codex Web
+application; make Relay own a new transcript format.
+
+Consequences: DSH remains the sole navigation and presentation shell. The DSH log is
+an audit projection, while the persisted Codex Thread is the only model-context
+source. Switching presets restores native DSH components. Codex Automation is not
+used for Relay external Events.

@@ -36,14 +36,15 @@ Relay is not a generic chatbot and not just a wrapper around an LLM API. Its pur
 
 ## Engineering Direction
 
-Relay should make asynchronous Agent work first-class while DSH owns conversations:
+Relay should make asynchronous Agent work first-class while DSH owns the user-facing
+conversation experience:
 
-- An ordinary DSH conversation can register Waits and receive later external Events through its existing inbox.
+- An ordinary DSH conversation can register Waits and receive later external Events through its existing inbox or selected execution-backend adapter.
 - Long-running tasks should wake through callbacks, webhooks, queues, or notifications.
 - When no push or query API exists, a durable local Monitor may poll through a restricted HTTP or browser capability and emit a normal Event on a meaningful state change.
-- DSH owns conversation creation, history, execution, resume, and user-message ordering; Relay owns only Wait, Monitor, Event, routing, and Delivery state.
+- DSH owns conversation creation, navigation, input, and presentation history. A Codex-backed DSH Session binds one Codex Thread that owns model context and execution. Relay owns only Wait, Monitor, Event, routing, and Delivery state.
 - Project dispatch should preserve each project's working directory, instructions, permissions, and artifacts.
-- Runtime boundaries should stay clear: Relay routes Events, DSH Sessions own continuity and one inbox, context compression owns memory shape, and project agents own local execution.
+- Runtime boundaries should stay clear: Relay routes Events, DSH Sessions own the user-facing continuity, the selected execution backend owns model context and admission, context compression owns memory shape, and project agents own local execution.
 
 ## Content And Privacy
 

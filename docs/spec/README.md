@@ -8,6 +8,8 @@ choice, but neither should redefine the requirements here.
 
 - [Product](product.md): purpose, first users, first scenario, priorities, and MVP boundaries.
 - [Runtime](runtime.md): DSH ownership, Wait registration, Event delivery, and invariants.
+- [Codex In DSH Web](codex-app-server.md): native DSH Session lifecycle, Codex Thread
+  binding and projection, approvals, and Relay Event continuation.
 - [Event Routing](event-routing.md): autonomous semantic matching and reliable event disposition.
 - [Trigger Monitoring](trigger-monitoring.md): dynamic condition observation and
   durable Event generation for systems that cannot push to Relay.
@@ -31,5 +33,5 @@ The specification grows with the product instead of predicting a final hierarchy
 6. Merge or reorganize documents when the conceptual boundaries change. Update all
    affected indexes in the same change.
 
-The current specification has five distinct concerns, so they remain as files in one
+The current specification has six distinct concerns, so they remain as files in one
 indexed directory. More levels are not justified yet.

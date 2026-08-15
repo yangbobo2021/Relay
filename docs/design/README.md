@@ -9,7 +9,9 @@ implement, but do not redefine, the [Relay Specification](../spec/README.md).
   fixture strategy, metrics, and release gates.
 - [Monitor Runtime](monitor-runtime.md) defines dynamic Monitor bundles, scheduling,
   state comparison, sandboxing, and bound trigger delivery.
+- [Codex In DSH Web](codex-app-server.md) defines the native DSH extension points,
+  App Server client, Thread projection, and Relay delivery adapter.
 
 This directory follows the specification's
-[organization rules](../spec/README.md#organization-rules). The three current concerns
+[organization rules](../spec/README.md#organization-rules). The four current concerns
 are independent but small, so no deeper hierarchy is needed.

@@ -4,8 +4,9 @@ Relay is a DSH plugin subsystem with Host and Agent-plane components.
 
 ```mermaid
 flowchart LR
-  Mobile["Desktop / mobile client"] --> DSH["DSH Session API and inbox"]
-  DSH --> Agent["Agent turn"]
+  Mobile["DSH Web desktop / mobile"] --> DSH["DSH Session and native UI"]
+  DSH --> Backend["DSH Agent or bound Codex Thread"]
+  Backend --> Agent["Agent turn"]
   Agent -->|"register / cancel Waits"| Relay["Relay host runtime"]
   Sources["Email, IM, CI, local Monitors"] --> Relay
   Relay --> Router["Semantic router"]
@@ -16,22 +17,24 @@ flowchart LR
 
 ## Boundaries
 
-- DSH owns conversation creation, history, context, execution, cold resume, and the
-  one ordered inbox used by both people and plugins.
+- DSH owns the user-facing Session, workspace navigation, input path, title, and
+  presentation log for every conversation.
+- The selected execution backend owns model context and execution. A Codex-backed DSH
+  Session binds one persisted Codex Thread.
 - Relay owns Waits, Monitors, external Events, semantic decisions, Delivery retries,
   and their inspectable history.
 - Connectors normalize provider input and acknowledge only after Relay persistence.
 - Monitor workers observe external state without requiring a live Agent.
 - The Agent bridge exposes Relay registration tools inside ordinary DSH turns.
-- The inbox adapter uses DSH's shared resolver; it never creates or disposes an Agent
-  independently.
+- An inbox adapter resolves the existing DSH Session and its optional backend
+  binding; it never creates a user-facing Session in response to an Event.
 
-The same DSH Session ID links the systems. Relay's record is only a waiting
-projection, not a second lifecycle authority.
+The DSH Session ID is the UI identity. A persisted binding connects it to a backend
+ID, and Relay keys its waiting projection with the runtime-qualified backend ID.
 
 ## Ordering
 
-User input always goes directly to DSH. Relay injects an external Event through the
-same DSH inbox. DSH therefore decides the order when a user message and Event arrive
-close together. Relay uses a lease only for its own stable Delivery Activation, never
-for Agent execution.
+User input enters through DSH's native input path and is admitted by the selected
+execution backend. Relay injects an external Event through that same backend path.
+The backend decides ordering when input and an Event arrive close together. Relay
+leases only its stable Delivery Activation, never Agent execution.

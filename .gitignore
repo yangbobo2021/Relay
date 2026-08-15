@@ -19,6 +19,7 @@ logs/
 .cache/
 .tmp/
 tmp/
+.relay/
 *.sqlite
 *.sqlite3
 
