@@ -1,0 +1,41 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies and build outputs
+node_modules/
+integrations/deepseek-harness/node_modules
+integrations/deepseek-harness/lib/
+dist/
+build/
+coverage/
+.turbo/
+.next/
+
+# Logs and local state
+*.log
+logs/
+.cache/
+.tmp/
+tmp/
+*.sqlite
+*.sqlite3
+
+# Python local state
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Upstream source checkouts
+upstream/deepseek-harness/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local visual QA evidence
+dsh-lab/*.png
