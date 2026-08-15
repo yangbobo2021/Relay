@@ -4,6 +4,13 @@ import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type { TypertRemoteContribution } from '@deepseek-ai/dsh-typert-protocol'
+import { AdvancedDebugPreference } from '../../advanced-debug-preference.mjs'
+import {
+  AdvancedDebugGuard,
+  AdvancedDebugSection,
+  HiddenSessionLogAction,
+  type AdvancedDebugInjected,
+} from './AdvancedDebug.tsx'
 import { CodexActivityView } from './CodexActivityView.tsx'
 import { codexActivityDefinition } from './codex-activity.ts'
 import { WaitingEventsSection, type ManagementSnapshot, type WaitingEventsInjected } from './WaitingEventsSection.tsx'
@@ -61,6 +68,54 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
     runNow: async (monitorId) => { unwrap(await remote.runNow(monitorId)) },
     openSession: (sessionId) => { ctx.sessions.open(sessionId as SessionId) },
     t,
+  })
+
+  const advancedDebug = new AdvancedDebugPreference()
+  const advancedDebugHooks: Pick<AdvancedDebugInjected, 'hooks'> = {
+    hooks: { advancedDebug },
+  }
+
+  ctx.effect(() => () => { advancedDebug.dispose() }, 'relay-management: advanced debug preference')
+
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'relay-advanced-debug',
+    order: 90,
+    label: () => t('advancedNav'),
+    locale: 'relay.management',
+    inject: (): AdvancedDebugInjected => ({
+      ...advancedDebugHooks,
+      setAdvancedDebug: enabled => { advancedDebug.set(enabled) },
+    }),
+  }, AdvancedDebugSection))
+
+  ctx.slots.inject('conversation.session.header.actions', () => ctx.slots.register({
+    name: 'conversation.session.header.actions',
+    id: 'relay-advanced-debug-guard',
+    order: -20,
+    inject: () => advancedDebugHooks,
+  }, AdvancedDebugGuard))
+
+  ctx.slots.inject('conversation.session.header.utilities', () => {
+    let removeShadow: (() => void) | undefined
+    const reconcile = (): void => {
+      if (advancedDebug.getSnapshot()) {
+        removeShadow?.()
+        removeShadow = undefined
+      } else if (removeShadow === undefined) {
+        removeShadow = ctx.slots.register({
+          name: 'conversation.session.header.utilities',
+          id: 'session-log-download',
+          priority: -100,
+        }, HiddenSessionLogAction)
+      }
+    }
+    const unsubscribe = advancedDebug.subscribe(reconcile)
+    reconcile()
+    return () => {
+      unsubscribe()
+      removeShadow?.()
+    }
   })
 
   ctx.slots.inject('settings.section', () => ctx.slots.register({

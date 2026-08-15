@@ -11,6 +11,7 @@
     "./package.json": "./package.json"
   },
   "files": [
+    "advanced-debug-preference.mjs",
     "agent-bridge.js",
     "codex-adapter.js",
     "codex-image.js",

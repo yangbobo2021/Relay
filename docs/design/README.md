@@ -11,7 +11,9 @@ implement, but do not redefine, the [Relay Specification](../spec/README.md).
   state comparison, sandboxing, and bound trigger delivery.
 - [Codex In DSH Web](codex-app-server.md) defines the native DSH extension points,
   App Server client, Thread projection, and Relay delivery adapter.
+- [Conversation Presentation](conversation-presentation.md) defines the global
+  simple/default conversation and reversible advanced diagnostic surfaces.
 
 This directory follows the specification's
-[organization rules](../spec/README.md#organization-rules). The four current concerns
+[organization rules](../spec/README.md#organization-rules). The five current concerns
 are independent but small, so no deeper hierarchy is needed.

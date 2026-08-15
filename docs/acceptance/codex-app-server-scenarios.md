@@ -8,7 +8,7 @@
 | `CXA-004` | Switch away and back, then continue the same Thread | `CXS-004`, `CXS-006` | Live + Browser |
 | `CXA-005` | Restart Host/browser and recover both binding and native activity history | `CXS-004`, `CXS-011`, `CXS-021` | Automated + Live |
 | `CXA-006` | Concurrent first sends deduplicate; separate Sessions stay isolated | `CXS-002`, `CXS-005` | Automated |
-| `CXA-007` | Codex uses native header, Chat/Trajectory tabs, composer, queue, cancel and message actions | `CXS-007`, `CXS-008` | Browser |
+| `CXA-007` | Codex uses the native header, Chat/Trajectory projections, composer, queue, cancel and message actions; diagnostic visibility follows the global advanced setting | `CXS-007`, `CXS-008`, `CPS-001`, `CPS-003` | Browser |
 | `CXA-008` | Native model selector shows Codex models/efforts; native permission control drives sandbox/approval | `CXS-009` | Automated + Browser |
 | `CXA-009` | Only the newest human message reaches Codex; injected DSH context is excluded | `CXS-003` | Automated |
 | `CXA-010` | Reasoning and commentary stream before final completion through native Assistant rows | `CXS-008`, `CXS-014` | Automated + Live + Browser |

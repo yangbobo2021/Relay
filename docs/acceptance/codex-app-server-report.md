@@ -10,8 +10,8 @@ answer. Auxiliary calls are now isolated and the affected path has been revalida
 with a clean new Session against the real Codex App Server.
 
 Codex now runs as the execution backend of an ordinary DSH Session. The delivered
-surface is DSH's native new-Session hero, Session navigation, header, Chat/Trajectory
-views, composer, model and permission controls, assistant rendering and attachment
+surface is DSH's native new-Session hero, Session navigation, header, Chat and
+Trajectory projections, composer, model and permission controls, assistant rendering and attachment
 gallery. The earlier full-page prototype, duplicate composer and manual Wait/Event
 controls are not present in the production bundle.
 
@@ -28,7 +28,7 @@ Validated baselines:
 | Scenarios | Result | Evidence |
 | --- | --- | --- |
 | `CXA-001` - `CXA-006` | PASS | Native Codex preset, first turn, two appended turns, Session switch, Host restart and persistent Thread continuity were exercised live; concurrency and isolation are automated. |
-| `CXA-007` - `CXA-011` | PASS | Native DSH header, tabs and composer remained in place. Live reasoning, commentary, Bash start/completion and command output streamed into the normal conversation. |
+| `CXA-007` - `CXA-011` | PASS | Native DSH header, projections and composer remained in place. Chat is the normal presentation; the native tabs are available in advanced debugging. Live reasoning, commentary, Bash start/completion and command output streamed into the normal conversation. |
 | `CXA-012` | PASS | Codex generated an image, produced a final 64x64 PNG, called image view, and both images appeared as clickable native DSH image nodes. Attachment import and path containment also pass automated tests. |
 | `CXA-013` - `CXA-014` | PASS | App Server approval and question requests are protocol-tested through DSH approval/question services, including fail-closed ownership. |
 | `CXA-015` - `CXA-018` | PASS | A live Codex dynamic tool registered `relay.acceptance.ready`; an HTTP Event produced durable Event, Delivery and Activation records and resumed the same Codex Thread through the DSH inbox. Duplicate, busy and retry behavior pass automated tests. |
@@ -55,7 +55,7 @@ run.
 
 ## Automated Evidence
 
-- `npm test`: **49 passed, 0 failed**.
+- `npm test`: **54 passed, 0 failed** after the conversation-presentation addition.
 - `npm run experiment:dsh-cold-resume`: **PASS**, with two persisted messages, two
   model requests and two completed turn boundaries.
 - Host and client production bundle: **PASS** during `npm run start:web`.

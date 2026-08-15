@@ -1,5 +1,8 @@
 export const zh = {
   nav: '等待事件',
+  advancedNav: '高级',
+  advancedDebug: '高级调试模式',
+  advancedDebugDetail: '轨迹与诊断包',
   refresh: '刷新',
   loading: '正在读取等待事件...',
   loadError: '无法读取等待事件。',
@@ -28,6 +31,9 @@ export const zh = {
 
 export const en: Record<keyof typeof zh, string> = {
   nav: 'Waiting events',
+  advancedNav: 'Advanced',
+  advancedDebug: 'Advanced debugging',
+  advancedDebugDetail: 'Trajectory and diagnostic archive',
   refresh: 'Refresh',
   loading: 'Loading waiting events...',
   loadError: 'Waiting events could not be loaded.',

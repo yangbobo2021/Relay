@@ -30,7 +30,7 @@ The installable DSH plugin and managed `relay-codex` preset are started by
 
 | Concern | Owner |
 | --- | --- |
-| Workspace, Session list, title, Chat/Trajectory, composer, input queue | DSH |
+| Workspace, Session list, title, Chat/Trajectory, composer, input queue | DSH, with visibility governed by the conversation-presentation policy |
 | Model context, turns and tool execution | Codex Thread |
 | DSH Session to Codex Thread binding | `CodexLinkStore` |
 | Codex activity presentation audit | DSH Session log |

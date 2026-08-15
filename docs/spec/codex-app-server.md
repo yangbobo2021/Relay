@@ -12,10 +12,11 @@ Agent preset binds that DSH Session to one Codex Thread:
 Relay owner ID (DSH Session ID) -> Codex Thread ID
 ```
 
-DSH owns navigation, title, native Chat/Trajectory views, composer, attachments and
+DSH owns navigation, title, native Chat and Trajectory views, composer, attachments and
 the durable presentation log. Codex owns model context and execution. Relay owns
 Wait, Monitor, Event, Delivery and Activation state. The DSH presentation log is
-never replayed into Codex as model context.
+never replayed into Codex as model context. Their default visibility follows the
+[conversation presentation specification](conversation-presentation.md).
 
 ## Session Lifecycle
 
@@ -41,8 +42,9 @@ never replayed into Codex as model context.
   `conversation.session.header`, `conversation.view`, `conversation.composer`, or
   `conversation.hero.agentPreset` for Codex.
 - `CXS-008`: User messages, streamed reasoning summaries, commentary, final answers,
-  title, Chat/Trajectory tabs, queueing, cancel, attachments and message actions use
-  DSH's existing components and Session event flow.
+  title, Chat and Trajectory projections, queueing, cancel, attachments and message
+  actions use DSH's existing components and Session event flow. Diagnostic visibility
+  follows `CPS-001` through `CPS-006`.
 - `CXS-009`: The existing DSH model selector must show the Codex provider, model and
   supported reasoning efforts. The existing permission control supplies sandbox and
   approval policy. No duplicate Codex composer controls are allowed.
