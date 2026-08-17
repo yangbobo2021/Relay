@@ -8,7 +8,7 @@ import test from "node:test";
 import { CodexDshAdapter, CODEX_ACTIVITY_EVENT } from "../codex-adapter.js";
 import { allowedRealPath, importCodexGeneratedImage, importCodexImage } from "../codex-image.js";
 import { CodexLinkStore } from "../codex-link-store.js";
-import { handleCodexServerRequest } from "../codex-tools.js";
+import { CODEX_DYNAMIC_TOOLS, handleCodexServerRequest } from "../codex-tools.js";
 import { createExactEventRouter, installCodexSessionEventType } from "../host-plugin.js";
 
 test("the Codex preset streams reasoning and answers into the native DSH conversation", async () => {
@@ -37,6 +37,8 @@ test("the Codex preset streams reasoning and answers into the native DSH convers
   assert.equal(agent.appended.filter(event => event.type === CODEX_ACTIVITY_EVENT).length, 2);
   assert.equal(agent.appended.at(-1).data.activity.output, "ok\n");
   assert.equal(runtime.createdConfig.dynamicTools.some(tool => tool.name === "relay_wait_for_event"), true);
+  const codexAppTools = runtime.createdConfig.dynamicTools.find(tool => tool.type === "namespace" && tool.name === "codex_app");
+  assert.deepEqual(codexAppTools.tools.map(tool => tool.name), ["load_workspace_dependencies"]);
 });
 
 test("Codex reasoning efforts use compact native selector labels", async () => {
@@ -81,6 +83,64 @@ test("a Relay activation reaches Codex instead of replaying the previous human m
   })) {}
 
   assert.equal(runtime.sent[0].message.text, "[RELAY EXTERNAL EVENT]\nevent_json: {\"marker\":\"ready\"}");
+});
+
+test("user image messages are forwarded as Codex local image inputs", async () => {
+  const runtime = new FakeRuntime();
+  const adapter = new CodexDshAdapter({ runtime, ready: Promise.resolve() });
+  const agent = fakeAgent();
+  adapter.attachAgent(agent);
+
+  for await (const _chunk of adapter.stream({
+    provider: "relay-codex",
+    model: "codex-test",
+    sessionId: agent.id,
+    messages: [{
+      role: "user",
+      source: { kind: "user" },
+      content: [
+        { type: "text", text: "这个图片是什么？" },
+        { type: "image", path: "/tmp/codex-clipboard.png", name: "codex-clipboard.png" },
+      ],
+    }],
+  })) {}
+
+  assert.equal(runtime.sent[0].message.text, "这个图片是什么？");
+  assert.deepEqual(runtime.sent[0].message.localImages, [{
+    path: "/tmp/codex-clipboard.png",
+    fsPath: "/tmp/codex-clipboard.png",
+    label: "codex-clipboard.png",
+  }]);
+});
+
+test("Codex permissions follow effective DSH knobs, not failed preset intent", async () => {
+  const runtime = new FakeRuntime();
+  const adapter = new CodexDshAdapter({ runtime, ready: Promise.resolve() });
+  const agent = fakeAgent();
+  agent.session.events.push(
+    { type: "permission/preset", data: { preset: "workspace-write" } },
+    { type: "sandbox/mode", data: { mode: "workspace-write" } },
+    { type: "approval/policy", data: { policy: "ask" } },
+    { type: "permission/preset", data: { preset: "read-only" } },
+    {
+      type: "command/done",
+      data: {
+        kind: "error",
+        text: 'cannot change sandbox mode from "workspace-write" to "read-only"',
+      },
+    },
+  );
+  adapter.attachAgent(agent);
+
+  await collect(adapter.stream({
+    provider: "relay-codex",
+    model: "codex-test",
+    sessionId: agent.id,
+    messages: [{ role: "user", source: { kind: "user" }, content: [{ type: "text", text: "permission check" }] }],
+  }));
+
+  assert.equal(runtime.sent[0].message.sandbox, "workspace-write");
+  assert.equal(runtime.sent[0].message.approvalPolicy, "on-request");
 });
 
 test("automatic title generation uses an isolated ephemeral Codex thread", async () => {
@@ -307,6 +367,58 @@ test("Codex interactions use DSH approval and question services, while waits use
     }),
   });
   assert.deepEqual(runtime.resolved.at(-1).response.answers, { choice: ["Continue", "with tests"] });
+});
+
+test("Relay exposes only the executable Codex app workspace dependency tool", async (context) => {
+  const directory = await mkdtemp(join(tmpdir(), "relay-codex-runtime-"));
+  const previousRuntimeRoot = process.env.CODEX_PRIMARY_RUNTIME_ROOT;
+  process.env.CODEX_PRIMARY_RUNTIME_ROOT = directory;
+  context.after(async () => {
+    if (previousRuntimeRoot === undefined) delete process.env.CODEX_PRIMARY_RUNTIME_ROOT;
+    else process.env.CODEX_PRIMARY_RUNTIME_ROOT = previousRuntimeRoot;
+    await rm(directory, { recursive: true, force: true });
+  });
+  await writeFile(join(directory, "runtime.json"), JSON.stringify({ bundleVersion: "99.test" }));
+
+  const codexAppNamespace = CODEX_DYNAMIC_TOOLS.find(tool => tool.type === "namespace" && tool.name === "codex_app");
+  assert.deepEqual(codexAppNamespace.tools.map(tool => tool.name), ["load_workspace_dependencies"]);
+
+  const agent = fakeAgent();
+  const adapter = { dshSessionForThread: threadId => threadId === "thread-1" ? agent.id : null };
+  const ctx = {
+    agents: { get: id => id === agent.id ? agent : null },
+    approval: { async request() { throw new Error("unexpected approval"); } },
+    userQuestions: { async ask() { throw new Error("unexpected question"); } },
+  };
+  const runtime = new InteractionRuntime();
+
+  await handleCodexServerRequest(ctx, {
+    adapter,
+    relayRuntime: {},
+    runtime,
+    request: request("deps-1", "item/dynamicTool/call", {
+      namespace: "codex_app",
+      name: "load_workspace_dependencies",
+      arguments: "{}",
+    }),
+  });
+  assert.equal(runtime.dynamic.at(-1).success, true);
+  assert.match(runtime.dynamic.at(-1).text, /Bundle version: `99\.test`/);
+  assert.match(runtime.dynamic.at(-1).text, /Node\.js executable: `.*dependencies\/node\/bin\/node`/);
+  assert.match(runtime.dynamic.at(-1).text, /Python executable: `.*dependencies\/python\/bin\/python3`/);
+
+  await handleCodexServerRequest(ctx, {
+    adapter,
+    relayRuntime: {},
+    runtime,
+    request: request("terminal-1", "item/dynamicTool/call", {
+      namespace: "codex_app",
+      name: "read_thread_terminal",
+      arguments: "{}",
+    }),
+  });
+  assert.equal(runtime.dynamic.at(-1).success, false);
+  assert.match(runtime.dynamic.at(-1).text, /Unsupported Codex app tool read_thread_terminal/);
 });
 
 test("the production event router delivers exact external event types and DSH accepts durable Codex activity", async () => {

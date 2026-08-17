@@ -22,8 +22,103 @@ test("Codex threads keep their context across turns, switching, and resume", asy
   assert.equal(runtime.snapshot().selectedSessionId, first.id);
   assert.equal(runtime.getSession(first.id).turns.length, 3);
   assert.equal(runtime.getSession(second.id).turns.length, 1);
-  assert.deepEqual(client.requests.find(request => request.method === "thread/start").params.dynamicTools, tools);
+  const firstStart = client.requests.find(request => request.method === "thread/start");
+  assert.deepEqual(firstStart.params.dynamicTools, tools);
+  assert.equal(firstStart.params.permissions, ":workspace");
+  assert.deepEqual(firstStart.params.runtimeWorkspaceRoots, ["/workspace/relay"]);
+  assert.deepEqual(firstStart.params.config, { "features.realtime_conversation": false });
+  assert.equal(firstStart.params.personality, "friendly");
   assert.deepEqual(client.requests.find(request => request.method === "thread/resume").params.dynamicTools, tools);
+  const firstTurn = client.requests.find(request => request.method === "turn/start");
+  assert.deepEqual(firstTurn.params.input, [{ type: "text", text: "first turn", text_elements: [] }]);
+  assert.equal(firstTurn.params.summary, "none");
+  assert.equal(firstTurn.params.sandboxPolicy.networkAccess, false);
+  assert.equal(firstTurn.params.permissions, null);
+  assert.equal(firstTurn.params.runtimeWorkspaceRoots, null);
+  assert.match(firstTurn.params.clientUserMessageId, /^[0-9a-f-]{36}$/);
+  assert.equal(firstTurn.params.model, null);
+  assert.equal(firstTurn.params.effort, null);
+  assert.equal(firstTurn.params.serviceTier, null);
+  assert.equal(firstTurn.params.outputSchema, null);
+  assert.equal(firstTurn.params.approvalsReviewer, "user");
+  await runtime.close();
+});
+
+test("Codex image turns use native localImage input and attachment metadata", async () => {
+  const client = new FakeCodexClient();
+  const runtime = new CodexSessionRuntime({ client, cwd: "/workspace/relay" });
+  await runtime.initialize();
+  const session = await runtime.createSession({ model: "codex-test", effort: "medium" });
+
+  await runtime.sendMessage(session.id, {
+    text: "what is this?",
+    localImages: [{ label: "screen.png", path: "/tmp/screen.png", fsPath: "/tmp/screen.png" }],
+  });
+
+  const turn = client.requests.find(request => request.method === "turn/start");
+  assert.equal(turn.params.input[0].type, "text");
+  assert.match(turn.params.input[0].text, /# Files mentioned by the user:/);
+  assert.match(turn.params.input[0].text, /## screen\.png: \/tmp\/screen\.png/);
+  assert.match(turn.params.input[0].text, /## My request:\nwhat is this\?/);
+  assert.deepEqual(turn.params.input[1], { type: "localImage", path: "/tmp/screen.png" });
+  assert.deepEqual(turn.params.attachments, [{
+    label: "screen.png",
+    path: "/tmp/screen.png",
+    fsPath: "/tmp/screen.png",
+  }]);
+  assert.equal(turn.params.sandboxPolicy, null);
+  assert.equal(turn.params.permissions, ":workspace");
+  assert.equal(turn.params.runtimeWorkspaceRoots[0], "/workspace/relay");
+  assert.match(turn.params.runtimeWorkspaceRoots[1], /\/\.codex\/visualizations\/\d{4}\/\d{2}\/\d{2}\/thread-1$/);
+  await runtime.close();
+});
+
+test("model and reasoning changes are synced through native thread settings updates", async () => {
+  const client = new FakeCodexClient();
+  const runtime = new CodexSessionRuntime({ client, cwd: "/workspace/relay" });
+  await runtime.initialize();
+  const session = await runtime.createSession({ model: "codex-test", effort: "medium" });
+
+  await runtime.sendMessage(session.id, { text: "initial settings" });
+  assert.equal(client.requests.filter(request => request.method === "thread/settings/update").length, 0);
+
+  await runtime.sendMessage(session.id, { text: "use high effort", effort: "high" });
+  const effortUpdateIndex = client.requests.findIndex(request => request.method === "thread/settings/update");
+  const effortTurnIndex = client.requests.findLastIndex(request => request.method === "turn/start");
+  assert.ok(effortUpdateIndex >= 0);
+  assert.ok(effortUpdateIndex < effortTurnIndex);
+  assert.deepEqual(client.requests[effortUpdateIndex], {
+    method: "thread/settings/update",
+    params: {
+      threadId: session.id,
+      model: "codex-test",
+      effort: "high",
+      multiAgentMode: "explicitRequestOnly",
+    },
+  });
+
+  await runtime.sendMessage(session.id, { text: "high again", effort: "high" });
+  assert.equal(client.requests.filter(request => request.method === "thread/settings/update").length, 1);
+
+  await runtime.close();
+});
+
+test("settings sync still detects adapter-side session mutation before send", async () => {
+  const client = new FakeCodexClient();
+  const runtime = new CodexSessionRuntime({ client, cwd: "/workspace/relay" });
+  await runtime.initialize();
+  const session = await runtime.createSession({ model: "codex-test", effort: "medium" });
+
+  Object.assign(runtime.sessions.get(session.id), { model: "codex-test", effort: "high" });
+  await runtime.sendMessage(session.id, { text: "adapter already mutated runtime session" });
+
+  const update = client.requests.find(request => request.method === "thread/settings/update");
+  assert.deepEqual(update.params, {
+    threadId: session.id,
+    model: "codex-test",
+    effort: "high",
+    multiAgentMode: "explicitRequestOnly",
+  });
   await runtime.close();
 });
 
@@ -116,7 +211,7 @@ test("ephemeral auxiliary threads carry isolated instructions and are released",
 
   const session = await runtime.createSession({
     model: "codex-test",
-    sandbox: "read-only",
+    sandbox: ":read-only",
     approvalPolicy: "never",
     dynamicTools: [],
     baseInstructions: "Generate a title.",
@@ -130,6 +225,9 @@ test("ephemeral auxiliary threads carry isolated instructions and are released",
   assert.equal(start.params.baseInstructions, "Generate a title.");
   assert.equal(start.params.developerInstructions, "Do not call tools.");
   assert.deepEqual(start.params.dynamicTools, []);
+  assert.equal(start.params.permissions, ":read-only");
+  assert.deepEqual(start.params.runtimeWorkspaceRoots, []);
+  assert.equal(session.sandbox, "read-only");
   assert.equal(session.ephemeral, true);
 
   await runtime.releaseSession(session.id);
@@ -170,6 +268,7 @@ class FakeCodexClient extends EventEmitter {
       return { thread: structuredClone(thread) };
     }
     if (method === "thread/resume") return { thread: structuredClone(this.threads.get(params.threadId)) };
+    if (method === "thread/settings/update") return {};
     if (method === "turn/start") return this.startTurn(params);
     if (method === "turn/interrupt") return {};
     if (method === "thread/unsubscribe") return { status: "unsubscribed" };

@@ -1,6 +1,26 @@
 import { randomUUID } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
+export const CODEX_APP_DYNAMIC_TOOLS = [
+  {
+    type: "namespace",
+    name: "codex_app",
+    description: "Tools provided by the Codex app.",
+    tools: [
+      {
+        type: "function",
+        name: "load_workspace_dependencies",
+        description: "Locate the configured bundled workspace dependency runtime paths for this local desktop thread, including Node.js, Python, and useful libraries for working with spreadsheets, slide decks, Word documents, and PDFs. This is read-only and takes no arguments.",
+        inputSchema: { type: "object", properties: {}, additionalProperties: false },
+      },
+    ],
+  },
+];
 
 export const CODEX_DYNAMIC_TOOLS = [
+  ...CODEX_APP_DYNAMIC_TOOLS,
   {
     type: "function",
     name: "relay_wait_for_event",
@@ -34,7 +54,7 @@ export async function handleCodexServerRequest(ctx, { adapter, relayRuntime, run
 
   try {
     if (request.method === "item/tool/call" || request.method === "item/dynamicTool/call") {
-      await handleRelayTool(relayRuntime, runtime, request, agent);
+      await handleDynamicTool(relayRuntime, runtime, request, agent);
       return;
     }
     if (isApproval(request.method)) {
@@ -60,9 +80,17 @@ export async function handleCodexServerRequest(ctx, { adapter, relayRuntime, run
   }
 }
 
-async function handleRelayTool(relayRuntime, runtime, request, agent) {
-  const tool = request.params.tool;
+async function handleDynamicTool(relayRuntime, runtime, request, agent) {
+  const { namespace, name: tool } = requestedTool(request.params);
   const args = plainObject(request.params.arguments);
+  if ((namespace === "codex_app" || !namespace) && tool === "load_workspace_dependencies") {
+    runtime.respondDynamicTool(request.id, true, workspaceDependenciesText());
+    return;
+  }
+  if (namespace === "codex_app") {
+    runtime.respondDynamicTool(request.id, false, `Unsupported Codex app tool ${tool}.`);
+    return;
+  }
   if (tool === "relay_wait_for_event") {
     const eventType = requiredString(args.event_type, "event_type");
     const description = requiredString(args.description, "description");
@@ -91,6 +119,62 @@ async function handleRelayTool(relayRuntime, runtime, request, agent) {
     return;
   }
   runtime.respondDynamicTool(request.id, false, `Unknown Relay tool ${tool}.`);
+}
+
+function requestedTool(params = {}) {
+  const tool = params.tool;
+  const namespace = typeof params.namespace === "string" ? params.namespace : null;
+  if (typeof tool === "string") return splitToolName(namespace, tool);
+  if (tool && typeof tool === "object") {
+    return splitToolName(
+      typeof tool.namespace === "string" ? tool.namespace : namespace,
+      typeof tool.name === "string" ? tool.name : "",
+    );
+  }
+  return splitToolName(namespace, typeof params.name === "string" ? params.name : "");
+}
+
+function splitToolName(namespace, name) {
+  const match = /^([^.:]+)[.:](.+)$/.exec(name);
+  if (match) return { namespace: namespace ?? match[1], name: match[2] };
+  return { namespace, name };
+}
+
+function workspaceDependenciesText() {
+  const root = primaryRuntimeRoot();
+  const dependencies = join(root, "dependencies");
+  const version = runtimeVersion(root);
+  return [
+    "Workspace dependencies are available for this local desktop thread.",
+    "",
+    "### Workspace Dependencies",
+    "Use these bundled paths for sheets, slides, documents, PDFs, images, or browser automation:",
+    `- Bundle version: \`${version}\``,
+    `- Git executable: \`${join(dependencies, "bin/fallback/git")}\``,
+    `- Node.js executable: \`${join(dependencies, "node/bin/node")}\``,
+    `- Node.js packages: \`${join(dependencies, "node/node_modules")}\``,
+    `- pnpm executable: \`${join(dependencies, "bin/fallback/pnpm")}\``,
+    `- Python executable: \`${join(dependencies, "python/bin/python3")}\``,
+    `- Python packages: \`${join(dependencies, "python")}\``,
+    `- Override binaries: \`${join(dependencies, "bin/override")}\``,
+    `- Fallback binaries: \`${join(dependencies, "bin/fallback")}\``,
+  ].join("\n");
+}
+
+function primaryRuntimeRoot() {
+  return process.env.CODEX_PRIMARY_RUNTIME_ROOT
+    ?? join(homedir(), ".cache/codex-runtimes/codex-primary-runtime");
+}
+
+function runtimeVersion(root) {
+  const manifest = join(root, "runtime.json");
+  if (!existsSync(manifest)) return "unknown";
+  try {
+    const parsed = JSON.parse(readFileSync(manifest, "utf8"));
+    return parsed.bundleVersion ?? "unknown";
+  } catch {
+    return "unknown";
+  }
 }
 
 function isApproval(method) {
@@ -137,6 +221,14 @@ function normalizeAnswers(answer) {
 }
 
 function plainObject(value) {
+  if (typeof value === "string" && value.trim()) {
+    try {
+      const parsed = JSON.parse(value);
+      return plainObject(parsed);
+    } catch {
+      return {};
+    }
+  }
   return value && typeof value === "object" && !Array.isArray(value) ? value : {};
 }
 

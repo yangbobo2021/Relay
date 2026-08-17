@@ -4,7 +4,7 @@ import { dirname, join, resolve } from "node:path";
 
 import { createTimerWait, MonitorRuntime, TimerObserver } from "../../packages/monitor-runtime/index.mjs";
 import { RelayRuntime, RelayStore } from "../../packages/runtime/index.mjs";
-import { CodexAppServerClient } from "../codex/app-server-client.mjs";
+import { CodexAppServerClient, NATIVE_CODEX_APP_SERVER_ARGS } from "../codex/app-server-client.mjs";
 import { CodexSessionRuntime } from "../codex/session-runtime.mjs";
 import { installRelayAgentBridge } from "./agent-bridge.js";
 import { CodexDshAdapter, CODEX_ACTIVITY_EVENT, CODEX_PROVIDER } from "./codex-adapter.js";
@@ -28,7 +28,7 @@ export function apply(ctx, config = {}) {
   const store = new RelayStore(databasePath);
   const codexClient = new CodexAppServerClient({
     command: config.codexCommand ?? "codex",
-    args: config.codexArgs ?? ["app-server"],
+    args: config.codexArgs ?? NATIVE_CODEX_APP_SERVER_ARGS,
     requestTimeoutMs: positiveInteger(config.codexRequestTimeoutMs, 60_000),
   });
   const codexRuntime = new CodexSessionRuntime({

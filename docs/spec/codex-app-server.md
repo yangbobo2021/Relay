@@ -46,7 +46,11 @@ never replayed into Codex as model context. Their default visibility follows the
   actions use DSH's existing components and Session event flow. Diagnostic visibility
   follows `CPS-001` through `CPS-006`.
 - `CXS-009`: The existing DSH model selector must show the Codex provider, model and
-  supported reasoning efforts. The existing permission control supplies sandbox and
+  supported reasoning efforts. Before a later turn starts, Relay must synchronize any
+  changed model, reasoning effort and multi-agent mode to the bound Codex Thread with
+  the native `thread/settings/update` App Server method; the following `turn/start`
+  keeps `model`, `effort` and `serviceTier` null and carries the effective values in
+  `collaborationMode.settings`. The existing permission control supplies sandbox and
   approval policy. No duplicate Codex composer controls are allowed.
 - `CXS-010`: Codex command, file, MCP, dynamic-tool, web, plan and collaboration items
   must appear incrementally as compact DSH-styled activity rows. Relay may add only
@@ -71,6 +75,13 @@ never replayed into Codex as model context. Their default visibility follows the
 - `CXS-025`: A persisted Codex activity row must expose read-only App Server
   provenance, including its bound Thread and Turn identifiers, without adding a
   debug panel or replacing native DSH conversation chrome.
+- `CXS-026`: Relay may expose native Codex App dynamic tools only when the Relay/DSH
+  Host can truthfully execute equivalent behavior. The supported `codex_app` parity
+  surface is currently `load_workspace_dependencies`, which is read-only and returns
+  the bundled workspace runtime paths. `automation_update`, `open_in_codex`,
+  `navigate_to_codex_page`, and `read_thread_terminal` are intentionally not declared
+  until Relay has real Host implementations. The Relay-specific
+  `relay_wait_for_event` and `relay_cancel_waits` tools remain separately injected.
 
 ## Relay Event Continuation
 

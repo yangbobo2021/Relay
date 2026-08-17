@@ -1,5 +1,5 @@
 import { homedir } from "node:os";
-import { resolve } from "node:path";
+import { basename, resolve } from "node:path";
 
 import { LlmAdapter } from "@deepseek-ai/dsh-llm";
 
@@ -170,8 +170,8 @@ export class CodexDshAdapter extends LlmAdapter {
     }
     const sessionId = String(options.sessionId ?? "");
     if (!sessionId) throw new Error("Relay Codex adapter requires a DSH session id");
-    const text = latestUserText(options.messages);
-    if (!text) throw new Error("Relay Codex adapter received no user text");
+    const input = latestUserInput(options.messages);
+    if (!input) throw new Error("Relay Codex adapter received no user text or image input");
     const agent = this.agents.get(sessionId);
     if (!agent) throw new Error(`Relay Codex adapter has no attached agent for ${sessionId}`);
 
@@ -192,7 +192,7 @@ export class CodexDshAdapter extends LlmAdapter {
 
     let turnId = null;
     try {
-      const started = await this.runtime.sendMessage(threadId, { text, ...config });
+      const started = await this.runtime.sendMessage(threadId, { ...input, ...config });
       turnId = started.id;
       const state = createStreamState();
       let completedTurn = null;
@@ -513,7 +513,6 @@ function permissionConfiguration(events) {
   for (const event of events) {
     if (event.type === "sandbox/mode") sandbox = event.data.mode;
     if (event.type === "approval/policy") approvalPolicy = event.data.policy === "never" ? "never" : "on-request";
-    if (event.type === "permission/preset") sandbox = event.data.preset;
   }
   return { sandbox, approvalPolicy };
 }
@@ -539,19 +538,50 @@ function reasoningEffortName(value) {
   return String(value) === "xhigh" ? "Extra high" : humanize(value);
 }
 
-function latestUserText(messages) {
+function latestUserInput(messages) {
   for (let index = messages.length - 1; index >= 0; index -= 1) {
     const message = messages[index];
     if (message?.role !== "user") continue;
+    if (message.source?.kind !== "user" && !isRelayActivation(message.source)) continue;
     const text = (message.content ?? [])
       .filter((block) => block.type === "text")
       .map((block) => block.text)
       .join("\n")
       .trim();
-    if (!text) continue;
-    if (message.source?.kind === "user" || isRelayActivation(message.source)) return text;
+    const localImages = (message.content ?? [])
+      .map(localImage)
+      .filter(Boolean);
+    if (text || localImages.length > 0) return { text, localImages };
   }
-  return "";
+  return null;
+}
+
+function localImage(block) {
+  if (block?.type !== "image" && block?.type !== "file") return null;
+  if (block.type === "file" && !isImageFile(block)) return null;
+  const path = block.path
+    ?? block.fsPath
+    ?? block.filePath
+    ?? block.localPath
+    ?? block.source?.path
+    ?? block.source?.fsPath
+    ?? block.attachment?.path
+    ?? block.attachment?.fsPath
+    ?? block.attachment?.filePath
+    ?? block.attachment?.localPath;
+  if (!path) return null;
+  return {
+    path,
+    fsPath: block.fsPath ?? block.attachment?.fsPath ?? path,
+    label: block.label ?? block.name ?? block.filename ?? block.attachment?.name ?? basename(path),
+  };
+}
+
+function isImageFile(block) {
+  const mediaType = block.mediaType ?? block.mimeType ?? block.attachment?.mediaType ?? block.attachment?.mimeType;
+  if (typeof mediaType === "string" && mediaType.startsWith("image/")) return true;
+  const name = block.name ?? block.filename ?? block.path ?? block.fsPath ?? block.attachment?.name ?? "";
+  return /\.(png|jpe?g|gif|webp)$/i.test(name);
 }
 
 function auxiliaryInput(messages) {

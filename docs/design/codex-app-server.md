@@ -49,6 +49,14 @@ API. From then on the shipped model selector owns model and reasoning effort. DS
 permission preset remains the sole sandbox/approval control. The Host maps those
 native values to App Server turn parameters.
 
+Codex Desktop emits `thread/settings/update` when model or reasoning effort changes.
+DSH does not persist every intermediate menu click, so Relay synchronizes the final
+effective selector values immediately before the next business turn when they differ
+from the settings already applied to the bound Codex Thread. The `turn/start` request
+then matches Codex Desktop's execution shape: top-level `model`, `effort` and
+`serviceTier` stay null, while `collaborationMode.settings` carries the selected
+model and effort.
+
 The Host directly intercepts ordinary `llm/stream` calls for Sessions whose effective
 preset is `relay-codex`; registered-provider routing delivers Codex purpose calls to
 the same adapter, while non-Codex Sessions pass through. The adapter streams App
@@ -103,6 +111,23 @@ Command/file/permission requests call `ctx.approval.request`; tool-input request
 `ctx.userQuestions.ask`. The result is converted back to the exact App Server response
 shape. Missing Session ownership or unsupported requests fail closed.
 
+## Codex App Tools
+
+Relay declares a `codex_app` dynamic-tool namespace only for Codex App tools the Host
+can execute with equivalent semantics. The current namespace contains only
+`load_workspace_dependencies`. Its handler is read-only: it resolves the configured
+primary Codex runtime root, reads `runtime.json` for the bundle version when present,
+and returns the same bundled Git, Node.js, pnpm, Python, override-bin and fallback-bin
+paths that native Codex Desktop exposes for document, spreadsheet, slide, PDF, image
+and browser-automation work.
+
+The native Codex App tools `automation_update`, `open_in_codex`,
+`navigate_to_codex_page`, and `read_thread_terminal` are deliberately omitted for now.
+Relay does not declare placeholder versions because these tools require real Codex
+Desktop window, task, automation or terminal ownership. If the App Server asks for an
+undeclared `codex_app` tool, the Host returns a failed dynamic-tool response instead
+of emulating success.
+
 ## Relay Delivery
 
 Codex waits use the owning DSH Session ID as Relay's runtime identity. An external
@@ -131,4 +156,4 @@ as malformed client Events.
 | `CXS-012` - `CXS-014` | DSH attachments/interactions and push streaming |
 | `CXS-015` - `CXS-020` | Relay runtime delivery and authenticated Event ingress with no manual conversation controls |
 | `CXS-021` - `CXS-023` | failure handling, compatibility tests, native browser QA |
-| `CXS-024` - `CXS-025` | isolated ephemeral auxiliary Threads and activity provenance |
+| `CXS-024` - `CXS-026` | isolated ephemeral auxiliary Threads, activity provenance and executable Codex App tool parity |

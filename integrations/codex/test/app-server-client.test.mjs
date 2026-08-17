@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { CodexAppServerClient } from "../app-server-client.mjs";
+import { CodexAppServerClient, NATIVE_CODEX_APP_SERVER_ARGS } from "../app-server-client.mjs";
+
+test("default App Server launch arguments match native Codex Desktop", () => {
+  const client = new CodexAppServerClient();
+  assert.deepEqual(client.args, NATIVE_CODEX_APP_SERVER_ARGS);
+});
 
 test("JSON-RPC requests resolve, reject, and time out with their method context", async () => {
   const writes = [];
@@ -66,7 +71,7 @@ test("an App Server child exit rejects initialization and reports the exit", asy
   assert.equal(exit.code, 7);
 });
 
-test("initialization advertises the experimental API required by dynamic tools", async () => {
+test("initialization advertises native Codex Desktop capabilities by default", async () => {
   const fixture = [
     "const readline = require('node:readline')",
     "const input = readline.createInterface({ input: process.stdin })",
@@ -74,7 +79,11 @@ test("initialization advertises the experimental API required by dynamic tools",
     "  const message = JSON.parse(line)",
     "  if (message.method !== 'initialize') return",
     "  const capabilities = message.params.capabilities",
-    "  if (capabilities.experimentalApi !== true || capabilities.requestAttestation !== false) process.exit(9)",
+    "  if (message.params.clientInfo.name !== 'Codex Desktop') process.exit(8)",
+    "  if (capabilities.experimentalApi !== true || capabilities.requestAttestation !== true) process.exit(9)",
+    "  if (capabilities.mcpServerOpenaiFormElicitation !== false) process.exit(10)",
+    "  if (!capabilities.extensions?.['io.modelcontextprotocol/ui']?.mimeTypes?.includes('text/html+skybridge')) process.exit(11)",
+    "  if (!capabilities.optOutNotificationMethods?.includes('codex/event/task_started')) process.exit(12)",
     "  process.stdout.write(JSON.stringify({ id: message.id, result: { userAgent: 'fixture' } }) + '\\n')",
     "})",
   ].join("\n");
@@ -87,4 +96,29 @@ test("initialization advertises the experimental API required by dynamic tools",
   await client.start();
   assert.ok(client.process);
   await client.close();
+});
+
+test("initialization client identity and capabilities can be overridden", async () => {
+  const writes = [];
+  const client = new CodexAppServerClient({
+    clientInfo: { name: "relay_codex", title: "Relay Codex", version: "test" },
+    capabilities: { experimentalApi: true, requestAttestation: false },
+    requestTimeoutMs: 15,
+  });
+  client.process = {
+    stdin: {
+      writable: true,
+      write: (line) => writes.push(JSON.parse(line)),
+    },
+  };
+
+  const initialized = client.request("initialize", {
+    clientInfo: client.clientInfo,
+    capabilities: client.capabilities,
+  });
+  assert.equal(writes[0].params.clientInfo.name, "relay_codex");
+  assert.equal(writes[0].params.capabilities.requestAttestation, false);
+  client.handleLine(JSON.stringify({ id: writes[0].id, result: { userAgent: "fixture" } }));
+  await initialized;
+  client.process = null;
 });
