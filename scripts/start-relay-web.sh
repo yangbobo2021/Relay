@@ -5,22 +5,8 @@ relay_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dsh_root="$relay_root/upstream/deepseek-harness"
 plugin_root="$relay_root/integrations/deepseek-harness"
 plugin_modules="$plugin_root/node_modules"
-dsh_home="${DSH_HOME:-$HOME/.dsh}"
-relay_preset_dir="$dsh_home/.agent-presets/relay-codex"
-relay_preset_source="$plugin_root/presets/relay-codex"
 
-mkdir -p "$(dirname "$relay_preset_dir")"
-if [[ -L "$relay_preset_dir" && "$(readlink "$relay_preset_dir")" == "$relay_preset_source" ]]; then
-  rm "$relay_preset_dir"
-fi
-if [[ ! -e "$relay_preset_dir" ]]; then
-  mkdir -p "$relay_preset_dir"
-  cp "$relay_preset_source/agent.cordis.yml" "$relay_preset_source/preset.yml" "$relay_preset_source/.relay-managed" "$relay_preset_dir/"
-elif [[ -f "$relay_preset_dir/.relay-managed" ]]; then
-  cp "$relay_preset_source/agent.cordis.yml" "$relay_preset_source/preset.yml" "$relay_preset_source/.relay-managed" "$relay_preset_dir/"
-else
-  printf 'Relay Codex preset not installed: %s already exists and is not Relay-managed\n' "$relay_preset_dir" >&2
-fi
+"$relay_root/scripts/install-dsh-presets.sh"
 
 # The Relay plugin is developed outside DSH's pnpm workspace but uses its exact
 # runtime and browser build dependencies.

@@ -10,6 +10,8 @@ choice, but neither should redefine the requirements here.
 - [Runtime](runtime.md): DSH ownership, Wait registration, Event delivery, and invariants.
 - [Codex In DSH Web](codex-app-server.md): native DSH Session lifecycle, Codex Thread
   binding and projection, approvals, and Relay Event continuation.
+- [Claude Code In DSH Web](claude-code.md): native DSH Session lifecycle, Claude Code
+  session binding and projection, CLI/SDK backend contract, and Relay Event continuation.
 - [Conversation Presentation](conversation-presentation.md): default simplified Chat
   presentation and the global advanced-debugging disclosure policy.
 - [Event Routing](event-routing.md): autonomous semantic matching and reliable event disposition.
@@ -35,5 +37,5 @@ The specification grows with the product instead of predicting a final hierarchy
 6. Merge or reorganize documents when the conceptual boundaries change. Update all
    affected indexes in the same change.
 
-The current specification has seven distinct concerns, so they remain as files in one
+The current specification has eight distinct concerns, so they remain as files in one
 indexed directory. More levels are not justified yet.

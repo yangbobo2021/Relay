@@ -11,6 +11,8 @@ import {
   HiddenSessionLogAction,
   type AdvancedDebugInjected,
 } from './AdvancedDebug.tsx'
+import { ClaudeActivityView } from './ClaudeActivityView.tsx'
+import { claudeActivityDefinition } from './claude-activity.ts'
 import { CodexActivityView } from './CodexActivityView.tsx'
 import { codexActivityDefinition } from './codex-activity.ts'
 import { WaitingEventsSection, type ManagementSnapshot, type WaitingEventsInjected } from './WaitingEventsSection.tsx'
@@ -51,10 +53,15 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
   }
 
   ctx.conversationEvents.register(codexActivityDefinition)
+  ctx.conversationEvents.register(claudeActivityDefinition)
   ctx.slots.inject('conversation.chat.node', () => ctx.slots.register({
     name: 'conversation.chat.node',
     key: 'relay-codex-activity',
   }, CodexActivityView))
+  ctx.slots.inject('conversation.chat.node', () => ctx.slots.register({
+    name: 'conversation.chat.node',
+    key: 'relay-claude-activity',
+  }, ClaudeActivityView))
 
   ctx.effect(() => ctx.locale.register('relay.management', { zh, en }), 'relay-management: dictionaries')
   const t = ctx.locale.bind('relay.management') as WaitingEventsInjected['t']
@@ -128,17 +135,20 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
   }, WaitingEventsSection))
 
   const selecting = new Set<string>()
-  const ensurePresetModel = async (sessionId: SessionId, codex: boolean): Promise<void> => {
+  const ensurePresetModel = async (sessionId: SessionId, agentPreset: string | undefined): Promise<void> => {
     if (selecting.has(sessionId)) return
     selecting.add(sessionId)
     try {
       const { result } = await connection.api.sessions.models({ sessionId })
       if (!result.ok) return
-      const currentIsCodex = result.value.current.provider === 'relay-codex'
-      if (currentIsCodex === codex) return
-      const group = result.value.groups.find(candidate => codex
-        ? candidate.id === 'relay-codex'
-        : candidate.id !== 'relay-codex')
+      const targetProvider = relayProviderForPreset(agentPreset)
+      const currentIsRelayAgent = result.value.current.provider === 'relay-codex'
+        || result.value.current.provider === 'relay-claude'
+      if (targetProvider !== undefined && result.value.current.provider === targetProvider) return
+      if (targetProvider === undefined && !currentIsRelayAgent) return
+      const group = result.value.groups.find(candidate => targetProvider !== undefined
+        ? candidate.id === targetProvider
+        : candidate.id !== 'relay-codex' && candidate.id !== 'relay-claude')
       const model = group?.models[0]
       if (model === undefined) return
       await connection.api.sessions.selectModel({
@@ -159,7 +169,7 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
     if (sessionId === undefined) return
     const summary = list.byId[sessionId]
     if (summary?.blank !== true) return
-    void ensurePresetModel(sessionId, summary.agentPreset === 'relay-codex').catch(() => {})
+    void ensurePresetModel(sessionId, summary.agentPreset).catch(() => {})
   }
   const unsubscribe = ctx.sessions.list.subscribe(syncCodexModel)
   syncCodexModel()
@@ -168,4 +178,10 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
     unsubscribe()
     await unmount()
   }
+}
+
+function relayProviderForPreset(agentPreset: string | undefined): string | undefined {
+  if (agentPreset === 'relay-codex') return 'relay-codex'
+  if (agentPreset === 'relay-claude') return 'relay-claude'
+  return undefined
 }

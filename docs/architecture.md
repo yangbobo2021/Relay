@@ -5,7 +5,7 @@ Relay is a DSH plugin subsystem with Host and Agent-plane components.
 ```mermaid
 flowchart LR
   Mobile["DSH Web desktop / mobile"] --> DSH["DSH Session and native UI"]
-  DSH --> Backend["DSH Agent or bound Codex Thread"]
+  DSH --> Backend["DSH Agent or bound execution backend"]
   Backend --> Agent["Agent turn"]
   Agent -->|"register / cancel Waits"| Relay["Relay host runtime"]
   Sources["Email, IM, CI, local Monitors"] --> Relay
@@ -20,7 +20,8 @@ flowchart LR
 - DSH owns the user-facing Session, workspace navigation, input path, title, and
   presentation log for every conversation.
 - The selected execution backend owns model context and execution. A Codex-backed DSH
-  Session binds one persisted Codex Thread.
+  Session binds one persisted Codex Thread; a Claude-backed DSH Session binds one
+  Claude Code session.
 - Relay owns Waits, Monitors, external Events, semantic decisions, Delivery retries,
   and their inspectable history.
 - Connectors normalize provider input and acknowledge only after Relay persistence.

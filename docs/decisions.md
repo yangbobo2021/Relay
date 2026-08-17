@@ -84,3 +84,26 @@ Consequences: DSH remains the sole navigation and presentation shell. The DSH lo
 an audit projection, while the persisted Codex Thread is the only model-context
 source. Switching presets restores native DSH components. Codex Automation is not
 used for Relay external Events.
+
+## 2026-08-15: Claude Code Runs As A Relay Execution Backend
+
+Decision: Add Claude Code as a second execution backend inside DSH's native Web
+conversation. A Session created with the Claude Code preset binds one Claude Code
+session, and Relay keys waiting state as `claude:<session-id>`.
+
+Context: Claude Code CLI and Desktop share the Claude Code engine and configuration
+ecosystem, but Desktop is a user surface rather than a stable Relay control protocol.
+The Relay integration needs structured streaming, cancellation, lifecycle control and
+activity projection.
+
+Alternatives: Drive Claude Desktop with UI automation; invoke Claude as a stateless
+Messages API model; copy Codex App Server assumptions into Claude-specific code.
+
+Consequences: The canonical integration boundary is the Agent SDK runtime contract,
+with Claude CLI retained as a subprocess fallback. SDK mode supports DSH-native
+approval and user-question continuation through `canUseTool`; CLI fallback supports
+structured output and cancellation but may fail closed on prompts. Claude Desktop
+and Remote Control may be used for handoff or review, but not as Relay's primary
+backend.
+Normative behavior lives in the
+[Claude Code In DSH Web Specification](spec/claude-code.md).

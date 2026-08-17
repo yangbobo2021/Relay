@@ -13,6 +13,9 @@
   "files": [
     "advanced-debug-preference.mjs",
     "agent-bridge.js",
+    "claude-adapter.js",
+    "claude-link-store.js",
+    "claude-tools.js",
     "codex-adapter.js",
     "codex-image.js",
     "codex-link-store.js",
