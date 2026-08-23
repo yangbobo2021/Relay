@@ -8,8 +8,12 @@ public plugin entrypoints, and plugins receive only the versioned capabilities t
 declared in their manifests.
 
 ```text
-@relay/dsh-plugin-codex  --> Codex App Server + DSH Codex adapter + workbench
+@relay/dsh-plugin-codex  --> Codex App Server + DSH Codex adapter
 @relay/dsh-plugin-claude --> Claude Agent SDK + DSH Claude adapter
+
+@relay/dsh-plugin-workbench --> generic layout + view registry + keyed slots
+@relay/dsh-plugin-files     --> workspace Remote + side-view contribution
+@relay/dsh-plugin-terminal  --> provider registry + terminal Remote + bottom view
 
 @relay/plugin-events --> relay.dsh.platform + relay.event-runtime + relay.dsh.events
                          attaches to every DSH root Agent
@@ -34,9 +38,13 @@ a tool. Auxiliary title and compaction calls receive no contributed tools.
 | `@relay/runtime` | Event/Wait persistence and dispatch library | `.` |
 | `@relay/monitor-runtime` | Monitor and timer library | `.` |
 | `@relay/plugin-event-runtime` | Event and Monitor service plugin | `.` |
-| `@relay/dsh-plugin-codex` | Self-contained Codex DSH backend, files, terminal, preset | package exports |
+| `@relay/dsh-plugin-contracts` | Type-only Workbench and terminal-provider contracts | `.` |
+| `@relay/dsh-plugin-codex` | Self-contained Codex DSH backend and preset | package exports |
 | `@relay/dsh-plugin-claude` | Self-contained Claude DSH backend and preset | package exports |
 | `@relay/plugin-events` | Provider-neutral Events, Waits, Monitors, ingress, tools | package exports |
+| `@relay/dsh-plugin-workbench` | Generic DSH shell and view registry | package exports |
+| `@relay/dsh-plugin-files` | Workspace file explorer contribution | package exports |
+| `@relay/dsh-plugin-terminal` | Provider-neutral interactive terminal contribution | package exports |
 
 Package exports are intentionally narrow. Tests may import local modules for unit
 coverage, but production code cannot reach another plugin's implementation path.
@@ -54,7 +62,7 @@ coverage, but production code cannot reach another plugin's implementation path.
    must not detect it or change its product behavior when it is present.
 5. Relay runtime plugins interact through versioned capability contracts. Independently
    installed DSH bundles interact only through public DSH extension contracts such as
-   tools, Agent lifecycle, Session inbox, remotes, and UI slots.
+   Cordis services, tools, Agent lifecycle, Session inbox, remotes, and UI slots.
 6. A new interaction never adds a source import of another plugin, checks another
    plugin's package/name, or reaches into its mutable runtime objects.
 
@@ -87,7 +95,8 @@ details and must be corrected before the move.
 - Plugin-specific tests: operation surface and resource release using fake clients or
   fake capabilities.
 - `scripts/test/plugin-boundaries.test.mjs`: no cross-plugin relative imports and no
-  internal `@relay/*` subpaths.
+  internal `@relay/*` subpaths; contract imports are type-only and backend UI ownership
+  cannot regress.
 - `scripts/test/dsh-independent-backends.test.mjs`: backend packages have no Relay
   dependencies or Events-specific names, while Events stays provider-neutral.
 - Backend adapter tests: an arbitrary DSH tool is mapped, executed through

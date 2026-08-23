@@ -18,10 +18,10 @@ packaged Relay plugins. DSH is the Agent runtime; Relay is a waiting, monitoring
 routing, and external-message delivery subsystem. Relay is not the authority for
 task or conversation lifecycle.
 
-Codex/Claude adapters, the workspace file view, and the App Server-backed terminal
-now ship from `integrations/deepseek-harness`. Relay references the official source
-commit directly and does not require a Fork. The temporary workbench root replacement
-is also delivered by the plugin; see
+Codex and Claude adapters ship from their independent submodule repositories. Events,
+the generic Workbench, Files, and Terminal ship as separate packages from this
+monorepo. Relay references the official source commit directly and does not require a
+Fork. The temporary workbench root replacement is delivered by its own plugin; see
 [External DSH Workbench](../docs/design/dsh-external-workbench.md).
 
 The integration spans two planes:
@@ -30,9 +30,12 @@ The integration spans two planes:
 | --- | --- | --- |
 | `relay.dsh.platform` | Host | DSH Delivery, logging, and workspace capabilities |
 | `relay.event-runtime` | Host | SQLite, Event routing, Waits, Monitors, and recovery |
-| `relay.execution.codex` | Host | Codex App Server sessions and terminal operations |
+| `relay.execution.codex` | Host | Codex App Server sessions and optional terminal provider |
 | `relay.execution.claude` | Host | Claude SDK/CLI sessions |
-| `relay.dsh.composition` | Host/Agent | DSH LLM adapters, inbox bridge, management, and workbench |
+| `relay.dsh.events` | Host/Agent | DSH inbox bridge, event management, and tools |
+| `relay.dsh.workbench` | Client | Generic shell, panel registry, and keyed slots |
+| `relay.dsh.files` | Host/Client | Workspace file Remote and side view |
+| `relay.dsh.terminal` | Host/Client | Terminal provider registry, Remote, and bottom view |
 | `relay.distribution.dsh-web` | Loader | Declarative plugin selection and configuration |
 
 These components interact through the capability registry. No component imports

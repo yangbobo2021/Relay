@@ -1,0 +1,3 @@
+- insert:
+    - id: relay-terminal-host
+      name: '@relay/dsh-plugin-terminal'

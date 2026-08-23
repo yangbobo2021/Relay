@@ -10,12 +10,18 @@ const domains = [
   "integrations/codex",
   "integrations/claude",
   "integrations/deepseek-harness",
+  "integrations/dsh-workbench",
+  "integrations/dsh-files",
+  "integrations/dsh-terminal",
   "packages/event-runtime-plugin",
 ];
 const sourceExtensions = new Set([".js", ".mjs", ".ts", ".tsx"]);
 const allowedByDomain = new Map([
   ["integrations/codex", new Set()],
   ["integrations/claude", new Set()],
+  ["integrations/dsh-workbench", new Set(["@relay/dsh-plugin-contracts"])],
+  ["integrations/dsh-files", new Set(["@relay/dsh-plugin-contracts"])],
+  ["integrations/dsh-terminal", new Set(["@relay/dsh-plugin-contracts"])],
   ["packages/event-runtime-plugin", new Set([
     "@relay/monitor-runtime", "@relay/plugin-sdk", "@relay/runtime",
   ])],
@@ -65,6 +71,34 @@ test("cross-package imports use public entrypoints rather than internal source f
   assert.doesNotMatch(source, /event-router\/(src\/|decision\.mjs)/);
 });
 
+test("feature plugins use the shared DSH contract package as types only", async () => {
+  for (const domain of ["integrations/dsh-workbench", "integrations/dsh-files", "integrations/dsh-terminal"]) {
+    for (const file of await sourceFiles(join(root, domain))) {
+      const source = await readFile(file, "utf8");
+      if (!source.includes("@relay/dsh-plugin-contracts")) continue;
+      assert.equal(hasRuntimeImport(source, file, "@relay/dsh-plugin-contracts"), false,
+        `${relative(root, file)} must not create a runtime implementation dependency`);
+    }
+  }
+});
+
+test("conversation backends do not own workbench feature implementations", async () => {
+  const codex = join(root, "integrations/codex");
+  assert.equal((await sourceFiles(codex)).some(file => file.includes(`${sep}workbench${sep}`)), false);
+  const patch = await readFile(join(codex, "cordis.patch.yml"), "utf8");
+  assert.doesNotMatch(patch, /ui-layout|relay-(?:files|terminal|workbench)-host/);
+});
+
+test("the common workbench has no built-in feature identity", async () => {
+  const workbenchRoot = join(root, "integrations/dsh-workbench/src");
+  const violations = [];
+  for (const file of await sourceFiles(workbenchRoot)) {
+    const source = await readFile(file, "utf8");
+    if (/\b(?:files|terminal|codex|claude)\b/i.test(source)) violations.push(relative(root, file));
+  }
+  assert.deepEqual(violations, []);
+});
+
 async function sourceFiles(directory) {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -101,6 +135,21 @@ function importSpecifiers(source, file) {
   };
   visit(sourceFile);
   return specifiers;
+}
+
+function hasRuntimeImport(source, file, target) {
+  const kind = file.endsWith(".tsx") ? ts.ScriptKind.TSX : file.endsWith(".ts") ? ts.ScriptKind.TS : ts.ScriptKind.JS;
+  const sourceFile = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, kind);
+  let found = false;
+  const visit = (node) => {
+    if (ts.isImportDeclaration(node)
+        && ts.isStringLiteralLike(node.moduleSpecifier)
+        && node.moduleSpecifier.text === target
+        && node.importClause?.isTypeOnly !== true) found = true;
+    ts.forEachChild(node, visit);
+  };
+  visit(sourceFile);
+  return found;
 }
 
 function inside(path, directory) {

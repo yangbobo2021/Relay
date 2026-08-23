@@ -1,13 +1,17 @@
 # DSH Plugin Packaging
 
-Relay's DeepSeek Harness integration is published as three independent packages:
+Relay's DeepSeek Harness integration is published as independent packages:
 
 - `@relay/dsh-plugin-codex` owns the Codex App Server runtime, DSH adapter, activity UI,
-  workspace files, terminal, and Codex preset.
+  optional terminal-provider contribution, and Codex preset.
 - `@relay/dsh-plugin-claude` owns the Claude Agent SDK runtime, DSH adapter, activity UI,
   and Claude preset.
 - `@relay/plugin-events` owns external Events, Waits, Monitors, delivery, ingress,
   agent tools, and the waiting-event settings view.
+- `@relay/dsh-plugin-workbench` owns the generic replacement shell and view registry.
+- `@relay/dsh-plugin-files` owns workspace file transport and its side view.
+- `@relay/dsh-plugin-terminal` owns terminal transport, provider registry, and its
+  bottom view.
 
 Codex and Claude have no runtime dependency on another Relay package. Installing
 either backend adds only its conversation mode and product behavior. They do not
@@ -38,10 +42,12 @@ or assumes the Relay monorepo layout.
 3. Codex-only and Claude-only official DSH profiles contain no Events Host, tools,
    management Remote, or settings contribution.
 4. Events-only attaches to standard DSH root conversations without backend names.
-5. Codex, Claude, Events, and every supported combination boot from clean tarballs
+5. Backends, Events, Workbench surfaces, and every supported combination boot from clean tarballs
    in fresh official DSH profiles.
 6. Removing Events leaves Codex and Claude installation and conversation behavior
    intact.
 7. The official DSH checkout remains clean before and after verification.
 8. A synthetic third-party DSH tool is visible and executable in both backends, while
    an unadvertised tool is rejected and auxiliary calls expose no contributed tools.
+9. A synthetic side or bottom view registers without editing Workbench source.
+10. Codex-only and Claude-only profiles preserve the official DSH layout.

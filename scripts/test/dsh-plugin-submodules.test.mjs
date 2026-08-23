@@ -35,9 +35,12 @@ test("Codex and Claude integrations are independently buildable Git submodules",
     await access(join(directory, "package-lock.json"));
     await access(join(directory, ".gitignore"));
 
-    const tracked = execFileSync("git", ["-C", directory, "ls-files"], { encoding: "utf8" })
+    const tracked = execFileSync("git", ["-C", directory, "ls-files", "--cached", "--others", "--exclude-standard"], { encoding: "utf8" })
       .trim().split("\n").filter(file => /\.(?:js|mjs|ts|tsx)$/.test(file));
-    const source = (await Promise.all(tracked.map(file => readFile(join(directory, file), "utf8")))).join("\n");
+    const source = (await Promise.all(tracked.map(file => readFile(join(directory, file), "utf8").catch(error => {
+      if (error.code === "ENOENT") return "";
+      throw error;
+    })))).join("\n");
     assert.doesNotMatch(source, /(?:\.\.\/){2,}packages\//, `${plugin.path} reaches into the Relay parent repository`);
     assert.doesNotMatch(source, /@relay\/plugin-sdk/, `${plugin.path} depends on the Relay monorepo SDK package`);
   }

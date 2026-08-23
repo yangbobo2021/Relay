@@ -1,0 +1,6 @@
+- id: ui-layout
+  disabled: true
+
+- insert:
+    - id: relay-workbench-host
+      name: '@relay/dsh-plugin-workbench'

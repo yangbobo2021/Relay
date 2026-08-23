@@ -43,9 +43,19 @@ test("Events is an optional provider-neutral DSH plugin", async () => {
   assert.doesNotMatch(composition, /codex|claude/i, "Events must not know execution backend names");
 });
 
-test("Workbench surfaces belong to Codex rather than Events", async () => {
+test("Workbench surfaces are independent from conversation and Events plugins", async () => {
   const codex = await source("integrations/codex", "src/client/index.ts");
   const events = await source("integrations/deepseek-harness", "src/client/index.ts");
-  assert.match(codex, /workbench/);
+  const workbench = await source("integrations/dsh-workbench", "src/client/layout/index.ts");
+  assert.doesNotMatch(codex, /workbench|WorkspaceFiles|WebTerminal/);
   assert.doesNotMatch(events, /workbench|WorkspaceFiles/);
+  assert.match(workbench, /workbench\.side\.view/);
+  assert.match(workbench, /workbench\.bottom\.view/);
+});
+
+test("Codex contributes terminal transport only through the optional Cordis provider service", async () => {
+  const codexHost = await source("integrations/codex", "dsh-plugin.js");
+  assert.match(codexHost, /ctx\.inject\(\["relayTerminalProviders"\]/);
+  assert.match(codexHost, /apiVersion !== 1/);
+  assert.doesNotMatch(codexHost, /@relay\/dsh-plugin-(?:terminal|workbench|files)/);
 });

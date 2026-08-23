@@ -61,7 +61,9 @@ The initial plugin domains are:
 - `relay.event-runtime`: Event, Wait, Monitor, Delivery, routing, and persistence;
 - `relay.execution.codex`: Codex App Server execution sessions;
 - `relay.execution.claude`: Claude SDK/CLI execution sessions;
-- `relay.dsh`: DSH Session delivery, LLM presentation, management, and workbench;
+- `relay.dsh.events`: DSH Session delivery and event management;
+- `relay.dsh.workbench`: generic shell and view registration;
+- `relay.dsh.files` and `relay.dsh.terminal`: independently selectable workbench views;
 - `relay.distribution.dsh-web`: the selected plugin set and configuration.
 
 Shared packages such as `@relay/plugin-sdk`, `@relay/runtime`, and

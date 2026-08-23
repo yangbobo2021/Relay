@@ -1,0 +1,51 @@
+{
+  "name": "@relay/dsh-plugin-files",
+  "version": "0.1.0",
+  "description": "Workspace file explorer plugin for the Relay workbench in DeepSeek Harness.",
+  "type": "module",
+  "main": "lib/host-plugin.js",
+  "engines": { "node": ">=22.13" },
+  "publishConfig": { "access": "public" },
+  "scripts": {
+    "prepare:dsh": "../../scripts/link-dsh-development-peers.sh",
+    "prebuild": "npm run prepare:dsh && node -e \"require('node:fs').rmSync('lib',{recursive:true,force:true})\"",
+    "build": "tsdown --config tsdown.config.ts",
+    "postbuild": "node normalize-build.mjs",
+    "pretypecheck": "npm run prepare:dsh",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test test/*.test.mjs",
+    "verify": "npm run typecheck && npm test && npm run build"
+  },
+  "exports": {
+    ".": "./lib/host-plugin.js",
+    "./client": "./lib/client.js",
+    "./typert": "./lib/typert.host.js",
+    "./package.json": "./package.json"
+  },
+  "files": ["README.md", "cordis.patch.yml", "lib/client.js", "lib/client.js.map", "lib/host-plugin.js", "lib/host-plugin.js.map", "lib/typert.host.js", "lib/typert.host.js.map"],
+  "dsh": {
+    "client": {
+      "inject": ["@deepseek-ai/dsh-api-remotes", "@deepseek-ai/dsh-client-runtime", "@deepseek-ai/dsh-client-ui-primitives", "@deepseek-ai/dsh-client-ui-slots"],
+      "platform": "web"
+    },
+    "bundle": { "patch": "./cordis.patch.yml" }
+  },
+  "dependencies": { "zod": "4.4.3" },
+  "devDependencies": {
+    "@relay/dsh-plugin-contracts": "0.1.0",
+    "@types/react": "~18.3.1",
+    "lightningcss": "1.32.0",
+    "react": "^18.2.0",
+    "tsdown": "0.22.2",
+    "typescript": "6.0.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-typert-protocol": ">=0.1.0-rc.5 <0.1.1 || >=0.1.1-rc.0 <0.2.0",
+    "@relay/dsh-plugin-workbench": "^0.1.0",
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-typert-protocol": { "optional": true },
+    "react": { "optional": true }
+  }
+}

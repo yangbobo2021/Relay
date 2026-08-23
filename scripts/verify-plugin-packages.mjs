@@ -13,6 +13,7 @@ const packages = [
   ["packages/runtime", "@relay/runtime"],
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
+  ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
 ];
 
 try {

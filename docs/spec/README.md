@@ -23,6 +23,8 @@ choice, but neither should redefine the requirements here.
   extension rules for the official DSH source checkout.
 - [Plugin System](plugin-system.md): manifests, capability interaction, lifecycle,
   monorepo boundaries, distribution composition, and regression gates.
+- [DSH Plugin Boundaries](dsh-plugin-boundaries.md): installable DSH plugin ownership,
+  workbench extension contracts, and composition acceptance matrix.
 
 ## Organization Rules
 
@@ -41,5 +43,5 @@ The specification grows with the product instead of predicting a final hierarchy
 6. Merge or reorganize documents when the conceptual boundaries change. Update all
    affected indexes in the same change.
 
-The current specification has ten distinct concerns, so they remain as files in one
+The current specification has eleven distinct concerns, so they remain as files in one
 indexed directory. More levels are not justified yet.

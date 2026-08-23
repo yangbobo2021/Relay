@@ -1,0 +1,2 @@
+export const WORKBENCH_API_VERSION = 1;
+export const TERMINAL_PROVIDER_API_VERSION = 1;

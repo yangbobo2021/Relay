@@ -1,0 +1,1 @@
+{"version":3,"file":"host-plugin.js","names":[],"sources":["../host-plugin.js"],"sourcesContent":["export const name = \"relay-dsh-plugin-workbench\";\nexport function apply() {}\n"],"mappings":";AAAA,MAAa,OAAO;AACpB,SAAgB,QAAQ,CAAC"}

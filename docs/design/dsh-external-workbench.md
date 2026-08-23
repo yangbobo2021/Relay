@@ -2,8 +2,9 @@
 
 ## Decision
 
-Relay ships one external DSH plugin against an immutable checkout of the official
-repository. Product features must not require a Fork or patched DSH core.
+Relay ships independently selectable external DSH plugins against an immutable
+checkout of the official repository. Product features must not require a Fork or
+patched DSH core.
 
 This decision covers the two former Fork workstreams:
 
@@ -12,19 +13,20 @@ This decision covers the two former Fork workstreams:
 | Codex conversations | Relay LLM adapter over Codex App Server | Agent and Session APIs |
 | Claude conversations | Relay LLM adapter over Claude SDK/CLI | Agent and Session APIs |
 | Workspace files | Relay Host gateway and Client view | DSH `fs` and client slots |
-| Web terminal | Relay gateway over App Server `command/exec` | Session workspace identity |
-| Workbench frame | Relay Client layout contribution | DSH root/occupant slot contracts |
+| Web terminal | Terminal plugin plus a Codex App Server provider | Cordis provider service |
+| Workbench frame | Generic Workbench Client layout contribution | DSH root/occupant slot contracts |
 
 ## Why The Terminal Uses App Server
 
-The terminal belongs to the execution backend that owns the working context. Codex
-App Server already exposes process creation, PTY resize, input, streamed output, and
-termination. Using that protocol avoids changes to DSH terminal interfaces and keeps
-the terminal aligned with Codex permissions and workspace selection.
+The Terminal plugin owns the browser surface, Typert Remote, bounded scrollback, and
+provider registry. Codex App Server contributes process creation, PTY resize, input,
+streamed output, and termination through `ctx.relayTerminalProviders`. This keeps the
+terminal presentation reusable while the execution backend retains PTY authority.
 
-Relay's Typert gateway translates browser requests into App Server calls. Terminal
+The Typert gateway translates browser requests into the selected provider. Terminal
 output is retained in a bounded Host scrollback buffer and read by polling, so DSH
-does not need a plugin-specific Remote event allowlist.
+does not need a plugin-specific Remote event allowlist. With no provider installed,
+the plugin stays loadable and reports a contained unavailable state.
 
 ## Remaining Layout Exception
 
@@ -42,8 +44,8 @@ Relay can stop replacing `ui-layout` and contribute only panel occupants.
 
 1. Run `scripts/sync-dsh.sh` to fetch official `master` into the detached, read-only
    DSH checkout.
-2. Build and pack `integrations/deepseek-harness` independently.
-3. Install the tarball into a pristine official DSH profile.
+2. Build and pack each selected package independently.
+3. Install the tarballs into a pristine official DSH profile.
 4. Verify startup, conversation creation, file listing/preview, terminal spawn/input,
    desktop/mobile layout, and browser console errors.
 5. Put compatibility shims in the Relay plugin. Upstream only generic APIs that are

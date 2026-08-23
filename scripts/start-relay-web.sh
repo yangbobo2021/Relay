@@ -4,6 +4,9 @@ set -euo pipefail
 relay_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dsh_root="$relay_root/upstream/deepseek-harness"
 plugin_roots=(
+  "$relay_root/integrations/dsh-workbench"
+  "$relay_root/integrations/dsh-files"
+  "$relay_root/integrations/dsh-terminal"
   "$relay_root/integrations/deepseek-harness"
   "$relay_root/integrations/codex"
   "$relay_root/integrations/claude"
@@ -45,7 +48,7 @@ for plugin_root in "${plugin_roots[@]}"; do
   (cd "$plugin_root" && npm run build)
 done
 
-# Migrate profiles created before the three independent package names. The
+# Migrate profiles created before the independent package names. The
 # allowlist prevents this launcher from touching any unrelated user plugin.
 dsh_home="${DSH_HOME:-$HOME/.dsh}"
 profile_manifest="$dsh_home/profiles/web/package.json"
@@ -79,9 +82,12 @@ pnpm --dir "$dsh_root" dsh plugin --profile web add "${plugin_roots[@]}"
 
 # The source-mode DSH loader resolves plugin names from the upstream workspace.
 mkdir -p "$dsh_root/node_modules/@relay"
-for package in plugin-events dsh-plugin-codex dsh-plugin-claude; do
+for package in plugin-events dsh-plugin-workbench dsh-plugin-files dsh-plugin-terminal dsh-plugin-codex dsh-plugin-claude; do
   case "$package" in
     plugin-events) source="$relay_root/integrations/deepseek-harness" ;;
+    dsh-plugin-workbench) source="$relay_root/integrations/dsh-workbench" ;;
+    dsh-plugin-files) source="$relay_root/integrations/dsh-files" ;;
+    dsh-plugin-terminal) source="$relay_root/integrations/dsh-terminal" ;;
     dsh-plugin-codex) source="$relay_root/integrations/codex" ;;
     dsh-plugin-claude) source="$relay_root/integrations/claude" ;;
   esac

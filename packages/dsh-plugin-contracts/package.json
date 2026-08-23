@@ -1,0 +1,20 @@
+{
+  "name": "@relay/dsh-plugin-contracts",
+  "version": "0.1.0",
+  "description": "Public type contracts for independently developed Relay plugins for DeepSeek Harness.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["README.md", "index.js", "index.d.ts"],
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true }
+  }
+}

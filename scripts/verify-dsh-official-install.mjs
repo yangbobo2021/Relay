@@ -15,9 +15,13 @@ const packages = [
   ["packages/runtime", "@relay/runtime"],
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
+  ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
   ["integrations/codex", "@relay/dsh-plugin-codex"],
   ["integrations/claude", "@relay/dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
+  ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
+  ["integrations/dsh-files", "@relay/dsh-plugin-files"],
+  ["integrations/dsh-terminal", "@relay/dsh-plugin-terminal"],
 ];
 
 const cleanBefore = gitStatus();
@@ -35,13 +39,17 @@ try {
   await verifyScenario("claude-only", ["@relay/dsh-plugin-claude"], tarballs, 3192);
   await verifyScenario("events-only", ["@relay/plugin-events"], tarballs, 3193);
   await verifyScenario("codex-and-claude", ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude"], tarballs, 3194);
-  await verifyScenario("all-plugins", ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude", "@relay/plugin-events"], tarballs, 3195);
+  await verifyScenario("workbench-only", ["@relay/dsh-plugin-workbench"], tarballs, 3195);
+  await verifyScenario("workbench-files", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files"], tarballs, 3196);
+  await verifyScenario("workbench-terminal", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal"], tarballs, 3197);
+  await verifyScenario("codex-terminal", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal", "@relay/dsh-plugin-codex"], tarballs, 3198);
+  await verifyScenario("all-plugins", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal", "@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude", "@relay/plugin-events"], tarballs, 3199);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
 
 assert.equal(gitStatus(), "", "official DSH checkout changed during install verification");
-console.log("Verified isolated and combined Codex, Claude, and Events plugins against the clean official DSH build.");
+console.log("Verified isolated and combined backends, Events, Workbench, Files, and Terminal against the clean official DSH build.");
 
 async function verifyScenario(id, selected, tarballs, port) {
   const home = join(temporary, id);
@@ -72,6 +80,9 @@ async function verifyScenario(id, selected, tarballs, port) {
   if (!selected.includes("@relay/dsh-plugin-codex")) assert.doesNotMatch(dump, /relay-codex-host/, `${id}: no Codex host`);
   if (!selected.includes("@relay/dsh-plugin-claude")) assert.doesNotMatch(dump, /relay-claude-host/, `${id}: no Claude host`);
   if (!selected.includes("@relay/plugin-events")) assert.doesNotMatch(dump, /relay-runtime-host/, `${id}: no Events host`);
+  if (!selected.includes("@relay/dsh-plugin-workbench")) assert.doesNotMatch(dump, /relay-workbench-host/, `${id}: no Workbench host`);
+  if (!selected.includes("@relay/dsh-plugin-files")) assert.doesNotMatch(dump, /relay-files-host/, `${id}: no Files host`);
+  if (!selected.includes("@relay/dsh-plugin-terminal")) assert.doesNotMatch(dump, /relay-terminal-host/, `${id}: no Terminal host`);
   await bootAndProbe(id, env, port, selected);
 }
 

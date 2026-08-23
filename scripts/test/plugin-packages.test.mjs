@@ -11,9 +11,13 @@ const expected = new Map([
   ["packages/runtime", "@relay/runtime"],
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
+  ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
   ["integrations/codex", "@relay/dsh-plugin-codex"],
   ["integrations/claude", "@relay/dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
+  ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
+  ["integrations/dsh-files", "@relay/dsh-plugin-files"],
+  ["integrations/dsh-terminal", "@relay/dsh-plugin-terminal"],
 ]);
 
 test("plugins and shared libraries are independently publishable workspace packages", async () => {
@@ -38,9 +42,9 @@ test("plugins and shared libraries are independently publishable workspace packa
     assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
   }
 
-  const codexPatch = await readFile(join(root, "integrations/codex/cordis.patch.yml"), "utf8");
-  assert.match(codexPatch, /- id: ui-layout\n\s+disabled: true/, "Codex owns its workbench layout");
-  for (const directory of ["integrations/claude", "integrations/deepseek-harness"]) {
+  const workbenchPatch = await readFile(join(root, "integrations/dsh-workbench/cordis.patch.yml"), "utf8");
+  assert.match(workbenchPatch, /- id: ui-layout\n\s+disabled: true/, "Workbench owns its layout");
+  for (const directory of ["integrations/codex", "integrations/claude", "integrations/deepseek-harness", "integrations/dsh-files", "integrations/dsh-terminal"]) {
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: ui-layout/, `${directory} must preserve the official DSH layout`);
   }

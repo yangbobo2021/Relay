@@ -14,11 +14,15 @@ const supportPackages = [
   ["packages/runtime", "@relay/runtime"],
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
+  ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
 ];
 const dshPackages = [
   ["integrations/codex", "@relay/dsh-plugin-codex"],
   ["integrations/claude", "@relay/dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
+  ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
+  ["integrations/dsh-files", "@relay/dsh-plugin-files"],
+  ["integrations/dsh-terminal", "@relay/dsh-plugin-terminal"],
 ];
 const submoduleDirectories = new Set(dshPackages.slice(0, 2).map(([directory]) => directory));
 const packages = [...supportPackages, ...dshPackages];
@@ -65,7 +69,7 @@ try {
 
   const importProgram = `
     import assert from "node:assert/strict";
-    for (const name of ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude", "@relay/plugin-events"]) {
+    for (const name of ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude", "@relay/plugin-events", "@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"]) {
       const manifest = (await import(name + "/package.json", { with: { type: "json" } })).default;
       assert.equal(manifest.main, "lib/host-plugin.js");
       const host = await import(name);
