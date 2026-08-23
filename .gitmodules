@@ -1,0 +1,6 @@
+[submodule "integrations/codex"]
+	path = integrations/codex
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-codex.git
+[submodule "integrations/claude"]
+	path = integrations/claude
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-claude.git

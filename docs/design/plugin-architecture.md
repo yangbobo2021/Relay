@@ -8,8 +8,8 @@ public plugin entrypoints, and plugins receive only the versioned capabilities t
 declared in their manifests.
 
 ```text
-@relay/plugin-codex  --> Codex App Server + DSH Codex adapter + workbench
-@relay/plugin-claude --> Claude Agent SDK + DSH Claude adapter
+@relay/dsh-plugin-codex  --> Codex App Server + DSH Codex adapter + workbench
+@relay/dsh-plugin-claude --> Claude Agent SDK + DSH Claude adapter
 
 @relay/plugin-events --> relay.dsh.platform + relay.event-runtime + relay.dsh.events
                          attaches to every DSH root Agent
@@ -34,8 +34,8 @@ a tool. Auxiliary title and compaction calls receive no contributed tools.
 | `@relay/runtime` | Event/Wait persistence and dispatch library | `.` |
 | `@relay/monitor-runtime` | Monitor and timer library | `.` |
 | `@relay/plugin-event-runtime` | Event and Monitor service plugin | `.` |
-| `@relay/plugin-codex` | Self-contained Codex DSH backend, files, terminal, preset | package exports |
-| `@relay/plugin-claude` | Self-contained Claude DSH backend and preset | package exports |
+| `@relay/dsh-plugin-codex` | Self-contained Codex DSH backend, files, terminal, preset | package exports |
+| `@relay/dsh-plugin-claude` | Self-contained Claude DSH backend and preset | package exports |
 | `@relay/plugin-events` | Provider-neutral Events, Waits, Monitors, ingress, tools | package exports |
 
 Package exports are intentionally narrow. Tests may import local modules for unit
@@ -58,14 +58,22 @@ coverage, but production code cannot reach another plugin's implementation path.
 6. A new interaction never adds a source import of another plugin, checks another
    plugin's package/name, or reaches into its mutable runtime objects.
 
-## Moving A Plugin To Another Repository
+## External Plugin Repositories
 
-1. Move the plugin package directory with its tests and package manifest.
-2. Publish it under the same package name and preserve its public entrypoint.
-3. Replace the monorepo workspace dependency with the published version.
-4. Change only the distribution dependency and lockfile when the capability contract
-   is unchanged.
-5. Run `npm test`, `npm run test:package:plugins`, `npm run test:package:dsh`, and
+Codex and Claude already have independent Git histories. Relay pins them as Git
+submodules under `integrations/` so this repository can assemble and test a complete
+distribution without owning their source history. Each plugin must pass its own CI
+against a pinned official DSH checkout before Relay advances its submodule pointer.
+
+Moving another plugin to a separate repository follows the same sequence:
+
+1. Split the plugin directory with its history, tests, manifest, lockfile, and CI.
+2. Verify the repository in isolation against the official DSH checkout.
+3. Replace the Relay directory with a pinned submodule at the same path.
+4. Publish under the same package name and preserve public entrypoints.
+5. Later, a distribution may replace the submodule workspace with an npm dependency;
+   capability and DSH contracts must require no consumer implementation changes.
+6. Run `npm test`, `npm run test:package:plugins`, `npm run test:package:dsh`, and
    `npm run test:install:dsh-official`.
 
 No consumer implementation changes are expected. A repository move that requires

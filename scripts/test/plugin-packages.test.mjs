@@ -11,8 +11,8 @@ const expected = new Map([
   ["packages/runtime", "@relay/runtime"],
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
-  ["integrations/codex", "@relay/plugin-codex"],
-  ["integrations/claude", "@relay/plugin-claude"],
+  ["integrations/codex", "@relay/dsh-plugin-codex"],
+  ["integrations/claude", "@relay/dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
 ]);
 

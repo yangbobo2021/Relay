@@ -14,8 +14,8 @@ const domains = [
 ];
 const sourceExtensions = new Set([".js", ".mjs", ".ts", ".tsx"]);
 const allowedByDomain = new Map([
-  ["integrations/codex", new Set(["@relay/plugin-sdk"])],
-  ["integrations/claude", new Set(["@relay/plugin-sdk"])],
+  ["integrations/codex", new Set()],
+  ["integrations/claude", new Set()],
   ["packages/event-runtime-plugin", new Set([
     "@relay/monitor-runtime", "@relay/plugin-sdk", "@relay/runtime",
   ])],

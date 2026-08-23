@@ -54,6 +54,8 @@ legacy_packages=(
   "@relay/dsh-core"
   "@relay/dsh-codex"
   "@relay/dsh-claude"
+  "@relay/plugin-codex"
+  "@relay/plugin-claude"
 )
 if [[ -f "$profile_manifest" ]]; then
   for legacy_package in "${legacy_packages[@]}"; do
@@ -77,11 +79,11 @@ pnpm --dir "$dsh_root" dsh plugin --profile web add "${plugin_roots[@]}"
 
 # The source-mode DSH loader resolves plugin names from the upstream workspace.
 mkdir -p "$dsh_root/node_modules/@relay"
-for package in plugin-events plugin-codex plugin-claude; do
+for package in plugin-events dsh-plugin-codex dsh-plugin-claude; do
   case "$package" in
     plugin-events) source="$relay_root/integrations/deepseek-harness" ;;
-    plugin-codex) source="$relay_root/integrations/codex" ;;
-    plugin-claude) source="$relay_root/integrations/claude" ;;
+    dsh-plugin-codex) source="$relay_root/integrations/codex" ;;
+    dsh-plugin-claude) source="$relay_root/integrations/claude" ;;
   esac
   target="$dsh_root/node_modules/@relay/$package"
   rm -rf "$target"

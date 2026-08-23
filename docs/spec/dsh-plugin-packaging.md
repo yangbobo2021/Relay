@@ -2,9 +2,9 @@
 
 Relay's DeepSeek Harness integration is published as three independent packages:
 
-- `@relay/plugin-codex` owns the Codex App Server runtime, DSH adapter, activity UI,
+- `@relay/dsh-plugin-codex` owns the Codex App Server runtime, DSH adapter, activity UI,
   workspace files, terminal, and Codex preset.
-- `@relay/plugin-claude` owns the Claude Agent SDK runtime, DSH adapter, activity UI,
+- `@relay/dsh-plugin-claude` owns the Claude Agent SDK runtime, DSH adapter, activity UI,
   and Claude preset.
 - `@relay/plugin-events` owns external Events, Waits, Monitors, delivery, ingress,
   agent tools, and the waiting-event settings view.

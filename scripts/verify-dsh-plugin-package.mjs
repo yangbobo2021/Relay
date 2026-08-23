@@ -16,16 +16,23 @@ const supportPackages = [
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
 ];
 const dshPackages = [
-  ["integrations/codex", "@relay/plugin-codex"],
-  ["integrations/claude", "@relay/plugin-claude"],
+  ["integrations/codex", "@relay/dsh-plugin-codex"],
+  ["integrations/claude", "@relay/dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
 ];
+const submoduleDirectories = new Set(dshPackages.slice(0, 2).map(([directory]) => directory));
 const packages = [...supportPackages, ...dshPackages];
 
 try {
   for (const [directory] of dshPackages) {
+    if (submoduleDirectories.has(directory)) {
+      assert.equal(gitStatus(directory), "", `${directory} must be clean before package verification`);
+    }
     execFileSync("npm", ["run", "typecheck"], { cwd: join(root, directory), stdio: "inherit" });
     execFileSync("npm", ["run", "build"], { cwd: join(root, directory), stdio: "inherit" });
+    if (submoduleDirectories.has(directory)) {
+      assert.equal(gitStatus(directory), "", `${directory} build artifacts must be reproducible`);
+    }
     const lib = join(root, directory, "lib");
     for (const file of readdirSync(lib).filter(file => file.endsWith(".js"))) {
       assert.doesNotMatch(readFileSync(join(lib, file), "utf8"), /[ \t]+$/m, `${directory}/${file} has trailing whitespace`);
@@ -58,7 +65,7 @@ try {
 
   const importProgram = `
     import assert from "node:assert/strict";
-    for (const name of ["@relay/plugin-codex", "@relay/plugin-claude", "@relay/plugin-events"]) {
+    for (const name of ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude", "@relay/plugin-events"]) {
       const manifest = (await import(name + "/package.json", { with: { type: "json" } })).default;
       assert.equal(manifest.main, "lib/host-plugin.js");
       const host = await import(name);
@@ -71,7 +78,7 @@ try {
       assert.equal(definition.id, name);
       assert.equal(typeof definition.factory, "function");
     }
-    for (const name of ["plugin-codex", "plugin-claude"]) {
+    for (const name of ["dsh-plugin-codex", "dsh-plugin-claude"]) {
       const manifest = JSON.parse(await (await import("node:fs/promises")).readFile("node_modules/@relay/" + name + "/package.json", "utf8"));
       assert.deepEqual(Object.keys(manifest.dependencies || {}).filter(key => key.startsWith("@relay/")), []);
     }
@@ -80,4 +87,8 @@ try {
   console.log(`Verified ${dshPackages.length} independently packed DSH plugins and their public entries.`);
 } finally {
   rmSync(temporary, { recursive: true, force: true });
+}
+
+function gitStatus(directory) {
+  return execFileSync("git", ["status", "--short"], { cwd: join(root, directory), encoding: "utf8" }).trim();
 }

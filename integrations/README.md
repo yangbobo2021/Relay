@@ -1,8 +1,10 @@
 # Integrations
 
-- `codex/` is the self-contained `@relay/plugin-codex` DSH bundle and Codex App
+- `codex/` is the `relay-dsh-plugin-codex` submodule and self-contained
+  `@relay/dsh-plugin-codex` DSH bundle. Its independent repository owns the Codex App
   Server runtime. It owns the Codex preset, activity UI, files, and terminal.
-- `claude/` is the self-contained `@relay/plugin-claude` DSH bundle and Claude
+- `claude/` is the `relay-dsh-plugin-claude` submodule and self-contained
+  `@relay/dsh-plugin-claude` DSH bundle. Its independent repository owns the Claude
   Agent SDK runtime.
 - `deepseek-harness/` is the provider-neutral `@relay/plugin-events` bundle. It
   installs Wait/Monitor tools for every DSH root conversation and exposes the exact

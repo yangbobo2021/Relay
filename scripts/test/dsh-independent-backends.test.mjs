@@ -16,8 +16,8 @@ async function source(directory, file) {
 
 test("Codex and Claude are self-contained DSH plugins without Relay plugin dependencies", async () => {
   for (const [directory, name] of [
-    ["integrations/codex", "@relay/plugin-codex"],
-    ["integrations/claude", "@relay/plugin-claude"],
+    ["integrations/codex", "@relay/dsh-plugin-codex"],
+    ["integrations/claude", "@relay/dsh-plugin-claude"],
   ]) {
     const pkg = await manifest(directory);
     assert.equal(pkg.name, name);
