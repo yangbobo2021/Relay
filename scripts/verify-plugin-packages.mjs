@@ -13,8 +13,6 @@ const packages = [
   ["packages/runtime", "@relay/runtime"],
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
-  ["integrations/codex", "@relay/plugin-codex"],
-  ["integrations/claude", "@relay/plugin-claude"],
 ];
 
 try {

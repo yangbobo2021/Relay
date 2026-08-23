@@ -7,7 +7,7 @@ dsh_home="${DSH_HOME:-$HOME/.dsh}"
 install_relay_preset() {
   local preset_name="$1"
   local backend="${preset_name#relay-}"
-  local preset_source="$relay_root/integrations/dsh-$backend/presets/$preset_name"
+  local preset_source="$relay_root/integrations/$backend/presets/$preset_name"
   local preset_dir="$dsh_home/.agent-presets/$preset_name"
 
   mkdir -p "$(dirname "$preset_dir")"

@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
-import { existsSync } from "node:fs";
 import { appendFile, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -18,9 +17,7 @@ const packages = [
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
   ["integrations/codex", "@relay/plugin-codex"],
   ["integrations/claude", "@relay/plugin-claude"],
-  ["integrations/deepseek-harness", "@relay/dsh-core"],
-  ["integrations/dsh-codex", "@relay/dsh-codex"],
-  ["integrations/dsh-claude", "@relay/dsh-claude"],
+  ["integrations/deepseek-harness", "@relay/plugin-events"],
 ];
 
 const cleanBefore = gitStatus();
@@ -34,15 +31,17 @@ try {
     return [name, join(temporary, packed.filename)];
   }));
 
-  await verifyScenario("codex-only", ["@relay/dsh-codex"], tarballs, 3191);
-  await verifyScenario("claude-only", ["@relay/dsh-claude"], tarballs, 3192);
-  await verifyScenario("codex-and-claude", ["@relay/dsh-codex", "@relay/dsh-claude"], tarballs, 3193);
+  await verifyScenario("codex-only", ["@relay/plugin-codex"], tarballs, 3191);
+  await verifyScenario("claude-only", ["@relay/plugin-claude"], tarballs, 3192);
+  await verifyScenario("events-only", ["@relay/plugin-events"], tarballs, 3193);
+  await verifyScenario("codex-and-claude", ["@relay/plugin-codex", "@relay/plugin-claude"], tarballs, 3194);
+  await verifyScenario("all-plugins", ["@relay/plugin-codex", "@relay/plugin-claude", "@relay/plugin-events"], tarballs, 3195);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
 
 assert.equal(gitStatus(), "", "official DSH checkout changed during install verification");
-console.log("Verified Codex-only, Claude-only, and coinstalled Relay plugins against the clean official DSH build.");
+console.log("Verified isolated and combined Codex, Claude, and Events plugins against the clean official DSH build.");
 
 async function verifyScenario(id, selected, tarballs, port) {
   const home = join(temporary, id);
@@ -60,15 +59,19 @@ async function verifyScenario(id, selected, tarballs, port) {
   const manifest = JSON.parse(await readFile(join(profile, "package.json"), "utf8"));
   assert.deepEqual(Object.keys(manifest.dependencies).sort(), [...selected].sort(), `${id}: only requested plugins are direct`);
   for (const name of selected) assert.ok(manifest.dsh.profile.bundles.includes(name), `${id}: ${name} is a profile layer`);
-  assert.equal(manifest.dsh.profile.bundles.includes("@relay/dsh-core"), false, `${id}: Core stays transitive`);
-  assert.ok(existsSync(join(profile, "node_modules", "@relay", "dsh-core", "lib", "host-plugin.js")), `${id}: Core installed transitively`);
+  for (const backend of ["@relay/plugin-codex", "@relay/plugin-claude"]) {
+    if (!selected.includes(backend)) continue;
+    const installed = JSON.parse(await readFile(join(profile, "node_modules", ...backend.split("/"), "package.json"), "utf8"));
+    assert.deepEqual(Object.keys(installed.dependencies ?? {}).filter(name => name.startsWith("@relay/")), [], `${id}: ${backend} is Relay-independent`);
+  }
 
   const dump = execFileSync(process.execPath, [dshBin, "web", "--dump-config"], {
     cwd: dshRoot, env, encoding: "utf8",
   });
   for (const name of selected) assert.match(dump, new RegExp(name.replace("/", "\\/")), `${id}: ${name} composes`);
-  if (!selected.includes("@relay/dsh-codex")) assert.doesNotMatch(dump, /relay-codex-host/, `${id}: no Codex host`);
-  if (!selected.includes("@relay/dsh-claude")) assert.doesNotMatch(dump, /relay-claude-host/, `${id}: no Claude host`);
+  if (!selected.includes("@relay/plugin-codex")) assert.doesNotMatch(dump, /relay-codex-host/, `${id}: no Codex host`);
+  if (!selected.includes("@relay/plugin-claude")) assert.doesNotMatch(dump, /relay-claude-host/, `${id}: no Claude host`);
+  if (!selected.includes("@relay/plugin-events")) assert.doesNotMatch(dump, /relay-runtime-host/, `${id}: no Events host`);
   await bootAndProbe(id, env, port, selected);
 }
 

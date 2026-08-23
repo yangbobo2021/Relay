@@ -1,12 +1,11 @@
-import { ensureDshCore } from "./runtime.js";
+import { PluginHost } from "@relay/plugin-sdk";
+import { createDshEventsDistribution } from "./distribution.mjs";
 
-export { acquireDshCore, DSH_CORE_VERSION, inspectDshCore } from "./lifecycle.mjs";
-export { ensureDshCore } from "./runtime.js";
-
-export const name = "relay-dsh-core";
+export const name = "relay-plugin-events";
 export const inject = ["agents", "sessions", "sessionPersistence", "tools", "typert", "webServer"];
 
 export async function apply(ctx, config = {}) {
-  const ownership = await ensureDshCore(ctx, config);
-  ctx.effect(() => ownership.release, "relay.dshCore()");
+  const host = new PluginHost();
+  ctx.effect(() => () => host.dispose(), "relay.events()");
+  await host.activate(createDshEventsDistribution(ctx, config));
 }

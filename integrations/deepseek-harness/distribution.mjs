@@ -1,15 +1,15 @@
 import { createEventRuntimePlugin } from "@relay/plugin-event-runtime";
-import { createDshCoreCompositionPlugin, createDshPlatformPlugin } from "./dsh-plugin.js";
+import { createDshEventsPlugin, createDshPlatformPlugin } from "./dsh-plugin.js";
 
-export const DSH_CORE_DISTRIBUTION = Object.freeze({
-  id: "relay.distribution.dsh-core", version: "1.0.0",
-  plugins: Object.freeze(["relay.dsh.platform", "relay.event-runtime", "relay.dsh.core-composition"]),
+export const DSH_EVENTS_DISTRIBUTION = Object.freeze({
+  id: "relay.distribution.events", version: "1.0.0",
+  plugins: Object.freeze(["relay.dsh.platform", "relay.event-runtime", "relay.dsh.events"]),
 });
 
-export function createDshCoreDistribution(ctx, config = {}) {
+export function createDshEventsDistribution(ctx, config = {}) {
   return [
     createDshPlatformPlugin(ctx, config),
     createEventRuntimePlugin({ databasePath: config.databasePath, pollIntervalMs: config.pollIntervalMs }),
-    createDshCoreCompositionPlugin(ctx, config),
+    createDshEventsPlugin(ctx, config),
   ];
 }

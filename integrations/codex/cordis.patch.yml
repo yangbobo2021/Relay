@@ -1,0 +1,6 @@
+- id: ui-layout
+  disabled: true
+
+- insert:
+    - id: relay-codex-host
+      name: '@relay/plugin-codex'

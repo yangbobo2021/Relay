@@ -1,7 +1,7 @@
 import { RELAY_DESCRIPTORS } from "./remote-schema.js";
 
 export const TYPERT = {
-  package: "@relay/dsh-core",
+  package: "@relay/plugin-events",
   face: "host",
   schemas: [],
   invocations: RELAY_DESCRIPTORS,

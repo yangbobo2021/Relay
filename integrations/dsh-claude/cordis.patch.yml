@@ -1,6 +1,0 @@
-- id: ui-layout
-  disabled: true
-
-- insert:
-    - id: relay-claude-host
-      name: '@relay/dsh-claude'

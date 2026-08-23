@@ -37,8 +37,16 @@ test("the web launcher resolves Relay packages through the root workspace", asyn
   assert.match(script, /packages\/host\/apiproxy\/node_modules\/fflate/);
   assert.match(script, /repair-dsh-workspace-links\.mjs/);
   assert.doesNotMatch(script, /pnpm --dir "\$plugin_root" install/);
+  assert.match(script, /legacy_packages=\(/);
+  for (const name of ["relay-dsh-plugin", "@relay/dsh-core", "@relay/dsh-codex", "@relay/dsh-claude"]) {
+    assert.match(script, new RegExp(name.replace("/", "\\/")));
+  }
   assert.ok(
     script.indexOf('npm install --ignore-scripts') < script.indexOf('repair-dsh-workspace-links.mjs'),
     "Relay dependency installation must finish before official workspace repair",
+  );
+  assert.ok(
+    script.indexOf('legacy_packages=(') < script.indexOf('plugin --profile web add'),
+    "legacy Relay plugins must be removed before renamed packages are added",
   );
 });

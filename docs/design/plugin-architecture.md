@@ -8,20 +8,22 @@ public plugin entrypoints, and plugins receive only the versioned capabilities t
 declared in their manifests.
 
 ```text
-@relay/dsh-core
-  relay.dsh.platform
-  provides relay.delivery.v1, relay.logging.v1, relay.dsh.workspace.v1
-          |
-          +--> relay.event-runtime
-          |      provides relay.events.v1, relay.monitors.v1
-          |
-@relay/dsh-codex --> relay.execution.codex + relay.dsh.codex
-@relay/dsh-claude --> relay.execution.claude + relay.dsh.claude
+@relay/plugin-codex  --> Codex App Server + DSH Codex adapter + workbench
+@relay/plugin-claude --> Claude Agent SDK + DSH Claude adapter
+
+@relay/plugin-events --> relay.dsh.platform + relay.event-runtime + relay.dsh.events
+                         attaches to every DSH root Agent
 ```
 
-Each DSH backend consumes Core through public package exports and versioned
-capabilities. Core is reference-counted at the DSH root so coinstalled backends do
-not duplicate shared Host or client services.
+The two execution backends are self-contained and do not depend on Events or another
+Relay package at runtime. Events is an optional provider-neutral layer that uses DSH
+Agent, Session, inbox, and tool contracts; it never imports a backend.
+
+At the DSH boundary, Codex maps the current `GenerateOptions.tools` to an App Server
+`dsh` dynamic-tool namespace. Claude maps the same schemas to an in-process SDK MCP
+server. Both dispatch only through the owning Agent's `ctx.tools.execute()`. This is
+a generic DSH adapter responsibility, so neither backend knows which plugin supplied
+a tool. Auxiliary title and compaction calls receive no contributed tools.
 
 ## Packages
 
@@ -32,11 +34,9 @@ not duplicate shared Host or client services.
 | `@relay/runtime` | Event/Wait persistence and dispatch library | `.` |
 | `@relay/monitor-runtime` | Monitor and timer library | `.` |
 | `@relay/plugin-event-runtime` | Event and Monitor service plugin | `.` |
-| `@relay/plugin-codex` | Codex App Server execution plugin | `.` |
-| `@relay/plugin-claude` | Claude SDK/CLI execution plugin | `.` |
-| `@relay/dsh-core` | DSH Events, Waits, workspace files, shared workbench | package exports |
-| `@relay/dsh-codex` | Codex DSH adapter, activity UI, terminal, preset | package exports |
-| `@relay/dsh-claude` | Claude DSH adapter, activity UI, preset | package exports |
+| `@relay/plugin-codex` | Self-contained Codex DSH backend, files, terminal, preset | package exports |
+| `@relay/plugin-claude` | Self-contained Claude DSH backend and preset | package exports |
+| `@relay/plugin-events` | Provider-neutral Events, Waits, Monitors, ingress, tools | package exports |
 
 Package exports are intentionally narrow. Tests may import local modules for unit
 coverage, but production code cannot reach another plugin's implementation path.
@@ -50,10 +50,13 @@ coverage, but production code cannot reach another plugin's implementation path.
 3. Subscriptions return an idempotent release function. Plugin disposal calls every
    release function in reverse activation order. The consumer passes each release
    function to activation `defer` as soon as it is acquired.
-4. Optional behavior is selected by presence of a capability, not by importing and
-   type-checking a concrete provider.
-5. A new cross-plugin interaction changes a versioned capability contract. It never
-   adds a source import.
+4. Optional cross-cutting behavior is installed as its own DSH bundle. A backend
+   must not detect it or change its product behavior when it is present.
+5. Relay runtime plugins interact through versioned capability contracts. Independently
+   installed DSH bundles interact only through public DSH extension contracts such as
+   tools, Agent lifecycle, Session inbox, remotes, and UI slots.
+6. A new interaction never adds a source import of another plugin, checks another
+   plugin's package/name, or reaches into its mutable runtime objects.
 
 ## Moving A Plugin To Another Repository
 
@@ -77,6 +80,10 @@ details and must be corrected before the move.
   fake capabilities.
 - `scripts/test/plugin-boundaries.test.mjs`: no cross-plugin relative imports and no
   internal `@relay/*` subpaths.
+- `scripts/test/dsh-independent-backends.test.mjs`: backend packages have no Relay
+  dependencies or Events-specific names, while Events stays provider-neutral.
+- Backend adapter tests: an arbitrary DSH tool is mapped, executed through
+  `ctx.tools.execute()`, scoped to the current turn, and excluded from auxiliary calls.
 - `scripts/test/plugin-packages.test.mjs`: independent manifests and narrow exports.
 - `npm run test:package:plugins`: pack, clean-directory install, and public-entry
   import for every shared package and execution/Event plugin.

@@ -13,9 +13,7 @@ const expected = new Map([
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
   ["integrations/codex", "@relay/plugin-codex"],
   ["integrations/claude", "@relay/plugin-claude"],
-  ["integrations/deepseek-harness", "@relay/dsh-core"],
-  ["integrations/dsh-codex", "@relay/dsh-codex"],
-  ["integrations/dsh-claude", "@relay/dsh-claude"],
+  ["integrations/deepseek-harness", "@relay/plugin-events"],
 ]);
 
 test("plugins and shared libraries are independently publishable workspace packages", async () => {
@@ -29,46 +27,22 @@ test("plugins and shared libraries are independently publishable workspace packa
     assert.match(manifest.version, /^\d+\.\d+\.\d+$/, directory);
     assert.equal(manifest.type, "module", directory);
     assert.ok(manifest.exports && typeof manifest.exports === "object", `${directory} needs exports`);
-    assert.ok(Object.keys(manifest.exports).every((key) => !key.includes("*")), `${directory} cannot use wildcard exports`);
-    assert.equal(Object.values(manifest.exports).some((value) => String(value).includes("/src/")), false,
+    assert.ok(Object.keys(manifest.exports).every(key => !key.includes("*")), `${directory} cannot use wildcard exports`);
+    assert.equal(Object.values(manifest.exports).some(value => String(value).includes("/src/")), false,
       `${directory} cannot export internal source paths`);
   }
 
-  assert.equal(rootManifest.scripts["test:package:plugins"], "node scripts/verify-plugin-packages.mjs");
-  const core = await json(join(root, "integrations/deepseek-harness/package.json"));
-  assert.equal(core.dependencies["@relay/plugin-sdk"], "0.1.0");
-  assert.equal(core.dependencies["@relay/plugin-event-runtime"], "0.1.0");
-
-  const codex = await json(join(root, "integrations/dsh-codex/package.json"));
-  assert.equal(codex.dependencies["@relay/dsh-core"], "0.1.0");
-  assert.equal(codex.dependencies["@relay/plugin-codex"], "0.1.0");
-
-  const claude = await json(join(root, "integrations/dsh-claude/package.json"));
-  assert.equal(claude.dependencies["@relay/dsh-core"], "0.1.0");
-  assert.equal(claude.dependencies["@relay/plugin-claude"], "0.1.0");
-
-  for (const entry of [
-    "integrations/deepseek-harness/src/client/index.ts",
-    "integrations/dsh-codex/src/client/index.ts",
-    "integrations/dsh-claude/src/client/index.ts",
-  ]) {
-    const source = await readFile(join(root, entry), "utf8");
-    assert.match(source, /acquireDshCoreClient/, `${entry} must share the Core client lifecycle`);
-  }
-  const coreClientLifecycle = await readFile(join(root, "integrations/deepseek-harness/src/client/api.ts"), "utf8");
-  assert.match(coreClientLifecycle, /root\.plugin\(/, "Core client must own an independently disposable Fiber");
-  assert.match(coreClientLifecycle, /inject:\s*\[\.\.\.inject\]/, "Core client Fiber must declare the services used by Core");
-  assert.match(coreClientLifecycle, /fiber\.dispose\(\)/, "Core client final release must dispose every shared effect");
-
-  for (const directory of ["integrations/dsh-codex", "integrations/dsh-claude"]) {
+  for (const directory of ["integrations/codex", "integrations/claude"]) {
     const manifest = await json(join(root, directory, "package.json"));
-    for (const clientDependency of [
-      "@deepseek-ai/dsh-client-locale",
-      "@deepseek-ai/dsh-client-ui-settings",
-      "@deepseek-ai/dsh-client-ui-theme",
-    ]) assert.ok(manifest.dsh.client.inject.includes(clientDependency), `${directory} must carry Core client dependencies`);
+    assert.deepEqual(Object.keys(manifest.dependencies ?? {}).filter(name => name.startsWith("@relay/")), []);
+    assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
+  }
+
+  const codexPatch = await readFile(join(root, "integrations/codex/cordis.patch.yml"), "utf8");
+  assert.match(codexPatch, /- id: ui-layout\n\s+disabled: true/, "Codex owns its workbench layout");
+  for (const directory of ["integrations/claude", "integrations/deepseek-harness"]) {
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
-    assert.match(patch, /- id: ui-layout\n\s+disabled: true/, `${directory} must reserve the Core workbench layout`);
+    assert.doesNotMatch(patch, /- id: ui-layout/, `${directory} must preserve the official DSH layout`);
   }
 });
 

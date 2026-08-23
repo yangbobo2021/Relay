@@ -1,18 +1,17 @@
 # Integrations
 
-- `deepseek-harness/` is the installable `@relay/dsh-core` bundle. It injects Relay
-  Events through DSH's shared Agent lookup and installs Wait/timer tools. Its exact
-  `POST /api/relay/events` route is the production ingress for local webhooks and
-  authenticated non-loopback connectors.
-- `dsh-codex/` and `dsh-claude/` are independently installable backend bundles;
-  each ships its own preset and depends only on Core's public package contract.
+- `codex/` is the self-contained `@relay/plugin-codex` DSH bundle and Codex App
+  Server runtime. It owns the Codex preset, activity UI, files, and terminal.
+- `claude/` is the self-contained `@relay/plugin-claude` DSH bundle and Claude
+  Agent SDK runtime.
+- `deepseek-harness/` is the provider-neutral `@relay/plugin-events` bundle. It
+  installs Wait/Monitor tools for every DSH root conversation and exposes the exact
+  `POST /api/relay/events` ingress route.
 
 Connectors to external systems live here.
 
-Implemented:
-
-- [`codex/`](codex/README.md) provides the Codex CLI semantic-routing adapter and the
-  App Server Thread runtime used by the DSH integration.
+The three installable bundles are runtime-independent: Codex and Claude have no
+Relay plugin dependencies, while Events has no backend imports.
 
 Expected later provider-specific integrations:
 

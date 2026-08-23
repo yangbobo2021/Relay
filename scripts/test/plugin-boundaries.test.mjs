@@ -10,8 +10,6 @@ const domains = [
   "integrations/codex",
   "integrations/claude",
   "integrations/deepseek-harness",
-  "integrations/dsh-codex",
-  "integrations/dsh-claude",
   "packages/event-runtime-plugin",
 ];
 const sourceExtensions = new Set([".js", ".mjs", ".ts", ".tsx"]);
@@ -23,12 +21,6 @@ const allowedByDomain = new Map([
   ])],
   ["integrations/deepseek-harness", new Set([
     "@relay/plugin-event-runtime", "@relay/plugin-sdk",
-  ])],
-  ["integrations/dsh-codex", new Set([
-    "@relay/dsh-core", "@relay/plugin-codex", "@relay/plugin-sdk",
-  ])],
-  ["integrations/dsh-claude", new Set([
-    "@relay/dsh-core", "@relay/plugin-claude", "@relay/plugin-sdk",
   ])],
 ]);
 

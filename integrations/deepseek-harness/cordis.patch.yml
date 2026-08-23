@@ -1,11 +1,5 @@
-# Relay owns the replaceable workbench frame while DSH lacks generic side and
-# bottom panel extension points. All official sidebar/conversation occupants
-# continue to mount into the same slot contracts.
-- id: ui-layout
-  disabled: true
-
 - insert:
     - id: relay-runtime-host
-      name: '@relay/dsh-core'
+      name: '@relay/plugin-events'
       config:
         pollIntervalMs: 1000

@@ -11,10 +11,9 @@ This report covers the current Relay/Codex parity target:
 - Permission selector behavior after a failed permission switch.
 - Model and reasoning effort selection.
 
-Relay intentionally still injects its own dynamic tools:
-
-- `relay_wait_for_event`
-- `relay_cancel_waits`
+This report predates the independent-plugin split. Relay no longer injects named
+Events tools from the Codex plugin. Any installed DSH plugin contributes ordinary
+DSH tool schemas, which the Codex adapter maps generically into the `dsh` namespace.
 
 The only currently exposed `codex_app` namespace tool is:
 

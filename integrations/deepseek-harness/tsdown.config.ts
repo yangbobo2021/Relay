@@ -3,7 +3,7 @@ import { basename, dirname, resolve } from 'node:path'
 import type { UserConfig } from 'tsdown'
 import { transform } from 'lightningcss'
 
-const ID = '@relay/dsh-core'
+const ID = '@relay/plugin-events'
 const CSS_MODULE = '\0relay-css-module:'
 const GLOBAL_CSS = '\0relay-global-css:'
 const VIRTUAL_SUFFIX = '.mjs'
@@ -45,7 +45,6 @@ const hostConfig: UserConfig = {
   name: `${ID}/host`,
   entry: {
     'host-plugin': 'host-plugin.js',
-    runtime: 'runtime.js',
     'typert.host': 'typert.host.js',
   },
   outDir: 'lib',
@@ -127,12 +126,4 @@ const clientConfig: UserConfig = {
   },
 }
 
-const clientApiConfig: UserConfig = {
-  ...clientConfig,
-  name: `${ID}/client-api`,
-  entry: { 'client-api': 'src/client/api.ts' },
-  format: 'esm',
-  outputOptions: { entryFileNames: 'client-api.js' },
-}
-
-export default [hostConfig, clientConfig, clientApiConfig]
+export default [hostConfig, clientConfig]

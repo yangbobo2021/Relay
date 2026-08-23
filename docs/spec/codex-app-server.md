@@ -69,7 +69,7 @@ never replayed into Codex as model context. Their default visibility follows the
 - `CXS-024`: DSH auxiliary model calls, including automatic Session title generation
   and context compaction, must never run on the Session's bound Codex Thread. Each
   call uses an unlinked ephemeral Thread with read-only sandbox, `never` approval,
-  no Relay dynamic tools and purpose-scoped instructions. Auxiliary output returns
+  no DSH-contributed tools and purpose-scoped instructions. Auxiliary output returns
   only to the owning DSH service and must not append conversation activity. Failure
   retains DSH's native deterministic fallback and cannot replace the business answer.
 - `CXS-025`: A persisted Codex activity row must expose read-only App Server
@@ -80,8 +80,9 @@ never replayed into Codex as model context. Their default visibility follows the
   surface is currently `load_workspace_dependencies`, which is read-only and returns
   the bundled workspace runtime paths. `automation_update`, `open_in_codex`,
   `navigate_to_codex_page`, and `read_thread_terminal` are intentionally not declared
-  until Relay has real Host implementations. The Relay-specific
-  `relay_wait_for_event` and `relay_cancel_waits` tools remain separately injected.
+  until Relay has real Host implementations. Tools contributed by any installed DSH
+  plugin are exposed through the generic `dsh` App Server namespace and execute via
+  the owning Agent's standard DSH tool runtime. Codex contains no Events tool names.
 
 ## Relay Event Continuation
 

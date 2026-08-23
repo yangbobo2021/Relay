@@ -5,8 +5,8 @@ relay_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dsh_root="$relay_root/upstream/deepseek-harness"
 plugin_roots=(
   "$relay_root/integrations/deepseek-harness"
-  "$relay_root/integrations/dsh-codex"
-  "$relay_root/integrations/dsh-claude"
+  "$relay_root/integrations/codex"
+  "$relay_root/integrations/claude"
 )
 dsh_commit="$(git -C "$dsh_root" rev-parse HEAD)"
 
@@ -45,6 +45,24 @@ for plugin_root in "${plugin_roots[@]}"; do
   (cd "$plugin_root" && npm run build)
 done
 
+# Migrate profiles created before the three independent package names. The
+# allowlist prevents this launcher from touching any unrelated user plugin.
+dsh_home="${DSH_HOME:-$HOME/.dsh}"
+profile_manifest="$dsh_home/profiles/web/package.json"
+legacy_packages=(
+  "relay-dsh-plugin"
+  "@relay/dsh-core"
+  "@relay/dsh-codex"
+  "@relay/dsh-claude"
+)
+if [[ -f "$profile_manifest" ]]; then
+  for legacy_package in "${legacy_packages[@]}"; do
+    if node -e 'const p=require(process.argv[1]); process.exit(p.dependencies?.[process.argv[2]] ? 0 : 1)' "$profile_manifest" "$legacy_package"; then
+      pnpm --dir "$dsh_root" dsh plugin --profile web remove "$legacy_package"
+    fi
+  done
+fi
+
 build_marker="$dsh_root/node_modules/.cache/relay-dsh-build-commit"
 if [[ ! -f "$dsh_root/apps/web/dist/index.html" \
   || ! -f "$dsh_root/apps/cli/lib/bin.js" \
@@ -59,10 +77,11 @@ pnpm --dir "$dsh_root" dsh plugin --profile web add "${plugin_roots[@]}"
 
 # The source-mode DSH loader resolves plugin names from the upstream workspace.
 mkdir -p "$dsh_root/node_modules/@relay"
-for package in dsh-core dsh-codex dsh-claude; do
+for package in plugin-events plugin-codex plugin-claude; do
   case "$package" in
-    dsh-core) source="$relay_root/integrations/deepseek-harness" ;;
-    *) source="$relay_root/integrations/$package" ;;
+    plugin-events) source="$relay_root/integrations/deepseek-harness" ;;
+    plugin-codex) source="$relay_root/integrations/codex" ;;
+    plugin-claude) source="$relay_root/integrations/claude" ;;
   esac
   target="$dsh_root/node_modules/@relay/$package"
   rm -rf "$target"
