@@ -1,6 +1,12 @@
 - id: directory-picker
   disabled: true
 
+# Relay owns the replaceable workbench frame while DSH lacks generic side and
+# bottom panel extension points. All official sidebar/conversation occupants
+# continue to mount into the same slot contracts.
+- id: ui-layout
+  disabled: true
+
 - insert:
     # Keep workspace selection inside the Web UI so remote clients can use it.
     - id: relay-directory-picker-browse

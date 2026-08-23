@@ -1,33 +1,26 @@
 {
   "name": "relay-dsh-plugin",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
-  "main": "host-plugin.js",
+  "main": "lib/host-plugin.js",
+  "scripts": {
+    "build": "tsdown --config tsdown.config.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
   "exports": {
-    ".": "./host-plugin.js",
+    ".": "./lib/host-plugin.js",
     "./client": "./lib/client.js",
-    "./typert": "./typert.host.js",
+    "./typert": "./lib/typert.host.js",
     "./package.json": "./package.json"
   },
   "files": [
-    "advanced-debug-preference.mjs",
-    "agent-bridge.js",
-    "claude-adapter.js",
-    "claude-link-store.js",
-    "claude-tools.js",
-    "codex-adapter.js",
-    "codex-image.js",
-    "codex-link-store.js",
-    "codex-tools.js",
     "cordis.patch.yml",
-    "event-ingress.js",
-    "host-plugin.js",
-    "inbox-adapter.js",
     "lib/client.js",
     "lib/client.js.map",
-    "management-gateway.js",
-    "typert.host.js"
+    "lib/host-plugin.js",
+    "lib/host-plugin.js.map",
+    "lib/typert.host.js",
+    "lib/typert.host.js.map"
   ],
   "dsh": {
     "client": {
@@ -38,7 +31,9 @@
         "@deepseek-ai/dsh-client-runtime",
         "@deepseek-ai/dsh-client-ui-conversation",
         "@deepseek-ai/dsh-client-ui-primitives",
-        "@deepseek-ai/dsh-client-ui-settings"
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-theme"
       ],
       "platform": "web"
     },
@@ -47,23 +42,32 @@
     }
   },
   "dependencies": {
-    "@deepseek-ai/dsh-api-remotes": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-agent": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-locale": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-connection": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-runtime": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-ui-conversation": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-ui-directory-picker-browse": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-ui-primitives": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-ui-settings": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-client-ui-slots": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-host-directory-picker-browse": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-host-webserver": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-llm": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-session": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-tools": "0.1.0-rc.5",
-    "@deepseek-ai/dsh-typert-protocol": "0.1.0-rc.5",
-    "react": "^18.2.0",
-    "zod": "^4.4.3"
+    "@xterm/addon-fit": "0.11.0",
+    "@xterm/xterm": "6.0.0",
+    "zod": "4.4.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": ">=0.1.0-rc.5 <0.2.0",
+    "@deepseek-ai/dsh-session": ">=0.1.0-rc.5 <0.2.0",
+    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.5 <0.2.0",
+    "@deepseek-ai/dsh-typert-protocol": ">=0.1.0-rc.5 <0.2.0",
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-llm": { "optional": true },
+    "@deepseek-ai/dsh-session": { "optional": true },
+    "@deepseek-ai/dsh-tools": { "optional": true },
+    "@deepseek-ai/dsh-typert-protocol": { "optional": true },
+    "react": { "optional": true }
+  },
+  "devDependencies": {
+    "@relay/plugin-claude": "0.1.0",
+    "@relay/plugin-codex": "0.1.0",
+    "@relay/plugin-event-runtime": "0.1.0",
+    "@relay/plugin-sdk": "0.1.0",
+    "@types/react": "~18.3.1",
+    "lightningcss": "1.32.0",
+    "tsdown": "0.22.2",
+    "typescript": "6.0.3"
   }
 }

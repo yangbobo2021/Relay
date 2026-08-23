@@ -12,13 +12,21 @@ export const CODEX_ACTIVITY_EVENT = "relay-codex/activity";
 const CODEX_AUXILIARY_THREAD_SOURCE = "relay.codex.auxiliary";
 
 export class CodexDshAdapter extends LlmAdapter {
-  constructor({ runtime, ready, linkStore = null, attachments = null, logger = console }) {
+  constructor({
+    runtime,
+    ready,
+    linkStore = null,
+    attachments = null,
+    logger = console,
+    dynamicTools = CODEX_DYNAMIC_TOOLS,
+  }) {
     super();
     this.runtime = runtime;
     this.ready = ready;
     this.logger = logger;
     this.linkStore = linkStore;
     this.attachments = attachments;
+    this.dynamicTools = dynamicTools;
     this.links = new Map();
     this.settings = new Map();
     this.pendingThreads = new Map();
@@ -35,7 +43,7 @@ export class CodexDshAdapter extends LlmAdapter {
 
   async listModels() {
     await this.ready;
-    return [...this.runtime.models]
+    return runtimeModels(this.runtime)
       .sort((left, right) => Number(Boolean(right.isDefault)) - Number(Boolean(left.isDefault)))
       .map((model) => ({
         provider: CODEX_PROVIDER,
@@ -48,7 +56,7 @@ export class CodexDshAdapter extends LlmAdapter {
 
   async resolveModel(provider, model) {
     await this.ready;
-    const info = this.runtime.models.find((candidate) => candidate.id === model);
+    const info = runtimeModels(this.runtime).find((candidate) => candidate.id === model);
     return {
       provider,
       id: model,
@@ -89,7 +97,8 @@ export class CodexDshAdapter extends LlmAdapter {
     const key = String(sessionId);
     const existing = this.settings.get(key);
     if (existing) return existing;
-    const model = this.runtime.models.find((candidate) => candidate.isDefault) ?? this.runtime.models[0];
+    const models = runtimeModels(this.runtime);
+    const model = models.find((candidate) => candidate.isDefault) ?? models[0];
     const config = {
       model: model?.id ?? "gpt-5-codex",
       effort: model?.defaultReasoningEffort ?? null,
@@ -107,8 +116,7 @@ export class CodexDshAdapter extends LlmAdapter {
     this.settings.set(key, next);
     const threadId = this.links.get(key);
     if (threadId) {
-      const session = this.runtime.sessions.get(threadId);
-      if (session) Object.assign(session, next);
+      patchRuntimeSession(this.runtime, threadId, next);
     }
     this.persistLink(key);
     return structuredClone(next);
@@ -127,9 +135,9 @@ export class CodexDshAdapter extends LlmAdapter {
 
   async createOrResumeThread(sessionId) {
     await this.ready;
-    const settings = { ...this.configuration(sessionId), dynamicTools: CODEX_DYNAMIC_TOOLS };
+    const settings = { ...this.configuration(sessionId), dynamicTools: this.dynamicTools };
     const linked = this.links.get(sessionId);
-    if (linked && this.runtime.sessions.has(linked)) return linked;
+    if (linked && hasRuntimeSession(this.runtime, linked)) return linked;
     if (linked) {
       try {
         await this.runtime.resumeSession(linked, settings);
@@ -188,7 +196,7 @@ export class CodexDshAdapter extends LlmAdapter {
       const candidate = message.params?.threadId ?? message.params?.thread?.id;
       if (candidate === threadId) queue.push(message);
     };
-    this.runtime.on("activity", onActivity);
+    const stopActivity = subscribeRuntimeActivity(this.runtime, onActivity);
 
     let turnId = null;
     try {
@@ -232,7 +240,7 @@ export class CodexDshAdapter extends LlmAdapter {
       }
       throw error;
     } finally {
-      this.runtime.off("activity", onActivity);
+      stopActivity();
       queue.close();
     }
   }
@@ -263,7 +271,7 @@ export class CodexDshAdapter extends LlmAdapter {
       const candidate = message.params?.threadId ?? message.params?.thread?.id;
       if (candidate === threadId) queue.push(message);
     };
-    this.runtime.on("activity", onActivity);
+    const stopActivity = subscribeRuntimeActivity(this.runtime, onActivity);
 
     let turnId = null;
     try {
@@ -312,7 +320,7 @@ export class CodexDshAdapter extends LlmAdapter {
       }
       throw error;
     } finally {
-      this.runtime.off("activity", onActivity);
+      stopActivity();
       queue.close();
       await this.runtime.releaseSession(threadId);
     }
@@ -629,6 +637,29 @@ function isRelayActivation(source) {
 
 function compact(value) {
   return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined && item !== null));
+}
+
+function runtimeModels(runtime) {
+  return typeof runtime.listModels === "function" ? runtime.listModels() : [...runtime.models];
+}
+
+function hasRuntimeSession(runtime, sessionId) {
+  return typeof runtime.hasSession === "function"
+    ? runtime.hasSession(sessionId)
+    : runtime.sessions.has(sessionId);
+}
+
+function patchRuntimeSession(runtime, sessionId, patch) {
+  if (typeof runtime.patchSession === "function") return runtime.patchSession(sessionId, patch);
+  const session = runtime.sessions.get(sessionId);
+  if (session) Object.assign(session, patch);
+  return Boolean(session);
+}
+
+function subscribeRuntimeActivity(runtime, listener) {
+  if (typeof runtime.subscribeActivity === "function") return runtime.subscribeActivity(listener);
+  runtime.on("activity", listener);
+  return () => runtime.off("activity", listener);
 }
 
 function effectivePreset(session) {

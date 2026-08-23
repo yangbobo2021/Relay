@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 
-import { validateRoutingDecision } from "../../event-router/decision.mjs";
+import { validateRoutingDecision } from "@relay/event-router";
 
 export class RelayRuntime {
   constructor({

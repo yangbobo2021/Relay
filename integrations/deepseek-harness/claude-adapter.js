@@ -28,7 +28,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
 
   async listModels() {
     await this.ready;
-    return [...this.runtime.models]
+    return runtimeModels(this.runtime)
       .sort((left, right) => Number(Boolean(right.isDefault)) - Number(Boolean(left.isDefault)))
       .map(model => ({
         provider: CLAUDE_PROVIDER,
@@ -41,7 +41,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
 
   async resolveModel(provider, model) {
     await this.ready;
-    const info = this.runtime.models.find(candidate => candidate.id === model);
+    const info = runtimeModels(this.runtime).find(candidate => candidate.id === model);
     return {
       provider,
       id: model,
@@ -80,7 +80,8 @@ export class ClaudeDshAdapter extends LlmAdapter {
     const key = String(sessionId);
     const existing = this.settings.get(key);
     if (existing) return existing;
-    const model = this.runtime.models.find(candidate => candidate.isDefault) ?? this.runtime.models[0];
+    const models = runtimeModels(this.runtime);
+    const model = models.find(candidate => candidate.isDefault) ?? models[0];
     const config = {
       model: model?.id ?? "sonnet",
       effort: model?.defaultReasoningEffort ?? "medium",
@@ -100,8 +101,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
     this.settings.set(key, next);
     const claudeSessionId = this.links.get(key);
     if (claudeSessionId) {
-      const session = this.runtime.sessions.get(claudeSessionId);
-      if (session) Object.assign(session, next);
+      patchRuntimeSession(this.runtime, claudeSessionId, next);
     }
     this.persistLink(key);
     return structuredClone(next);
@@ -122,7 +122,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
     await this.ready;
     const settings = { ...this.configuration(sessionId) };
     const linked = this.links.get(sessionId);
-    if (linked && this.runtime.sessions.has(linked)) return linked;
+    if (linked && hasRuntimeSession(this.runtime, linked)) return linked;
     if (linked) {
       try {
         await this.runtime.resumeSession(linked, settings);
@@ -180,7 +180,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
       const candidate = message.params?.sessionId ?? message.params?.session?.id;
       if (candidate === claudeSessionId) queue.push(message);
     };
-    this.runtime.on("activity", onActivity);
+    const stopActivity = subscribeRuntimeActivity(this.runtime, onActivity);
 
     let turnId = null;
     try {
@@ -223,7 +223,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
       }
       throw error;
     } finally {
-      this.runtime.off("activity", onActivity);
+      stopActivity();
       queue.close();
     }
   }
@@ -251,7 +251,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
       const candidate = message.params?.sessionId ?? message.params?.session?.id;
       if (candidate === claudeSessionId) queue.push(message);
     };
-    this.runtime.on("activity", onActivity);
+    const stopActivity = subscribeRuntimeActivity(this.runtime, onActivity);
     let turnId = null;
     try {
       const started = await this.runtime.sendMessage(claudeSessionId, {
@@ -287,7 +287,7 @@ export class ClaudeDshAdapter extends LlmAdapter {
         ? { type: "finish", reason: { kind: "error", failure: { message: completedTurn.error?.message ?? `Claude ${options.purpose} failed`, code: "CLAUDE_AUXILIARY_FAILED" } } }
         : { type: "finish", reason: { kind: "stop" } };
     } finally {
-      this.runtime.off("activity", onActivity);
+      stopActivity();
       queue.close();
       await this.runtime.releaseSession(claudeSessionId);
     }
@@ -543,6 +543,29 @@ function isRelayActivation(source) {
 
 function compact(value) {
   return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined && item !== null));
+}
+
+function runtimeModels(runtime) {
+  return typeof runtime.listModels === "function" ? runtime.listModels() : [...runtime.models];
+}
+
+function hasRuntimeSession(runtime, sessionId) {
+  return typeof runtime.hasSession === "function"
+    ? runtime.hasSession(sessionId)
+    : runtime.sessions.has(sessionId);
+}
+
+function patchRuntimeSession(runtime, sessionId, patch) {
+  if (typeof runtime.patchSession === "function") return runtime.patchSession(sessionId, patch);
+  const session = runtime.sessions.get(sessionId);
+  if (session) Object.assign(session, patch);
+  return Boolean(session);
+}
+
+function subscribeRuntimeActivity(runtime, listener) {
+  if (typeof runtime.subscribeActivity === "function") return runtime.subscribeActivity(listener);
+  runtime.on("activity", listener);
+  return () => runtime.off("activity", listener);
 }
 
 function effectivePreset(session) {

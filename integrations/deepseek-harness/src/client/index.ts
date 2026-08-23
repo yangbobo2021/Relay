@@ -18,6 +18,9 @@ import { codexActivityDefinition } from './codex-activity.ts'
 import { WaitingEventsSection, type ManagementSnapshot, type WaitingEventsInjected } from './WaitingEventsSection.tsx'
 import { en, zh, type RelayManagementLocaleKey } from './locales.ts'
 import { RELAY_REMOTE } from './remote.ts'
+import { apply as applyWorkbenchLayout } from './workbench/layout/index.ts'
+import { apply as applyFileExplorer, type WorkspaceFilesWire } from './workbench/files/index.ts'
+import { apply as applyWebTerminal, type WorkbenchTerminalWire } from './workbench/terminal/index.ts'
 
 declare module '@deepseek-ai/dsh-client-ui-slots' {
   interface LocaleNamespaceMap {
@@ -41,16 +44,29 @@ interface ConnectionFace {
   api: { sessions: Pick<IApiClient['sessions'], 'models' | 'selectModel'> }
 }
 
-export const inject = ['slots', 'locale', 'remote', 'sessions', 'connection', 'conversationEvents']
+interface ModelGroup {
+  readonly id: string
+  readonly models: readonly {
+    readonly id: string
+    readonly reasoning?: { readonly defaultEffort?: string }
+  }[]
+}
+
+export const inject = ['slots', 'theme', 'locale', 'remote', 'sessions', 'connection', 'conversationEvents']
 
 export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
+  applyWorkbenchLayout(ctx)
   const unmount = await ctx.remote.$mount(RELAY_REMOTE as TypertRemoteContribution)
   const remote = ctx.get('remote.relayManagement' as never) as RelayManagementRemote | undefined
-  const connection = ctx.get('connection' as never) as ConnectionFace
-  if (remote === undefined) {
+  const workspaceFiles = ctx.get('remote.relayWorkspaceFiles' as never) as WorkspaceFilesWire | undefined
+  const workbenchTerminal = ctx.get('remote.relayWorkbenchTerminal' as never) as WorkbenchTerminalWire | undefined
+  const connection = ctx.get('connection' as never) as unknown as ConnectionFace
+  if (workspaceFiles === undefined) {
     await unmount()
-    throw new Error('Relay management Remote did not mount')
+    throw new Error('Relay workspace Remote capability did not mount')
   }
+  applyFileExplorer(ctx, workspaceFiles)
+  if (workbenchTerminal !== undefined) applyWebTerminal(ctx, workbenchTerminal)
 
   ctx.conversationEvents.register(codexActivityDefinition)
   ctx.conversationEvents.register(claudeActivityDefinition)
@@ -65,17 +81,27 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
 
   ctx.effect(() => ctx.locale.register('relay.management', { zh, en }), 'relay-management: dictionaries')
   const t = ctx.locale.bind('relay.management') as WaitingEventsInjected['t']
-  const unwrap = <T>(result: RemoteResult<T>): T => {
-    if (result.ok && result.value !== undefined) return result.value
-    throw new Error(result.error?.message ?? 'Relay management request failed')
+  if (remote !== undefined) {
+    const unwrap = <T>(result: RemoteResult<T>): T => {
+      if (result.ok && result.value !== undefined) return result.value
+      throw new Error(result.error?.message ?? 'Relay management request failed')
+    }
+    const injected = (): WaitingEventsInjected => ({
+      list: async () => unwrap(await remote.list()),
+      cancel: async (sessionId) => { unwrap(await remote.cancel(sessionId)) },
+      runNow: async (monitorId) => { unwrap(await remote.runNow(monitorId)) },
+      openSession: (sessionId) => { ctx.sessions.open(sessionId as SessionId) },
+      t,
+    })
+    ctx.slots.inject('settings.section', () => ctx.slots.register({
+      name: 'settings.section',
+      id: 'relay-waits',
+      order: 20,
+      label: () => t('nav'),
+      locale: 'relay.management',
+      inject: injected,
+    }, WaitingEventsSection))
   }
-  const injected = (): WaitingEventsInjected => ({
-    list: async () => unwrap(await remote.list()),
-    cancel: async (sessionId) => { unwrap(await remote.cancel(sessionId)) },
-    runNow: async (monitorId) => { unwrap(await remote.runNow(monitorId)) },
-    openSession: (sessionId) => { ctx.sessions.open(sessionId as SessionId) },
-    t,
-  })
 
   const advancedDebug = new AdvancedDebugPreference()
   const advancedDebugHooks: Pick<AdvancedDebugInjected, 'hooks'> = {
@@ -125,15 +151,6 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
     }
   })
 
-  ctx.slots.inject('settings.section', () => ctx.slots.register({
-    name: 'settings.section',
-    id: 'relay-waits',
-    order: 20,
-    label: () => t('nav'),
-    locale: 'relay.management',
-    inject: injected,
-  }, WaitingEventsSection))
-
   const selecting = new Set<string>()
   const ensurePresetModel = async (sessionId: SessionId, agentPreset: string | undefined): Promise<void> => {
     if (selecting.has(sessionId)) return
@@ -146,10 +163,11 @@ export async function apply(ctx: ClientContext): Promise<() => Promise<void>> {
         || result.value.current.provider === 'relay-claude'
       if (targetProvider !== undefined && result.value.current.provider === targetProvider) return
       if (targetProvider === undefined && !currentIsRelayAgent) return
-      const group = result.value.groups.find(candidate => targetProvider !== undefined
+      const group = (result.value.groups as readonly ModelGroup[]).find(candidate => targetProvider !== undefined
         ? candidate.id === targetProvider
         : candidate.id !== 'relay-codex' && candidate.id !== 'relay-claude')
-      const model = group?.models[0]
+      if (group === undefined) return
+      const model = group.models[0]
       if (model === undefined) return
       await connection.api.sessions.selectModel({
         sessionId,

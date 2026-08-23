@@ -28,7 +28,6 @@ const NATIVE_CODEX_CAPABILITIES = {
     "thread/environment/connected",
     "thread/environment/disconnected",
     "rawResponseItem/completed",
-    "command/exec/outputDelta",
     "externalAgentConfig/import/progress",
     "thread/compacted",
     "windows/worldWritableWarning",
@@ -130,6 +129,7 @@ export class CodexAppServerClient extends EventEmitter {
     output.on("line", (line) => this.handleLine(line));
     this.process.stderr.setEncoding("utf8");
     this.process.stderr.on("data", (chunk) => this.emit("diagnostic", String(chunk)));
+    this.process.stdin.on("error", (error) => this.handleStdinError(error));
     this.process.once("error", (error) => this.failAll(error));
     this.process.once("exit", (code, signal) => {
       this.process = null;
@@ -152,7 +152,7 @@ export class CodexAppServerClient extends EventEmitter {
     }
     const id = this.nextRequestId++;
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
+      const timer = timeoutMs === null ? null : setTimeout(() => {
         this.pending.delete(id);
         reject(new Error(`${method} timed out after ${timeoutMs}ms`));
       }, timeoutMs);
@@ -229,6 +229,11 @@ export class CodexAppServerClient extends EventEmitter {
       throw new Error("codex app-server is not running");
     }
     this.process.stdin.write(`${JSON.stringify(message)}\n`);
+  }
+
+  handleStdinError(error) {
+    this.emit("diagnostic", `codex app-server stdin failed: ${error.message}`);
+    this.failAll(error);
   }
 
   failAll(error) {

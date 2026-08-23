@@ -2,6 +2,16 @@
   "name": "relay",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "packages/plugin-sdk",
+    "packages/event-router",
+    "packages/runtime",
+    "packages/monitor-runtime",
+    "packages/event-runtime-plugin",
+    "integrations/codex",
+    "integrations/claude",
+    "integrations/deepseek-harness"
+  ],
   "engines": {
     "node": ">=22.13"
   },
@@ -10,15 +20,20 @@
     "eval:routing": "node experiments/event-routing/run.mjs",
     "test:codex": "node --test integrations/codex/test/*.test.mjs integrations/deepseek-harness/test/*.test.mjs",
     "test:claude": "node --test integrations/claude/test/*.test.mjs integrations/deepseek-harness/test/claude-adapter.test.mjs scripts/test/install-dsh-presets.test.mjs",
+    "test:package:plugins": "node scripts/verify-plugin-packages.mjs",
+    "test:package:dsh": "node scripts/verify-dsh-plugin-package.mjs",
     "experiment:dsh": "npm run experiment:dsh-bundle && npm run experiment:dsh-cold-resume && npm run experiment:dsh-runtime && npm run experiment:dsh-timer",
     "start:web": "scripts/start-relay-web.sh",
     "experiment:dsh-bundle": "node dsh-lab/cold-resume/bundle-smoke.mjs",
     "experiment:dsh-cold-resume": "cd upstream/deepseek-harness && ./node_modules/.bin/tsx --tsconfig tsconfig.host.json ../../dsh-lab/cold-resume/run.ts",
     "experiment:dsh-runtime": "cd upstream/deepseek-harness && ./node_modules/.bin/tsx --tsconfig tsconfig.host.json ../../dsh-lab/cold-resume/runtime-run.ts",
     "experiment:dsh-timer": "cd upstream/deepseek-harness && ./node_modules/.bin/tsx --tsconfig tsconfig.host.json ../../dsh-lab/cold-resume/timer-run.ts",
-    "test": "node --test apps/relay-worker/test/*.test.mjs experiments/event-routing/*.test.mjs integrations/claude/test/*.test.mjs integrations/codex/test/*.test.mjs integrations/deepseek-harness/test/*.test.mjs packages/event-router/test/*.test.mjs packages/monitor-runtime/test/*.test.mjs packages/runtime/test/*.test.mjs scripts/test/*.test.mjs"
+    "test": "node --test apps/relay-worker/test/*.test.mjs experiments/event-routing/*.test.mjs integrations/claude/test/*.test.mjs integrations/codex/test/*.test.mjs integrations/deepseek-harness/test/*.test.mjs packages/event-router/test/*.test.mjs packages/event-runtime-plugin/test/*.test.mjs packages/monitor-runtime/test/*.test.mjs packages/plugin-sdk/test/*.test.mjs packages/runtime/test/*.test.mjs scripts/test/*.test.mjs"
   },
   "optionalDependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.3.233"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
   }
 }

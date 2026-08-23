@@ -21,13 +21,14 @@ Relay is not a generic chatbot and not just a wrapper around an LLM API. Its pur
 - `fixtures/` contains sanitized test fixtures only.
 - `scripts/` contains developer automation.
 - `tests/` contains cross-package and integration tests.
-- `upstream/deepseek-harness/` is reserved for a local clone of `https://github.com/deepseek-ai/deepseek-harness`. Treat it as read-only upstream reference unless a task explicitly asks to patch or fork DSH.
+- `upstream/deepseek-harness/` is reserved for a local clone of `https://github.com/deepseek-ai/deepseek-harness`. It is an immutable official reference; never patch, commit, branch, tag, or push from this checkout.
 - `dsh-lab/` contains Relay-owned notes, compatibility tests, adapters, patches, and reproduction cases related to DeepSeek Harness.
 
 ## DSH Working Rules
 
-- Follow `docs/spec/repository-workflow.md` for DSH remote roles, durable branches,
-  upstream synchronization, contribution preparation, and deletion safeguards.
+- Follow `docs/spec/dsh-upstream-boundary.md` and
+  `docs/spec/repository-workflow.md` for the immutable DSH boundary and official
+  synchronization workflow.
 - Do not copy private Relay product code into `upstream/deepseek-harness/`.
 - Do not commit the cloned DSH repository into Relay. It is intentionally ignored by Git.
 - Put Relay-owned DSH analysis, compatibility notes, small fixtures, and patch files under `dsh-lab/`.

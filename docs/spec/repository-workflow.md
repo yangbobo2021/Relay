@@ -2,116 +2,80 @@
 
 ## Purpose
 
-Relay and DeepSeek Harness have separate Git histories. This specification keeps
-local development, downstream maintenance, upstream synchronization, and possible
-future contributions consistent across human and Agent work.
+Relay and DeepSeek Harness have separate Git histories. Relay is the only product
+repository. The nested DSH checkout is a synchronized, read-only compatibility
+reference governed by the [DSH Upstream Boundary](dsh-upstream-boundary.md).
 
 ## Repository Boundaries
 
-The repository root is the Relay repository. Relay product code, DSH adapters,
-compatibility notes, and reproducible probes belong here.
+The Relay repository owns all product code, DSH plugins, adapters, compatibility
+shims, tests, specifications, and reproducible probes.
 
-`upstream/deepseek-harness/` is an ignored nested checkout of DeepSeek Harness. DSH
-source changes are committed only in that repository. Relay secrets, customer data,
-databases, generated logs, and private product code must never enter it.
+`upstream/deepseek-harness/` is an ignored checkout of the official repository:
 
-## DSH Remotes And Durable Branches
+```text
+https://github.com/deepseek-ai/deepseek-harness.git
+```
 
-The DSH checkout uses these remote roles:
+It is not a Relay submodule, release artifact, writable downstream, or place to
+maintain product patches. Its checked-out commit is only an input to Relay builds and
+compatibility verification.
 
-- `upstream`: `https://github.com/deepseek-ai/deepseek-harness.git`, the official
-  source used for fetch and synchronization;
-- `origin`: `git@github.com:yangbobo2021/deepseek-harness.git`, the writable fork.
+## Official Checkout
 
-The durable branches have fixed responsibilities:
+The checkout has one remote role:
 
-- `master` mirrors `upstream/master`. It receives no Relay-specific or other custom
-  commits and must not be force-pushed, rebased after publication, or deleted.
-- `relay/main` is the long-lived self-use integration branch. Accepted local features
-  are merged into it. Published history is not rebased or force-pushed, and the
-  branch must not be deleted.
-- `codex/*` branches contain focused changes. They may be rebased onto
-  `upstream/master` and force-pushed only with `--force-with-lease`.
+- `origin` fetches the official DSH repository.
 
-The fork's `master` remains clean even if an upstream contribution is rejected.
-Rejected or downstream-only work continues through `relay/main` without changing
-the meaning of `master`.
+Relay does not configure a Fork remote. The local `origin` push URL is deliberately
+disabled, and normal synchronization leaves the checkout detached at the fetched
+official `master` commit. A local DSH branch is never an integration branch.
 
-## Local Development
+Run the repository helper to create or update the checkout:
 
-New DSH work starts from the branch that owns its intended lifetime:
+```bash
+scripts/sync-dsh.sh
+```
 
-1. Fetch `upstream` and create a focused `codex/*` branch from the required official
-   revision or from an explicitly documented dependent feature branch.
-2. Keep independent behavior in independent commits. Shared prerequisites precede
-   their consumers.
-3. Include tests and affected package documentation with the behavior they verify.
-4. Record the tested official DSH commit in Relay compatibility notes.
-5. Push feature branches to `origin`; never push development commits to `upstream`.
+The helper requires a clean DSH worktree, corrects legacy remote configuration,
+fetches official `master`, checks out the fetched commit detached, and prints the
+exact revision. It must stop rather than overwrite local DSH changes.
 
-Generated bundles, dependency directories, local state, editor files, temporary QA
-artifacts, and screenshots with machine-local references are not source commits.
-Useful QA evidence is sanitized, moved under an owned documentation directory, and
-committed separately from implementation.
+## Relay Development
 
-## Synchronizing Official Updates
+All DSH-facing implementation belongs under one of these Relay-owned locations:
 
-Synchronization requires a clean worktree.
+- `integrations/deepseek-harness/` for the installable plugin and runtime adapters;
+- `dsh-lab/` for compatibility notes, fixtures, probes, and patch reproductions;
+- `docs/` for specifications, design decisions, and operating guidance;
+- Relay test directories for cross-boundary contract coverage.
 
-1. Fetch `upstream`.
-2. Fast-forward local `master` to `upstream/master`; a non-fast-forward result is an
-   invariant violation that must be investigated instead of forced through.
-3. Push the updated `master` to `origin`.
-4. Merge `upstream/master` into `relay/main`, resolve conflicts, run affected checks,
-   and push `relay/main` to `origin`.
-5. Rebase short-lived `codex/*` contribution branches onto `upstream/master` when a
-   clean upstream comparison is required.
+When an official update changes an API, adapt the Relay plugin. Do not carry the
+compatibility fix as a DSH source commit. A generally useful missing extension point
+may be documented as an upstream proposal, but work on that proposal must use a
+separate clone and process outside Relay's official reference checkout.
 
-Long-lived `relay/main` uses merge for official updates so published downstream
-history remains stable. Short-lived `codex/*` branches may use rebase because
-their purpose is a clean review range.
+## Update Workflow
 
-## Upstream Contributions
-
-Before preparing a pull request, read the latest official `CONTRIBUTING.md` and
-repository instructions. At the DSH revision initially evaluated by Relay, external
-pull requests are not accepted; this policy may change and must be verified rather
-than assumed.
-
-An upstream pull request uses a clean `codex/*` branch based on current
-`upstream/master`. It contains only the commits needed by that contribution and no
-Relay-only integration, private information, generated output, or unrelated cleanup.
-The pull request targets `deepseek-ai/deepseek-harness:master` from the corresponding
-branch in `yangbobo2021/deepseek-harness`.
-
-If upstream accepts the change, synchronize `master` normally and retire the feature
-branch only after verifying the accepted behavior is present. If upstream declines
-or does not accept pull requests, merge the reviewed feature into `relay/main` and
-maintain it as downstream work.
+1. Require the Relay and DSH worktrees to be clean enough to identify intended
+   changes independently.
+2. Run `scripts/sync-dsh.sh` and record the printed DSH commit.
+3. Build and type-check `integrations/deepseek-harness` against that checkout.
+4. Install the packed plugin into a pristine official DSH profile.
+5. Run affected Relay tests and browser compatibility workflows.
+6. Record the tested official commit in the relevant Relay note or document.
 
 ## Mandatory Checklist
 
-Run this checklist before DSH commits, synchronization, pull requests, and branch
-deletion. A failed item stops the operation.
+- Confirm the Relay root with `git rev-parse --show-toplevel` before editing.
+- Confirm the DSH checkout has only the official `origin` fetch URL and a disabled
+  push URL.
+- Confirm DSH `HEAD` is detached at `origin/master` after synchronization.
+- Confirm `git -C upstream/deepseek-harness status --short` is empty before and
+  after compatibility work.
+- Do not stage, commit, tag, merge, rebase, or push from the DSH checkout.
+- Keep generated dependencies and build output ignored and out of Relay commits.
+- Put every persistent implementation or compatibility change in Relay-owned paths.
+- Record the exact official DSH commit used for compatibility claims.
 
-- Confirm repository identity with `git rev-parse --show-toplevel`; do not confuse
-  Relay with the nested DSH checkout.
-- Inspect `git status --short --branch`, `git branch -vv`, and `git remote -v`.
-- Confirm `origin` is the writable fork and `upstream` is the official repository.
-- Confirm custom work is not being committed on `master`.
-- Confirm staged files contain one intended change and exclude secrets, private Relay
-  code, generated bundles, dependency directories, local databases, logs, editor
-  files, and temporary QA output.
-- Run `git diff --cached --check`, affected tests, type checks, and repository-required
-  documentation or packaging checks before pushing.
-- Before synchronizing, require a clean worktree and fast-forward only `master`.
-- Before rebasing or force-pushing, require a short-lived `codex/*` branch and use
-  `--force-with-lease`; never rewrite `master` or `relay/main`.
-- Before deleting a branch, confirm it is neither `master` nor `relay/main`, its work
-  is reachable from an accepted destination or has an explicit retained backup, and
-  no open pull request or active worktree still uses it.
-- Before opening a pull request, re-read current upstream contribution policy and
-  verify the exact base repository, base branch, head fork, and head branch.
-
-Branch protection is a repository invariant, not cleanup preference. Automation must
-not delete or rewrite a durable branch merely because it appears merged or inactive.
+If any item fails, stop and restore the repository boundary before continuing.

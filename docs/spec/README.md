@@ -18,7 +18,11 @@ choice, but neither should redefine the requirements here.
 - [Trigger Monitoring](trigger-monitoring.md): dynamic condition observation and
   durable Event generation for systems that cannot push to Relay.
 - [Repository Workflow](repository-workflow.md): Relay and DSH repository ownership,
-  fork synchronization, contribution branches, and destructive-operation checks.
+  official checkout synchronization and development checks.
+- [DSH Upstream Boundary](dsh-upstream-boundary.md): mandatory immutability and
+  extension rules for the official DSH source checkout.
+- [Plugin System](plugin-system.md): manifests, capability interaction, lifecycle,
+  monorepo boundaries, distribution composition, and regression gates.
 
 ## Organization Rules
 
@@ -37,5 +41,5 @@ The specification grows with the product instead of predicting a final hierarchy
 6. Merge or reorganize documents when the conceptual boundaries change. Update all
    affected indexes in the same change.
 
-The current specification has eight distinct concerns, so they remain as files in one
+The current specification has ten distinct concerns, so they remain as files in one
 indexed directory. More levels are not justified yet.

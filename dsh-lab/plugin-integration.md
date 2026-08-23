@@ -3,29 +3,40 @@
 ## Reference
 
 - Repository: `https://github.com/deepseek-ai/deepseek-harness`
-- Commit: `47f943859bef60e4160492346772ded9b24f765a`
-- Package: `0.1.0-rc.5`
-- Reviewed: 2026-08-14
+- Source commit: `b150a551b8d465e31e418e1b2eaf5e79bbb7d28e`
+- Source package: `0.1.1-rc.2`
+- Installed package verification: `0.1.0-rc.8`
+- Reviewed: 2026-08-22
 
 DSH is a developer preview. Relay must pin tested revisions and keep DSH APIs behind
 an adapter.
 
 ## Conclusion
 
-Relay should be one installable DSH bundle composed from small Cordis plugins. DSH is
-the Agent runtime; Relay is a waiting, monitoring, routing, and external-message
-delivery subsystem. Relay is not the authority for task or conversation lifecycle.
+Relay should be one installable DSH distribution assembled from independently
+packaged Relay plugins. DSH is the Agent runtime; Relay is a waiting, monitoring,
+routing, and external-message delivery subsystem. Relay is not the authority for
+task or conversation lifecycle.
+
+Codex/Claude adapters, the workspace file view, and the App Server-backed terminal
+now ship from `integrations/deepseek-harness`. Relay references the official source
+commit directly and does not require a Fork. The temporary workbench root replacement
+is also delivered by the plugin; see
+[External DSH Workbench](../docs/design/dsh-external-workbench.md).
 
 The integration spans two planes:
 
 | Component | Plane | Responsibility |
 | --- | --- | --- |
-| `relay-runtime-host` | Host | SQLite, Event routing, Delivery Activations, recovery |
-| `relay-monitor-host` | Host | Durable scheduling and observer providers independent of live Agents |
-| `relay-router-dsh` | Host | Optional semantic-router adapter over DSH LLM services |
-| `relay-connector-*` | Host | Normalize email, IM, CI, and source Events |
-| `relay-agent-bridge` | Agent | Register/cancel Waits from ordinary Agent turns |
-| `relay-dsh-inbox` | Host | Inject Relay Events through DSH's shared Session resolver |
+| `relay.dsh.platform` | Host | DSH Delivery, logging, and workspace capabilities |
+| `relay.event-runtime` | Host | SQLite, Event routing, Waits, Monitors, and recovery |
+| `relay.execution.codex` | Host | Codex App Server sessions and terminal operations |
+| `relay.execution.claude` | Host | Claude SDK/CLI sessions |
+| `relay.dsh.composition` | Host/Agent | DSH LLM adapters, inbox bridge, management, and workbench |
+| `relay.distribution.dsh-web` | Loader | Declarative plugin selection and configuration |
+
+These components interact through the capability registry. No component imports
+another plugin's source or receives its concrete runtime/client instance.
 
 ## Session And Message Ownership
 

@@ -9,7 +9,9 @@ import { CodexDshAdapter, CODEX_ACTIVITY_EVENT } from "../codex-adapter.js";
 import { allowedRealPath, importCodexGeneratedImage, importCodexImage } from "../codex-image.js";
 import { CodexLinkStore } from "../codex-link-store.js";
 import { CODEX_DYNAMIC_TOOLS, handleCodexServerRequest } from "../codex-tools.js";
-import { createExactEventRouter, installCodexSessionEventType } from "../host-plugin.js";
+import { createExactEventRouter } from "@relay/plugin-event-runtime";
+
+import { installCodexSessionEventType } from "../host-plugin.js";
 
 test("the Codex preset streams reasoning and answers into the native DSH conversation", async () => {
   const runtime = new FakeRuntime();

@@ -1,0 +1,7 @@
+{
+  "name": "@relay/event-router",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": { ".": "./index.mjs" },
+  "files": ["index.mjs", "decision.mjs", "semantic.mjs", "decision.schema.json"]
+}

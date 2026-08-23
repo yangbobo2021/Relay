@@ -1,0 +1,8 @@
+{
+  "name": "@relay/plugin-codex",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": { ".": "./plugin.mjs" },
+  "files": ["plugin.mjs", "app-server-client.mjs", "session-runtime.mjs"],
+  "dependencies": { "@relay/plugin-sdk": "0.1.0" }
+}

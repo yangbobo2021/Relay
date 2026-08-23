@@ -92,6 +92,10 @@ async function handleDynamicTool(relayRuntime, runtime, request, agent) {
     return;
   }
   if (tool === "relay_wait_for_event") {
+    if (!relayRuntime) {
+      runtime.respondDynamicTool(request.id, false, "Relay Event Runtime is not installed.");
+      return;
+    }
     const eventType = requiredString(args.event_type, "event_type");
     const description = requiredString(args.description, "description");
     const waitId = `wait-${randomUUID()}`;
@@ -114,6 +118,10 @@ async function handleDynamicTool(relayRuntime, runtime, request, agent) {
     return;
   }
   if (tool === "relay_cancel_waits") {
+    if (!relayRuntime) {
+      runtime.respondDynamicTool(request.id, false, "Relay Event Runtime is not installed.");
+      return;
+    }
     relayRuntime.cancelWaits(agent.id);
     runtime.respondDynamicTool(request.id, true, "Active Relay waits were cancelled.");
     return;

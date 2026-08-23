@@ -1,0 +1,7 @@
+{
+  "name": "@relay/monitor-runtime",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": { ".": "./index.mjs" },
+  "files": ["index.mjs", "src"]
+}

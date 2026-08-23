@@ -37,6 +37,24 @@ test("JSON-RPC requests resolve, reject, and time out with their method context"
   client.process = null;
 });
 
+test("long-running App Server requests can disable the client timeout", async () => {
+  const writes = [];
+  const client = new CodexAppServerClient({ requestTimeoutMs: 5 });
+  client.process = {
+    stdin: {
+      writable: true,
+      write: (line) => writes.push(JSON.parse(line)),
+    },
+  };
+
+  const running = client.request("command/exec", {}, { timeoutMs: null });
+  await new Promise((resolve) => setTimeout(resolve, 15));
+  assert.equal(client.pending.get(writes[0].id)?.timer, null);
+  client.handleLine(JSON.stringify({ id: writes[0].id, result: { exitCode: 0 } }));
+  assert.deepEqual(await running, { exitCode: 0 });
+  client.process = null;
+});
+
 test("invalid protocol lines remain diagnostic and server requests stay interactive", () => {
   const client = new CodexAppServerClient();
   const diagnostics = [];
@@ -84,6 +102,7 @@ test("initialization advertises native Codex Desktop capabilities by default", a
     "  if (capabilities.mcpServerOpenaiFormElicitation !== false) process.exit(10)",
     "  if (!capabilities.extensions?.['io.modelcontextprotocol/ui']?.mimeTypes?.includes('text/html+skybridge')) process.exit(11)",
     "  if (!capabilities.optOutNotificationMethods?.includes('codex/event/task_started')) process.exit(12)",
+    "  if (capabilities.optOutNotificationMethods?.includes('command/exec/outputDelta')) process.exit(13)",
     "  process.stdout.write(JSON.stringify({ id: message.id, result: { userAgent: 'fixture' } }) + '\\n')",
     "})",
   ].join("\n");
@@ -120,5 +139,16 @@ test("initialization client identity and capabilities can be overridden", async 
   assert.equal(writes[0].params.capabilities.requestAttestation, false);
   client.handleLine(JSON.stringify({ id: writes[0].id, result: { userAgent: "fixture" } }));
   await initialized;
+  client.process = null;
+});
+
+test("a closed App Server stdin rejects pending work without an unhandled stream error", async () => {
+  const client = new CodexAppServerClient({ requestTimeoutMs: 1_000 });
+  client.process = { stdin: { writable: true, write() {} } };
+  const pending = client.request("model/list");
+  const error = Object.assign(new Error("write EPIPE"), { code: "EPIPE" });
+  client.handleStdinError(error);
+  await assert.rejects(pending, /EPIPE/);
+  assert.equal(client.pending.size, 0);
   client.process = null;
 });
