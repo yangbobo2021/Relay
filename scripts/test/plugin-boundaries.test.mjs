@@ -10,6 +10,8 @@ const domains = [
   "integrations/codex",
   "integrations/claude",
   "integrations/deepseek-harness",
+  "integrations/dsh-codex",
+  "integrations/dsh-claude",
   "packages/event-runtime-plugin",
 ];
 const sourceExtensions = new Set([".js", ".mjs", ".ts", ".tsx"]);
@@ -19,10 +21,15 @@ const allowedByDomain = new Map([
   ["packages/event-runtime-plugin", new Set([
     "@relay/monitor-runtime", "@relay/plugin-sdk", "@relay/runtime",
   ])],
-  ["integrations/deepseek-harness", new Set(["@relay/plugin-sdk"])],
-]);
-const distributionPackages = new Set([
-  "@relay/plugin-claude", "@relay/plugin-codex", "@relay/plugin-event-runtime",
+  ["integrations/deepseek-harness", new Set([
+    "@relay/plugin-event-runtime", "@relay/plugin-sdk",
+  ])],
+  ["integrations/dsh-codex", new Set([
+    "@relay/dsh-core", "@relay/plugin-codex", "@relay/plugin-sdk",
+  ])],
+  ["integrations/dsh-claude", new Set([
+    "@relay/dsh-core", "@relay/plugin-claude", "@relay/plugin-sdk",
+  ])],
 ]);
 
 test("production plugins cannot import another plugin's source", async () => {
@@ -34,10 +41,7 @@ test("production plugins cannot import another plugin's source", async () => {
       for (const specifier of importSpecifiers(source, file)) {
         const fileRelative = relative(root, file).split(sep).join("/");
         const allowed = new Set(allowedByDomain.get(domain));
-        if (fileRelative === "integrations/deepseek-harness/distribution.mjs") {
-          for (const packageName of distributionPackages) allowed.add(packageName);
-        }
-        if (specifier.startsWith("@relay/") && !allowed.has(specifier)) {
+        if (specifier.startsWith("@relay/") && ![...allowed].some(name => specifier === name || specifier.startsWith(`${name}/`))) {
           violations.push(`${relative(root, file).split(sep).join("/")} -> ${specifier}`);
           continue;
         }

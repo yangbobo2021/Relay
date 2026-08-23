@@ -1,26 +1,26 @@
-# Relay DSH Plugin
+# Relay DSH Core
 
-`relay-dsh-plugin` installs Relay into an unmodified DeepSeek Harness profile. It
-contains the Codex and Claude conversation adapters, Relay Wait/Monitor management,
-the workspace file viewer, and a Codex App Server-backed terminal.
+`@relay/dsh-core` installs Relay Events, Wait/Monitor management, and the shared
+workspace file workbench into an unmodified DeepSeek Harness profile. It contains
+no Codex or Claude execution implementation.
 
-The package is a distribution assembled by the Relay Plugin Host. Codex, Claude,
-Event Runtime, and DSH composition communicate only through versioned capabilities;
-the DSH loader imports their public package entrypoints. See
+Codex and Claude are separate `@relay/dsh-codex` and `@relay/dsh-claude` DSH
+plugins. Each depends on Core's public runtime/client lifecycle and can activate a
+compatible Core when installed alone. See
 [Plugin Architecture](../../docs/design/plugin-architecture.md).
 
 ## Boundary
 
 - DSH owns Sessions, conversation history, Agent lifecycle, filesystem access,
   Cordis composition, and client slot contracts.
-- Relay owns external Events, Waits, Monitors, backend bindings, and the workbench
-  views it contributes.
+- Relay Core owns external Events, Waits, Monitors, and shared workbench views.
+- Backend bindings and backend-specific views stay in their own DSH packages.
 - The plugin does not import source files from a DSH checkout at runtime. Its npm
-  tarball contains built Host/Client/Typert artifacts, the Cordis patch, and package
-  metadata only.
+  tarballs contain built Host/Client/Typert artifacts, Cordis patches, package-owned
+  presets, and metadata only.
 - The plugin currently replaces `ui-layout` because DSH has no public side-panel or
   bottom-panel frame slots. File access still goes through DSH's `fs` service, while
-  terminal processes go through Codex App Server `command/exec`.
+  terminal processes in `@relay/dsh-codex` go through Codex App Server `command/exec`.
 
 ## Build
 
@@ -32,9 +32,9 @@ npm run build
 npm pack
 ```
 
-From the Relay root, `npm run test:package:dsh` performs those checks, installs the
-tarball into a clean temporary project, and loads every public entry against peers
-from the exact official DSH checkout.
+From the Relay root, `npm run test:package:dsh` performs those checks for all three
+DSH packages. `npm run test:install:dsh-official` validates Codex-only,
+Claude-only, and coinstalled profiles against the exact official DSH checkout.
 
 When developing inside Relay, npm workspaces resolve the Relay packages explicitly.
 The repository helper links DSH host and client development peers from the exact
@@ -44,9 +44,9 @@ official checkout, builds the plugin, installs the profile, and starts the Web U
 npm run start:web -- --port 3092
 ```
 
-For a packaged DSH installation, install the generated `.tgz` with the DSH plugin
-command for the target profile. The package's `cordis.patch.yml` mounts the Relay
-Host and replaces only the current Web workbench frame.
+For a packaged DSH installation, install any generated `.tgz` with the DSH plugin
+command for the target profile. Installing Codex or Claude brings Core as a normal
+package dependency and activates one shared Core instance.
 
 ## Compatibility
 

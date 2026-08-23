@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const clientSource = await readFile(
-  new URL("../src/client/index.ts", import.meta.url),
+  new URL("../src/client/core.ts", import.meta.url),
   "utf8",
 );
 

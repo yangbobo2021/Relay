@@ -37,4 +37,8 @@ test("the web launcher resolves Relay packages through the root workspace", asyn
   assert.match(script, /packages\/host\/apiproxy\/node_modules\/fflate/);
   assert.match(script, /repair-dsh-workspace-links\.mjs/);
   assert.doesNotMatch(script, /pnpm --dir "\$plugin_root" install/);
+  assert.ok(
+    script.indexOf('npm install --ignore-scripts') < script.indexOf('repair-dsh-workspace-links.mjs'),
+    "Relay dependency installation must finish before official workspace repair",
+  );
 });

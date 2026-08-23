@@ -3,11 +3,11 @@ set -euo pipefail
 
 relay_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dsh_home="${DSH_HOME:-$HOME/.dsh}"
-preset_root="$relay_root/integrations/deepseek-harness/presets"
 
 install_relay_preset() {
   local preset_name="$1"
-  local preset_source="$preset_root/$preset_name"
+  local backend="${preset_name#relay-}"
+  local preset_source="$relay_root/integrations/dsh-$backend/presets/$preset_name"
   local preset_dir="$dsh_home/.agent-presets/$preset_name"
 
   mkdir -p "$(dirname "$preset_dir")"

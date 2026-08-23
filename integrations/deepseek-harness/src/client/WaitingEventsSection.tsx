@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
+import type { SessionId } from '@deepseek-ai/dsh-client-runtime/client'
 import type { RelayManagementLocaleKey } from './locales.ts'
 import css from './WaitingEventsSection.module.css'
 
@@ -133,7 +134,7 @@ export function WaitingEventsSection(props: WaitingEventsSectionProps): ReactNod
             const liveWaits = registration.waits.filter(wait => ACTIVE_WAIT.has(wait.status))
             const liveMonitors = registration.monitors.filter(monitor =>
               ['active', 'degraded', 'triggered'].includes(monitor.state))
-            const title = sessionTitles[registration.session_id]?.displayTitle ?? registration.task_summary
+            const title = sessionTitles[registration.session_id as SessionId]?.displayTitle ?? registration.task_summary
             const cancelKey = `cancel:${registration.session_id}`
             return (
               <li className={css.registration} key={registration.session_id}>

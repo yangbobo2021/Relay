@@ -1,5 +1,5 @@
 import type { GlobalStandardProps } from '@deepseek-ai/dsh-client-ui-slots'
-import type { WorkbenchPanelOwnerProps } from '../layout/index.ts'
+import type { WorkbenchPanelOwnerProps } from '@relay/dsh-core/client-types'
 import type { SessionId } from '@deepseek-ai/dsh-client-runtime/client'
 import type { TerminalOutputStore } from './store.ts'
 

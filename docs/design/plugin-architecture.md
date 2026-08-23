@@ -8,23 +8,20 @@ public plugin entrypoints, and plugins receive only the versioned capabilities t
 declared in their manifests.
 
 ```text
-relay.dsh.platform
+@relay/dsh-core
+  relay.dsh.platform
   provides relay.delivery.v1, relay.logging.v1, relay.dsh.workspace.v1
           |
           +--> relay.event-runtime
           |      provides relay.events.v1, relay.monitors.v1
           |
-          +--> relay.execution.codex
-          |      provides relay.execution.codex.v1, relay.terminal.codex.v1
-          |
-          +--> relay.execution.claude
-                 provides relay.execution.claude.v1
-
-all selected capabilities --> relay.dsh.composition
+@relay/dsh-codex --> relay.execution.codex + relay.dsh.codex
+@relay/dsh-claude --> relay.execution.claude + relay.dsh.claude
 ```
 
-`relay.distribution.dsh-web` is selection and configuration only. It does not create
-backend clients or pass implementation objects between plugins.
+Each DSH backend consumes Core through public package exports and versioned
+capabilities. Core is reference-counted at the DSH root so coinstalled backends do
+not duplicate shared Host or client services.
 
 ## Packages
 
@@ -37,7 +34,9 @@ backend clients or pass implementation objects between plugins.
 | `@relay/plugin-event-runtime` | Event and Monitor service plugin | `.` |
 | `@relay/plugin-codex` | Codex App Server execution plugin | `.` |
 | `@relay/plugin-claude` | Claude SDK/CLI execution plugin | `.` |
-| `relay-dsh-plugin` | DSH platform, composition, client views, distribution | package exports |
+| `@relay/dsh-core` | DSH Events, Waits, workspace files, shared workbench | package exports |
+| `@relay/dsh-codex` | Codex DSH adapter, activity UI, terminal, preset | package exports |
+| `@relay/dsh-claude` | Claude DSH adapter, activity UI, preset | package exports |
 
 Package exports are intentionally narrow. Tests may import local modules for unit
 coverage, but production code cannot reach another plugin's implementation path.
@@ -63,8 +62,8 @@ coverage, but production code cannot reach another plugin's implementation path.
 3. Replace the monorepo workspace dependency with the published version.
 4. Change only the distribution dependency and lockfile when the capability contract
    is unchanged.
-5. Run `npm test`, `npm run test:package:plugins`, and
-   `npm run test:package:dsh`.
+5. Run `npm test`, `npm run test:package:plugins`, `npm run test:package:dsh`, and
+   `npm run test:install:dsh-official`.
 
 No consumer implementation changes are expected. A repository move that requires
 editing DSH composition indicates that the old capability contract leaked provider

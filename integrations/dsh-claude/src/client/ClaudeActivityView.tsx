@@ -7,7 +7,7 @@ import {
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClaudeActivityData } from './claude-activity.ts'
-import css from './CodexActivityView.module.css'
+import css from './ClaudeActivityView.module.css'
 
 type ClaudeActivityViewProps = PropsRuntime<'conversation.chat.node', 'relay-claude-activity'>
 

@@ -1,10 +1,11 @@
 # Integrations
 
-- `deepseek-harness/` is an installable DSH bundle. It injects Relay Events through
-  DSH's shared Agent lookup, installs Wait/timer tools, and contributes Codex App
-  Server as a native DSH Web conversation preset. Its exact
+- `deepseek-harness/` is the installable `@relay/dsh-core` bundle. It injects Relay
+  Events through DSH's shared Agent lookup and installs Wait/timer tools. Its exact
   `POST /api/relay/events` route is the production ingress for local webhooks and
   authenticated non-loopback connectors.
+- `dsh-codex/` and `dsh-claude/` are independently installable backend bundles;
+  each ships its own preset and depends only on Core's public package contract.
 
 Connectors to external systems live here.
 

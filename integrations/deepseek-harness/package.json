@@ -1,24 +1,39 @@
 {
-  "name": "relay-dsh-plugin",
+  "name": "@relay/dsh-core",
   "version": "0.1.0",
   "type": "module",
   "main": "lib/host-plugin.js",
   "scripts": {
+    "prebuild": "node -e \"require('node:fs').rmSync('lib',{recursive:true,force:true})\"",
     "build": "tsdown --config tsdown.config.ts",
+    "postbuild": "node normalize-build.mjs",
     "typecheck": "tsc -p tsconfig.json"
   },
   "exports": {
     ".": "./lib/host-plugin.js",
+    "./lifecycle": "./lifecycle.mjs",
+    "./runtime": "./lib/runtime.js",
+    "./client-api": { "types": "./client-api.d.ts", "default": "./lib/client-api.js" },
+    "./client-types": { "types": "./client-types.d.ts", "default": "./client-types.d.ts" },
     "./client": "./lib/client.js",
     "./typert": "./lib/typert.host.js",
     "./package.json": "./package.json"
   },
   "files": [
     "cordis.patch.yml",
+    "lifecycle.mjs",
+    "client-api.d.ts",
+    "client-types.d.ts",
     "lib/client.js",
     "lib/client.js.map",
     "lib/host-plugin.js",
     "lib/host-plugin.js.map",
+    "lib/runtime.js",
+    "lib/runtime.js.map",
+    "lib/runtime-*.js",
+    "lib/runtime-*.js.map",
+    "lib/client-api.js",
+    "lib/client-api.js.map",
     "lib/typert.host.js",
     "lib/typert.host.js.map"
   ],
@@ -42,8 +57,8 @@
     }
   },
   "dependencies": {
-    "@xterm/addon-fit": "0.11.0",
-    "@xterm/xterm": "6.0.0",
+    "@relay/plugin-event-runtime": "0.1.0",
+    "@relay/plugin-sdk": "0.1.0",
     "zod": "4.4.3"
   },
   "peerDependencies": {
@@ -61,10 +76,6 @@
     "react": { "optional": true }
   },
   "devDependencies": {
-    "@relay/plugin-claude": "0.1.0",
-    "@relay/plugin-codex": "0.1.0",
-    "@relay/plugin-event-runtime": "0.1.0",
-    "@relay/plugin-sdk": "0.1.0",
     "@types/react": "~18.3.1",
     "lightningcss": "1.32.0",
     "tsdown": "0.22.2",
