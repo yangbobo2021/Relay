@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
+const publishableVersion = /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
 const expected = new Map([
   ["packages/plugin-sdk", "@relay/plugin-sdk"],
   ["packages/event-router", "@relay/event-router"],
@@ -28,7 +29,7 @@ test("plugins and shared libraries are independently publishable workspace packa
     const manifest = await json(join(root, directory, "package.json"));
     assert.equal(manifest.name, name, directory);
     assert.notEqual(manifest.private, true, `${directory} must be packable for a future repository split`);
-    assert.match(manifest.version, /^\d+\.\d+\.\d+$/, directory);
+    assert.match(manifest.version, publishableVersion, directory);
     assert.equal(manifest.type, "module", directory);
     assert.ok(manifest.exports && typeof manifest.exports === "object", `${directory} needs exports`);
     assert.ok(Object.keys(manifest.exports).every(key => !key.includes("*")), `${directory} cannot use wildcard exports`);
