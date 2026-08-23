@@ -18,8 +18,8 @@ Remote, or a type-only public contract.
 | `@relay/dsh-plugin-workbench` | installable DSH plugin | Generic shell layout, panel state, view registry, and extension slots. |
 | `@relay/dsh-plugin-files` | installable DSH plugin | Workspace file Remote, explorer UI, and one side-view contribution. |
 | `@relay/dsh-plugin-terminal` | installable DSH plugin | Terminal provider registry, terminal Remote, xterm UI, and one bottom-view contribution. |
-| `@relay/dsh-plugin-codex` | installable DSH plugin | Codex conversations and an optional Codex terminal-provider contribution. |
-| `@relay/dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
+| `relay-dsh-plugin-codex` | installable DSH plugin | Codex conversations and an optional Codex terminal-provider contribution. |
+| `relay-dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
 | `@relay/plugin-events` | installable DSH plugin | Optional event injection across every compatible conversation backend. |
 
 The contracts package contains no service implementation and is not added to a

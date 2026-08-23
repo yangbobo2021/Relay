@@ -17,8 +17,8 @@ const supportPackages = [
   ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
 ];
 const dshPackages = [
-  ["integrations/codex", "@relay/dsh-plugin-codex"],
-  ["integrations/claude", "@relay/dsh-plugin-claude"],
+  ["integrations/codex", "relay-dsh-plugin-codex"],
+  ["integrations/claude", "relay-dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
   ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
   ["integrations/dsh-files", "@relay/dsh-plugin-files"],
@@ -69,7 +69,7 @@ try {
 
   const importProgram = `
     import assert from "node:assert/strict";
-    for (const name of ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude", "@relay/plugin-events", "@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"]) {
+    for (const name of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "@relay/plugin-events", "@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"]) {
       const manifest = (await import(name + "/package.json", { with: { type: "json" } })).default;
       assert.equal(manifest.main, "lib/host-plugin.js");
       const host = await import(name);
@@ -82,9 +82,9 @@ try {
       assert.equal(definition.id, name);
       assert.equal(typeof definition.factory, "function");
     }
-    for (const name of ["dsh-plugin-codex", "dsh-plugin-claude"]) {
-      const manifest = JSON.parse(await (await import("node:fs/promises")).readFile("node_modules/@relay/" + name + "/package.json", "utf8"));
-      assert.deepEqual(Object.keys(manifest.dependencies || {}).filter(key => key.startsWith("@relay/")), []);
+    for (const name of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude"]) {
+      const manifest = JSON.parse(await (await import("node:fs/promises")).readFile("node_modules/" + name + "/package.json", "utf8"));
+      assert.deepEqual(Object.keys(manifest.dependencies || {}).filter(key => key.startsWith("@relay/") || key.startsWith("relay-dsh-plugin-")), []);
     }
   `;
   execFileSync(process.execPath, ["--input-type=module", "--eval", importProgram], { cwd: temporary, stdio: "inherit" });

@@ -16,14 +16,14 @@ async function source(directory, file) {
 
 test("Codex and Claude are self-contained DSH plugins without Relay plugin dependencies", async () => {
   for (const [directory, name] of [
-    ["integrations/codex", "@relay/dsh-plugin-codex"],
-    ["integrations/claude", "@relay/dsh-plugin-claude"],
+    ["integrations/codex", "relay-dsh-plugin-codex"],
+    ["integrations/claude", "relay-dsh-plugin-claude"],
   ]) {
     const pkg = await manifest(directory);
     assert.equal(pkg.name, name);
     assert.ok(pkg.dsh?.bundle?.patch, `${name} must be directly installable as a DSH bundle`);
     assert.deepEqual(
-      Object.keys(pkg.dependencies ?? {}).filter(dependency => dependency.startsWith("@relay/")),
+      Object.keys(pkg.dependencies ?? {}).filter(isRelayPackage),
       [],
       `${name} must not require another Relay package at runtime`,
     );
@@ -59,3 +59,7 @@ test("Codex contributes terminal transport only through the optional Cordis prov
   assert.match(codexHost, /apiVersion !== 1/);
   assert.doesNotMatch(codexHost, /@relay\/dsh-plugin-(?:terminal|workbench|files)/);
 });
+
+function isRelayPackage(name) {
+  return name.startsWith("@relay/") || name.startsWith("relay-dsh-plugin-");
+}

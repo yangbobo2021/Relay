@@ -16,8 +16,8 @@ const packages = [
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
   ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
-  ["integrations/codex", "@relay/dsh-plugin-codex"],
-  ["integrations/claude", "@relay/dsh-plugin-claude"],
+  ["integrations/codex", "relay-dsh-plugin-codex"],
+  ["integrations/claude", "relay-dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
   ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
   ["integrations/dsh-files", "@relay/dsh-plugin-files"],
@@ -35,15 +35,15 @@ try {
     return [name, join(temporary, packed.filename)];
   }));
 
-  await verifyScenario("codex-only", ["@relay/dsh-plugin-codex"], tarballs, 3191);
-  await verifyScenario("claude-only", ["@relay/dsh-plugin-claude"], tarballs, 3192);
+  await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 3191);
+  await verifyScenario("claude-only", ["relay-dsh-plugin-claude"], tarballs, 3192);
   await verifyScenario("events-only", ["@relay/plugin-events"], tarballs, 3193);
-  await verifyScenario("codex-and-claude", ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude"], tarballs, 3194);
+  await verifyScenario("codex-and-claude", ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude"], tarballs, 3194);
   await verifyScenario("workbench-only", ["@relay/dsh-plugin-workbench"], tarballs, 3195);
   await verifyScenario("workbench-files", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files"], tarballs, 3196);
   await verifyScenario("workbench-terminal", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal"], tarballs, 3197);
-  await verifyScenario("codex-terminal", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal", "@relay/dsh-plugin-codex"], tarballs, 3198);
-  await verifyScenario("all-plugins", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal", "@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude", "@relay/plugin-events"], tarballs, 3199);
+  await verifyScenario("codex-terminal", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
+  await verifyScenario("all-plugins", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "@relay/plugin-events"], tarballs, 3199);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
@@ -67,18 +67,18 @@ async function verifyScenario(id, selected, tarballs, port) {
   const manifest = JSON.parse(await readFile(join(profile, "package.json"), "utf8"));
   assert.deepEqual(Object.keys(manifest.dependencies).sort(), [...selected].sort(), `${id}: only requested plugins are direct`);
   for (const name of selected) assert.ok(manifest.dsh.profile.bundles.includes(name), `${id}: ${name} is a profile layer`);
-  for (const backend of ["@relay/dsh-plugin-codex", "@relay/dsh-plugin-claude"]) {
+  for (const backend of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude"]) {
     if (!selected.includes(backend)) continue;
     const installed = JSON.parse(await readFile(join(profile, "node_modules", ...backend.split("/"), "package.json"), "utf8"));
-    assert.deepEqual(Object.keys(installed.dependencies ?? {}).filter(name => name.startsWith("@relay/")), [], `${id}: ${backend} is Relay-independent`);
+    assert.deepEqual(Object.keys(installed.dependencies ?? {}).filter(isRelayPackage), [], `${id}: ${backend} is Relay-independent`);
   }
 
   const dump = execFileSync(process.execPath, [dshBin, "web", "--dump-config"], {
     cwd: dshRoot, env, encoding: "utf8",
   });
   for (const name of selected) assert.match(dump, new RegExp(name.replace("/", "\\/")), `${id}: ${name} composes`);
-  if (!selected.includes("@relay/dsh-plugin-codex")) assert.doesNotMatch(dump, /relay-codex-host/, `${id}: no Codex host`);
-  if (!selected.includes("@relay/dsh-plugin-claude")) assert.doesNotMatch(dump, /relay-claude-host/, `${id}: no Claude host`);
+  if (!selected.includes("relay-dsh-plugin-codex")) assert.doesNotMatch(dump, /relay-codex-host/, `${id}: no Codex host`);
+  if (!selected.includes("relay-dsh-plugin-claude")) assert.doesNotMatch(dump, /relay-claude-host/, `${id}: no Claude host`);
   if (!selected.includes("@relay/plugin-events")) assert.doesNotMatch(dump, /relay-runtime-host/, `${id}: no Events host`);
   if (!selected.includes("@relay/dsh-plugin-workbench")) assert.doesNotMatch(dump, /relay-workbench-host/, `${id}: no Workbench host`);
   if (!selected.includes("@relay/dsh-plugin-files")) assert.doesNotMatch(dump, /relay-files-host/, `${id}: no Files host`);
@@ -123,4 +123,8 @@ async function waitFor(predicate, timeoutMs) {
 
 function gitStatus() {
   return execFileSync("git", ["status", "--short"], { cwd: dshRoot, encoding: "utf8" }).trim();
+}
+
+function isRelayPackage(name) {
+  return name.startsWith("@relay/") || name.startsWith("relay-dsh-plugin-");
 }

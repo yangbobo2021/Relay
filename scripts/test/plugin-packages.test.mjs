@@ -12,8 +12,8 @@ const expected = new Map([
   ["packages/monitor-runtime", "@relay/monitor-runtime"],
   ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
   ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
-  ["integrations/codex", "@relay/dsh-plugin-codex"],
-  ["integrations/claude", "@relay/dsh-plugin-claude"],
+  ["integrations/codex", "relay-dsh-plugin-codex"],
+  ["integrations/claude", "relay-dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
   ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
   ["integrations/dsh-files", "@relay/dsh-plugin-files"],
@@ -38,7 +38,7 @@ test("plugins and shared libraries are independently publishable workspace packa
 
   for (const directory of ["integrations/codex", "integrations/claude"]) {
     const manifest = await json(join(root, directory, "package.json"));
-    assert.deepEqual(Object.keys(manifest.dependencies ?? {}).filter(name => name.startsWith("@relay/")), []);
+    assert.deepEqual(Object.keys(manifest.dependencies ?? {}).filter(isRelayPackage), []);
     assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
   }
 
@@ -52,4 +52,8 @@ test("plugins and shared libraries are independently publishable workspace packa
 
 async function json(path) {
   return JSON.parse(await readFile(path, "utf8"));
+}
+
+function isRelayPackage(name) {
+  return name.startsWith("@relay/") || name.startsWith("relay-dsh-plugin-");
 }

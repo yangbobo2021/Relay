@@ -6,7 +6,7 @@ and versioned `ctx.relayTerminalProviders` registry. Execution backends contribu
 PTY transports through that Cordis service.
 
 ```bash
-dsh plugin --profile web add @relay/dsh-plugin-workbench @relay/dsh-plugin-terminal @relay/dsh-plugin-codex
+dsh plugin --profile web add @relay/dsh-plugin-workbench @relay/dsh-plugin-terminal relay-dsh-plugin-codex
 ```
 
 Without a provider the plugin still loads and reports terminal unavailability when

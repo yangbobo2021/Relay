@@ -8,8 +8,8 @@ public plugin entrypoints, and plugins receive only the versioned capabilities t
 declared in their manifests.
 
 ```text
-@relay/dsh-plugin-codex  --> Codex App Server + DSH Codex adapter
-@relay/dsh-plugin-claude --> Claude Agent SDK + DSH Claude adapter
+relay-dsh-plugin-codex  --> Codex App Server + DSH Codex adapter
+relay-dsh-plugin-claude --> Claude Agent SDK + DSH Claude adapter
 
 @relay/dsh-plugin-workbench --> generic layout + view registry + keyed slots
 @relay/dsh-plugin-files     --> workspace Remote + side-view contribution
@@ -39,8 +39,8 @@ a tool. Auxiliary title and compaction calls receive no contributed tools.
 | `@relay/monitor-runtime` | Monitor and timer library | `.` |
 | `@relay/plugin-event-runtime` | Event and Monitor service plugin | `.` |
 | `@relay/dsh-plugin-contracts` | Type-only Workbench and terminal-provider contracts | `.` |
-| `@relay/dsh-plugin-codex` | Self-contained Codex DSH backend and preset | package exports |
-| `@relay/dsh-plugin-claude` | Self-contained Claude DSH backend and preset | package exports |
+| `relay-dsh-plugin-codex` | Self-contained Codex DSH backend and preset | package exports |
+| `relay-dsh-plugin-claude` | Self-contained Claude DSH backend and preset | package exports |
 | `@relay/plugin-events` | Provider-neutral Events, Waits, Monitors, ingress, tools | package exports |
 | `@relay/dsh-plugin-workbench` | Generic DSH shell and view registry | package exports |
 | `@relay/dsh-plugin-files` | Workspace file explorer contribution | package exports |

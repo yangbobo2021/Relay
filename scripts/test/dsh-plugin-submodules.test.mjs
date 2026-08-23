@@ -10,12 +10,12 @@ const plugins = [
   {
     path: "integrations/codex",
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-codex.git",
-    packageName: "@relay/dsh-plugin-codex",
+    packageName: "relay-dsh-plugin-codex",
   },
   {
     path: "integrations/claude",
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-claude.git",
-    packageName: "@relay/dsh-plugin-claude",
+    packageName: "relay-dsh-plugin-claude",
   },
 ];
 
