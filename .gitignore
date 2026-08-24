@@ -40,3 +40,4 @@ upstream/deepseek-harness/
 
 # Local visual QA evidence
 dsh-lab/*.png
+.artifacts/

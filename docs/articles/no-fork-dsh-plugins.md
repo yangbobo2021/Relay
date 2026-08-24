@@ -12,6 +12,10 @@ plugin system, so you can update DSH without carrying a fork.
 
 ![Codex, Claude Code, Files, and Terminal running as DSH plugins](../media/dsh-plugin-suite-demo.gif)
 
+The recording is an actual npm installation on official DSH, not a mockup:
+[open the H.264 MP4](../media/dsh-plugin-suite-demo.mp4?raw=1) or review the
+[acceptance evidence](../acceptance/dsh-plugin-demo-qa.md).
+
 This walkthrough is for DSH users who want another conversation backend or a
 more complete coding workspace. It is not a Relay Events tutorial: the five
 plugins work without Relay's event runtime.

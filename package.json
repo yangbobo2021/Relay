@@ -28,6 +28,8 @@
     "test:package:dsh": "node scripts/verify-dsh-plugin-package.mjs",
     "test:install:dsh-official": "node scripts/verify-dsh-official-install.mjs",
     "test:e2e:dsh-ui": "node scripts/verify-dsh-ui-e2e.mjs",
+    "record:dsh-plugin-demo": "node scripts/record-dsh-plugin-demo.mjs",
+    "render:dsh-plugin-demo": "scripts/render-dsh-plugin-demo.sh",
     "prepare:dsh": "scripts/link-dsh-development-peers.sh",
     "experiment:dsh": "npm run experiment:dsh-bundle && npm run experiment:dsh-cold-resume && npm run experiment:dsh-runtime && npm run experiment:dsh-timer",
     "start:web": "scripts/start-relay-web.sh",

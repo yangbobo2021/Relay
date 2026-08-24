@@ -8,9 +8,14 @@ required.
 
 ![Relay DSH plugin suite demo](media/dsh-plugin-suite-demo.gif)
 
-The demo uses official DSH `0.1.1-rc.2`. It shows the added conversation modes,
-the Files side panel, and the Terminal bottom panel without sending a model
-request.
+This is a real run against a clean official DSH `0.1.1-rc.2` profile. All five
+packages were installed from npm: Codex App Server and Claude Agent SDK each
+returned a live response, Files opened this repository's `README.md`, and the
+Terminal executed a command in the Relay workspace.
+
+[Watch or download the H.264 MP4](media/dsh-plugin-suite-demo.mp4?raw=1) ·
+[Open the full-size live screenshot](media/dsh-plugin-suite-live.png) ·
+[Read the recording and compatibility evidence](acceptance/dsh-plugin-demo-qa.md)
 
 ## Choose What You Need
 

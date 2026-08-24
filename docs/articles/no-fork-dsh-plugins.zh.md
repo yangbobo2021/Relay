@@ -12,6 +12,10 @@ Claude Code、工作区文件浏览和终端。它们使用 DSH 插件机制，�
 
 ![通过插件运行在 DSH 中的 Codex、Claude Code、Files 和 Terminal](../media/dsh-plugin-suite-demo.gif)
 
+演示来自官方 DSH 上的真实 npm 安装与实际操作，不是界面模型或静态拼接：
+[打开 H.264 MP4](../media/dsh-plugin-suite-demo.mp4?raw=1)，或查看
+[验收证据](../acceptance/dsh-plugin-demo-qa.md)。
+
 这篇文章适合想增加对话后端，或希望 DSH 更接近完整编码工作台的用户。它不是
 Relay Events 教程：这里的五个插件不依赖 Relay 事件运行时。
 

@@ -47,13 +47,45 @@ test("the bilingual catalog, article, and demo stay mutually linked", async () =
   assert.match(chinese, /no-fork-dsh-plugins\.zh\.md/);
   assert.match(article, /no-fork-dsh-plugins\.zh\.md/);
   assert.match(chineseArticle, /no-fork-dsh-plugins\.md/);
+  assert.match(english, /actual npm installation|real run/i);
+  assert.match(chinese, /真实 npm 安装|从 npm/);
+  assert.doesNotMatch(english, /without sending a model request/i);
+  assert.doesNotMatch(chinese, /不会发送模型请求/);
 
   const demo = join(root, "docs", "media", "dsh-plugin-suite-demo.gif");
   const video = join(root, "docs", "media", "dsh-plugin-suite-demo.mp4");
+  const screenshot = join(root, "docs", "media", "dsh-plugin-suite-live.png");
+  const evidence = join(root, "docs", "acceptance", "dsh-plugin-demo-qa.md");
   await access(demo);
   await access(video);
+  await access(screenshot);
+  await access(evidence);
   assert.ok((await stat(demo)).size > 100_000, "demo GIF must contain a real rendered tour");
   assert.ok((await stat(video)).size > 100_000, "demo MP4 must contain a real rendered tour");
+  assert.ok((await stat(screenshot)).size > 100_000, "live screenshot must show the installed plugins");
+
+  const mp4 = await readFile(video);
+  const mp4Atoms = mp4.toString("latin1");
+  assert.ok(mp4Atoms.includes("avc1"), "demo MP4 must use browser-compatible H.264 video");
+  assert.ok(mp4Atoms.indexOf("moov") > 0 && mp4Atoms.indexOf("moov") < mp4Atoms.indexOf("mdat"),
+    "demo MP4 must place moov before mdat for fast-start playback");
+  const gifHeader = (await readFile(demo)).subarray(0, 6).toString("ascii");
+  assert.ok(gifHeader === "GIF87a" || gifHeader === "GIF89a", "demo GIF must have a valid GIF header");
+});
+
+test("the demo pipeline records live plugin behavior instead of image slides", async () => {
+  const recorder = await readFile(join(root, "scripts", "record-dsh-plugin-demo.mjs"), "utf8");
+  const renderer = await readFile(join(root, "scripts", "render-dsh-plugin-demo.sh"), "utf8");
+
+  for (const marker of ["Codex App Server is live inside DSH", "Claude Code is live inside DSH",
+    "File content README.md", "RELAY_DSH_PLUGINS_ARE_LIVE"]) {
+    assert.match(recorder, new RegExp(escapeRegExp(marker)));
+  }
+  assert.match(recorder, /recordVideo/);
+  assert.match(renderer, /libx264/);
+  assert.match(renderer, /yuv420p/);
+  assert.match(renderer, /\+faststart/);
+  assert.doesNotMatch(renderer, /dsh-new-session-backends\.jpg/);
 });
 
 function escapeRegExp(value) {
