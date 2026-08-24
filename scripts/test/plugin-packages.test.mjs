@@ -49,8 +49,12 @@ test("plugins and shared libraries are independently publishable workspace packa
   }
   for (const directory of ["integrations/dsh-files", "integrations/dsh-terminal"]) {
     const manifest = await json(join(root, directory, "package.json"));
-    assert.equal(manifest.dependencies?.["@relay/dsh-plugin-workbench"], "github:yangbobo2021/relay-dsh-plugin-workbench#main",
-      `${directory} must install Workbench for single-plugin user installs`);
+    assert.equal(manifest.dependencies?.["@relay/dsh-plugin-workbench"], undefined,
+      `${directory} must not use a GitHub Workbench subdependency because DSH profiles block exotic subdependencies`);
+    assert.equal(manifest.peerDependencies?.["@relay/dsh-plugin-workbench"], "^0.1.0",
+      `${directory} must declare the Workbench peer contract`);
+    assert.equal(manifest.devDependencies?.["@relay/dsh-plugin-workbench"], "github:yangbobo2021/relay-dsh-plugin-workbench#main",
+      `${directory} may use GitHub Workbench only as a local development dependency`);
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: relay-workbench-host\n/, `${directory} must not reuse Workbench's direct-install loader id`);
   }

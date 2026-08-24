@@ -87,7 +87,7 @@ async function verifyScenario(id, selected, tarballs, port) {
 }
 
 async function bootAndProbe(id, env, port, selected) {
-  const child = spawn(process.execPath, [dshBin, "web", "--no-open", "--host", "127.0.0.1", "--port", String(port)], {
+  const child = spawn(process.execPath, ["--expose-internals", dshBin, "web", "--no-open", "--host", "127.0.0.1", "--port", String(port)], {
     cwd: dshRoot, env, stdio: ["ignore", "pipe", "pipe"],
   });
   let output = "";

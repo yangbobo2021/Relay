@@ -14,6 +14,7 @@ const dshBin = join(dshRoot, "apps", "cli", "lib", "bin.js");
 const webDist = join(dshRoot, "apps", "web", "dist", "index.html");
 const temporary = await mkdtemp(join(tmpdir(), "relay-dsh-ui-e2e-"));
 const artifactRoot = resolve(process.env.DSH_UI_E2E_ARTIFACT_DIR ?? join(temporary, "artifacts"));
+const keepArtifacts = process.env.DSH_UI_E2E_KEEP_ARTIFACTS === "1" || process.env.DSH_UI_E2E_ARTIFACT_DIR !== undefined;
 
 const packages = [
   ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
@@ -28,20 +29,20 @@ const scenarios = [
     views: [],
   },
   {
-    id: "files-direct",
-    plugins: ["@relay/dsh-plugin-files"],
+    id: "files-with-workbench",
+    plugins: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files"],
     activePackages: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files"],
     views: ["Files"],
   },
   {
-    id: "terminal-direct",
-    plugins: ["@relay/dsh-plugin-terminal"],
+    id: "terminal-with-workbench",
+    plugins: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal"],
     activePackages: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal"],
     views: ["Terminal"],
   },
   {
-    id: "files-terminal-direct",
-    plugins: ["@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"],
+    id: "files-terminal-with-workbench",
+    plugins: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"],
     activePackages: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"],
     views: ["Files", "Terminal"],
     workspace: true,
@@ -81,11 +82,11 @@ try {
   }
 } finally {
   await browser?.close().catch(() => {});
-  await rm(temporary, { recursive: true, force: true });
+  if (!keepArtifacts) await rm(temporary, { recursive: true, force: true });
 }
 
 assert.equal(gitStatus(), "", "official DSH checkout changed during UI E2E verification");
-console.log("Verified DSH Workbench UI E2E direct installs, explicit installs, Web boot, panel menu, Files empty state, workspace file preview, and Terminal view scenarios against official DSH.");
+console.log("Verified DSH Workbench UI E2E installs, Web boot, panel menu, Files empty state, workspace file preview, and Terminal view scenarios against official DSH.");
 
 async function verifyScenario(scenario, tarballs, port) {
   const home = join(temporary, scenario.id);
@@ -109,7 +110,7 @@ async function verifyScenario(scenario, tarballs, port) {
   });
   assertConfig(scenario, dump);
 
-  const child = spawn(process.execPath, [dshBin, "web", "--no-open", "--host", "127.0.0.1", "--port", String(port)], {
+  const child = spawn(process.execPath, ["--expose-internals", dshBin, "web", "--no-open", "--host", "127.0.0.1", "--port", String(port)], {
     cwd: dshRoot, env, stdio: ["ignore", "pipe", "pipe"],
   });
   let output = "";
@@ -303,9 +304,11 @@ async function verifyFilesView(page, id, hasWorkspace) {
     await file.click();
     await page.getByRole("article", { name: "File content relay-e2e.txt" }).waitFor({ state: "visible", timeout: 10_000 });
     await page.getByText("RELAY_DSH_FILES_E2E_OK").waitFor({ state: "visible", timeout: 10_000 });
+    await page.screenshot({ path: join(artifactRoot, `${id}-files-preview.png`), fullPage: true });
   } else {
     await page.getByText("Open a workspace session to browse files.").waitFor({ state: "visible", timeout: 10_000 });
     assert.equal(await page.getByRole("tree", { name: "Workspace files" }).count(), 0, `${id}: Files tree should wait for an active workspace session`);
+    await page.screenshot({ path: join(artifactRoot, `${id}-files-empty.png`), fullPage: true });
   }
   await page.getByRole("button", { name: "Close side panel" }).click();
   await files.waitFor({ state: "hidden", timeout: 10_000 });
@@ -326,8 +329,10 @@ async function verifyTerminalView(page, id, hasWorkspace) {
       throw new Error(`${id}: Terminal did not show the missing-provider state. Terminal text: ${JSON.stringify(await terminal.textContent())}`);
     }
     await waitFor(async () => !(await newTerminal.isDisabled()), 10_000);
+    await page.screenshot({ path: join(artifactRoot, `${id}-terminal-provider-empty.png`), fullPage: true });
   } else {
     assert.equal(await newTerminal.isDisabled(), true, `${id}: New terminal should be disabled without an active workspace session`);
+    await page.screenshot({ path: join(artifactRoot, `${id}-terminal-no-workspace.png`), fullPage: true });
   }
   await page.getByRole("button", { name: "Close terminal" }).click();
   await terminal.waitFor({ state: "hidden", timeout: 10_000 });
