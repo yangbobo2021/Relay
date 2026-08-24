@@ -20,8 +20,8 @@ const allowedByDomain = new Map([
   ["integrations/codex", new Set()],
   ["integrations/claude", new Set()],
   ["integrations/dsh-workbench", new Set()],
-  ["integrations/dsh-files", new Set(["@relay/dsh-plugin-workbench/contracts"])],
-  ["integrations/dsh-terminal", new Set(["@relay/dsh-plugin-workbench/contracts"])],
+  ["integrations/dsh-files", new Set(["relay-dsh-plugin-workbench/contracts"])],
+  ["integrations/dsh-terminal", new Set(["relay-dsh-plugin-workbench/contracts"])],
   ["packages/event-runtime-plugin", new Set([
     "@relay/monitor-runtime", "@relay/plugin-sdk", "@relay/runtime",
   ])],
@@ -75,8 +75,8 @@ test("feature plugins use Workbench public contracts as types only", async () =>
   for (const domain of ["integrations/dsh-files", "integrations/dsh-terminal"]) {
     for (const file of await sourceFiles(join(root, domain))) {
       const source = await readFile(file, "utf8");
-      if (!source.includes("@relay/dsh-plugin-workbench/contracts")) continue;
-      assert.equal(hasRuntimeImport(source, file, "@relay/dsh-plugin-workbench/contracts"), false,
+      if (!source.includes("relay-dsh-plugin-workbench/contracts")) continue;
+      assert.equal(hasRuntimeImport(source, file, "relay-dsh-plugin-workbench/contracts"), false,
         `${relative(root, file)} must not create a runtime implementation dependency`);
     }
   }

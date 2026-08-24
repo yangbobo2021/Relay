@@ -16,9 +16,9 @@ const expected = new Map([
   ["integrations/codex", "relay-dsh-plugin-codex"],
   ["integrations/claude", "relay-dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
-  ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
-  ["integrations/dsh-files", "@relay/dsh-plugin-files"],
-  ["integrations/dsh-terminal", "@relay/dsh-plugin-terminal"],
+  ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
+  ["integrations/dsh-files", "relay-dsh-plugin-files"],
+  ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
 ]);
 
 test("plugins and shared libraries are independently publishable workspace packages", async () => {
@@ -49,11 +49,11 @@ test("plugins and shared libraries are independently publishable workspace packa
   }
   for (const directory of ["integrations/dsh-files", "integrations/dsh-terminal"]) {
     const manifest = await json(join(root, directory, "package.json"));
-    assert.equal(manifest.dependencies?.["@relay/dsh-plugin-workbench"], undefined,
+    assert.equal(manifest.dependencies?.["relay-dsh-plugin-workbench"], undefined,
       `${directory} must not use a GitHub Workbench subdependency because DSH profiles block exotic subdependencies`);
-    assert.equal(manifest.peerDependencies?.["@relay/dsh-plugin-workbench"], "^0.1.0",
+    assert.equal(manifest.peerDependencies?.["relay-dsh-plugin-workbench"], "^0.1.0",
       `${directory} must declare the Workbench peer contract`);
-    assert.equal(manifest.devDependencies?.["@relay/dsh-plugin-workbench"], "github:yangbobo2021/relay-dsh-plugin-workbench#main",
+    assert.equal(manifest.devDependencies?.["relay-dsh-plugin-workbench"], "github:yangbobo2021/relay-dsh-plugin-workbench#main",
       `${directory} may use GitHub Workbench only as a local development dependency`);
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: relay-workbench-host\n/, `${directory} must not reuse Workbench's direct-install loader id`);

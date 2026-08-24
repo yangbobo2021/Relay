@@ -20,17 +20,17 @@ const plugins = [
   {
     path: "integrations/dsh-workbench",
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-workbench.git",
-    packageName: "@relay/dsh-plugin-workbench",
+    packageName: "relay-dsh-plugin-workbench",
   },
   {
     path: "integrations/dsh-files",
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-files.git",
-    packageName: "@relay/dsh-plugin-files",
+    packageName: "relay-dsh-plugin-files",
   },
   {
     path: "integrations/dsh-terminal",
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git",
-    packageName: "@relay/dsh-plugin-terminal",
+    packageName: "relay-dsh-plugin-terminal",
   },
 ];
 
