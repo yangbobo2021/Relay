@@ -58,3 +58,9 @@ must not import Workbench source files or implementation modules.
 10. Codex-only and Claude-only profiles preserve the official DSH layout.
 11. Workbench, Files, and Terminal are tracked as independently buildable Git
     submodules once their repositories are created.
+12. Workbench, Files, and Terminal pass a browser E2E path against official DSH:
+    fresh profile install, direct Files/Terminal installs, explicit Workbench
+    composition, Web boot, plugin client asset loading, panel menu visibility,
+    Files side-view opening/closing, workspace file preview, Terminal
+    bottom-view opening/closing, provider-unavailable terminal state, absence
+    of uninstalled views, and no browser runtime or local resource errors.

@@ -43,9 +43,18 @@ test("plugins and shared libraries are independently publishable workspace packa
     assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
   }
 
-  const workbenchPatch = await readFile(join(root, "integrations/dsh-workbench/cordis.patch.yml"), "utf8");
-  assert.match(workbenchPatch, /- id: ui-layout\n\s+disabled: true/, "Workbench owns its layout");
-  for (const directory of ["integrations/codex", "integrations/claude", "integrations/deepseek-harness", "integrations/dsh-files", "integrations/dsh-terminal"]) {
+  for (const directory of ["integrations/dsh-workbench", "integrations/dsh-files", "integrations/dsh-terminal"]) {
+    const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
+    assert.match(patch, /- id: ui-layout\n\s+disabled: true/, `${directory} activates the Workbench layout`);
+  }
+  for (const directory of ["integrations/dsh-files", "integrations/dsh-terminal"]) {
+    const manifest = await json(join(root, directory, "package.json"));
+    assert.equal(manifest.dependencies?.["@relay/dsh-plugin-workbench"], "github:yangbobo2021/relay-dsh-plugin-workbench#main",
+      `${directory} must install Workbench for single-plugin user installs`);
+    const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
+    assert.doesNotMatch(patch, /- id: relay-workbench-host\n/, `${directory} must not reuse Workbench's direct-install loader id`);
+  }
+  for (const directory of ["integrations/codex", "integrations/claude", "integrations/deepseek-harness"]) {
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: ui-layout/, `${directory} must preserve the official DSH layout`);
   }

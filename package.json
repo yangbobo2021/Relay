@@ -27,6 +27,7 @@
     "test:package:plugins": "node scripts/verify-plugin-packages.mjs",
     "test:package:dsh": "node scripts/verify-dsh-plugin-package.mjs",
     "test:install:dsh-official": "node scripts/verify-dsh-official-install.mjs",
+    "test:e2e:dsh-ui": "node scripts/verify-dsh-ui-e2e.mjs",
     "prepare:dsh": "scripts/link-dsh-development-peers.sh",
     "experiment:dsh": "npm run experiment:dsh-bundle && npm run experiment:dsh-cold-resume && npm run experiment:dsh-runtime && npm run experiment:dsh-timer",
     "start:web": "scripts/start-relay-web.sh",
@@ -40,6 +41,7 @@
     "@anthropic-ai/claude-agent-sdk": "^0.3.233"
   },
   "devDependencies": {
+    "playwright": "^1.62.1",
     "typescript": "^6.0.3"
   }
 }

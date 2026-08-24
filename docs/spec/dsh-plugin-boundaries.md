@@ -84,6 +84,7 @@ UTF-8 previews remain Host-enforced.
 | Workbench + Terminal + Codex | Codex provider registers and interactive terminal transport is available. |
 | Full composition | Codex, Claude, Events, Files, and Terminal coexist on official DSH. |
 | Synthetic future view | A fixture registers another side/bottom view without changing Workbench. |
+| Workbench UI E2E | Clean official DSH profile installs tarballs through direct Files/Terminal installs and explicit Workbench composition, opens Web in a browser, uses the panel menu, opens/closes Files and Terminal views, previews a workspace file, confirms uninstalled views are absent, and reports no browser runtime or resource errors. |
 
 ## Recurrence Guards
 
@@ -100,3 +101,8 @@ Automated tests must enforce all of the following:
 6. DSH profile dumps and boot probes pass for the acceptance matrix against a
    recorded clean official DSH commit.
 7. The official DSH checkout is clean before and after verification.
+8. Browser E2E covers user-visible Workbench, Files, and Terminal panel paths,
+   not only package installation and Host boot.
+9. View plugins that activate Workbench for single-plugin installs must use
+   plugin-specific loader ids, and Workbench client initialization must remain
+   idempotent so multiple view plugins compose together.
