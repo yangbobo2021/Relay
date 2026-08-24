@@ -2,6 +2,10 @@
 
 English | [中文](no-fork-dsh-plugins.zh.md)
 
+This is the installation and architecture reference. For project workflows,
+start with the
+[Turning DSH into a Multi-Agent Project Workbench series](dsh-agent-workbench-series.md).
+
 DeepSeek Harness is useful as a conversation surface, but extending that
 surface can create an expensive maintenance choice: patch DSH core and keep
 rebasing, or keep switching between separate agent and developer tools.

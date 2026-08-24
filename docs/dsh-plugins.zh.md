@@ -81,3 +81,8 @@ Workbench 菜单中应出现 Files 和 Terminal。
 基于 Tag 的 npm 发布流程和 GitHub 开发版安装方式。关于为什么采用这种插件边界，
 以及完整体验步骤，可继续阅读
 [《不改 DSH 核心：用插件加入 Codex、Claude Code、文件浏览和终端》](articles/no-fork-dsh-plugins.zh.md)。
+
+如果更关心实际工作方式，而不是包结构，请阅读
+[《把 DSH 变成多 Agent 项目工作台》系列](articles/dsh-agent-workbench-series.zh.md)：
+从 DSH 原生、Codex、Claude 的任务选择开始，再分别进入 App Server、Claude
+Session、项目 Workbench 和未来协调边界。

@@ -86,3 +86,9 @@ an immutable official DSH commit, npm Tag publishing, and a GitHub development
 install path. See the longer article,
 [No Fork Required: Add Codex, Claude Code, Files, and Terminal to DSH](articles/no-fork-dsh-plugins.md),
 for the design rationale and a guided walkthrough.
+
+For the working model rather than package structure, read the
+[Turning DSH into a Multi-Agent Project Workbench series](articles/dsh-agent-workbench-series.md):
+it starts with task choice across native DSH, Codex, and Claude, then covers App
+Server, Claude Sessions, the project Workbench, and the boundary for future
+coordination.

@@ -73,6 +73,58 @@ test("the bilingual catalog, article, and demo stay mutually linked", async () =
   assert.ok(gifHeader === "GIF87a" || gifHeader === "GIF89a", "demo GIF must have a valid GIF header");
 });
 
+test("the project-workbench article series stays bilingual, linked, and honest about scope", async () => {
+  const articles = join(root, "docs", "articles");
+  const slugs = [
+    "one-project-three-agent-conversations",
+    "codex-app-server-in-dsh",
+    "claude-code-in-dsh",
+    "dsh-project-workbench",
+    "from-agent-choice-to-coordination",
+  ];
+  const requiredRepository = new Map([
+    ["codex-app-server-in-dsh", "relay-dsh-plugin-codex"],
+    ["claude-code-in-dsh", "relay-dsh-plugin-claude"],
+    ["dsh-project-workbench", "relay-dsh-plugin-workbench"],
+  ]);
+
+  const englishIndex = await readFile(join(articles, "dsh-agent-workbench-series.md"), "utf8");
+  const chineseIndex = await readFile(join(articles, "dsh-agent-workbench-series.zh.md"), "utf8");
+  assert.match(englishIndex, /dsh-agent-workbench-series\.zh\.md/);
+  assert.match(chineseIndex, /dsh-agent-workbench-series\.md/);
+
+  for (const slug of slugs) {
+    const english = await readFile(join(articles, `${slug}.md`), "utf8");
+    const chinese = await readFile(join(articles, `${slug}.zh.md`), "utf8");
+    assert.match(englishIndex, new RegExp(`${slug}\\.md`), `English series index must link ${slug}`);
+    assert.match(chineseIndex, new RegExp(`${slug}\\.zh\\.md`), `Chinese series index must link ${slug}`);
+    assert.match(english, new RegExp(`${slug}\\.zh\\.md`), `${slug} must link its Chinese edition`);
+    assert.match(chinese, new RegExp(`${slug}\\.md`), `${slug} Chinese edition must link English`);
+    assert.match(english, /dsh-agent-workbench-series\.md/);
+    assert.match(chinese, /dsh-agent-workbench-series\.zh\.md/);
+
+    const repository = requiredRepository.get(slug);
+    if (repository !== undefined) {
+      assert.match(english, new RegExp(`github\\.com/yangbobo2021/${repository}`));
+      assert.match(chinese, new RegExp(`github\\.com/yangbobo2021/${repository}`));
+    }
+  }
+
+  const overview = await readFile(join(articles, `${slugs[0]}.md`), "utf8");
+  const chineseOverview = await readFile(join(articles, `${slugs[0]}.zh.md`), "utf8");
+  for (const marker of ["DeepSeek Harness", "Codex", "Claude", "cost", "quality"]) {
+    assert.match(overview, new RegExp(marker, "i"), `English overview must cover ${marker}`);
+  }
+  for (const marker of ["DeepSeek Harness", "Codex", "Claude", "成本", "质量"]) {
+    assert.match(chineseOverview, new RegExp(marker), `Chinese overview must cover ${marker}`);
+  }
+
+  const roadmap = await readFile(join(articles, `${slugs[4]}.md`), "utf8");
+  const chineseRoadmap = await readFile(join(articles, `${slugs[4]}.zh.md`), "utf8");
+  assert.match(roadmap, /not implemented yet|does not yet/i);
+  assert.match(chineseRoadmap, /尚未实现|还没有实现/);
+});
+
 test("the demo pipeline records live plugin behavior instead of image slides", async () => {
   const recorder = await readFile(join(root, "scripts", "record-dsh-plugin-demo.mjs"), "utf8");
   const renderer = await readFile(join(root, "scripts", "render-dsh-plugin-demo.sh"), "utf8");

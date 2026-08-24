@@ -2,6 +2,9 @@
 
 [English](no-fork-dsh-plugins.md) | 中文
 
+这是插件安装与技术参考。按使用场景阅读，请从
+[《把 DSH 变成多 Agent 项目工作台》系列](dsh-agent-workbench-series.zh.md)开始。
+
 DeepSeek Harness 很适合作为统一的对话界面，但扩展它时很容易陷入一个昂贵的
 选择：修改 DSH 核心，然后不断解决上游合并冲突；或者保留官方 DSH，却在多个
 Agent 和开发工具之间来回切换。
