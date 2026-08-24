@@ -4,3 +4,12 @@
 [submodule "integrations/claude"]
 	path = integrations/claude
 	url = git@github.com:yangbobo2021/relay-dsh-plugin-claude.git
+[submodule "integrations/dsh-workbench"]
+	path = integrations/dsh-workbench
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-workbench.git
+[submodule "integrations/dsh-files"]
+	path = integrations/dsh-files
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-files.git
+[submodule "integrations/dsh-terminal"]
+	path = integrations/dsh-terminal
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git

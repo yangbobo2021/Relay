@@ -9,9 +9,12 @@
 - `deepseek-harness/` is the provider-neutral `@relay/plugin-events` bundle. It
   installs Wait/Monitor tools for every DSH root conversation and exposes the exact
   `POST /api/relay/events` ingress route.
-- `dsh-workbench/` is the generic shell, panel registry, and keyed view host.
-- `dsh-files/` contributes the workspace explorer side view.
-- `dsh-terminal/` contributes the provider-neutral interactive bottom view.
+- `dsh-workbench/` is the generic shell, panel registry, keyed view host, and
+  public `@relay/dsh-plugin-workbench/contracts` provider.
+- `dsh-files/` contributes the workspace explorer side view through Workbench's
+  public contract.
+- `dsh-terminal/` contributes the provider-neutral interactive bottom view
+  through Workbench's public contract.
 
 Connectors to external systems live here.
 

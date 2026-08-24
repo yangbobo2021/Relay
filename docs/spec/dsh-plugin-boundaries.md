@@ -14,16 +14,17 @@ Remote, or a type-only public contract.
 
 | Package | Kind | Responsibility |
 | --- | --- | --- |
-| `@relay/dsh-plugin-contracts` | library | Type-only public contracts for workbench views and terminal providers. |
-| `@relay/dsh-plugin-workbench` | installable DSH plugin | Generic shell layout, panel state, view registry, and extension slots. |
+| `@relay/dsh-plugin-contracts` | library | Legacy type-only contracts for Relay DSH plugins that have not moved to package-owned contracts. |
+| `@relay/dsh-plugin-workbench` | installable DSH plugin | Generic shell layout, panel state, view registry, extension slots, and the public `./contracts` entry for view plugins. |
 | `@relay/dsh-plugin-files` | installable DSH plugin | Workspace file Remote, explorer UI, and one side-view contribution. |
 | `@relay/dsh-plugin-terminal` | installable DSH plugin | Terminal provider registry, terminal Remote, xterm UI, and one bottom-view contribution. |
 | `relay-dsh-plugin-codex` | installable DSH plugin | Codex conversations and an optional Codex terminal-provider contribution. |
 | `relay-dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
 | `@relay/plugin-events` | installable DSH plugin | Optional event injection across every compatible conversation backend. |
 
-The contracts package contains no service implementation and is not added to a
-DSH profile. Feature plugins may use it as a build-time type dependency. They
+Package-owned contracts contain no service implementation and are not added to a
+DSH profile by themselves. Workbench view plugins use
+`@relay/dsh-plugin-workbench/contracts` as a build-time type dependency. They
 must not import another plugin's implementation or internal source.
 
 ## Runtime Contracts
@@ -67,7 +68,8 @@ UTF-8 previews remain Host-enforced.
   plugin.
 - Codex may contribute a terminal provider, but may not import Terminal or
   Workbench implementation code.
-- Files and Terminal may import only public contract types from Relay packages.
+- Files and Terminal may import only `@relay/dsh-plugin-workbench/contracts`
+  from Workbench and must not import Workbench implementation code.
 - No Relay package patches files under `upstream/deepseek-harness/`.
 
 ## Acceptance Matrix
@@ -88,7 +90,8 @@ UTF-8 previews remain Host-enforced.
 Automated tests must enforce all of the following:
 
 1. Production imports cannot cross plugin implementation directories.
-2. Imports from `@relay/dsh-plugin-contracts` are type-only in client source.
+2. Imports from `@relay/dsh-plugin-workbench/contracts` are type-only in Files
+   and Terminal client source.
 3. Codex source and bundle patch contain no workbench layout, Files Remote, or
    Terminal Remote ownership.
 4. Workbench source contains no feature ids (`files`, `terminal`, `codex`, or

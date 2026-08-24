@@ -17,9 +17,24 @@ const plugins = [
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-claude.git",
     packageName: "relay-dsh-plugin-claude",
   },
+  {
+    path: "integrations/dsh-workbench",
+    url: "git@github.com:yangbobo2021/relay-dsh-plugin-workbench.git",
+    packageName: "@relay/dsh-plugin-workbench",
+  },
+  {
+    path: "integrations/dsh-files",
+    url: "git@github.com:yangbobo2021/relay-dsh-plugin-files.git",
+    packageName: "@relay/dsh-plugin-files",
+  },
+  {
+    path: "integrations/dsh-terminal",
+    url: "git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git",
+    packageName: "@relay/dsh-plugin-terminal",
+  },
 ];
 
-test("Codex and Claude integrations are independently buildable Git submodules", async () => {
+test("DSH integrations are independently buildable Git submodules", async () => {
   const modules = await readFile(join(root, ".gitmodules"), "utf8");
   for (const plugin of plugins) {
     const stage = execFileSync("git", ["ls-files", "--stage", plugin.path], { cwd: root, encoding: "utf8" });

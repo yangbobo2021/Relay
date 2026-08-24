@@ -34,6 +34,11 @@ contract, and package-owned presets. A package tarball contains runtime artifact
 not Relay or DSH source trees. No install path writes into the official DSH checkout
 or assumes the Relay monorepo layout.
 
+Workbench publishes its view contract from
+`@relay/dsh-plugin-workbench/contracts`. Files, Terminal, and future view plugins
+may depend on that public type entry and the `ctx.workbench` Cordis service; they
+must not import Workbench source files or implementation modules.
+
 ## Acceptance
 
 1. Package tests reject any `@relay/*` runtime dependency in Codex or Claude.
@@ -51,3 +56,5 @@ or assumes the Relay monorepo layout.
    an unadvertised tool is rejected and auxiliary calls expose no contributed tools.
 9. A synthetic side or bottom view registers without editing Workbench source.
 10. Codex-only and Claude-only profiles preserve the official DSH layout.
+11. Workbench, Files, and Terminal are tracked as independently buildable Git
+    submodules once their repositories are created.
