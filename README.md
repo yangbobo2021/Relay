@@ -36,6 +36,26 @@ Use `dsh-lab/` for Relay-owned experiments and compatibility notes so the upstre
 Start with the [documentation index](docs/README.md). Product requirements and
 runtime behavior are defined by the [Relay specification](docs/spec/README.md).
 
+## DSH Plugin Catalog
+
+Relay tracks several independently installable DeepSeek Harness plugins. Each
+plugin can be installed on official DSH without checking out this Relay
+repository, while Relay pins the plugin repositories as submodules for
+distribution, compatibility testing, and cross-plugin validation.
+
+| Plugin | Repository | npm package | Purpose |
+| --- | --- | --- | --- |
+| Codex | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | [`relay-dsh-plugin-codex`](https://www.npmjs.com/package/relay-dsh-plugin-codex) | Adds Codex as a DSH conversation backend. |
+| Claude Code | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | [`relay-dsh-plugin-claude`](https://www.npmjs.com/package/relay-dsh-plugin-claude) | Adds Claude Code as a DSH conversation backend. |
+| Workbench | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Provides the shared right/bottom panel shell for DSH view plugins. |
+| Files | [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | [`relay-dsh-plugin-files`](https://www.npmjs.com/package/relay-dsh-plugin-files) | Adds a right-side workspace file browser. |
+| Terminal | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Adds a bottom terminal panel and provider registry. |
+| Events | local package `integrations/deepseek-harness` | `@relay/plugin-events` | Adds optional Relay Wait/Event/Monitor runtime integration. |
+
+The individual plugin READMEs link back here and describe their boundary with
+Relay. Relay's repository workflow for these submodules is documented in
+[Repository Workflow](docs/spec/repository-workflow.md).
+
 ## Local Vertical Demo
 
 Run the full fixture-to-Runtime path without a model call:

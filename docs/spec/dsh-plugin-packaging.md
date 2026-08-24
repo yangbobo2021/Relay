@@ -8,9 +8,9 @@ Relay's DeepSeek Harness integration is published as independent packages:
   and Claude preset.
 - `@relay/plugin-events` owns external Events, Waits, Monitors, delivery, ingress,
   agent tools, and the waiting-event settings view.
-- `@relay/dsh-plugin-workbench` owns the generic replacement shell and view registry.
-- `@relay/dsh-plugin-files` owns workspace file transport and its side view.
-- `@relay/dsh-plugin-terminal` owns terminal transport, provider registry, and its
+- `relay-dsh-plugin-workbench` owns the generic replacement shell and view registry.
+- `relay-dsh-plugin-files` owns workspace file transport and its side view.
+- `relay-dsh-plugin-terminal` owns terminal transport, provider registry, and its
   bottom view.
 
 Codex and Claude have no runtime dependency on another Relay package. Installing
@@ -35,7 +35,7 @@ not Relay or DSH source trees. No install path writes into the official DSH chec
 or assumes the Relay monorepo layout.
 
 Workbench publishes its view contract from
-`@relay/dsh-plugin-workbench/contracts`. Files, Terminal, and future view plugins
+`relay-dsh-plugin-workbench/contracts`. Files, Terminal, and future view plugins
 may depend on that public type entry and the `ctx.workbench` Cordis service; they
 must not import Workbench source files or implementation modules.
 

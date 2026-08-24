@@ -11,9 +11,9 @@ declared in their manifests.
 relay-dsh-plugin-codex  --> Codex App Server + DSH Codex adapter
 relay-dsh-plugin-claude --> Claude Agent SDK + DSH Claude adapter
 
-@relay/dsh-plugin-workbench --> generic layout + view registry + keyed slots
-@relay/dsh-plugin-files     --> workspace Remote + side-view contribution
-@relay/dsh-plugin-terminal  --> provider registry + terminal Remote + bottom view
+relay-dsh-plugin-workbench --> generic layout + view registry + keyed slots
+relay-dsh-plugin-files     --> workspace Remote + side-view contribution
+relay-dsh-plugin-terminal  --> provider registry + terminal Remote + bottom view
 
 @relay/plugin-events --> relay.dsh.platform + relay.event-runtime + relay.dsh.events
                          attaches to every DSH root Agent
@@ -42,9 +42,9 @@ a tool. Auxiliary title and compaction calls receive no contributed tools.
 | `relay-dsh-plugin-codex` | Self-contained Codex DSH backend and preset | package exports |
 | `relay-dsh-plugin-claude` | Self-contained Claude DSH backend and preset | package exports |
 | `@relay/plugin-events` | Provider-neutral Events, Waits, Monitors, ingress, tools | package exports |
-| `@relay/dsh-plugin-workbench` | Generic DSH shell and view registry | package exports |
-| `@relay/dsh-plugin-files` | Workspace file explorer contribution | package exports |
-| `@relay/dsh-plugin-terminal` | Provider-neutral interactive terminal contribution | package exports |
+| `relay-dsh-plugin-workbench` | Generic DSH shell and view registry | package exports |
+| `relay-dsh-plugin-files` | Workspace file explorer contribution | package exports |
+| `relay-dsh-plugin-terminal` | Provider-neutral interactive terminal contribution | package exports |
 
 Package exports are intentionally narrow. Tests may import local modules for unit
 coverage, but production code cannot reach another plugin's implementation path.

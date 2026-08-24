@@ -9,12 +9,15 @@ DSH checkout is a synchronized, read-only compatibility reference governed by th
 
 ## Repository Boundaries
 
-The Relay repository owns the event runtime, distribution composition, cross-plugin
-tests, specifications, and reproducible probes. Two independently released plugins
-are pinned as Git submodules:
+The Relay repository owns the event runtime, distribution composition,
+cross-plugin tests, specifications, and reproducible probes. Independently
+released DSH plugins are pinned as Git submodules:
 
 - `integrations/codex/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-codex.git`
 - `integrations/claude/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-claude.git`
+- `integrations/dsh-workbench/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-workbench.git`
+- `integrations/dsh-files/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-files.git`
+- `integrations/dsh-terminal/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git`
 
 Relay owns only their Git commit pointers. Source changes, releases, tags, lockfiles,
 and plugin-specific CI belong to their respective repositories.
@@ -54,8 +57,10 @@ exact revision. It must stop rather than overwrite local DSH changes.
 Relay-owned DSH-facing implementation belongs under one of these locations:
 
 - `integrations/deepseek-harness/` for the installable plugin and runtime adapters;
-- `integrations/codex/` and `integrations/claude/` for pinned independent plugin
-  checkouts; changes must be committed and pushed in the child repository first;
+- `integrations/codex/`, `integrations/claude/`, `integrations/dsh-workbench/`,
+  `integrations/dsh-files/`, and `integrations/dsh-terminal/` for pinned
+  independent plugin checkouts; changes must be committed and pushed in the
+  child repository first;
 - `dsh-lab/` for compatibility notes, fixtures, probes, and patch reproductions;
 - `docs/` for specifications, design decisions, and operating guidance;
 - Relay test directories for cross-boundary contract coverage.
