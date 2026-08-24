@@ -43,6 +43,10 @@ plugin can be installed on official DSH without checking out this Relay
 repository, while Relay pins the plugin repositories as submodules for
 distribution, compatibility testing, and cross-plugin validation.
 
+See the [complete plugin chooser and installation guide](docs/dsh-plugins.md)
+([中文](docs/dsh-plugins.zh.md)) for npm and GitHub setup recipes, dependencies,
+verification, and a real DSH UI demo.
+
 | Plugin | Repository | npm package | Purpose |
 | --- | --- | --- | --- |
 | Codex | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | [`relay-dsh-plugin-codex`](https://www.npmjs.com/package/relay-dsh-plugin-codex) | Adds Codex as a DSH conversation backend. |

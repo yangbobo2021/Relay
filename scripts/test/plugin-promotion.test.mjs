@@ -1,0 +1,61 @@
+import assert from "node:assert/strict";
+import { access, readFile, stat } from "node:fs/promises";
+import { join, resolve } from "node:path";
+import test from "node:test";
+import { fileURLToPath } from "node:url";
+
+const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
+const plugins = ["codex", "claude", "dsh-workbench", "dsh-files", "dsh-terminal"];
+
+test("plugin repositories expose complete public-project metadata", async () => {
+  for (const plugin of plugins) {
+    const directory = join(root, "integrations", plugin);
+    const manifest = JSON.parse(await readFile(join(directory, "package.json"), "utf8"));
+    const readme = await readFile(join(directory, "README.md"), "utf8");
+    const chinese = await readFile(join(directory, "README.zh.md"), "utf8");
+    const license = await readFile(join(directory, "LICENSE"), "utf8");
+
+    assert.equal(manifest.license, "MIT", `${plugin} must declare its npm license`);
+    assert.match(license, /^MIT License\n/, `${plugin} must ship the MIT license text`);
+    for (const marker of ["img.shields.io/npm/v/", "actions/workflows/ci.yml/badge.svg",
+      "img.shields.io/npm/dm/", "img.shields.io/github/stars/",
+      "img.shields.io/github/license/", "img.shields.io/badge/DSH-0.1.1--rc.2",
+      "npm_provenance", "npm_trusted_publishing"]) {
+      if (marker.startsWith("npm_")) {
+        assert.ok(readme.includes("npm_provenance") || readme.includes("npm_trusted_publishing"), `${plugin} must describe release provenance`);
+      } else {
+        assert.match(readme, new RegExp(escapeRegExp(marker)), `${plugin} README is missing ${marker}`);
+      }
+    }
+    assert.match(readme, /All Relay DSH plugins/, `${plugin} must link to the Relay plugin catalog`);
+    assert.match(chinese, /全部 Relay DSH 插件/, `${plugin} Chinese README must link to the catalog`);
+  }
+});
+
+test("the bilingual catalog, article, and demo stay mutually linked", async () => {
+  const english = await readFile(join(root, "docs", "dsh-plugins.md"), "utf8");
+  const chinese = await readFile(join(root, "docs", "dsh-plugins.zh.md"), "utf8");
+  const article = await readFile(join(root, "docs", "articles", "no-fork-dsh-plugins.md"), "utf8");
+  const chineseArticle = await readFile(join(root, "docs", "articles", "no-fork-dsh-plugins.zh.md"), "utf8");
+
+  for (const name of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude",
+    "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal"]) {
+    assert.match(english, new RegExp(name), `English catalog must list ${name}`);
+    assert.match(chinese, new RegExp(name), `Chinese catalog must list ${name}`);
+  }
+  assert.match(english, /no-fork-dsh-plugins\.md/);
+  assert.match(chinese, /no-fork-dsh-plugins\.zh\.md/);
+  assert.match(article, /no-fork-dsh-plugins\.zh\.md/);
+  assert.match(chineseArticle, /no-fork-dsh-plugins\.md/);
+
+  const demo = join(root, "docs", "media", "dsh-plugin-suite-demo.gif");
+  const video = join(root, "docs", "media", "dsh-plugin-suite-demo.mp4");
+  await access(demo);
+  await access(video);
+  assert.ok((await stat(demo)).size > 100_000, "demo GIF must contain a real rendered tour");
+  assert.ok((await stat(video)).size > 100_000, "demo MP4 must contain a real rendered tour");
+});
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
