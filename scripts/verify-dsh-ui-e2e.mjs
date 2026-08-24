@@ -7,6 +7,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { prepareDshLocalWorkspaceLinks } from "./lib/dsh-local-workspace-links.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const dshRoot = resolve(process.env.DSH_ROOT ?? join(root, "upstream", "deepseek-harness"));
@@ -17,40 +18,40 @@ const artifactRoot = resolve(process.env.DSH_UI_E2E_ARTIFACT_DIR ?? join(tempora
 const keepArtifacts = process.env.DSH_UI_E2E_KEEP_ARTIFACTS === "1" || process.env.DSH_UI_E2E_ARTIFACT_DIR !== undefined;
 
 const packages = [
-  ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
-  ["integrations/dsh-files", "@relay/dsh-plugin-files"],
-  ["integrations/dsh-terminal", "@relay/dsh-plugin-terminal"],
+  ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
+  ["integrations/dsh-files", "relay-dsh-plugin-files"],
+  ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
 ];
 
 const scenarios = [
   {
     id: "workbench-only",
-    plugins: ["@relay/dsh-plugin-workbench"],
+    plugins: ["relay-dsh-plugin-workbench"],
     views: [],
   },
   {
     id: "files-with-workbench",
-    plugins: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files"],
-    activePackages: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files"],
+    plugins: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files"],
+    activePackages: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files"],
     views: ["Files"],
   },
   {
     id: "terminal-with-workbench",
-    plugins: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal"],
-    activePackages: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal"],
+    plugins: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal"],
+    activePackages: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal"],
     views: ["Terminal"],
   },
   {
     id: "files-terminal-with-workbench",
-    plugins: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"],
-    activePackages: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"],
+    plugins: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal"],
+    activePackages: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal"],
     views: ["Files", "Terminal"],
     workspace: true,
   },
   {
     id: "workbench-files-terminal-explicit",
-    plugins: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"],
-    activePackages: ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"],
+    plugins: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal"],
+    activePackages: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal"],
     views: ["Files", "Terminal"],
     workspace: true,
   },
@@ -59,6 +60,7 @@ const scenarios = [
 assert.ok(existsSync(dshBin), `official DSH CLI build is missing: ${dshBin}`);
 assert.ok(existsSync(webDist), `official DSH Web dist is missing: ${webDist}; run pnpm run build in the official DSH checkout first`);
 assert.equal(gitStatus(), "", "official DSH checkout must be clean before UI E2E verification");
+prepareDshLocalWorkspaceLinks(dshRoot);
 await mkdir(artifactRoot, { recursive: true });
 
 let browser;
@@ -151,10 +153,10 @@ function assertConfig(scenario, dump) {
   const activePackages = scenario.activePackages ?? scenario.plugins;
   for (const name of activePackages) assert.match(dump, new RegExp(escapeRegExp(name)), `${scenario.id}: ${name} composes`);
   const workbenchHost = /relay-(?:files-|terminal-)?workbench-host/;
-  if (activePackages.includes("@relay/dsh-plugin-workbench")) assert.match(dump, workbenchHost, `${scenario.id}: Workbench host composes`);
+  if (activePackages.includes("relay-dsh-plugin-workbench")) assert.match(dump, workbenchHost, `${scenario.id}: Workbench host composes`);
   else assert.doesNotMatch(dump, workbenchHost, `${scenario.id}: no Workbench host`);
-  if (!activePackages.includes("@relay/dsh-plugin-files")) assert.doesNotMatch(dump, /relay-files-host/, `${scenario.id}: no Files host`);
-  if (!activePackages.includes("@relay/dsh-plugin-terminal")) assert.doesNotMatch(dump, /relay-terminal-host/, `${scenario.id}: no Terminal host`);
+  if (!activePackages.includes("relay-dsh-plugin-files")) assert.doesNotMatch(dump, /relay-files-host/, `${scenario.id}: no Files host`);
+  if (!activePackages.includes("relay-dsh-plugin-terminal")) assert.doesNotMatch(dump, /relay-terminal-host/, `${scenario.id}: no Terminal host`);
 }
 
 async function assertPluginAssets(scenario, port) {

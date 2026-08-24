@@ -4,6 +4,7 @@ import { appendFile, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { prepareDshLocalWorkspaceLinks } from "./lib/dsh-local-workspace-links.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const dshRoot = join(root, "upstream", "deepseek-harness");
@@ -19,13 +20,14 @@ const packages = [
   ["integrations/codex", "relay-dsh-plugin-codex"],
   ["integrations/claude", "relay-dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
-  ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
-  ["integrations/dsh-files", "@relay/dsh-plugin-files"],
-  ["integrations/dsh-terminal", "@relay/dsh-plugin-terminal"],
+  ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
+  ["integrations/dsh-files", "relay-dsh-plugin-files"],
+  ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
 ];
 
 const cleanBefore = gitStatus();
 assert.equal(cleanBefore, "", "official DSH checkout must be clean before install verification");
+prepareDshLocalWorkspaceLinks(dshRoot);
 
 try {
   const tarballs = new Map(packages.map(([directory, name]) => {
@@ -39,11 +41,11 @@ try {
   await verifyScenario("claude-only", ["relay-dsh-plugin-claude"], tarballs, 3192);
   await verifyScenario("events-only", ["@relay/plugin-events"], tarballs, 3193);
   await verifyScenario("codex-and-claude", ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude"], tarballs, 3194);
-  await verifyScenario("workbench-only", ["@relay/dsh-plugin-workbench"], tarballs, 3195);
-  await verifyScenario("workbench-files", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files"], tarballs, 3196);
-  await verifyScenario("workbench-terminal", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal"], tarballs, 3197);
-  await verifyScenario("codex-terminal", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
-  await verifyScenario("all-plugins", ["@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "@relay/plugin-events"], tarballs, 3199);
+  await verifyScenario("workbench-only", ["relay-dsh-plugin-workbench"], tarballs, 3195);
+  await verifyScenario("workbench-files", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files"], tarballs, 3196);
+  await verifyScenario("workbench-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal"], tarballs, 3197);
+  await verifyScenario("codex-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
+  await verifyScenario("all-plugins", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "@relay/plugin-events"], tarballs, 3199);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
@@ -80,9 +82,9 @@ async function verifyScenario(id, selected, tarballs, port) {
   if (!selected.includes("relay-dsh-plugin-codex")) assert.doesNotMatch(dump, /relay-codex-host/, `${id}: no Codex host`);
   if (!selected.includes("relay-dsh-plugin-claude")) assert.doesNotMatch(dump, /relay-claude-host/, `${id}: no Claude host`);
   if (!selected.includes("@relay/plugin-events")) assert.doesNotMatch(dump, /relay-runtime-host/, `${id}: no Events host`);
-  if (!selected.includes("@relay/dsh-plugin-workbench")) assert.doesNotMatch(dump, /relay-workbench-host/, `${id}: no Workbench host`);
-  if (!selected.includes("@relay/dsh-plugin-files")) assert.doesNotMatch(dump, /relay-files-host/, `${id}: no Files host`);
-  if (!selected.includes("@relay/dsh-plugin-terminal")) assert.doesNotMatch(dump, /relay-terminal-host/, `${id}: no Terminal host`);
+  if (!selected.includes("relay-dsh-plugin-workbench")) assert.doesNotMatch(dump, /relay-workbench-host/, `${id}: no Workbench host`);
+  if (!selected.includes("relay-dsh-plugin-files")) assert.doesNotMatch(dump, /relay-files-host/, `${id}: no Files host`);
+  if (!selected.includes("relay-dsh-plugin-terminal")) assert.doesNotMatch(dump, /relay-terminal-host/, `${id}: no Terminal host`);
   await bootAndProbe(id, env, port, selected);
 }
 

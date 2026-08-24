@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync } from "node:fs";
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { linkDshWorkspacePackagesInto, prepareDshLocalWorkspaceLinks } from "./lib/dsh-local-workspace-links.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const dshRoot = join(root, "upstream", "deepseek-harness");
@@ -20,9 +21,9 @@ const dshPackages = [
   ["integrations/codex", "relay-dsh-plugin-codex"],
   ["integrations/claude", "relay-dsh-plugin-claude"],
   ["integrations/deepseek-harness", "@relay/plugin-events"],
-  ["integrations/dsh-workbench", "@relay/dsh-plugin-workbench"],
-  ["integrations/dsh-files", "@relay/dsh-plugin-files"],
-  ["integrations/dsh-terminal", "@relay/dsh-plugin-terminal"],
+  ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
+  ["integrations/dsh-files", "relay-dsh-plugin-files"],
+  ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
 ];
 const submoduleDirectories = new Set(dshPackages.slice(0, 2).map(([directory]) => directory));
 const packages = [...supportPackages, ...dshPackages];
@@ -60,16 +61,12 @@ try {
   execFileSync("npm", ["install", "--ignore-scripts", "--no-package-lock", "--omit=optional", ...packed.map(item => item.tarball)], {
     cwd: temporary, stdio: "inherit",
   });
-  const peerDirectory = join(temporary, "node_modules", "@deepseek-ai");
-  mkdirSync(peerDirectory, { recursive: true });
-  for (const peer of ["cordis", "dsh-llm", "dsh-session", "dsh-tools", "dsh-typert-protocol"]) {
-    const source = join(dshRoot, "node_modules", ".pnpm", "node_modules", "@deepseek-ai", peer);
-    symlinkSync(source, join(peerDirectory, peer), "dir");
-  }
+  linkDshWorkspacePackagesInto(dshRoot, join(temporary, "node_modules"));
+  prepareDshLocalWorkspaceLinks(dshRoot);
 
   const importProgram = `
     import assert from "node:assert/strict";
-    for (const name of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "@relay/plugin-events", "@relay/dsh-plugin-workbench", "@relay/dsh-plugin-files", "@relay/dsh-plugin-terminal"]) {
+    for (const name of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "@relay/plugin-events", "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal"]) {
       const manifest = (await import(name + "/package.json", { with: { type: "json" } })).default;
       assert.equal(manifest.main, "lib/host-plugin.js");
       const host = await import(name);
@@ -87,7 +84,11 @@ try {
       assert.deepEqual(Object.keys(manifest.dependencies || {}).filter(key => key.startsWith("@relay/") || key.startsWith("relay-dsh-plugin-")), []);
     }
   `;
-  execFileSync(process.execPath, ["--input-type=module", "--eval", importProgram], { cwd: temporary, stdio: "inherit" });
+  execFileSync(process.execPath, ["--input-type=module", "--eval", importProgram], {
+    cwd: temporary,
+    env: { ...process.env, NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ""} --preserve-symlinks`.trim() },
+    stdio: "inherit",
+  });
   console.log(`Verified ${dshPackages.length} independently packed DSH plugins and their public entries.`);
 } finally {
   rmSync(temporary, { recursive: true, force: true });
