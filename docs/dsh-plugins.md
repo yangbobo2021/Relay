@@ -92,3 +92,8 @@ For the working model rather than package structure, read the
 it starts with task choice across native DSH, Codex, and Claude, then covers App
 Server, Claude Sessions, the project Workbench, and the boundary for future
 coordination.
+
+For the complete multi-device run, read
+[Leave the Work PC Running](articles/keysync-dsh-multi-device-agent-workbench.md):
+KeySync installs official DSH, the plugins add the three conversation choices,
+Files, and Terminal, and another device reopens the original session.

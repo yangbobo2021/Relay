@@ -22,3 +22,7 @@ and real model requests. They are not interface mockups.
 Hands-on follow-up: [Import existing Codex conversations into DSH](import-existing-codex-conversations-into-dsh.md)
 shows how titles, order, and history survive the move before the same Thread
 continues inside DSH.
+
+Multi-device case study: [Leave the Work PC Running](keysync-dsh-multi-device-agent-workbench.md)
+shows how KeySync installs official DSH and how the plugin suite lets a phone or
+another computer reopen the original session.

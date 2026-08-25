@@ -18,3 +18,6 @@ DSH 原生对话、Codex 和 Claude Code 各自的长处。目标不是再造三
 
 补充实测：[把已有 Codex 对话导入 DSH](import-existing-codex-conversations-into-dsh.zh.md)，
 展示如何保留既有 Thread 的标题、顺序和历史，并在 DSH 中接着聊。
+
+多设备实战：[电脑没带走，AI 工作没停](keysync-dsh-multi-device-agent-workbench.zh.md)，
+展示如何用 KeySync 安装官方 DSH，再配合这组插件从手机或另一台电脑继续原会话。

@@ -86,3 +86,8 @@ Workbench 菜单中应出现 Files 和 Terminal。
 [《把 DSH 变成多 Agent 项目工作台》系列](articles/dsh-agent-workbench-series.zh.md)：
 从 DSH 原生、Codex、Claude 的任务选择开始，再分别进入 App Server、Claude
 Session、项目 Workbench 和未来协调边界。
+
+多设备完整实测见
+[《电脑没带走，AI 工作没停》](articles/keysync-dsh-multi-device-agent-workbench.zh.md)：
+KeySync 安装官方 DSH，插件加入三类会话、Files 和 Terminal，再从手机或另一台
+电脑回到原会话继续。
