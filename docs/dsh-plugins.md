@@ -87,6 +87,12 @@ install path. See the longer article,
 [No Fork Required: Add Codex, Claude Code, Files, and Terminal to DSH](articles/no-fork-dsh-plugins.md),
 for the design rationale and a guided walkthrough.
 
+The Codex plugin also treats App Server reliability as a product contract: its
+Settings status distinguishes startup, connection, runtime availability, and
+rebind failures; blank-session model selection follows the chosen backend;
+normal forks use App Server `thread/fork`; and invalid fork provenance or stale
+approvals fail closed without silently creating a replacement Codex Thread.
+
 For the working model rather than package structure, read the
 [Turning DSH into a Multi-Agent Project Workbench series](articles/dsh-agent-workbench-series.md):
 it starts with task choice across native DSH, Codex, and Claude, then covers App

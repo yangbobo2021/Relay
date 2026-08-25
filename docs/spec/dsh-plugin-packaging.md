@@ -64,3 +64,17 @@ must not import Workbench source files or implementation modules.
     Files side-view opening/closing, workspace file preview, Terminal
     bottom-view opening/closing, provider-unavailable terminal state, absence
     of uninstalled views, and no browser runtime or local resource errors.
+13. Codex exposes a user-visible App Server state (`not-started`, `starting`,
+    `connected`, `connection-failed`, `unavailable`, or `rebind-required`) and
+    maps missing executable/runtime failures to actionable stable codes rather
+    than raw spawn errors.
+14. Blank-session Standard/Codex/Claude switching selects the matching provider
+    capabilities and rejects stale asynchronous model-discovery results.
+15. A Codex fork uses App Server `thread/fork` with the owned parent Thread and
+    completed Turn, then persists the returned child Thread binding. Missing or
+    rejected provenance fails closed without fallback `thread/start`. Persisted
+    resume failures never create replacement Threads, and stale approvals are
+    rejected unless DSH Session, Thread, Turn, Item, request, and binding epoch
+    still match.
+16. Codex launcher and status/error tests run on macOS, Windows, and Linux CI;
+    official DSH remains an immutable compatibility reference.
