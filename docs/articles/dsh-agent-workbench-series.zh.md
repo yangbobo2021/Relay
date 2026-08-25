@@ -16,3 +16,5 @@ DSH 原生对话、Codex 和 Claude Code 各自的长处。目标不是再造三
 [插件安装与技术指南](no-fork-dsh-plugins.zh.md)。系列中的演示来自官方
 `@deepseek-ai/dsh@0.1.1-rc.2`、实际 npm 包和真实模型请求，不是界面稿。
 
+补充实测：[把已有 Codex 对话导入 DSH](import-existing-codex-conversations-into-dsh.zh.md)，
+展示如何保留既有 Thread 的标题、顺序和历史，并在 DSH 中接着聊。

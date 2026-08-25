@@ -57,7 +57,7 @@ Codex Thread。后续消息继续发到同一个 Thread，而不是每一轮都�
 ## 安装一个能实际运行的版本
 
 下面的命令针对官方 DSH `0.1.1-rc.2` 验证过。`next` 当前指向带内置跨平台
-App Server 运行时的 `0.1.1-rc.3`：
+App Server 运行时和 Workspace 会话导入的 `0.1.1-rc.4`：
 
 ```bash
 npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \
@@ -76,4 +76,3 @@ Events。
 
 我希望这个插件最终给人的感觉不是“DSH 调用了 Codex”，而是“这个项目里有一段由
 Codex 完成的会话”。前者是接口拼接，后者才是项目工作流。
-

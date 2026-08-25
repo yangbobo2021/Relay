@@ -125,6 +125,44 @@ test("the project-workbench article series stays bilingual, linked, and honest a
   assert.match(chineseRoadmap, /尚未实现|还没有实现/);
 });
 
+test("the Codex import article stays reproducible, bilingual, and backed by real screenshots", async () => {
+  const articles = join(root, "docs", "articles");
+  const english = await readFile(join(articles, "import-existing-codex-conversations-into-dsh.md"), "utf8");
+  const chinese = await readFile(join(articles, "import-existing-codex-conversations-into-dsh.zh.md"), "utf8");
+  const imageNames = ["scan", "complete", "list", "history", "continue"];
+
+  assert.match(english, /import-existing-codex-conversations-into-dsh\.zh\.md/);
+  assert.match(chinese, /import-existing-codex-conversations-into-dsh\.md/);
+  assert.match(english, /dsh-agent-workbench-series\.md/);
+  assert.match(chinese, /dsh-agent-workbench-series\.zh\.md/);
+
+  for (const article of [english, chinese]) {
+    assert.match(article, /relay-dsh-plugin-codex@next/);
+    assert.match(article, /0\.1\.1-rc\.4/);
+    assert.match(article, /github\.com\/yangbobo2021\/relay-dsh-plugin-codex/);
+    assert.match(article, /npmjs\.com\/package\/relay-dsh-plugin-codex/);
+    assert.match(article, /github\.com\/yangbobo2021\/Relay/);
+    assert.doesNotMatch(article, /\/Users\//);
+  }
+  assert.match(english, /whole Workspace|entire Workspace/);
+  assert.match(english, /no background polling/i);
+  assert.match(english, /two App Server writers/i);
+  assert.match(chinese, /整个 Workspace|整批导入/);
+  assert.match(chinese, /不会后台轮询/);
+  assert.match(chinese, /两个 App Server 写入者/);
+
+  for (const name of imageNames) {
+    const relative = `../media/codex-import-${name}.png`;
+    assert.ok(english.includes(relative), `English import article must include ${name} evidence`);
+    assert.ok(chinese.includes(relative), `Chinese import article must include ${name} evidence`);
+    const image = await readFile(join(root, "docs", "media", `codex-import-${name}.png`));
+    assert.equal(image.subarray(0, 8).toString("hex"), "89504e470d0a1a0a", `${name} must be a PNG`);
+    assert.equal(image.readUInt32BE(16), 1440, `${name} screenshot width must stay legible`);
+    assert.equal(image.readUInt32BE(20), 960, `${name} screenshot height must stay legible`);
+    assert.ok(image.length > 50_000, `${name} screenshot must contain real rendered UI evidence`);
+  }
+});
+
 test("the demo pipeline records live plugin behavior instead of image slides", async () => {
   const recorder = await readFile(join(root, "scripts", "record-dsh-plugin-demo.mjs"), "utf8");
   const renderer = await readFile(join(root, "scripts", "render-dsh-plugin-demo.sh"), "utf8");

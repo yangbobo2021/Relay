@@ -68,8 +68,8 @@ one place today.
 ## Install a version that actually runs
 
 The commands below were validated against official DSH `0.1.1-rc.2`. The `next`
-tag currently resolves to `0.1.1-rc.3`, which bundles the cross-platform App
-Server runtime:
+tag currently resolves to `0.1.1-rc.4`, which bundles the cross-platform App
+Server runtime and Workspace session import:
 
 ```bash
 npx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \

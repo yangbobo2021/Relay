@@ -19,3 +19,6 @@ For exact versions, installation commands, and the full plugin catalog, see the
 in this series use official `@deepseek-ai/dsh@0.1.1-rc.2`, published npm packages,
 and real model requests. They are not interface mockups.
 
+Hands-on follow-up: [Import existing Codex conversations into DSH](import-existing-codex-conversations-into-dsh.md)
+shows how titles, order, and history survive the move before the same Thread
+continues inside DSH.
