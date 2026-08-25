@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "dsh-2",
+  "startedAt": "2026-08-25T01:47:09.371Z",
+  "completedAt": "2026-08-25T01:47:10.039Z",
+  "command": "./node_modules/.bin/tsx --tsconfig tsconfig.host.json ../../dsh-lab/codex-session-import/dsh-import-probe.ts",
+  "cwd": "upstream/deepseek-harness",
+  "exitCode": 0,
+  "stdoutSha256": "ffa1ac0a9d1ee2b3946477e90b33e8cc547620c9f5e050159057a01843111abb",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "result": {
+    "schemaVersion": 1,
+    "results": {
+      "CSI-004": {
+        "result": "pass",
+        "createdThroughPublicApi": true,
+        "coldResumed": true,
+        "cwdPreserved": true,
+        "persistedEventCount": 12
+      },
+      "CSI-008": {
+        "result": "pass",
+        "importedMessages": 4,
+        "nativeDerivedMessageOrderPreserved": true,
+        "continuedAfterImport": true
+      },
+      "CSI-009": {
+        "result": "pass",
+        "firstProjection": 4,
+        "retryProjection": 0,
+        "coldResumeDuplicateCount": 0
+      },
+      "CSI-011": {
+        "result": "pass",
+        "sessionsPerRun": 100,
+        "runs": 5,
+        "medianMs": 30.618,
+        "p95Ms": 33.556,
+        "maxMs": 33.556
+      }
+    }
+  }
+}

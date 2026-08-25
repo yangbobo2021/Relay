@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-014",
+  "runId": "20260825T015012Z-full-assessment",
+  "startedAt": "2026-08-25T01:47:08.528Z",
+  "completedAt": "2026-08-25T01:50:06.082Z",
+  "phase": "solution-validation",
+  "scenario": "App Server protocol compatibility",
+  "result": "pass",
+  "environment": {
+    "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+    "relayWorktree": "dirty",
+    "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+    "codexPluginVersion": "0.1.1-rc.3",
+    "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+    "dshVersion": "0.1.1-rc.2",
+    "codexCliVersion": "0.148.0-alpha.21",
+    "appServerVersion": "0.148.0-alpha.21 and bundled 0.149.0",
+    "os": "macOS 15.3.1 (24D70)",
+    "architecture": "arm64",
+    "nodeVersion": "25.5.0",
+    "npmVersion": "11.8.0",
+    "profileKind": "user-redacted",
+    "threadOrigin": "mixed"
+  },
+  "hypothesis": "The required import surface is compatible between Codex 0.148 and bundled 0.149. Generated schemas had no removed required fields and cross-version continuation passed.",
+  "metrics": {
+    "sourceRunCount": 5,
+    "cleanRunCount": 5,
+    "productionImplementationComplete": false
+  },
+  "gates": [
+    {
+      "name": "Two live schema generations passed",
+      "result": "pass"
+    },
+    {
+      "name": "0.148 and 0.149 common fields matched",
+      "result": "pass"
+    },
+    {
+      "name": "malformed fixtures failed closed",
+      "result": "pass"
+    },
+    {
+      "name": "cross-version resume passed",
+      "result": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/metrics.json",
+      "sha256": "2c9ca8d544d3d55f861d6e1d257a539b9aaabd55b76d531078a8c3c494c8d6dd",
+      "mediaType": "application/json",
+      "description": "Combined sanitized metrics"
+    },
+    {
+      "path": "commands.log",
+      "sha256": "27995ef27f7be4993551cf7d2d3bade4d7cfee81d340941f5aac52cb0f96ceac",
+      "mediaType": "text/plain",
+      "description": "Commands executed"
+    },
+    {
+      "path": "observations.jsonl",
+      "sha256": "53f255762a1d72e445a1aa5f9f995dcc32a0b16b6bc578e3d7d5daf468b19d2c",
+      "mediaType": "application/x-ndjson",
+      "description": "Timestamped observations"
+    },
+    {
+      "path": "result.md",
+      "sha256": "946ff8d26e0fad1d8c3900840ab4d03a69394a453269692208b7cdab27be9a77",
+      "mediaType": "text/markdown",
+      "description": "Assessment conclusion"
+    },
+    {
+      "path": "../../raw/pure-1.json",
+      "sha256": "fb26877c22f91cd1ffbc80193cc7b33110bbc3480464626dd477950c31b7b8c6",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-1"
+    },
+    {
+      "path": "../../raw/pure-2.json",
+      "sha256": "f9f0453e6ad6957a16a48f540f0c6c00b211f684b5c0c5e3c27bf95fd2cdfce2",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-2"
+    },
+    {
+      "path": "../../raw/live-1.json",
+      "sha256": "dac68f365c3fdcf8711e750cceeab6cbee5857999d76263e3b68443b60fa143e",
+      "mediaType": "application/json",
+      "description": "Captured source run live-1"
+    },
+    {
+      "path": "../../raw/live-2.json",
+      "sha256": "5c6cf76a57df77d5e7def94ba7babec8f9ff595ecabe39714a1a81516e601494",
+      "mediaType": "application/json",
+      "description": "Captured source run live-2"
+    },
+    {
+      "path": "../../raw/version-compat.json",
+      "sha256": "ea08612b0006231dcf7b2bf7d3f1b66bfefecc566c9847c34d765b3bb8989782",
+      "mediaType": "application/json",
+      "description": "Captured source run version-compat"
+    }
+  ],
+  "limitations": [
+    "This verifies technical feasibility and the proposed mitigation, not production implementation of the import feature.",
+    "Results are version-bound to the environment recorded in this manifest."
+  ]
+}

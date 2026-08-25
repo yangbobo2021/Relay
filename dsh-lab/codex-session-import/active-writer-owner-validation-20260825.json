@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-25",
+  "riskId": "CSI-006",
+  "result": "confirmed-process-level-writer",
+  "observations": {
+    "ownerKind": "Codex Desktop App Server",
+    "dshAppServerOwnedReportedThread": false,
+    "uiSessionSwitchReleasedWriter": false,
+    "ownerHeldMultipleThreadLocks": true,
+    "threadReadRemainsAvailable": true,
+    "resumeRequiresOwnerRelease": true
+  },
+  "safePluginBehavior": {
+    "stableErrorCode": "CODEX_THREAD_ACTIVE_WRITER",
+    "retryable": true,
+    "preserveBinding": true,
+    "forceTakeover": false,
+    "deleteLockFile": false,
+    "terminateOwner": false,
+    "silentFork": false
+  },
+  "privacy": {
+    "threadIdRecorded": false,
+    "ownerPidRecorded": false,
+    "homePathRecorded": false
+  }
+}

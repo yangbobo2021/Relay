@@ -1,0 +1,4 @@
+{"time":"2026-08-25T01:47:08.593Z","phase":"solution-validation","operation":"pure-1","outcome":"pass","metrics":{"result":"pass","firstProjection":4,"retryProjection":0,"incrementalProjection":2,"uniqueKeys":6}}
+{"time":"2026-08-25T01:47:08.657Z","phase":"solution-validation","operation":"pure-2","outcome":"pass","metrics":{"result":"pass","firstProjection":4,"retryProjection":0,"incrementalProjection":2,"uniqueKeys":6}}
+{"time":"2026-08-25T01:47:09.371Z","phase":"solution-validation","operation":"dsh-1","outcome":"pass","metrics":{"result":"pass","firstProjection":4,"retryProjection":0,"coldResumeDuplicateCount":0}}
+{"time":"2026-08-25T01:47:10.039Z","phase":"solution-validation","operation":"dsh-2","outcome":"pass","metrics":{"result":"pass","firstProjection":4,"retryProjection":0,"coldResumeDuplicateCount":0}}

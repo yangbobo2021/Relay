@@ -1,0 +1,74 @@
+{
+  "riskId": "CSI-013",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "pure-1",
+      "startedAt": "2026-08-25T01:47:08.528Z",
+      "completedAt": "2026-08-25T01:47:08.593Z",
+      "result": {
+        "result": "pass",
+        "transitions": {
+          "active": {
+            "action": "resume"
+          },
+          "archived": {
+            "action": "offer-unarchive"
+          },
+          "wrongProfile": {
+            "action": "retry-correct-profile"
+          },
+          "deleted": {
+            "action": "broken-binding"
+          }
+        },
+        "silentReplacementCount": 0
+      }
+    },
+    {
+      "id": "pure-2",
+      "startedAt": "2026-08-25T01:47:08.595Z",
+      "completedAt": "2026-08-25T01:47:08.657Z",
+      "result": {
+        "result": "pass",
+        "transitions": {
+          "active": {
+            "action": "resume"
+          },
+          "archived": {
+            "action": "offer-unarchive"
+          },
+          "wrongProfile": {
+            "action": "retry-correct-profile"
+          },
+          "deleted": {
+            "action": "broken-binding"
+          }
+        },
+        "silentReplacementCount": 0
+      }
+    },
+    {
+      "id": "live-1",
+      "startedAt": "2026-08-25T01:47:10.040Z",
+      "completedAt": "2026-08-25T01:48:26.851Z",
+      "result": {
+        "result": "pass",
+        "archivedSeparatedFromActiveList": true,
+        "unarchiveRestoredSameThreadId": true,
+        "deleteCheckedDuringCleanup": true
+      }
+    },
+    {
+      "id": "live-2",
+      "startedAt": "2026-08-25T01:48:26.852Z",
+      "completedAt": "2026-08-25T01:49:37.560Z",
+      "result": {
+        "result": "pass",
+        "archivedSeparatedFromActiveList": true,
+        "unarchiveRestoredSameThreadId": true,
+        "deleteCheckedDuringCleanup": true
+      }
+    }
+  ]
+}

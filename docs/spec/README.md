@@ -10,6 +10,9 @@ choice, but neither should redefine the requirements here.
 - [Runtime](runtime.md): DSH ownership, Wait registration, Event delivery, and invariants.
 - [Codex In DSH Web](codex-app-server.md): native DSH Session lifecycle, Codex Thread
   binding and projection, approvals, and Relay Event continuation.
+- [Codex Session Import Risk Validation](codex-session-import-validation/README.md):
+  risk register, reproducible experiment protocols, evidence requirements, and
+  release gates for importing existing Codex Threads as DSH Sessions.
 - [Claude Code In DSH Web](claude-code.md): native DSH Session lifecycle, Claude Code
   session binding and projection, CLI/SDK backend contract, and Relay Event continuation.
 - [Conversation Presentation](conversation-presentation.md): default simplified Chat
@@ -43,5 +46,6 @@ The specification grows with the product instead of predicting a final hierarchy
 6. Merge or reorganize documents when the conceptual boundaries change. Update all
    affected indexes in the same change.
 
-The current specification has eleven distinct concerns, so they remain as files in one
-indexed directory. More levels are not justified yet.
+Codex Session import validation uses a child directory because it maintains multiple
+independently executed risk protocols and a shared evidence contract. Other current
+specification concerns remain as files in this indexed directory.

@@ -1,0 +1,50 @@
+{
+  "riskId": "CSI-010",
+  "status": "accepted",
+  "sourceRuns": [
+    {
+      "id": "pure-1",
+      "startedAt": "2026-08-25T01:47:08.528Z",
+      "completedAt": "2026-08-25T01:47:08.593Z",
+      "result": {
+        "result": "pass",
+        "classified": {
+          "userMessage": "required-message",
+          "agentMessage": "required-message",
+          "reasoning": "optional-reasoning",
+          "imageGeneration": "attachment",
+          "commandExecution": "supported-activity",
+          "mcpToolCall": "supported-activity",
+          "contextCompaction": "opaque-internal",
+          "futureUnknown": "optional-unknown"
+        },
+        "unknownBlocksImport": false
+      }
+    },
+    {
+      "id": "pure-2",
+      "startedAt": "2026-08-25T01:47:08.595Z",
+      "completedAt": "2026-08-25T01:47:08.657Z",
+      "result": {
+        "result": "pass",
+        "classified": {
+          "userMessage": "required-message",
+          "agentMessage": "required-message",
+          "reasoning": "optional-reasoning",
+          "imageGeneration": "attachment",
+          "commandExecution": "supported-activity",
+          "mcpToolCall": "supported-activity",
+          "contextCompaction": "opaque-internal",
+          "futureUnknown": "optional-unknown"
+        },
+        "unknownBlocksImport": false
+      }
+    },
+    {
+      "id": "plugin-verify",
+      "startedAt": "2026-08-25T01:50:06.083Z",
+      "completedAt": "2026-08-25T01:50:08.442Z",
+      "result": null
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "id": "pure-2",
+  "startedAt": "2026-08-25T01:47:08.595Z",
+  "completedAt": "2026-08-25T01:47:08.657Z",
+  "command": "node dsh-lab/codex-session-import/pure-probe.mjs",
+  "cwd": ".",
+  "exitCode": 0,
+  "stdoutSha256": "4a7b7f7a141e57ad8457dec12249f39fa3d8cf13973bd5ff288cc00a2b2ba450",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "result": {
+    "schemaVersion": 1,
+    "results": {
+      "CSI-001": {
+        "result": "pass",
+        "pagesTraversed": 3,
+        "eligibleSources": [
+          "cli",
+          "vscode",
+          "exec",
+          "appServer",
+          "unknown"
+        ],
+        "duplicatePageRejected": true
+      },
+      "CSI-003": {
+        "result": "pass",
+        "stableIdentity": true,
+        "profileMismatchDetected": true
+      },
+      "CSI-005": {
+        "result": "pass",
+        "failurePoints": [
+          {
+            "failAfter": "reserved",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "session-created",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "linked",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "committed",
+            "sessions": 1,
+            "links": 1
+          }
+        ],
+        "deterministicReservation": true
+      },
+      "CSI-006": {
+        "result": "pass",
+        "simultaneousOwnerCount": 1,
+        "restartReconcilesFromAppServerStatus": true
+      },
+      "CSI-007": {
+        "result": "pass",
+        "inventoryMutations": 0,
+        "unsupportedModelRequiresChoice": true,
+        "missingCwdRejected": true
+      },
+      "CSI-009": {
+        "result": "pass",
+        "firstProjection": 4,
+        "retryProjection": 0,
+        "incrementalProjection": 2,
+        "uniqueKeys": 6
+      },
+      "CSI-010": {
+        "result": "pass",
+        "classified": {
+          "userMessage": "required-message",
+          "agentMessage": "required-message",
+          "reasoning": "optional-reasoning",
+          "imageGeneration": "attachment",
+          "commandExecution": "supported-activity",
+          "mcpToolCall": "supported-activity",
+          "contextCompaction": "opaque-internal",
+          "futureUnknown": "optional-unknown"
+        },
+        "unknownBlocksImport": false
+      },
+      "CSI-011": {
+        "result": "pass",
+        "samples": {
+          "1": {
+            "medianMs": 0.002,
+            "p95Ms": 0.005,
+            "maxMs": 0.005
+          },
+          "10": {
+            "medianMs": 0.005,
+            "p95Ms": 0.009,
+            "maxMs": 0.009
+          },
+          "100": {
+            "medianMs": 0.036,
+            "p95Ms": 0.315,
+            "maxMs": 0.315
+          },
+          "1000": {
+            "medianMs": 0.198,
+            "p95Ms": 0.387,
+            "maxMs": 0.387
+          }
+        },
+        "duplicates": 0,
+        "strategy": "metadata-shells-with-lazy-resume"
+      },
+      "CSI-012": {
+        "result": "pass",
+        "matrix": {
+          "exact": true,
+          "child": false,
+          "sibling": false,
+          "alias": true,
+          "lexicalPrefixRejected": true
+        },
+        "policy": "canonical-exact-cwd"
+      },
+      "CSI-013": {
+        "result": "pass",
+        "transitions": {
+          "active": {
+            "action": "resume"
+          },
+          "archived": {
+            "action": "offer-unarchive"
+          },
+          "wrongProfile": {
+            "action": "retry-correct-profile"
+          },
+          "deleted": {
+            "action": "broken-binding"
+          }
+        },
+        "silentReplacementCount": 0
+      },
+      "CSI-014": {
+        "result": "pass",
+        "additiveFieldsAccepted": true,
+        "missingRequiredFieldsRejected": true,
+        "malformedCursorRejected": true
+      }
+    }
+  }
+}

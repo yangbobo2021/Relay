@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-25",
+  "officialDshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+  "rawThreadIdRecorded": false,
+  "conversationTitleRecorded": false,
+  "assertions": {
+    "importedRows": 28,
+    "titlesPresentBeforeOpen": 28,
+    "stableTimestampMatches": 27,
+    "stableTimestampTotal": 27,
+    "activeThreadsExcludedFromExactMatch": 1,
+    "monotonicBeforeOpen": true,
+    "coldRestartRows": 28,
+    "coldRestartTitlesPresent": 28,
+    "coldRestartRecencyBacked": 28,
+    "coldRestartMonotonic": true,
+    "officialDshCheckoutModified": false
+  }
+}

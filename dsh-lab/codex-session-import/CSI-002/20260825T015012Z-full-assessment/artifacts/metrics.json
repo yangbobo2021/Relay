@@ -1,0 +1,50 @@
+{
+  "riskId": "CSI-002",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "live-1",
+      "startedAt": "2026-08-25T01:47:10.040Z",
+      "completedAt": "2026-08-25T01:48:26.851Z",
+      "result": {
+        "result": "pass",
+        "origin": "exec",
+        "discoveredWithExecSource": true,
+        "resumedSameThread": true,
+        "historicalMarkerReadable": true,
+        "continuationRecoveredMarker": true,
+        "contextCompactionPresent": true,
+        "dshInspectedCompactionPayload": false
+      }
+    },
+    {
+      "id": "live-2",
+      "startedAt": "2026-08-25T01:48:26.852Z",
+      "completedAt": "2026-08-25T01:49:37.560Z",
+      "result": {
+        "result": "pass",
+        "origin": "exec",
+        "discoveredWithExecSource": true,
+        "resumedSameThread": true,
+        "historicalMarkerReadable": true,
+        "continuationRecoveredMarker": true,
+        "contextCompactionPresent": true,
+        "dshInspectedCompactionPayload": false
+      }
+    },
+    {
+      "id": "version-compat",
+      "startedAt": "2026-08-25T01:49:37.560Z",
+      "completedAt": "2026-08-25T01:50:06.082Z",
+      "result": {
+        "result": "pass",
+        "creatorVersion": "codex-cli 0.148.0-alpha.21",
+        "resumeVersion": "codex-cli 0.149.0",
+        "sourceKind": "exec",
+        "discovered": true,
+        "resumedSameThread": true,
+        "continuationRecoveredMarker": true
+      }
+    }
+  ]
+}

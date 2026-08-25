@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "plugin-verify",
+  "startedAt": "2026-08-25T01:50:06.083Z",
+  "completedAt": "2026-08-25T01:50:08.442Z",
+  "command": "npm run verify",
+  "cwd": "integrations/codex",
+  "exitCode": 0,
+  "stdoutSha256": "941539506a7a0575d0da30e29ee1a716154374c2b23d951553d9f49b2b85edac",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "result": {
+    "passed": true,
+    "tests": 62,
+    "passedTests": 62,
+    "failedTests": 0,
+    "buildCompleted": true
+  }
+}

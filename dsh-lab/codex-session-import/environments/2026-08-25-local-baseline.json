@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-25",
+  "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+  "relayWorktree": "dirty",
+  "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+  "codexPluginVersion": "0.1.1-rc.3",
+  "codexPluginWorktree": "clean",
+  "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+  "dshVersion": "0.1.1-rc.2",
+  "dshWorktree": "clean",
+  "codexCliVersion": "0.148.0-alpha.21",
+  "operatingSystem": "macOS 15.3.1 (24D70)",
+  "architecture": "arm64",
+  "nodeVersion": "25.5.0",
+  "npmVersion": "11.8.0",
+  "notes": [
+    "This is a tooling baseline, not an accepted risk-validation run.",
+    "The Relay worktree is dirty because the validation specification is being added."
+  ]
+}

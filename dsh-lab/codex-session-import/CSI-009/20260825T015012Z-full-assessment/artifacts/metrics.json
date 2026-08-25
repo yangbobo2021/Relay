@@ -1,0 +1,52 @@
+{
+  "riskId": "CSI-009",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "pure-1",
+      "startedAt": "2026-08-25T01:47:08.528Z",
+      "completedAt": "2026-08-25T01:47:08.593Z",
+      "result": {
+        "result": "pass",
+        "firstProjection": 4,
+        "retryProjection": 0,
+        "incrementalProjection": 2,
+        "uniqueKeys": 6
+      }
+    },
+    {
+      "id": "pure-2",
+      "startedAt": "2026-08-25T01:47:08.595Z",
+      "completedAt": "2026-08-25T01:47:08.657Z",
+      "result": {
+        "result": "pass",
+        "firstProjection": 4,
+        "retryProjection": 0,
+        "incrementalProjection": 2,
+        "uniqueKeys": 6
+      }
+    },
+    {
+      "id": "dsh-1",
+      "startedAt": "2026-08-25T01:47:08.657Z",
+      "completedAt": "2026-08-25T01:47:09.371Z",
+      "result": {
+        "result": "pass",
+        "firstProjection": 4,
+        "retryProjection": 0,
+        "coldResumeDuplicateCount": 0
+      }
+    },
+    {
+      "id": "dsh-2",
+      "startedAt": "2026-08-25T01:47:09.371Z",
+      "completedAt": "2026-08-25T01:47:10.039Z",
+      "result": {
+        "result": "pass",
+        "firstProjection": 4,
+        "retryProjection": 0,
+        "coldResumeDuplicateCount": 0
+      }
+    }
+  ]
+}

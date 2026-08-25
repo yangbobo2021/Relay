@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-011",
+  "runId": "20260825T015012Z-full-assessment",
+  "startedAt": "2026-08-25T01:47:08.528Z",
+  "completedAt": "2026-08-25T01:47:10.039Z",
+  "phase": "solution-validation",
+  "scenario": "Bulk import performance",
+  "result": "pass",
+  "environment": {
+    "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+    "relayWorktree": "dirty",
+    "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+    "codexPluginVersion": "0.1.1-rc.3",
+    "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+    "dshVersion": "0.1.1-rc.2",
+    "codexCliVersion": "0.148.0-alpha.21",
+    "appServerVersion": "0.148.0-alpha.21 and bundled 0.149.0",
+    "os": "macOS 15.3.1 (24D70)",
+    "architecture": "arm64",
+    "nodeVersion": "25.5.0",
+    "npmVersion": "11.8.0",
+    "profileKind": "user-redacted",
+    "threadOrigin": "mixed"
+  },
+  "hypothesis": "Metadata-shell import is inexpensive. A 1,000-record prototype remained sub-millisecond and five 100-Session DSH persistence runs stayed below 40 ms on the test machine.",
+  "metrics": {
+    "sourceRunCount": 4,
+    "cleanRunCount": 4,
+    "productionImplementationComplete": false
+  },
+  "gates": [
+    {
+      "name": "Five DSH runs measured",
+      "result": "pass"
+    },
+    {
+      "name": "100 Sessions completed below 40 ms",
+      "result": "pass"
+    },
+    {
+      "name": "1,000 metadata records produced no duplicates",
+      "result": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/metrics.json",
+      "sha256": "cb8d7c7e31a9296693969c88db6aa6a366419da98ed361e877831862cd7df431",
+      "mediaType": "application/json",
+      "description": "Combined sanitized metrics"
+    },
+    {
+      "path": "commands.log",
+      "sha256": "2cd4de4eaab1aa3ce87227dd27c86f5a3cf5c33174332a6e8381661eafac2966",
+      "mediaType": "text/plain",
+      "description": "Commands executed"
+    },
+    {
+      "path": "observations.jsonl",
+      "sha256": "49a44748f658b091c6a1d6d28ccdc1edddd4652b768e7b7adcfca3a1f04978a6",
+      "mediaType": "application/x-ndjson",
+      "description": "Timestamped observations"
+    },
+    {
+      "path": "result.md",
+      "sha256": "2090c67b4252c72129ee3f8fc0b81d964e09ecec8bd3a91cb555ae17fd4a90c1",
+      "mediaType": "text/markdown",
+      "description": "Assessment conclusion"
+    },
+    {
+      "path": "../../raw/pure-1.json",
+      "sha256": "fb26877c22f91cd1ffbc80193cc7b33110bbc3480464626dd477950c31b7b8c6",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-1"
+    },
+    {
+      "path": "../../raw/pure-2.json",
+      "sha256": "f9f0453e6ad6957a16a48f540f0c6c00b211f684b5c0c5e3c27bf95fd2cdfce2",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-2"
+    },
+    {
+      "path": "../../raw/dsh-1.json",
+      "sha256": "38f09204a8a750f84fb65f0bd8e5a29f93de73b8d445fc93a3016ab1f782569e",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-1"
+    },
+    {
+      "path": "../../raw/dsh-2.json",
+      "sha256": "4127cf6550edc9ba0a5895e96c7cc7a1df56d4162db27c1f44851332f6178bda",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-2"
+    }
+  ],
+  "limitations": [
+    "This verifies technical feasibility and the proposed mitigation, not production implementation of the import feature.",
+    "Results are version-bound to the environment recorded in this manifest."
+  ]
+}

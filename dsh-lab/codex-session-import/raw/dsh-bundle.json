@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "dsh-bundle",
+  "startedAt": "2026-08-25T01:50:08.443Z",
+  "completedAt": "2026-08-25T01:50:11.935Z",
+  "command": "npm run experiment:dsh-bundle",
+  "cwd": ".",
+  "exitCode": 0,
+  "stdoutSha256": "86e80fbde1ce7ad15b714e65d1100aa7e0fc397fa9b4e6a0d5aea34de30a8caa",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "result": {
+    "passed": true,
+    "details": {
+      "bundle": "relay-dsh-cold-resume-probe",
+      "profile": "relay-probe",
+      "lifecycle": [
+        "loaded",
+        "disposed"
+      ]
+    }
+  }
+}

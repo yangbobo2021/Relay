@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-25",
+  "riskIds": ["CSI-008", "CSI-009"],
+  "reproduction": {
+    "sourceCompletedTurns": 34,
+    "sourceInterruptedTurns": 1,
+    "sourceInProgressTurns": 0,
+    "oldProductionProjectedMessages": 0,
+    "cause": "completed-only filter excluded a terminal interrupted Turn"
+  },
+  "solution": {
+    "terminalStatuses": ["completed", "interrupted", "failed"],
+    "deferredStatuses": ["inProgress"],
+    "unknownStatusPolicy": "defer",
+    "initialImportUsesSameFilter": true,
+    "dshEndReasons": {
+      "completed": "completed",
+      "interrupted": "interrupted",
+      "failed": "error"
+    }
+  },
+  "officialDshProbe": {
+    "projectedMessages": 6,
+    "projectedTurns": 3,
+    "repeatedProjectedMessages": 0,
+    "runningTurnDeferred": true,
+    "coldResume": "passed"
+  },
+  "realProductionSession": {
+    "firstProjectedMessages": 2,
+    "firstProjectedTurns": 1,
+    "secondProjectedMessages": 0,
+    "persistedEndReason": "interrupted",
+    "deterministicRoleMessageIds": true
+  },
+  "privacy": {
+    "threadIdRecorded": false,
+    "messageContentRecorded": false,
+    "homePathRecorded": false
+  }
+}

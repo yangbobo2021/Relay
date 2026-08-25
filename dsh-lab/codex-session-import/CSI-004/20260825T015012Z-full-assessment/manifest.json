@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-004",
+  "runId": "20260825T015012Z-full-assessment",
+  "startedAt": "2026-08-25T01:47:08.657Z",
+  "completedAt": "2026-08-25T01:50:12.527Z",
+  "phase": "solution-validation",
+  "scenario": "Plugin-created DSH Session completeness",
+  "result": "pass",
+  "environment": {
+    "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+    "relayWorktree": "dirty",
+    "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+    "codexPluginVersion": "0.1.1-rc.3",
+    "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+    "dshVersion": "0.1.1-rc.2",
+    "codexCliVersion": "0.148.0-alpha.21",
+    "appServerVersion": "0.148.0-alpha.21 and bundled 0.149.0",
+    "os": "macOS 15.3.1 (24D70)",
+    "architecture": "arm64",
+    "nodeVersion": "25.5.0",
+    "npmVersion": "11.8.0",
+    "profileKind": "user-redacted",
+    "threadOrigin": "mixed"
+  },
+  "hypothesis": "Official DSH public APIs can create, flush, cold-resume, and continue an imported Session without modifying DSH source.",
+  "metrics": {
+    "sourceRunCount": 4,
+    "cleanRunCount": 4,
+    "productionImplementationComplete": false
+  },
+  "gates": [
+    {
+      "name": "Public API creation passed twice",
+      "result": "pass"
+    },
+    {
+      "name": "cwd and presentation events survived cold resume",
+      "result": "pass"
+    },
+    {
+      "name": "bundle load/dispose passed",
+      "result": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/metrics.json",
+      "sha256": "2aceed555805b4bf106be6e8265dac279292e53b7f7cfb22545c985765eba03b",
+      "mediaType": "application/json",
+      "description": "Combined sanitized metrics"
+    },
+    {
+      "path": "commands.log",
+      "sha256": "2474b6fa09f8f1181d9d46ea42715b6dd6a63e19263a1500c9f0d43ab4662ccf",
+      "mediaType": "text/plain",
+      "description": "Commands executed"
+    },
+    {
+      "path": "observations.jsonl",
+      "sha256": "b8f253409b7ceac3071239e391a400c63c4d23058222a5a316aded55134c3d7f",
+      "mediaType": "application/x-ndjson",
+      "description": "Timestamped observations"
+    },
+    {
+      "path": "result.md",
+      "sha256": "bbf6465c9455b79f2bc34b98763af8c603482c64f6ff736a76104b4224063ab8",
+      "mediaType": "text/markdown",
+      "description": "Assessment conclusion"
+    },
+    {
+      "path": "../../raw/dsh-1.json",
+      "sha256": "38f09204a8a750f84fb65f0bd8e5a29f93de73b8d445fc93a3016ab1f782569e",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-1"
+    },
+    {
+      "path": "../../raw/dsh-2.json",
+      "sha256": "4127cf6550edc9ba0a5895e96c7cc7a1df56d4162db27c1f44851332f6178bda",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-2"
+    },
+    {
+      "path": "../../raw/dsh-bundle.json",
+      "sha256": "55a6b5fbf66ae9b4ba4b8a93823f9fcecade5407840ffbf2a6dc5d39762f4b88",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-bundle"
+    },
+    {
+      "path": "../../raw/dsh-cold-resume.json",
+      "sha256": "5202fb95859cb4ebc65d7f2c038ae580f5301ca4b5d285765b02b735267becf6",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-cold-resume"
+    }
+  ],
+  "limitations": [
+    "This verifies technical feasibility and the proposed mitigation, not production implementation of the import feature.",
+    "Results are version-bound to the environment recorded in this manifest."
+  ]
+}

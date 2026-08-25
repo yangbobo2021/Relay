@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "dsh-cold-resume",
+  "startedAt": "2026-08-25T01:50:11.935Z",
+  "completedAt": "2026-08-25T01:50:12.527Z",
+  "command": "npm run experiment:dsh-cold-resume",
+  "cwd": ".",
+  "exitCode": 0,
+  "stdoutSha256": "5a18f68e6d3d095624550eb46472783a6aeb20a15a7b3843d0ba28a300ce96d3",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "result": {
+    "passed": true,
+    "details": {
+      "dshSessionId": "relay-cold-resume-probe",
+      "messagesBeforeResume": 2,
+      "modelRequests": 2,
+      "turnEnds": 2
+    }
+  }
+}

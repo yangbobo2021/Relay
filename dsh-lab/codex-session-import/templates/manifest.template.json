@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-000",
+  "runId": "YYYYMMDDTHHMMSSZ-scenario-name",
+  "startedAt": "YYYY-MM-DDTHH:MM:SSZ",
+  "completedAt": "YYYY-MM-DDTHH:MM:SSZ",
+  "phase": "risk-reproduction",
+  "scenario": "Replace with the tested scenario",
+  "result": "inconclusive",
+  "environment": {
+    "relayCommit": "0000000000000000000000000000000000000000",
+    "relayWorktree": "clean",
+    "codexPluginCommit": "0000000000000000000000000000000000000000",
+    "codexPluginVersion": "replace-me",
+    "dshCommit": "0000000000000000000000000000000000000000",
+    "dshVersion": "replace-me",
+    "codexCliVersion": "replace-me",
+    "appServerVersion": "replace-me",
+    "os": "replace-me",
+    "architecture": "replace-me",
+    "nodeVersion": "replace-me",
+    "npmVersion": "replace-me",
+    "profileKind": "temporary",
+    "threadOrigin": "fixture"
+  },
+  "hypothesis": "Replace with a falsifiable hypothesis",
+  "metrics": {},
+  "gates": [
+    {
+      "name": "Replace with an acceptance gate",
+      "result": "not-evaluated",
+      "observation": ""
+    }
+  ],
+  "artifacts": [],
+  "limitations": []
+}

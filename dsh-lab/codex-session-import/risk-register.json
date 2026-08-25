@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-25",
+  "risks": [
+    { "id": "CSI-001", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-002", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-003", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-004", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-005", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-006", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-007", "priority": "P1", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-008", "priority": "P1", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-009", "priority": "P1", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-010", "priority": "P2", "status": "accepted", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-011", "priority": "P1", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-012", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-013", "priority": "P1", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] },
+    { "id": "CSI-014", "priority": "P0", "status": "verified", "implementationStatus": "implemented", "acceptedRuns": ["20260825T015012Z-full-assessment"] }
+  ]
+}

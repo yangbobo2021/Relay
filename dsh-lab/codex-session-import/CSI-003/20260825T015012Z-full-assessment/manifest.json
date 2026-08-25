@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-003",
+  "runId": "20260825T015012Z-full-assessment",
+  "startedAt": "2026-08-25T01:47:08.528Z",
+  "completedAt": "2026-08-25T01:49:37.560Z",
+  "phase": "solution-validation",
+  "scenario": "Shared Codex store identity",
+  "result": "pass",
+  "environment": {
+    "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+    "relayWorktree": "dirty",
+    "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+    "codexPluginVersion": "0.1.1-rc.3",
+    "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+    "dshVersion": "0.1.1-rc.2",
+    "codexCliVersion": "0.148.0-alpha.21",
+    "appServerVersion": "0.148.0-alpha.21 and bundled 0.149.0",
+    "os": "macOS 15.3.1 (24D70)",
+    "architecture": "arm64",
+    "nodeVersion": "25.5.0",
+    "npmVersion": "11.8.0",
+    "profileKind": "user-redacted",
+    "threadOrigin": "mixed"
+  },
+  "hypothesis": "Solvable by making profile identity explicit. A temporary alternate profile returned zero Threads while the normal profile retained its inventory.",
+  "metrics": {
+    "sourceRunCount": 4,
+    "cleanRunCount": 4,
+    "productionImplementationComplete": false
+  },
+  "gates": [
+    {
+      "name": "Profile switch changed inventory",
+      "result": "pass"
+    },
+    {
+      "name": "Stable fingerprint prototype detected mismatch",
+      "result": "pass"
+    },
+    {
+      "name": "no credentials or paths were recorded",
+      "result": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/metrics.json",
+      "sha256": "8f713bc518cd3dd8980d4045fbd6a726c5f6c6849f735a0a513604ef3f74e6b5",
+      "mediaType": "application/json",
+      "description": "Combined sanitized metrics"
+    },
+    {
+      "path": "commands.log",
+      "sha256": "6bdaa4138e4c1c819802e32838320c63dc440769728843dae52bbe9e92f2f3fc",
+      "mediaType": "text/plain",
+      "description": "Commands executed"
+    },
+    {
+      "path": "observations.jsonl",
+      "sha256": "a15f6c0ac64bb701e76156c117224aa293b8454b6dc8639e8ffcebfe23f4282a",
+      "mediaType": "application/x-ndjson",
+      "description": "Timestamped observations"
+    },
+    {
+      "path": "result.md",
+      "sha256": "047c9754ae8a1525282ece0bb838bfac49b25dd046efc46b53024e2246370983",
+      "mediaType": "text/markdown",
+      "description": "Assessment conclusion"
+    },
+    {
+      "path": "../../raw/pure-1.json",
+      "sha256": "fb26877c22f91cd1ffbc80193cc7b33110bbc3480464626dd477950c31b7b8c6",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-1"
+    },
+    {
+      "path": "../../raw/pure-2.json",
+      "sha256": "f9f0453e6ad6957a16a48f540f0c6c00b211f684b5c0c5e3c27bf95fd2cdfce2",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-2"
+    },
+    {
+      "path": "../../raw/live-1.json",
+      "sha256": "dac68f365c3fdcf8711e750cceeab6cbee5857999d76263e3b68443b60fa143e",
+      "mediaType": "application/json",
+      "description": "Captured source run live-1"
+    },
+    {
+      "path": "../../raw/live-2.json",
+      "sha256": "5c6cf76a57df77d5e7def94ba7babec8f9ff595ecabe39714a1a81516e601494",
+      "mediaType": "application/json",
+      "description": "Captured source run live-2"
+    }
+  ],
+  "limitations": [
+    "This verifies technical feasibility and the proposed mitigation, not production implementation of the import feature.",
+    "Results are version-bound to the environment recorded in this manifest."
+  ]
+}

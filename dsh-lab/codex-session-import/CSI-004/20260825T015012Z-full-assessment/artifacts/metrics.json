@@ -1,0 +1,42 @@
+{
+  "riskId": "CSI-004",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "dsh-1",
+      "startedAt": "2026-08-25T01:47:08.657Z",
+      "completedAt": "2026-08-25T01:47:09.371Z",
+      "result": {
+        "result": "pass",
+        "createdThroughPublicApi": true,
+        "coldResumed": true,
+        "cwdPreserved": true,
+        "persistedEventCount": 12
+      }
+    },
+    {
+      "id": "dsh-2",
+      "startedAt": "2026-08-25T01:47:09.371Z",
+      "completedAt": "2026-08-25T01:47:10.039Z",
+      "result": {
+        "result": "pass",
+        "createdThroughPublicApi": true,
+        "coldResumed": true,
+        "cwdPreserved": true,
+        "persistedEventCount": 12
+      }
+    },
+    {
+      "id": "dsh-bundle",
+      "startedAt": "2026-08-25T01:50:08.443Z",
+      "completedAt": "2026-08-25T01:50:11.935Z",
+      "result": null
+    },
+    {
+      "id": "dsh-cold-resume",
+      "startedAt": "2026-08-25T01:50:11.935Z",
+      "completedAt": "2026-08-25T01:50:12.527Z",
+      "result": null
+    }
+  ]
+}

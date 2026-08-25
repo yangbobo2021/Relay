@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "id": "version-compat",
+  "startedAt": "2026-08-25T01:49:37.560Z",
+  "completedAt": "2026-08-25T01:50:06.082Z",
+  "command": "node dsh-lab/codex-session-import/version-compat-probe.mjs",
+  "cwd": ".",
+  "exitCode": 0,
+  "stdoutSha256": "da06757aa2de685e5ddb8672e5e64890ec7b7f9cbd616b291b4c14bd6e8d2ba9",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "result": {
+    "schemaVersion": 1,
+    "results": {
+      "CSI-002": {
+        "result": "pass",
+        "creatorVersion": "codex-cli 0.148.0-alpha.21",
+        "resumeVersion": "codex-cli 0.149.0",
+        "sourceKind": "exec",
+        "discovered": true,
+        "resumedSameThread": true,
+        "continuationRecoveredMarker": true
+      },
+      "CSI-014": {
+        "result": "pass",
+        "versions": [
+          "codex-cli 0.148.0-alpha.21",
+          "codex-cli 0.149.0"
+        ],
+        "schemaComparison": {
+          "ThreadListParams.json": {
+            "commonProperties": [
+              "archived",
+              "cursor",
+              "cwd",
+              "limit",
+              "modelProviders",
+              "searchTerm",
+              "sectionId",
+              "sortDirection",
+              "sortKey",
+              "sourceKinds",
+              "useStateDbOnly"
+            ],
+            "removedInBundled": [],
+            "addedInBundled": [],
+            "requiredCompatible": true
+          },
+          "ThreadResumeParams.json": {
+            "commonProperties": [
+              "approvalPolicy",
+              "approvalsReviewer",
+              "baseInstructions",
+              "config",
+              "cwd",
+              "developerInstructions",
+              "model",
+              "modelProvider",
+              "personality",
+              "sandbox",
+              "serviceTier",
+              "threadId"
+            ],
+            "removedInBundled": [],
+            "addedInBundled": [],
+            "requiredCompatible": true
+          },
+          "ThreadReadParams.json": {
+            "commonProperties": [
+              "includeTurns",
+              "threadId"
+            ],
+            "removedInBundled": [],
+            "addedInBundled": [],
+            "requiredCompatible": true
+          }
+        },
+        "crossVersionResume": true
+      }
+    }
+  }
+}

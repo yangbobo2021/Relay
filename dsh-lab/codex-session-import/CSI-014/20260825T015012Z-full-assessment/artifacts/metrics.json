@@ -1,0 +1,265 @@
+{
+  "riskId": "CSI-014",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "pure-1",
+      "startedAt": "2026-08-25T01:47:08.528Z",
+      "completedAt": "2026-08-25T01:47:08.593Z",
+      "result": {
+        "result": "pass",
+        "additiveFieldsAccepted": true,
+        "missingRequiredFieldsRejected": true,
+        "malformedCursorRejected": true
+      }
+    },
+    {
+      "id": "pure-2",
+      "startedAt": "2026-08-25T01:47:08.595Z",
+      "completedAt": "2026-08-25T01:47:08.657Z",
+      "result": {
+        "result": "pass",
+        "additiveFieldsAccepted": true,
+        "missingRequiredFieldsRejected": true,
+        "malformedCursorRejected": true
+      }
+    },
+    {
+      "id": "live-1",
+      "startedAt": "2026-08-25T01:47:10.040Z",
+      "completedAt": "2026-08-25T01:48:26.851Z",
+      "result": {
+        "result": "pass",
+        "generatedFromInstalledVersion": true,
+        "sourceKinds": [
+          "cli",
+          "vscode",
+          "exec",
+          "appServer",
+          "subAgent",
+          "subAgentReview",
+          "subAgentCompact",
+          "subAgentThreadSpawn",
+          "subAgentOther",
+          "unknown"
+        ],
+        "schemas": {
+          "ThreadListParams.json": {
+            "required": [],
+            "properties": [
+              "archived",
+              "cursor",
+              "cwd",
+              "limit",
+              "modelProviders",
+              "searchTerm",
+              "sectionId",
+              "sortDirection",
+              "sortKey",
+              "sourceKinds",
+              "useStateDbOnly"
+            ],
+            "sha256": "b227bb78acf9b91060d03c56d3f2072cdd9f1bd08290c11e8869f1a663b16da2"
+          },
+          "ThreadResumeParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "approvalPolicy",
+              "approvalsReviewer",
+              "baseInstructions",
+              "config",
+              "cwd",
+              "developerInstructions",
+              "model",
+              "modelProvider",
+              "personality",
+              "sandbox",
+              "serviceTier",
+              "threadId"
+            ],
+            "sha256": "7d9ff4b7d83702448715ada355a9713af6f71beaf6fcfcb08c4f03ac52842813"
+          },
+          "ThreadReadParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "includeTurns",
+              "threadId"
+            ],
+            "sha256": "7222da641029c071811f6bcb651de347fe037e6689db22b3fad0c5b17b7f1c21"
+          },
+          "ThreadArchiveParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "threadId"
+            ],
+            "sha256": "dc2c0b133b814a5d9d543cc37afdb3f4f22feca35b7cea4272834b20a1e47705"
+          },
+          "ThreadDeleteParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "threadId"
+            ],
+            "sha256": "0d5425d94af95e3dd20971cee052b2cb8c7d0d23195db1d17fde4e59cfbdec4a"
+          }
+        }
+      }
+    },
+    {
+      "id": "live-2",
+      "startedAt": "2026-08-25T01:48:26.852Z",
+      "completedAt": "2026-08-25T01:49:37.560Z",
+      "result": {
+        "result": "pass",
+        "generatedFromInstalledVersion": true,
+        "sourceKinds": [
+          "cli",
+          "vscode",
+          "exec",
+          "appServer",
+          "subAgent",
+          "subAgentReview",
+          "subAgentCompact",
+          "subAgentThreadSpawn",
+          "subAgentOther",
+          "unknown"
+        ],
+        "schemas": {
+          "ThreadListParams.json": {
+            "required": [],
+            "properties": [
+              "archived",
+              "cursor",
+              "cwd",
+              "limit",
+              "modelProviders",
+              "searchTerm",
+              "sectionId",
+              "sortDirection",
+              "sortKey",
+              "sourceKinds",
+              "useStateDbOnly"
+            ],
+            "sha256": "b227bb78acf9b91060d03c56d3f2072cdd9f1bd08290c11e8869f1a663b16da2"
+          },
+          "ThreadResumeParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "approvalPolicy",
+              "approvalsReviewer",
+              "baseInstructions",
+              "config",
+              "cwd",
+              "developerInstructions",
+              "model",
+              "modelProvider",
+              "personality",
+              "sandbox",
+              "serviceTier",
+              "threadId"
+            ],
+            "sha256": "7d9ff4b7d83702448715ada355a9713af6f71beaf6fcfcb08c4f03ac52842813"
+          },
+          "ThreadReadParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "includeTurns",
+              "threadId"
+            ],
+            "sha256": "7222da641029c071811f6bcb651de347fe037e6689db22b3fad0c5b17b7f1c21"
+          },
+          "ThreadArchiveParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "threadId"
+            ],
+            "sha256": "dc2c0b133b814a5d9d543cc37afdb3f4f22feca35b7cea4272834b20a1e47705"
+          },
+          "ThreadDeleteParams.json": {
+            "required": [
+              "threadId"
+            ],
+            "properties": [
+              "threadId"
+            ],
+            "sha256": "0d5425d94af95e3dd20971cee052b2cb8c7d0d23195db1d17fde4e59cfbdec4a"
+          }
+        }
+      }
+    },
+    {
+      "id": "version-compat",
+      "startedAt": "2026-08-25T01:49:37.560Z",
+      "completedAt": "2026-08-25T01:50:06.082Z",
+      "result": {
+        "result": "pass",
+        "versions": [
+          "codex-cli 0.148.0-alpha.21",
+          "codex-cli 0.149.0"
+        ],
+        "schemaComparison": {
+          "ThreadListParams.json": {
+            "commonProperties": [
+              "archived",
+              "cursor",
+              "cwd",
+              "limit",
+              "modelProviders",
+              "searchTerm",
+              "sectionId",
+              "sortDirection",
+              "sortKey",
+              "sourceKinds",
+              "useStateDbOnly"
+            ],
+            "removedInBundled": [],
+            "addedInBundled": [],
+            "requiredCompatible": true
+          },
+          "ThreadResumeParams.json": {
+            "commonProperties": [
+              "approvalPolicy",
+              "approvalsReviewer",
+              "baseInstructions",
+              "config",
+              "cwd",
+              "developerInstructions",
+              "model",
+              "modelProvider",
+              "personality",
+              "sandbox",
+              "serviceTier",
+              "threadId"
+            ],
+            "removedInBundled": [],
+            "addedInBundled": [],
+            "requiredCompatible": true
+          },
+          "ThreadReadParams.json": {
+            "commonProperties": [
+              "includeTurns",
+              "threadId"
+            ],
+            "removedInBundled": [],
+            "addedInBundled": [],
+            "requiredCompatible": true
+          }
+        },
+        "crossVersionResume": true
+      }
+    }
+  ]
+}

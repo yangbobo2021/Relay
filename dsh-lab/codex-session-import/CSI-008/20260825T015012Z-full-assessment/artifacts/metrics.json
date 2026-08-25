@@ -1,0 +1,34 @@
+{
+  "riskId": "CSI-008",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "dsh-1",
+      "startedAt": "2026-08-25T01:47:08.657Z",
+      "completedAt": "2026-08-25T01:47:09.371Z",
+      "result": {
+        "result": "pass",
+        "importedMessages": 4,
+        "nativeDerivedMessageOrderPreserved": true,
+        "continuedAfterImport": true
+      }
+    },
+    {
+      "id": "dsh-2",
+      "startedAt": "2026-08-25T01:47:09.371Z",
+      "completedAt": "2026-08-25T01:47:10.039Z",
+      "result": {
+        "result": "pass",
+        "importedMessages": 4,
+        "nativeDerivedMessageOrderPreserved": true,
+        "continuedAfterImport": true
+      }
+    },
+    {
+      "id": "live-1",
+      "startedAt": "2026-08-25T01:47:10.040Z",
+      "completedAt": "2026-08-25T01:48:26.851Z",
+      "result": null
+    }
+  ]
+}

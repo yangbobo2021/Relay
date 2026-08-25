@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-25",
+  "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+  "scope": "open-time imported Session history sync only",
+  "automated": {
+    "focusedTests": { "passed": 35, "failed": 0 },
+    "fullPluginTests": { "passed": 99, "failed": 0 },
+    "typecheck": "passed",
+    "build": "passed",
+    "officialDshProbe": {
+      "openSyncProjectedMessages": 6,
+      "openSyncProjectedTurns": 3,
+      "repeatedOpenSyncProjectedMessages": 0,
+      "interruptedTurnProjected": true,
+      "failedTurnProjected": true,
+      "runningTurnDeferred": true,
+      "coldResume": "passed"
+    },
+    "realHostRoute": {
+      "importedSessionStatus": "synced",
+      "nativeSessionStatus": "not-imported"
+    }
+  },
+  "browser": {
+    "status": "blocked",
+    "reason": "Browser security policy blocked localhost reload after the Host restart",
+    "pendingCheck": "Open an imported Session, switch away, add a terminal external Codex Turn, and reopen the imported Session"
+  },
+  "privacy": {
+    "rawThreadIdRecorded": false,
+    "homePathRecorded": false,
+    "messageContentRecorded": false
+  }
+}

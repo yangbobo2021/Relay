@@ -1,0 +1,78 @@
+{
+  "riskId": "CSI-001",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "pure-1",
+      "startedAt": "2026-08-25T01:47:08.528Z",
+      "completedAt": "2026-08-25T01:47:08.593Z",
+      "result": {
+        "result": "pass",
+        "pagesTraversed": 3,
+        "eligibleSources": [
+          "cli",
+          "vscode",
+          "exec",
+          "appServer",
+          "unknown"
+        ],
+        "duplicatePageRejected": true
+      }
+    },
+    {
+      "id": "pure-2",
+      "startedAt": "2026-08-25T01:47:08.595Z",
+      "completedAt": "2026-08-25T01:47:08.657Z",
+      "result": {
+        "result": "pass",
+        "pagesTraversed": 3,
+        "eligibleSources": [
+          "cli",
+          "vscode",
+          "exec",
+          "appServer",
+          "unknown"
+        ],
+        "duplicatePageRejected": true
+      }
+    },
+    {
+      "id": "live-1",
+      "startedAt": "2026-08-25T01:47:10.040Z",
+      "completedAt": "2026-08-25T01:48:26.851Z",
+      "result": {
+        "result": "pass",
+        "pages": 3,
+        "exactMatches": 3,
+        "normalizedCwdDiffersFromRequested": true,
+        "execThreadsVisibleWithoutSourceKinds": 0,
+        "requiredSourceKinds": [
+          "cli",
+          "vscode",
+          "exec",
+          "appServer",
+          "unknown"
+        ]
+      }
+    },
+    {
+      "id": "live-2",
+      "startedAt": "2026-08-25T01:48:26.852Z",
+      "completedAt": "2026-08-25T01:49:37.560Z",
+      "result": {
+        "result": "pass",
+        "pages": 3,
+        "exactMatches": 3,
+        "normalizedCwdDiffersFromRequested": true,
+        "execThreadsVisibleWithoutSourceKinds": 0,
+        "requiredSourceKinds": [
+          "cli",
+          "vscode",
+          "exec",
+          "appServer",
+          "unknown"
+        ]
+      }
+    }
+  ]
+}

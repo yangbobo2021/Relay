@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-25",
+  "officialDshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+  "pluginPackageSha1": "59b153d7510f98cc7cc4ba9c0c52a89b21778e2b",
+  "rawThreadIdRecorded": false,
+  "syntheticThreadDeleted": true,
+  "assertions": {
+    "scanFound": 1,
+    "imported": 1,
+    "immediateListUpdate": true,
+    "nativeHistoryOpened": true,
+    "originalThreadContinued": true,
+    "appServerTurnCount": 3,
+    "coldRestartHistoryVisible": true,
+    "coldRestartComposerEnabled": true,
+    "officialProbeContinuedColdResumed": true,
+    "officialProbeEmptyHistoryColdResumed": true,
+    "unknownEventError": false,
+    "desktopOverlap": false,
+    "mobileOverlap": false
+  },
+  "screenshots": [
+    {
+      "path": "desktop-scan.png",
+      "sha256": "a130e6e0a8b0c1c137c3d10a8bbd27d3e3a8b680fea495fd72eae68e6ac8393d"
+    },
+    {
+      "path": "desktop-imported-history.png",
+      "sha256": "f90f30e6264c8b607444c2ed1d15ad4ce67acc91e303d910b74f01446ed63a50"
+    },
+    {
+      "path": "desktop-cold-restart.png",
+      "sha256": "b224eb32942852174d2b28544f75d553349c4fa72dfeda16ba84508872c3ca8d"
+    },
+    {
+      "path": "mobile-existing.png",
+      "sha256": "fcef385c73257dece54cb28502d79cfb6fd72db60314434438c818df8ea3c9ed"
+    }
+  ]
+}

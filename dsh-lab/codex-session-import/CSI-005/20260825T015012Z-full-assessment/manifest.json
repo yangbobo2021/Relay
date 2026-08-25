@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-005",
+  "runId": "20260825T015012Z-full-assessment",
+  "startedAt": "2026-08-25T01:47:08.528Z",
+  "completedAt": "2026-08-25T01:50:08.442Z",
+  "phase": "solution-validation",
+  "scenario": "Binding consistency and crash recovery",
+  "result": "pass",
+  "environment": {
+    "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+    "relayWorktree": "dirty",
+    "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+    "codexPluginVersion": "0.1.1-rc.3",
+    "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+    "dshVersion": "0.1.1-rc.2",
+    "codexCliVersion": "0.148.0-alpha.21",
+    "appServerVersion": "0.148.0-alpha.21 and bundled 0.149.0",
+    "os": "macOS 15.3.1 (24D70)",
+    "architecture": "arm64",
+    "nodeVersion": "25.5.0",
+    "npmVersion": "11.8.0",
+    "profileKind": "user-redacted",
+    "threadOrigin": "mixed"
+  },
+  "hypothesis": "Solvable with a deterministic import journal. Failure injection at four transitions recovered to one Session and one binding on retry.",
+  "metrics": {
+    "sourceRunCount": 3,
+    "cleanRunCount": 3,
+    "productionImplementationComplete": false
+  },
+  "gates": [
+    {
+      "name": "reserved failure recovered",
+      "result": "pass"
+    },
+    {
+      "name": "Session-created failure recovered",
+      "result": "pass"
+    },
+    {
+      "name": "linked failure recovered",
+      "result": "pass"
+    },
+    {
+      "name": "committed retry stayed idempotent",
+      "result": "pass"
+    },
+    {
+      "name": "two clean runs completed",
+      "result": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/metrics.json",
+      "sha256": "192b9d2cde846cc4419115bedb35f8a3d2fdf3e410b374b27ec871353bed2017",
+      "mediaType": "application/json",
+      "description": "Combined sanitized metrics"
+    },
+    {
+      "path": "commands.log",
+      "sha256": "d032d596da3d2f73197b448b6ffa06b157f2cce7f937a4c9b2874f8511761476",
+      "mediaType": "text/plain",
+      "description": "Commands executed"
+    },
+    {
+      "path": "observations.jsonl",
+      "sha256": "7b1064792c686f8fe6ec22243ae5fdec8adb33f089965c37c3379ed8d8930564",
+      "mediaType": "application/x-ndjson",
+      "description": "Timestamped observations"
+    },
+    {
+      "path": "result.md",
+      "sha256": "ff0993c53f8519edc7aaf1c5d259dc13d4d882b537807723770fb918f7f5cc7e",
+      "mediaType": "text/markdown",
+      "description": "Assessment conclusion"
+    },
+    {
+      "path": "../../raw/pure-1.json",
+      "sha256": "fb26877c22f91cd1ffbc80193cc7b33110bbc3480464626dd477950c31b7b8c6",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-1"
+    },
+    {
+      "path": "../../raw/pure-2.json",
+      "sha256": "f9f0453e6ad6957a16a48f540f0c6c00b211f684b5c0c5e3c27bf95fd2cdfce2",
+      "mediaType": "application/json",
+      "description": "Captured source run pure-2"
+    },
+    {
+      "path": "../../raw/plugin-verify.json",
+      "sha256": "b3a8859d11f6c80f3aba9af6fc35745f67aaa495c08354eb1238c50869f51ac7",
+      "mediaType": "application/json",
+      "description": "Captured source run plugin-verify"
+    }
+  ],
+  "limitations": [
+    "This verifies technical feasibility and the proposed mitigation, not production implementation of the import feature.",
+    "Results are version-bound to the environment recorded in this manifest."
+  ]
+}

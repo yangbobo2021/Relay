@@ -22,3 +22,5 @@ Do not put the DSH upstream clone here. The clone belongs in `../upstream/deepse
 
 - [Session And Inbox Probe](cold-resume/README.md) validates bundle lifecycle, DSH
   cold resume, Agent-authored Waits, and Relay delivery through the shared inbox.
+- [Codex Session Import Evidence](codex-session-import/README.md) stores sanitized
+  run manifests and artifacts for the Codex import risk-validation protocols.

@@ -1,0 +1,96 @@
+{
+  "riskId": "CSI-011",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "pure-1",
+      "startedAt": "2026-08-25T01:47:08.528Z",
+      "completedAt": "2026-08-25T01:47:08.593Z",
+      "result": {
+        "result": "pass",
+        "samples": {
+          "1": {
+            "medianMs": 0.002,
+            "p95Ms": 0.005,
+            "maxMs": 0.005
+          },
+          "10": {
+            "medianMs": 0.006,
+            "p95Ms": 0.009,
+            "maxMs": 0.009
+          },
+          "100": {
+            "medianMs": 0.04,
+            "p95Ms": 0.374,
+            "maxMs": 0.374
+          },
+          "1000": {
+            "medianMs": 0.199,
+            "p95Ms": 0.424,
+            "maxMs": 0.424
+          }
+        },
+        "duplicates": 0,
+        "strategy": "metadata-shells-with-lazy-resume"
+      }
+    },
+    {
+      "id": "pure-2",
+      "startedAt": "2026-08-25T01:47:08.595Z",
+      "completedAt": "2026-08-25T01:47:08.657Z",
+      "result": {
+        "result": "pass",
+        "samples": {
+          "1": {
+            "medianMs": 0.002,
+            "p95Ms": 0.005,
+            "maxMs": 0.005
+          },
+          "10": {
+            "medianMs": 0.005,
+            "p95Ms": 0.009,
+            "maxMs": 0.009
+          },
+          "100": {
+            "medianMs": 0.036,
+            "p95Ms": 0.315,
+            "maxMs": 0.315
+          },
+          "1000": {
+            "medianMs": 0.198,
+            "p95Ms": 0.387,
+            "maxMs": 0.387
+          }
+        },
+        "duplicates": 0,
+        "strategy": "metadata-shells-with-lazy-resume"
+      }
+    },
+    {
+      "id": "dsh-1",
+      "startedAt": "2026-08-25T01:47:08.657Z",
+      "completedAt": "2026-08-25T01:47:09.371Z",
+      "result": {
+        "result": "pass",
+        "sessionsPerRun": 100,
+        "runs": 5,
+        "medianMs": 32.442,
+        "p95Ms": 34.529,
+        "maxMs": 34.529
+      }
+    },
+    {
+      "id": "dsh-2",
+      "startedAt": "2026-08-25T01:47:09.371Z",
+      "completedAt": "2026-08-25T01:47:10.039Z",
+      "result": {
+        "result": "pass",
+        "sessionsPerRun": 100,
+        "runs": 5,
+        "medianMs": 30.618,
+        "p95Ms": 33.556,
+        "maxMs": 33.556
+      }
+    }
+  ]
+}

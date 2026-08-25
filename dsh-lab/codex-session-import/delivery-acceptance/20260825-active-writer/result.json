@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-25",
+  "officialDshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+  "rawThreadIdRecorded": false,
+  "syntheticThreadDeleted": true,
+  "temporaryWorkspaceRemoved": true,
+  "assertions": {
+    "activeWriterClassified": true,
+    "errorCode": "CODEX_THREAD_ACTIVE_WRITER",
+    "retryable": true,
+    "bindingPreserved": true,
+    "replacementThreadCreated": false,
+    "resumedSameThreadAfterOwnerExit": true
+  }
+}

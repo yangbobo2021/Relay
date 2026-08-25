@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-008",
+  "runId": "20260825T015012Z-full-assessment",
+  "startedAt": "2026-08-25T01:47:08.657Z",
+  "completedAt": "2026-08-25T01:48:26.851Z",
+  "phase": "solution-validation",
+  "scenario": "Historical message availability",
+  "result": "pass",
+  "environment": {
+    "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+    "relayWorktree": "dirty",
+    "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+    "codexPluginVersion": "0.1.1-rc.3",
+    "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+    "dshVersion": "0.1.1-rc.2",
+    "codexCliVersion": "0.148.0-alpha.21",
+    "appServerVersion": "0.148.0-alpha.21 and bundled 0.149.0",
+    "os": "macOS 15.3.1 (24D70)",
+    "architecture": "arm64",
+    "nodeVersion": "25.5.0",
+    "npmVersion": "11.8.0",
+    "profileKind": "user-redacted",
+    "threadOrigin": "mixed"
+  },
+  "hypothesis": "Basic history backfill is feasible. Four imported user/assistant messages survived native DSH persistence and the Session continued normally.",
+  "metrics": {
+    "sourceRunCount": 3,
+    "cleanRunCount": 3,
+    "productionImplementationComplete": false
+  },
+  "gates": [
+    {
+      "name": "Message order preserved",
+      "result": "pass"
+    },
+    {
+      "name": "cold resume retained four messages",
+      "result": "pass"
+    },
+    {
+      "name": "continuation succeeded",
+      "result": "pass"
+    },
+    {
+      "name": "opaque items were not required",
+      "result": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/metrics.json",
+      "sha256": "cbdbe6e3f7fecf4a405c8bda75929bea58c05b5a95a7eeec6e897714b824da1c",
+      "mediaType": "application/json",
+      "description": "Combined sanitized metrics"
+    },
+    {
+      "path": "commands.log",
+      "sha256": "cb5dc743464010229686456d8ae8867a607010bede7b70a43a6d2380c803cca1",
+      "mediaType": "text/plain",
+      "description": "Commands executed"
+    },
+    {
+      "path": "observations.jsonl",
+      "sha256": "ccb66771f4270c3a117aefe901d4415aa4100fdcde799a8c65a31cf2a56a5e03",
+      "mediaType": "application/x-ndjson",
+      "description": "Timestamped observations"
+    },
+    {
+      "path": "result.md",
+      "sha256": "744f47e80f221cc4ae8853229fa0f84ddf137ca15a3c652c903a4011bc720fa6",
+      "mediaType": "text/markdown",
+      "description": "Assessment conclusion"
+    },
+    {
+      "path": "../../raw/dsh-1.json",
+      "sha256": "38f09204a8a750f84fb65f0bd8e5a29f93de73b8d445fc93a3016ab1f782569e",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-1"
+    },
+    {
+      "path": "../../raw/dsh-2.json",
+      "sha256": "4127cf6550edc9ba0a5895e96c7cc7a1df56d4162db27c1f44851332f6178bda",
+      "mediaType": "application/json",
+      "description": "Captured source run dsh-2"
+    },
+    {
+      "path": "../../raw/live-1.json",
+      "sha256": "dac68f365c3fdcf8711e750cceeab6cbee5857999d76263e3b68443b60fa143e",
+      "mediaType": "application/json",
+      "description": "Captured source run live-1"
+    }
+  ],
+  "limitations": [
+    "This verifies technical feasibility and the proposed mitigation, not production implementation of the import feature.",
+    "Results are version-bound to the environment recorded in this manifest."
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "riskId": "CSI-005",
+  "status": "verified",
+  "sourceRuns": [
+    {
+      "id": "pure-1",
+      "startedAt": "2026-08-25T01:47:08.528Z",
+      "completedAt": "2026-08-25T01:47:08.593Z",
+      "result": {
+        "result": "pass",
+        "failurePoints": [
+          {
+            "failAfter": "reserved",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "session-created",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "linked",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "committed",
+            "sessions": 1,
+            "links": 1
+          }
+        ],
+        "deterministicReservation": true
+      }
+    },
+    {
+      "id": "pure-2",
+      "startedAt": "2026-08-25T01:47:08.595Z",
+      "completedAt": "2026-08-25T01:47:08.657Z",
+      "result": {
+        "result": "pass",
+        "failurePoints": [
+          {
+            "failAfter": "reserved",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "session-created",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "linked",
+            "sessions": 1,
+            "links": 1
+          },
+          {
+            "failAfter": "committed",
+            "sessions": 1,
+            "links": 1
+          }
+        ],
+        "deterministicReservation": true
+      }
+    },
+    {
+      "id": "plugin-verify",
+      "startedAt": "2026-08-25T01:50:06.083Z",
+      "completedAt": "2026-08-25T01:50:08.442Z",
+      "result": null
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "riskId": "CSI-002",
+  "runId": "20260825T015012Z-full-assessment",
+  "startedAt": "2026-08-25T01:47:10.040Z",
+  "completedAt": "2026-08-25T01:50:06.082Z",
+  "phase": "solution-validation",
+  "scenario": "Cross-entry Thread resume",
+  "result": "pass",
+  "environment": {
+    "relayCommit": "2e842fce5b98178ebb2bfea9fa95584f613ab942",
+    "relayWorktree": "dirty",
+    "codexPluginCommit": "18dfccb1d951ea429c9ea0807d11d40d81adb3a0",
+    "codexPluginVersion": "0.1.1-rc.3",
+    "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+    "dshVersion": "0.1.1-rc.2",
+    "codexCliVersion": "0.148.0-alpha.21",
+    "appServerVersion": "0.148.0-alpha.21 and bundled 0.149.0",
+    "os": "macOS 15.3.1 (24D70)",
+    "architecture": "arm64",
+    "nodeVersion": "25.5.0",
+    "npmVersion": "11.8.0",
+    "profileKind": "user-redacted",
+    "threadOrigin": "mixed"
+  },
+  "hypothesis": "Solved by native thread/resume. An exec-created Thread resumed with the same ID, retained compacted context, and continued across Codex 0.148 to 0.149.",
+  "metrics": {
+    "sourceRunCount": 3,
+    "cleanRunCount": 3,
+    "productionImplementationComplete": false
+  },
+  "gates": [
+    {
+      "name": "Historical marker was readable",
+      "result": "pass"
+    },
+    {
+      "name": "Continuation recovered the marker",
+      "result": "pass"
+    },
+    {
+      "name": "contextCompaction required no DSH decoding",
+      "result": "pass"
+    },
+    {
+      "name": "cross-version resume passed",
+      "result": "pass"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "artifacts/metrics.json",
+      "sha256": "427364a0ef67c1d6c7fb101ec77aea9f980cadbb2a4d9c5fb4b67e88b1530df4",
+      "mediaType": "application/json",
+      "description": "Combined sanitized metrics"
+    },
+    {
+      "path": "commands.log",
+      "sha256": "d38171daccc3d8c86760330749ca7be80a886757158e93f2cc4c0d536708c359",
+      "mediaType": "text/plain",
+      "description": "Commands executed"
+    },
+    {
+      "path": "observations.jsonl",
+      "sha256": "344ec32593318b991c43257be9d1d090f0d3473588de54a1007ab0a79111dcac",
+      "mediaType": "application/x-ndjson",
+      "description": "Timestamped observations"
+    },
+    {
+      "path": "result.md",
+      "sha256": "cebccbc24e316b03a4055782faab1e0525b3b34fcba3fa92234ece4187ced5ef",
+      "mediaType": "text/markdown",
+      "description": "Assessment conclusion"
+    },
+    {
+      "path": "../../raw/live-1.json",
+      "sha256": "dac68f365c3fdcf8711e750cceeab6cbee5857999d76263e3b68443b60fa143e",
+      "mediaType": "application/json",
+      "description": "Captured source run live-1"
+    },
+    {
+      "path": "../../raw/live-2.json",
+      "sha256": "5c6cf76a57df77d5e7def94ba7babec8f9ff595ecabe39714a1a81516e601494",
+      "mediaType": "application/json",
+      "description": "Captured source run live-2"
+    },
+    {
+      "path": "../../raw/version-compat.json",
+      "sha256": "ea08612b0006231dcf7b2bf7d3f1b66bfefecc566c9847c34d765b3bb8989782",
+      "mediaType": "application/json",
+      "description": "Captured source run version-compat"
+    }
+  ],
+  "limitations": [
+    "This verifies technical feasibility and the proposed mitigation, not production implementation of the import feature.",
+    "Results are version-bound to the environment recorded in this manifest."
+  ]
+}
