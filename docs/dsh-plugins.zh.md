@@ -82,6 +82,11 @@ Workbench 菜单中应出现 Files 和 Terminal。
 以及完整体验步骤，可继续阅读
 [《不改 DSH 核心：用插件加入 Codex、Claude Code、文件浏览和终端》](articles/no-fork-dsh-plugins.zh.md)。
 
+Codex 插件还把 App Server 可靠性作为产品契约：Settings 状态会区分启动、连接、
+运行时不可用和重新绑定问题；空白 Session 的模型选择会跟随当前后端；正常 fork
+会调用 App Server `thread/fork`；无效的 fork 来源信息或过期 approval 会 fail
+closed，不会静默创建替代 Codex Thread。
+
 如果更关心实际工作方式，而不是包结构，请阅读
 [《把 DSH 变成多 Agent 项目工作台》系列](articles/dsh-agent-workbench-series.zh.md)：
 从 DSH 原生、Codex、Claude 的任务选择开始，再分别进入 App Server、Claude
