@@ -59,10 +59,10 @@ Notes:
 | Surface | Verified state | Rule or constraint | Readiness |
 | --- | --- | --- | --- |
 | DSH repository | `deepseek-ai/deepseek-harness`; 195,175 Stars; latest npm and GitHub prerelease `0.1.1-rc.2`; default branch `master` | Developer preview with compatibility-breaking changes | Ready as the compatibility reference |
-| DSH README | Community section explicitly asks third-party plugin repositories to add Topic `dsh-plugin` | This is the official discovery requirement | Five confirmed Topic changes await user confirmation |
+| DSH README | Community section explicitly asks third-party plugin repositories to add Topic `dsh-plugin` | This is the official discovery requirement | Topic added and verified on all five repositories |
 | DSH CONTRIBUTING | Encourages plugin creation, `dsh-plugin` discovery, guides, and community help; external PRs are not currently accepted | Promotion should be an ecosystem contribution, not a request to merge plugin code upstream | Draft follows this positioning |
 | GitHub Discussions | Category `Show Your Plugins!` exists with description “Show off something you've made” | Recent posts commonly use a result-first explanation, exact install command, evidence, repository link, and a specific feedback request | Published as [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561) |
-| Discord | Official invite resolves to the DeepSeek server and `harness` forum channel; public API showed about 29.3K members and 2.0K online | The current invite reported expiry at 2026-09-12 04:01:33 UTC. Server rules and pinned channel guidance were not readable without Discord login | Draft prepared but blocked from final approval until an authenticated, read-only rules check and invite recheck |
+| Discord | Official invite resolves to the DeepSeek server and authenticated access to the `harness` forum was verified; the server showed about 29.3K members and 2.1K online | Rules prohibit unauthorized advertising or self-promotion and require moderator permission. The preferred language is English. The server is not an official support channel | Permission request sent by DM to `Moderator-ZANE` (`truongdinhdat15`) at 08:21 Asia/Shanghai on 2026-08-26; recruitment post remains gated on approval and forum posting access |
 
 The `Show Your Plugins!` category is high-volume. A single concise suite post is
 preferable to five near-duplicate announcements. Follow-up comments should only
@@ -150,7 +150,9 @@ Daily log template:
 - [x] Add Topic `dsh-plugin` to all five GitHub repositories.
 - [x] Publish the English total post in DSH `Show Your Plugins!` as
   [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561).
-- [ ] Recheck the Discord invite and authenticated server/channel rules.
+- [x] Recheck the Discord invite and authenticated server/channel rules.
+- [x] Ask a server moderator for permission to publish one tester-recruitment
+  post in `#harness` with the `Show and tell` tag.
 - [ ] Publish the Discord five-tester recruitment message.
 - [ ] Reply to comments or installation reports.
 - [ ] Update GitHub About, npm metadata, releases, or dist-tags.
