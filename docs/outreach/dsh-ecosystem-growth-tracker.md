@@ -63,7 +63,7 @@ Notes:
 | DSH repository | `deepseek-ai/deepseek-harness`; 195,175 Stars; latest npm and GitHub prerelease `0.1.1-rc.2`; default branch `master` | Developer preview with compatibility-breaking changes | Ready as the compatibility reference |
 | DSH README | Community section explicitly asks third-party plugin repositories to add Topic `dsh-plugin` | This is the official discovery requirement | Topic added and verified through repository metadata on all six repositories; search-index appearance remains a separate check |
 | DSH CONTRIBUTING | Encourages plugin creation, `dsh-plugin` discovery, guides, and community help; external PRs are not currently accepted | Promotion should be an ecosystem contribution, not a request to merge plugin code upstream | Draft follows this positioning |
-| GitHub Discussions | Category `Show Your Plugins!` exists with description “Show off something you've made” | Recent posts commonly use a result-first explanation, exact install command, evidence, repository link, and a specific feedback request | Published as [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561) |
+| GitHub Discussions | Category `Show Your Plugins!` exists with description “Show off something you've made” | Recent posts commonly use a result-first explanation, exact install command, evidence, repository link, and a specific feedback request | Published as [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561); the tested Plugin Manager release and English demo were added in [comment #18164020](https://github.com/deepseek-ai/deepseek-harness/discussions/4561#discussioncomment-18164020) |
 | Discord | Official invite resolves to the DeepSeek server and authenticated access to the `harness` forum was verified; the server showed about 29.3K members and 2.1K online | Rules prohibit unauthorized advertising or self-promotion and require moderator permission. The preferred language is English. The server is not an official support channel. Forum posting requires parent-channel send permission; this account can reply in threads but its `New Post` button is disabled | Promotion-permission DM delivered to `Moderator-ZANE` (`truongdinhdat15`) at 08:28 Asia/Shanghai on 2026-08-26; a focused role/channel-permission follow-up was delivered at 09:07. Recruitment remains gated on forum posting access |
 
 The `Show Your Plugins!` category is high-volume. A single concise suite post is
@@ -71,7 +71,8 @@ preferable to near-duplicate announcements. Follow-up comments should only
 be added when there is a real release, confirmed platform result, or resolved
 user issue. An exact-name search on 2026-08-26 found no existing official DSH
 Discussion for any of the original five package names. The Plugin Manager was
-created after that baseline and has not yet been added to the official post.
+created after that baseline and was added to the official post in a substantive
+follow-up comment after its RC.2 release and real install demo passed review.
 
 ### Plugin Manager Discoverability Check
 
@@ -131,7 +132,7 @@ Daily log template:
 
 | Day/date | Discussion interactions | Codex Stars | Claude Stars | Install reports (macOS/Windows/Linux) | New real Issues | Evidence links | Decision |
 | --- | ---: | ---: | ---: | --- | ---: | --- | --- |
-| D0 / 2026-08-26 | 0 | 1 | 1 | 0 / 0 / 0 | 0 | [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561) | Discussion published at 07:25:58 Asia/Shanghai; begin seven-day window |
+| D0 / 2026-08-26 | 0 | 1 | 1 | 0 / 0 / 0 | 0 | [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561), [Plugin Manager update](https://github.com/deepseek-ai/deepseek-harness/discussions/4561#discussioncomment-18164020) | Discussion published at 07:25:58; tested Manager RC.2 and English demo added at 22:52 Asia/Shanghai; the owner comment does not count as an external interaction |
 | D1 |  |  |  |  |  |  |  |
 | D3 |  |  |  |  |  |  |  |
 | D7 |  |  |  |  |  |  |  |
@@ -195,6 +196,8 @@ an external interaction because voter identity was unavailable.
 - [x] Add Topic `dsh-plugin` to all six GitHub repositories.
 - [x] Publish the English total post in DSH `Show Your Plugins!` as
   [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561).
+- [x] Add the tested Plugin Manager RC.2 and English-captioned real install demo
+  as [comment #18164020](https://github.com/deepseek-ai/deepseek-harness/discussions/4561#discussioncomment-18164020).
 - [x] Recheck the Discord invite and authenticated server/channel rules.
 - [x] Ask a server moderator for permission to publish one tester-recruitment
   post in `#harness` with the `Show and tell` tag.
@@ -269,3 +272,10 @@ an external interaction because voter identity was unavailable.
   unreleased RC.3 Marketplace help (`4b1a6ef`) without force-pushing. The RC.3
   source passed 46 Vitest cases, four release tests, build, package packing,
   Marketplace client-tab checks, and official DSH acceptance at `b150a551`.
+- Published the checked Plugin Manager update as
+  [Discussion comment #18164020](https://github.com/deepseek-ai/deepseek-harness/discussions/4561#discussioncomment-18164020),
+  with the English-captioned 37.8-second MP4, exact tested versions, pinned
+  install command, restart note, repository link, installation-report form, and
+  five-tester request. GitHub rendered the comment as the first reply and the
+  video attachment successfully. This owner-authored comment remains excluded
+  from the external-interaction metric.
