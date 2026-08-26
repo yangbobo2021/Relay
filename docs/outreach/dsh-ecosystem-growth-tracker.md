@@ -79,7 +79,7 @@ created after that baseline and has not yet been added to the official post.
 | --- | --- | --- |
 | GitHub repository metadata | Exact `dsh-plugin` Topic plus `deepseek-harness`, `dsh`, and `plugin-manager`; About homepage points to npm | Confirm the repository appears in GitHub's eventually consistent `topic:dsh-plugin` search index |
 | npm package metadata | `0.1.0-rc.2` is public on `next` with `dsh-plugin`, `deepseek-harness`, `dsh`, `plugin-manager`, and `ai-agent` keywords | Confirm npm's eventually consistent search endpoint returns the package for `keywords:dsh-plugin`; do not move a prerelease to `latest` merely to influence ranking |
-| Repository first screen | Exact RC.2 install command, first `/plugins` examples, safety boundary, npm/CI/DSH badges | Add a real 30-60 second conversation demo before a dedicated community announcement |
+| Repository first screen | Exact RC.2 install command, first `/plugins` examples, safety boundary, npm/CI/DSH badges | Real 37.8-second search, plan, confirmation, install, and status demo accepted locally; add its public URL before a dedicated community announcement |
 | Release evidence | Prerelease page and trusted npm publication succeeded; full local verification passed against official DSH commit `b150a551` | Collect first external macOS, Windows, and Linux installation reports |
 
 ## Public-Content Gate
@@ -107,6 +107,7 @@ specific publish/modify confirmation.
 | `integrations/codex/docs/images/dsh-new-session-backends.jpg` | Clear 1280x720 proof that Codex and Claude Code appear in the DSH mode menu; no secret or customer data. It says `DSH Local Build` and shows commit `b150a55`, so the caption must disclose that it is a build of official DSH at the tested commit. | Recommended hero for the GitHub Discussion |
 | `docs/media/dsh-plugin-suite-demo.mp4` | Real 33.4-second H.264 npm-installed demo; technically valid and already acceptance-checked. The terminal scene exposes a local username, host name, shell-history warning, and environment prompt. | Do not embed in the official post until a sanitized recording replaces the terminal scene |
 | `docs/media/dsh-plugin-suite-demo.gif` | Real 15-second summary of the same accepted run, but derives from the same recording. | Secondary only after privacy/readability recheck |
+| `docs/media/dsh-plugin-manager-codex-install-demo.mp4` | Real 37.8-second isolated run: exact Codex package search, plan-only safety boundary, explicit confirmation, npm install, and final `succeeded` status. H.264 QA passed and no secret, local username, host, or private path is visible. | Recommended proof for a focused Plugin Manager follow-up after its public media URL is available |
 | `docs/media/dsh-plugin-suite-live.png` | Clear Codex + Files evidence with no secret; does not prove Claude or all five plugins by itself. | Suitable as a follow-up visual, not the total-post hero |
 | Individual Files/Terminal screenshots | Files is clean. The standalone Terminal screenshot demonstrates the no-provider state, not the complete live-shell value. | Use in single-problem follow-ups, with an accurate caption |
 
@@ -183,6 +184,7 @@ an external interaction because voter identity was unavailable.
   shell-history warning, or distracting environment prompt.
 - [ ] Produce six single-problem 30-60 second assets: Codex import, Claude
   conversation, Files, Terminal, Workbench extension, and Plugin Manager search.
+  The 37.8-second Plugin Manager search/install asset is complete; five remain.
 - [ ] Add a small installation-report template to the six Issue templates or
   shared outreach docs without claiming unverified platform support.
 
@@ -244,3 +246,9 @@ an external interaction because voter identity was unavailable.
 - Added a structured GitHub installation-report form and matching label that
   collect OS, DSH/plugin/Node versions, the sanitized command, and the observed
   result without requesting secrets.
+- Recorded and accepted a real 37.8-second Plugin Manager demo against official
+  DSH commit `b150a551`: exact `relay-dsh-plugin-codex` search returned npm
+  `0.1.2` and its GitHub source, the plan made no change, explicit confirmation
+  triggered installation, and the final status was `succeeded` and enabled with
+  a required DSH restart. The H.264 artifact passed full decode, black-frame,
+  frame-boundary, contact-sheet, and privacy review.
