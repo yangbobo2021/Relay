@@ -45,6 +45,7 @@ removed from a retained interaction package.
 | Artifact | Properties | SHA-256 |
 | --- | --- | --- |
 | `dsh-plugin-manager-codex-install-demo.mp4` | 37.80 s, H.264 High, 1280x720, 30 fps, yuv420p, faststart, no audio | `95cb8b22e510229018bfb5a40b717498f5a0af2e371ba5460ac2e04be6559fbe` |
+| `dsh-plugin-manager-codex-install-success.png` | 1280x720 RGB poster extracted at 36.5 s from the accepted MP4 | `c3a2a06adce91d897be2ae23778a7669988ab2f8320dc8de731854fd146b8a41` |
 
 - Full ffmpeg decode completed for all 1,134 frames without an error.
 - Black-frame detection with a 0.5-second threshold found no black interval.
@@ -56,4 +57,6 @@ removed from a retained interaction package.
   `b150a55` and the selected model as `DeepSeek-V4-Flash / High`.
 - No API key, token, local username, host name, private filesystem path,
   customer data, browser tab, or unrelated application is visible.
-
+- The Plugin Manager README uses the accepted poster as a clickable link to the
+  MP4. The Codex English and Chinese READMEs provide secondary text links; the
+  existing Codex capability demo remains their primary visual.
