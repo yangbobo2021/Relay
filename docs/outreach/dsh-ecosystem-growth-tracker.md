@@ -121,6 +121,34 @@ Daily log template:
 | D3 |  |  |  |  |  |  |  |
 | D7 |  |  |  |  |  |  |  |
 
+### GitHub Traffic Snapshot
+
+Pulled from the GitHub Traffic API at 2026-08-26 08:26 Asia/Shanghai. The
+returned 14-day window ended at 2026-08-24 UTC, so it does not yet include the
+official Discussion published on 2026-08-26. Unique counts below are per
+repository and must not be summed as cross-repository unique people.
+
+| Repository | Views / unique visitors | Clones / unique cloners | External Stars | Real Issues | Notable referrers |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Relay | 19 / 3 | 100 / 62 | 0 | 0 | `github.com` 3 / 2 unique |
+| Codex | 20 / 6 | 135 / 60 | 1 | 0 | `github.com` 8 / 1; `chatgpt.com` 4 / 1; `reddit.com` 2 / 2 |
+| Claude | 23 / 7 | 75 / 38 | 1 | 0 | `github.com` 12 / 3; `npmjs.com` 9 / 2 |
+| Workbench | 3 / 2 | 72 / 28 | 0 | 0 | `github.com` 2 / 1 |
+| Files | 2 / 2 | 33 / 20 | 0 | 0 | No referrer met GitHub's reporting threshold |
+| Terminal | 1 / 1 | 83 / 45 | 0 | 0 | No referrer met GitHub's reporting threshold |
+
+The per-repository totals are 68 views and 498 clones. The clone-to-view ratio,
+especially the one-day clone spikes across the submodules, is consistent with
+CI, submodule validation, and repeated automated installs. Clone and unique
+cloner counts remain diagnostic only. Trusted campaign conversion remains
+external Stars, non-owner comments, real installation reports, actionable
+Issues, and cross-platform acceptance results.
+
+At pull time, Codex's external Star was from `wewqasd` (2026-08-25 03:44 UTC)
+and Claude's was from `konglinghai123` (2026-08-24 08:19 UTC). Discussion #4561
+had zero comments and zero reactions; its single total upvote was not counted as
+an external interaction because voter identity was unavailable.
+
 ## Execution Checklist
 
 ### Repository-local work: may execute directly
