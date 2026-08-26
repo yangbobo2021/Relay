@@ -38,12 +38,12 @@ repository's `origin/main`.
 
 | Plugin | Relay path | Pinned and remote `main` | GitHub Topics | GitHub About | GitHub Stars | npm state | README first-screen state | Follow-up |
 | --- | --- | --- | --- | --- | ---: | --- | --- | --- |
-| Codex | `integrations/codex` | `9f4128997d1e` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `codex`, `openai`, `ai-agent`, `typescript` | Description is specific; homepage points to npm | 1 | `latest=0.1.2`, `next=0.1.2-rc.1`; repository/homepage/bugs present | Hero capability demo remains primary; English and Chinese first screens now link the real Plugin Manager install demo | No metadata correction required now |
+| Codex | `integrations/codex` | `ef65b29dd52c` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `codex`, `openai`, `ai-agent`, `typescript` | Description is specific; homepage points to npm | 1 | `latest=0.1.2`, `next=0.1.2-rc.1`; repository/homepage/bugs present | Hero capability demo remains primary; English and Chinese first screens link their matching localized Plugin Manager install demos | No metadata correction required now |
 | Claude | `integrations/claude` | `6e8f9acd84d5` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `claude-code`, `anthropic`, `ai-agent`, `typescript` | Description is specific; homepage points to npm | 1 | `latest=0.1.0`, `next=0.1.1-rc.2`; repository/homepage/bugs present | Hero demo and package link are above the fold; exact install commands are under Quick Start | Clearly distinguish stable and prerelease in outreach |
 | Workbench | `integrations/dsh-workbench` | `07fa06d88942` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `workbench`, `react`, `typescript` | Description is specific; homepage points to npm | 0 | `latest=0.1.0`; released package lacks repository/homepage/bugs; source fixed on `main` | Hero demo and package link are above the fold; README correctly says the shell has no visible feature alone | Carry source metadata into the next normal release |
 | Files | `integrations/dsh-files` | `e676da231412` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `file-explorer`, `workbench`, `typescript` | Description is specific; homepage points to npm | 0 | `latest=0.1.0`; released package lacks repository/homepage/bugs; source fixed on `main` | Hero demo and package link are above the fold; npm and GitHub install paths are explicit | Carry source metadata into the next normal release |
 | Terminal | `integrations/dsh-terminal` | `09ed18a80284` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `terminal`, `workbench`, `xterm`, `typescript` | Description is specific; homepage points to npm | 0 | `latest=0.1.0`; released package lacks repository/homepage/bugs; source fixed on `main` | Hero demo and package link are above the fold; provider requirement is stated before install | Carry source metadata into the next normal release |
-| Plugin Manager | `integrations/dsh-plugin-manager` | `8da22c25431a` | `dsh-plugin`, `deepseek-harness`, `dsh`, and `plugin-manager` added | Description is specific; homepage points to npm | 0 | `next=0.1.0-rc.2`, `latest=0.1.0-rc.1`; repository/homepage/bugs and `dsh-plugin` keywords present in RC.2 | Clickable real-install poster and 38-second MP4 now precede the exact RC.2 install command; confirmation boundary remains explicit | Wait for GitHub Topic and npm search indexes; keep prerelease status explicit |
+| Plugin Manager | `integrations/dsh-plugin-manager` | `4b1a6ef73a26` | `dsh-plugin`, `deepseek-harness`, `dsh`, and `plugin-manager` added | Description is specific; homepage points to npm | 0 | `next=0.1.0-rc.2`, `latest=0.1.0-rc.1`; source `main` is preparing unreleased RC.3 Marketplace help | Bilingual newcomer path, Settings help, ordinary-language examples, confirmation boundary, and a clickable real-install poster targeting the English-captioned MP4 | Wait for GitHub Topic and npm search indexes; do not describe source RC.3 as published |
 
 Notes:
 
@@ -79,7 +79,7 @@ created after that baseline and has not yet been added to the official post.
 | --- | --- | --- |
 | GitHub repository metadata | Exact `dsh-plugin` Topic plus `deepseek-harness`, `dsh`, and `plugin-manager`; About homepage points to npm | Confirm the repository appears in GitHub's eventually consistent `topic:dsh-plugin` search index |
 | npm package metadata | `0.1.0-rc.2` is public on `next` with `dsh-plugin`, `deepseek-harness`, `dsh`, `plugin-manager`, and `ai-agent` keywords | Confirm npm's eventually consistent search endpoint returns the package for `keywords:dsh-plugin`; do not move a prerelease to `latest` merely to influence ranking |
-| Repository first screen | Clickable accepted poster and public 37.8-second MP4 precede the exact RC.2 install command; first `/plugins` examples, safety boundary, and npm/CI/DSH badges remain visible | Ready as the evidence link for a dedicated community announcement |
+| Repository documentation | Bilingual newcomer path, Marketplace help, ordinary-language examples, safety boundary, and a clickable accepted poster targeting the English-captioned 37.8-second MP4 | Ready as the evidence link for a dedicated community announcement; keep recorded RC.2 distinct from unreleased source RC.3 |
 | Release evidence | Prerelease page and trusted npm publication succeeded; full local verification passed against official DSH commit `b150a551` | Collect first external macOS, Windows, and Linux installation reports |
 
 ## Public-Content Gate
@@ -107,7 +107,9 @@ specific publish/modify confirmation.
 | `integrations/codex/docs/images/dsh-new-session-backends.jpg` | Clear 1280x720 proof that Codex and Claude Code appear in the DSH mode menu; no secret or customer data. It says `DSH Local Build` and shows commit `b150a55`, so the caption must disclose that it is a build of official DSH at the tested commit. | Recommended hero for the GitHub Discussion |
 | `docs/media/dsh-plugin-suite-demo.mp4` | Real 33.4-second H.264 npm-installed demo; technically valid and already acceptance-checked. The terminal scene exposes a local username, host name, shell-history warning, and environment prompt. | Do not embed in the official post until a sanitized recording replaces the terminal scene |
 | `docs/media/dsh-plugin-suite-demo.gif` | Real 15-second summary of the same accepted run, but derives from the same recording. | Secondary only after privacy/readability recheck |
-| `docs/media/dsh-plugin-manager-codex-install-demo.mp4` | Real 37.8-second isolated run: exact Codex package search, plan-only safety boundary, explicit confirmation, npm install, and final `succeeded` status. H.264 QA passed and no secret, local username, host, or private path is visible. | Publicly linked from the Plugin Manager README and secondarily from both Codex READMEs; recommended proof for a focused follow-up |
+| `docs/media/dsh-plugin-manager-codex-install-demo.en.mp4` | Real 37.8-second isolated run with burned-in English event captions: exact Codex package search, plan-only safety boundary, explicit confirmation, npm install, and final `succeeded` status. H.264 QA passed and no secret, local username, host, or private path is visible. | Current official-community version; linked from the Plugin Manager and Codex English READMEs |
+| `docs/media/dsh-plugin-manager-codex-install-demo.zh.mp4` | The same accepted 37.8-second run with separate burned-in Simplified Chinese event captions; full decode, black-frame, event-sheet, and privacy QA passed independently. | Chinese distribution version; linked from the Codex Chinese README and reserved for separate Chinese-channel use |
+| `docs/media/dsh-plugin-manager-codex-install-demo.mp4` | Uncaptioned accepted base used to derive both localized versions. | Preserve as the acceptance source; do not use as the current official-community link |
 | `docs/media/dsh-plugin-suite-live.png` | Clear Codex + Files evidence with no secret; does not prove Claude or all five plugins by itself. | Suitable as a follow-up visual, not the total-post hero |
 | Individual Files/Terminal screenshots | Files is clean. The standalone Terminal screenshot demonstrates the no-provider state, not the complete live-shell value. | Use in single-problem follow-ups, with an accurate caption |
 
@@ -257,3 +259,13 @@ an external interaction because voter identity was unavailable.
   links to the Codex English and Chinese READMEs (`9f41289`) without replacing
   their capability-focused hero demo. Both public README files and both media
   URLs were fetched successfully after push.
+- Produced separate burned-in English and Simplified Chinese versions of the
+  accepted 37.8-second demo. Both remain H.264 High, 1280x720, 30 fps, yuv420p,
+  faststart, and no-audio; both passed full 1,134-frame decode, black-frame,
+  first/mid/last-frame, eight-event contact-sheet, caption-safe-area, and
+  privacy review. English is now the Manager and Codex English README target;
+  the Codex Chinese README targets the Chinese file (`ef65b29`).
+- Integrated the Manager video-link update on top of the concurrently added,
+  unreleased RC.3 Marketplace help (`4b1a6ef`) without force-pushing. The RC.3
+  source passed 46 Vitest cases, four release tests, build, package packing,
+  Marketplace client-tab checks, and official DSH acceptance at `b150a551`.
