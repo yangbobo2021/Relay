@@ -20,6 +20,7 @@ Remote, or a type-only public contract.
 | `relay-dsh-plugin-terminal` | installable DSH plugin | Terminal provider registry, terminal Remote, xterm UI, and one bottom-view contribution. |
 | `relay-dsh-plugin-codex` | installable DSH plugin | Codex conversations and an optional Codex terminal-provider contribution. |
 | `relay-dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
+| `relay-dsh-plugin-manager` | installable DSH plugin | Conversation-first plugin discovery and confirmation-gated lifecycle management. |
 | `@relay/plugin-events` | installable DSH plugin | Optional event injection across every compatible conversation backend. |
 
 Package-owned contracts contain no service implementation and are not added to a

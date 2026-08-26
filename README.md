@@ -54,6 +54,7 @@ verification, and a real DSH UI demo.
 | Workbench | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Provides the shared right/bottom panel shell for DSH view plugins. |
 | Files | [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | [`relay-dsh-plugin-files`](https://www.npmjs.com/package/relay-dsh-plugin-files) | Adds a right-side workspace file browser. |
 | Terminal | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Adds a bottom terminal panel and provider registry. |
+| Plugin Manager | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | [`relay-dsh-plugin-manager`](https://www.npmjs.com/package/relay-dsh-plugin-manager) | Finds and manages DSH plugins from an ordinary conversation with confirmation-gated mutations. |
 | Events | local package `integrations/deepseek-harness` | `@relay/plugin-events` | Adds optional Relay Wait/Event/Monitor runtime integration. |
 
 The individual plugin READMEs link back here and describe their boundary with

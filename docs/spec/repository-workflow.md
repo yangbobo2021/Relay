@@ -18,6 +18,7 @@ released DSH plugins are pinned as Git submodules:
 - `integrations/dsh-workbench/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-workbench.git`
 - `integrations/dsh-files/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-files.git`
 - `integrations/dsh-terminal/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git`
+- `integrations/dsh-plugin-manager/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-manager.git`
 
 Relay owns only their Git commit pointers. Source changes, releases, tags, lockfiles,
 and plugin-specific CI belong to their respective repositories.

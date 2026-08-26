@@ -13,3 +13,6 @@
 [submodule "integrations/dsh-terminal"]
 	path = integrations/dsh-terminal
 	url = git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git
+[submodule "integrations/dsh-plugin-manager"]
+	path = integrations/dsh-plugin-manager
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-manager.git

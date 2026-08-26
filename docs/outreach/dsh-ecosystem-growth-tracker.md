@@ -2,13 +2,14 @@
 
 Baseline date: 2026-08-26 (Asia/Shanghai)
 
-This tracker covers five independent DeepSeek Harness plugins:
+This tracker covers six independent DeepSeek Harness plugins:
 
 - `relay-dsh-plugin-codex`
 - `relay-dsh-plugin-claude`
 - `relay-dsh-plugin-workbench`
 - `relay-dsh-plugin-files`
 - `relay-dsh-plugin-terminal`
+- `relay-dsh-plugin-manager`
 
 The objective is official-ecosystem discovery, real installation feedback, and
 measurable user conversion. Raw GitHub Traffic clones and unique cloners are
@@ -31,7 +32,7 @@ as part of this baseline.
 
 ## Repository Baseline
 
-All five paths are Git submodules of Relay. On 2026-08-26 they were initialized
+All six paths are Git submodules of Relay. On 2026-08-26 they were initialized
 in this worktree at the Relay-pinned commit, and each pinned commit matched its
 repository's `origin/main`.
 
@@ -42,10 +43,11 @@ repository's `origin/main`.
 | Workbench | `integrations/dsh-workbench` | `07fa06d88942` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `workbench`, `react`, `typescript` | Description is specific; homepage points to npm | 0 | `latest=0.1.0`; released package lacks repository/homepage/bugs; source fixed on `main` | Hero demo and package link are above the fold; README correctly says the shell has no visible feature alone | Carry source metadata into the next normal release |
 | Files | `integrations/dsh-files` | `e676da231412` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `file-explorer`, `workbench`, `typescript` | Description is specific; homepage points to npm | 0 | `latest=0.1.0`; released package lacks repository/homepage/bugs; source fixed on `main` | Hero demo and package link are above the fold; npm and GitHub install paths are explicit | Carry source metadata into the next normal release |
 | Terminal | `integrations/dsh-terminal` | `09ed18a80284` | `dsh-plugin` added; also has `deepseek-harness`, `dsh`, `plugin`, `terminal`, `workbench`, `xterm`, `typescript` | Description is specific; homepage points to npm | 0 | `latest=0.1.0`; released package lacks repository/homepage/bugs; source fixed on `main` | Hero demo and package link are above the fold; provider requirement is stated before install | Carry source metadata into the next normal release |
+| Plugin Manager | `integrations/dsh-plugin-manager` | `cafcf6b04ee9` | `dsh-plugin`, `deepseek-harness`, `dsh`, and `plugin-manager` added | Description is specific; homepage points to npm | 0 | `next=0.1.0-rc.2`, `latest=0.1.0-rc.1`; repository/homepage/bugs and `dsh-plugin` keywords present in RC.2 | Exact RC.2 install command, first `/plugins` examples, npm/CI/DSH badges, and confirmation boundary are above the fold | Wait for GitHub Topic and npm search indexes; keep prerelease status explicit |
 
 Notes:
 
-- GitHub About homepages already point to the matching npm package for all five
+- GitHub About homepages already point to the matching npm package for all six
   repositories. Do not change them merely for consistency.
 - The npm pages for Workbench, Files, and Terminal cannot link back to their
   repositories until `repository`, `homepage`, and `bugs` are added to their
@@ -59,16 +61,26 @@ Notes:
 | Surface | Verified state | Rule or constraint | Readiness |
 | --- | --- | --- | --- |
 | DSH repository | `deepseek-ai/deepseek-harness`; 195,175 Stars; latest npm and GitHub prerelease `0.1.1-rc.2`; default branch `master` | Developer preview with compatibility-breaking changes | Ready as the compatibility reference |
-| DSH README | Community section explicitly asks third-party plugin repositories to add Topic `dsh-plugin` | This is the official discovery requirement | Topic added and verified on all five repositories |
+| DSH README | Community section explicitly asks third-party plugin repositories to add Topic `dsh-plugin` | This is the official discovery requirement | Topic added and verified through repository metadata on all six repositories; search-index appearance remains a separate check |
 | DSH CONTRIBUTING | Encourages plugin creation, `dsh-plugin` discovery, guides, and community help; external PRs are not currently accepted | Promotion should be an ecosystem contribution, not a request to merge plugin code upstream | Draft follows this positioning |
 | GitHub Discussions | Category `Show Your Plugins!` exists with description “Show off something you've made” | Recent posts commonly use a result-first explanation, exact install command, evidence, repository link, and a specific feedback request | Published as [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561) |
 | Discord | Official invite resolves to the DeepSeek server and authenticated access to the `harness` forum was verified; the server showed about 29.3K members and 2.1K online | Rules prohibit unauthorized advertising or self-promotion and require moderator permission. The preferred language is English. The server is not an official support channel. Forum posting requires parent-channel send permission; this account can reply in threads but its `New Post` button is disabled | Promotion-permission DM delivered to `Moderator-ZANE` (`truongdinhdat15`) at 08:28 Asia/Shanghai on 2026-08-26; a focused role/channel-permission follow-up was delivered at 09:07. Recruitment remains gated on forum posting access |
 
 The `Show Your Plugins!` category is high-volume. A single concise suite post is
-preferable to five near-duplicate announcements. Follow-up comments should only
+preferable to near-duplicate announcements. Follow-up comments should only
 be added when there is a real release, confirmed platform result, or resolved
 user issue. An exact-name search on 2026-08-26 found no existing official DSH
-Discussion for any of the five package names.
+Discussion for any of the original five package names. The Plugin Manager was
+created after that baseline and has not yet been added to the official post.
+
+### Plugin Manager Discoverability Check
+
+| Surface | Verified 2026-08-26 | Remaining check |
+| --- | --- | --- |
+| GitHub repository metadata | Exact `dsh-plugin` Topic plus `deepseek-harness`, `dsh`, and `plugin-manager`; About homepage points to npm | Confirm the repository appears in GitHub's eventually consistent `topic:dsh-plugin` search index |
+| npm package metadata | `0.1.0-rc.2` is public on `next` with `dsh-plugin`, `deepseek-harness`, `dsh`, `plugin-manager`, and `ai-agent` keywords | Confirm npm's eventually consistent search endpoint returns the package for `keywords:dsh-plugin`; do not move a prerelease to `latest` merely to influence ranking |
+| Repository first screen | Exact RC.2 install command, first `/plugins` examples, safety boundary, npm/CI/DSH badges | Add a real 30-60 second conversation demo before a dedicated community announcement |
+| Release evidence | Prerelease page and trusted npm publication succeeded; full local verification passed against official DSH commit `b150a551` | Collect first external macOS, Windows, and Linux installation reports |
 
 ## Public-Content Gate
 
@@ -110,7 +122,7 @@ draft is created.
 | Claude Stars | 1 | 4 | Net GitHub Stars; exclude owner accounts |
 | Real installation reports | 0 collected in this campaign | 5 | Must state platform and an observed result or failure |
 | Platform coverage | 0/3 collected in this campaign | macOS, Windows, Linux | At least one real report per OS family; recruitment allocation is macOS 2, Windows 2, Linux 1 |
-| Real Issues | 0 open across the five repositories | 1-3 | User-created, reproducible or actionable; do not manufacture Issues |
+| Real Issues | 0 open across the six repositories | 1-3 | User-created, reproducible or actionable; do not manufacture Issues |
 
 Daily log template:
 
@@ -136,6 +148,7 @@ repository and must not be summed as cross-repository unique people.
 | Workbench | 3 / 2 | 72 / 28 | 0 | 0 | `github.com` 2 / 1 |
 | Files | 2 / 2 | 33 / 20 | 0 | 0 | No referrer met GitHub's reporting threshold |
 | Terminal | 1 / 1 | 83 / 45 | 0 | 0 | No referrer met GitHub's reporting threshold |
+| Plugin Manager | 0 / 0 | 0 / 0 | 0 | 0 | Repository created on 2026-08-26; Traffic had not populated yet |
 
 The per-repository totals are 68 views and 498 clones. The clone-to-view ratio,
 especially the one-day clone spikes across the submodules, is consistent with
@@ -153,7 +166,7 @@ an external interaction because voter identity was unavailable.
 
 ### Repository-local work: may execute directly
 
-- [x] Initialize and verify all five submodules in the current Relay worktree.
+- [x] Initialize and verify all six submodules in the current Relay worktree.
 - [x] Confirm every pinned commit matches the corresponding remote `main`.
 - [x] Audit GitHub Topics, About metadata, npm metadata, README install paths,
   demo entry points, and current Stars.
@@ -168,14 +181,14 @@ an external interaction because voter identity was unavailable.
   official DSH installation scenarios.
 - [ ] Record a sanitized 30-60 second suite demo with no local username, host,
   shell-history warning, or distracting environment prompt.
-- [ ] Produce five single-problem 30-60 second assets: Codex import, Claude
-  conversation, Files, Terminal, and Workbench extension.
-- [ ] Add a small installation-report template to the five Issue templates or
+- [ ] Produce six single-problem 30-60 second assets: Codex import, Claude
+  conversation, Files, Terminal, Workbench extension, and Plugin Manager search.
+- [ ] Add a small installation-report template to the six Issue templates or
   shared outreach docs without claiming unverified platform support.
 
 ### External actions: explicit current-conversation confirmation required
 
-- [x] Add Topic `dsh-plugin` to all five GitHub repositories.
+- [x] Add Topic `dsh-plugin` to all six GitHub repositories.
 - [x] Publish the English total post in DSH `Show Your Plugins!` as
   [Discussion #4561](https://github.com/deepseek-ai/deepseek-harness/discussions/4561).
 - [x] Recheck the Discord invite and authenticated server/channel rules.
@@ -183,7 +196,8 @@ an external interaction because voter identity was unavailable.
   post in `#harness` with the `Show and tell` tag.
 - [ ] Publish the Discord five-tester recruitment message.
 - [ ] Reply to comments or installation reports.
-- [ ] Update GitHub About, npm metadata, releases, or dist-tags.
+- [x] Update the Plugin Manager's GitHub About/Topics, npm metadata, and RC.2
+  prerelease; keep the prerelease on npm `next`.
 
 ## Prepared Drafts
 
@@ -216,3 +230,17 @@ an external interaction because voter identity was unavailable.
 - Verified Workbench 10/10 tests, Files 7/7 tests, Terminal 10/10 tests, six
   independently packed DSH plugin entries, and nine official DSH install/boot
   combinations against clean upstream commit `b150a551`.
+- Added `relay-dsh-plugin-manager` as Relay's sixth plugin submodule and updated
+  the public catalog, English/Chinese chooser, repository workflow, and plugin
+  boundary documentation.
+- Added and verified the Plugin Manager's canonical `dsh-plugin` Topic, related
+  GitHub Topics, and npm homepage About link.
+- Released `relay-dsh-plugin-manager@0.1.0-rc.2` on npm `next` with canonical
+  discovery keywords. Trusted publication, CI, 41 tests, build, package
+  acceptance, npm integrity metadata, and the prerelease page all passed.
+- Recorded GitHub Topic search and npm search as pending index checks; the
+  authoritative repository and package metadata are already live, but neither
+  search index returned the new repository/package immediately after release.
+- Added a structured GitHub installation-report form and matching label that
+  collect OS, DSH/plugin/Node versions, the sanitized command, and the observed
+  result without requesting secrets.

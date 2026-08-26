@@ -2,9 +2,9 @@
 
 English | [中文](dsh-plugins.zh.md)
 
-Add Codex, Claude Code, workspace files, and an interactive terminal to the
-official DeepSeek Harness through plugins. No DSH fork or core patch is
-required.
+Discover and manage plugins from a conversation, or add Codex, Claude Code,
+workspace files, and an interactive terminal to the official DeepSeek Harness.
+No DSH fork or core patch is required.
 
 ![Relay DSH plugin suite demo](media/dsh-plugin-suite-demo.gif)
 
@@ -25,11 +25,24 @@ Terminal executed a command in the Relay workspace.
 | Start Claude Code conversations in DSH | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | Independent backend powered by Claude Agent SDK. |
 | Browse workspace files | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) + [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | Files uses the shared Workbench side-panel host. |
 | Open a terminal panel | Workbench + [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | Add Codex or another provider for a live shell. |
+| Find, install, update, or remove plugins in a conversation | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | Uses npm and GitHub discovery; every mutation requires a separate confirmation. |
 | Build another side or bottom view | Workbench | Use its public contracts instead of importing another feature plugin. |
 
 The Codex and Claude plugins do not depend on Relay Events or Workbench. Files
 and Terminal depend only on Workbench's public plugin contract. Relay Events is
 a separate optional runtime and is not required for any plugin on this page.
+
+Install the conversation-first manager by itself, restart DSH once, then use
+`/plugins` or an ordinary natural-language request:
+
+```bash
+dsh plugin --profile web add --save-exact relay-dsh-plugin-manager@0.1.0-rc.2
+```
+
+```text
+/plugins find a plugin for Feishu
+list installed plugins and whether DSH needs a restart
+```
 
 ## Install From npm
 
@@ -75,15 +88,16 @@ dsh plugin --profile web why relay-dsh-plugin-codex
 dsh plugin --profile web why relay-dsh-plugin-claude
 dsh plugin --profile web why relay-dsh-plugin-files
 dsh plugin --profile web why relay-dsh-plugin-terminal
+dsh plugin --profile web why relay-dsh-plugin-manager
 ```
 
 Then open a new DSH session. Codex and Claude Code should appear in the mode
 menu. With a workspace selected, the Workbench menu should expose Files and
 Terminal.
 
-Each repository includes English and Chinese setup, troubleshooting, CI against
-an immutable official DSH commit, npm Tag publishing, and a GitHub development
-install path. See the longer article,
+The five backend/workbench repositories include English and Chinese setup; all
+six repositories document verification, npm publishing, and a GitHub
+development path. See the longer article,
 [No Fork Required: Add Codex, Claude Code, Files, and Terminal to DSH](articles/no-fork-dsh-plugins.md),
 for the design rationale and a guided walkthrough.
 

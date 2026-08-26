@@ -2,8 +2,8 @@
 
 [English](dsh-plugins.md) | 中文
 
-通过插件为官方 DeepSeek Harness 增加 Codex、Claude Code、工作区文件浏览和
-交互终端。无需维护 DSH Fork，也不需要修改官方核心代码。
+在对话中发现和管理插件，或为官方 DeepSeek Harness 增加 Codex、Claude Code、
+工作区文件浏览和交互终端。无需维护 DSH Fork，也不需要修改官方核心代码。
 
 ![Relay DSH 插件套件演示](media/dsh-plugin-suite-demo.gif)
 
@@ -23,11 +23,24 @@
 | 在 DSH 中创建 Claude Code 对话 | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | 基于 Claude Agent SDK 的独立对话后端。 |
 | 浏览工作区文件 | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) + [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | Files 使用 Workbench 的右侧面板宿主。 |
 | 打开终端面板 | Workbench + [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | 如需真实 Shell，再安装 Codex 或其他 provider。 |
+| 在对话中查找、安装、更新或删除插件 | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | 同时搜索 npm 与 GitHub；每次变更都需要再次明确确认。 |
 | 开发其他右侧或底部视图 | Workbench | 使用公开插件契约，不要导入其他功能插件代码。 |
 
 Codex 和 Claude 插件不依赖 Relay Events 或 Workbench。Files 和 Terminal 只
 依赖 Workbench 的公开插件契约。Relay Events 是独立的可选运行时，本页任一
 插件都不要求安装它。
+
+插件管理器可独立安装。首次安装后重启一次 DSH，然后使用 `/plugins` 或普通自然
+语言请求：
+
+```bash
+dsh plugin --profile web add --save-exact relay-dsh-plugin-manager@0.1.0-rc.2
+```
+
+```text
+/plugins 找一个能连接飞书的插件
+列出当前插件以及是否需要重启
+```
 
 ## 从 npm 安装
 
@@ -72,14 +85,15 @@ dsh plugin --profile web why relay-dsh-plugin-codex
 dsh plugin --profile web why relay-dsh-plugin-claude
 dsh plugin --profile web why relay-dsh-plugin-files
 dsh plugin --profile web why relay-dsh-plugin-terminal
+dsh plugin --profile web why relay-dsh-plugin-manager
 ```
 
 然后新建 DSH 会话：模式菜单中应出现 Codex 和 Claude Code；选择工作区后，
 Workbench 菜单中应出现 Files 和 Terminal。
 
-每个独立仓库都提供中英文安装说明、故障排查、针对固定官方 DSH Commit 的 CI、
-基于 Tag 的 npm 发布流程和 GitHub 开发版安装方式。关于为什么采用这种插件边界，
-以及完整体验步骤，可继续阅读
+五个后端/Workbench 仓库提供中英文安装说明；六个独立仓库都记录了验证、npm
+发布和 GitHub 开发版安装方式。关于为什么采用这种插件边界，以及完整体验步骤，
+可继续阅读
 [《不改 DSH 核心：用插件加入 Codex、Claude Code、文件浏览和终端》](articles/no-fork-dsh-plugins.zh.md)。
 
 Codex 插件还把 App Server 可靠性作为产品契约：Settings 状态会区分启动、连接、
