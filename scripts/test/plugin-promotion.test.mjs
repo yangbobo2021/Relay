@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { access, readFile, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import test from "node:test";
@@ -179,6 +180,55 @@ test("the demo pipeline records live plugin behavior instead of image slides", a
   assert.match(renderer, /yuv420p/);
   assert.match(renderer, /\+faststart/);
   assert.doesNotMatch(renderer, /dsh-new-session-backends\.jpg/);
+});
+
+test("the English Plugin Manager demo preserves real acceptance evidence", async () => {
+  const recorder = await readFile(
+    join(root, "scripts", "record-dsh-plugin-manager-english-demo.mjs"),
+    "utf8",
+  );
+  const qa = await readFile(
+    join(root, "docs", "acceptance", "dsh-plugin-manager-codex-install-demo-qa.md"),
+    "utf8",
+  );
+  const video = await readFile(
+    join(root, "docs", "media", "dsh-plugin-manager-codex-install-demo.en.mp4"),
+  );
+  const poster = await readFile(
+    join(root, "docs", "media", "dsh-plugin-manager-codex-install-success.png"),
+  );
+  const verifier = await readFile(
+    join(root, "scripts", "verify-dsh-plugin-manager-english-demo.sh"),
+    "utf8",
+  );
+
+  assert.match(recorder, /locale: 'en-US'/);
+  assert.match(recorder, /preference: en/);
+  assert.match(recorder, /assertEnglish\(page, 'recording start'\)/);
+  assert.ok(recorder.includes("/[\\u3400-\\u9fff]/u"));
+  assert.match(recorder, /assertTargetDependency\(undefined, 'search'\)/);
+  assert.match(recorder, /assertTargetDependency\(undefined, 'plan'\)/);
+  assert.match(recorder, /assertTargetDependency\(targetVersion, 'install'\)/);
+  assert.match(recorder, /plugin_discover · search/);
+  assert.match(recorder, /plugin_manage · plan/);
+  assert.match(recorder, /plugin_manage · execute/);
+  assert.match(verifier, /FIRST_YAVG/);
+  assert.match(verifier, /value >= 220/);
+  assert.match(verifier, /blackdetect=d=0\.5/);
+
+  assert.equal(video.subarray(4, 8).toString(), "ftyp");
+  assert.ok(
+    video.indexOf(Buffer.from("moov")) < video.indexOf(Buffer.from("mdat")),
+    "MP4 must use faststart",
+  );
+  assert.equal(poster.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+  assert.equal(poster.readUInt32BE(16), 1280);
+  assert.equal(poster.readUInt32BE(20), 720);
+
+  for (const artifact of [video, poster]) {
+    const digest = createHash("sha256").update(artifact).digest("hex");
+    assert.ok(qa.includes(digest), `QA must record SHA-256 ${digest}`);
+  }
 });
 
 function escapeRegExp(value) {
