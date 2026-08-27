@@ -14,7 +14,8 @@
     "integrations/deepseek-harness",
     "integrations/dsh-workbench",
     "integrations/dsh-files",
-    "integrations/dsh-terminal"
+    "integrations/dsh-terminal",
+    "integrations/dsh-plugin-manager"
   ],
   "engines": {
     "node": ">=22.13"

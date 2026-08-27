@@ -6,6 +6,7 @@ import test from "node:test";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const publishableVersion = /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
+const dshRcCompatibility = ">=0.1.0-rc.5 <0.1.1 || >=0.1.1-rc.0 <0.2.0";
 const expected = new Map([
   ["packages/plugin-sdk", "@relay/plugin-sdk"],
   ["packages/event-router", "@relay/event-router"],
@@ -19,6 +20,7 @@ const expected = new Map([
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
   ["integrations/dsh-files", "relay-dsh-plugin-files"],
   ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
+  ["integrations/dsh-plugin-manager", "relay-dsh-plugin-manager"],
 ]);
 
 test("plugins and shared libraries are independently publishable workspace packages", async () => {
@@ -43,6 +45,13 @@ test("plugins and shared libraries are independently publishable workspace packa
     assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
   }
 
+  const eventsManifest = await json(join(root, "integrations/deepseek-harness/package.json"));
+  for (const dependency of ["@deepseek-ai/dsh-llm", "@deepseek-ai/dsh-session",
+    "@deepseek-ai/dsh-tools", "@deepseek-ai/dsh-typert-protocol"]) {
+    assert.equal(eventsManifest.peerDependencies?.[dependency], dshRcCompatibility,
+      `Events ${dependency} peer must include both supported DSH RC version lines`);
+  }
+
   for (const directory of ["integrations/dsh-workbench", "integrations/dsh-files", "integrations/dsh-terminal"]) {
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.match(patch, /- id: ui-layout\n\s+disabled: true/, `${directory} activates the Workbench layout`);
@@ -58,7 +67,7 @@ test("plugins and shared libraries are independently publishable workspace packa
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: relay-workbench-host\n/, `${directory} must not reuse Workbench's direct-install loader id`);
   }
-  for (const directory of ["integrations/codex", "integrations/claude", "integrations/deepseek-harness"]) {
+  for (const directory of ["integrations/codex", "integrations/claude", "integrations/deepseek-harness", "integrations/dsh-plugin-manager"]) {
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: ui-layout/, `${directory} must preserve the official DSH layout`);
   }

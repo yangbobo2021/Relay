@@ -32,6 +32,12 @@ const plugins = [
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git",
     packageName: "relay-dsh-plugin-terminal",
   },
+  {
+    path: "integrations/dsh-plugin-manager",
+    url: "git@github.com:yangbobo2021/relay-dsh-plugin-manager.git",
+    packageName: "relay-dsh-plugin-manager",
+    preparesDsh: false,
+  },
 ];
 
 test("DSH integrations are independently buildable Git submodules", async () => {
@@ -46,7 +52,7 @@ test("DSH integrations are independently buildable Git submodules", async () => 
     assert.equal(manifest.name, plugin.packageName);
     assert.ok(manifest.scripts?.test);
     assert.ok(manifest.scripts?.build);
-    assert.ok(manifest.scripts?.["prepare:dsh"]);
+    if (plugin.preparesDsh !== false) assert.ok(manifest.scripts?.["prepare:dsh"]);
     await access(join(directory, "package-lock.json"));
     await access(join(directory, ".gitignore"));
 

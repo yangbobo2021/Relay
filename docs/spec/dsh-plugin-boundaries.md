@@ -20,7 +20,7 @@ Remote, or a type-only public contract.
 | `relay-dsh-plugin-terminal` | installable DSH plugin | Terminal provider registry, terminal Remote, xterm UI, and one bottom-view contribution. |
 | `relay-dsh-plugin-codex` | installable DSH plugin | Codex conversations and an optional Codex terminal-provider contribution. |
 | `relay-dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
-| `relay-dsh-plugin-manager` | installable DSH plugin | Conversation-first plugin discovery and confirmation-gated lifecycle management. |
+| `relay-dsh-plugin-manager` | installable DSH plugin | Conversation-based plugin discovery and confirmation-gated lifecycle management, plus a read-only Settings help tab. |
 | `@relay/plugin-events` | installable DSH plugin | Optional event injection across every compatible conversation backend. |
 
 Package-owned contracts contain no service implementation and are not added to a
@@ -60,6 +60,15 @@ The files plugin resolves the active DSH Agent and uses DSH filesystem services.
 It has no Codex or Claude runtime dependency. Workspace containment and bounded
 UTF-8 previews remain Host-enforced.
 
+### Plugin Management
+
+Plugin Manager owns one compact command, two model tools, immutable confirmation
+plans, official DSH CLI execution, and a versioned discovery-provider registry.
+Search providers return candidates only; installation and mutation remain owned
+by the manager. It exposes no public management HTTP route and imports no Relay
+parent implementation. Its `settings.plugins.tab` contribution is localized,
+read-only usage help and has no Remote or mutation control.
+
 ## Composition Rules
 
 - Codex-only and Claude-only profiles preserve the official DSH layout.
@@ -67,6 +76,9 @@ UTF-8 previews remain Host-enforced.
   peer and are installed with it by Relay's distribution tooling.
 - Events is optional and must not be required by any conversation or workbench
   plugin.
+- Plugin Manager is independent of Events, conversation backends, and Workbench.
+  KeySync distribution installs it by default; standalone DSH users may install
+  or remove it independently.
 - Codex may contribute a terminal provider, but may not import Terminal or
   Workbench implementation code.
 - Files and Terminal may import only `relay-dsh-plugin-workbench/contracts`
@@ -79,11 +91,12 @@ UTF-8 previews remain Host-enforced.
 | --- | --- |
 | Codex only | Codex conversation backend loads; official layout remains. |
 | Claude only | Claude conversation backend loads; official layout remains. |
+| Plugin Manager only | Chat exposes discovery and management tools; Settings exposes read-only help; no public management route exists. |
 | Workbench only | Generic layout loads with no Files/Terminal identifiers or phantom views. |
 | Workbench + Files | Files appears as a side view and its Remote is mounted. |
 | Workbench + Terminal | Terminal appears as a bottom view; no provider is a contained empty state. |
 | Workbench + Terminal + Codex | Codex provider registers and interactive terminal transport is available. |
-| Full composition | Codex, Claude, Events, Files, and Terminal coexist on official DSH. |
+| Full composition | Plugin Manager, Codex, Claude, Events, Files, and Terminal coexist on official DSH. |
 | Synthetic future view | A fixture registers another side/bottom view without changing Workbench. |
 | Workbench UI E2E | Clean official DSH profile installs tarballs through direct Files/Terminal installs and explicit Workbench composition, opens Web in a browser, uses the panel menu, opens/closes Files and Terminal views, previews a workspace file, confirms uninstalled views are absent, and reports no browser runtime or resource errors. |
 
@@ -107,3 +120,6 @@ Automated tests must enforce all of the following:
 9. View plugins that activate Workbench for single-plugin installs must use
    plugin-specific loader ids, and Workbench client initialization must remain
    idempotent so multiple view plugins compose together.
+10. Plugin Manager package acceptance executes its packed browser bundle and
+    verifies one localized, control-free Marketplace help tab alongside its two
+    Host rows.

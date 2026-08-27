@@ -59,9 +59,9 @@ Relay-owned DSH-facing implementation belongs under one of these locations:
 
 - `integrations/deepseek-harness/` for the installable plugin and runtime adapters;
 - `integrations/codex/`, `integrations/claude/`, `integrations/dsh-workbench/`,
-  `integrations/dsh-files/`, and `integrations/dsh-terminal/` for pinned
-  independent plugin checkouts; changes must be committed and pushed in the
-  child repository first;
+  `integrations/dsh-files/`, `integrations/dsh-terminal/`, and
+  `integrations/dsh-plugin-manager/` for pinned independent plugin checkouts;
+  changes must be committed and pushed in the child repository first;
 - `dsh-lab/` for compatibility notes, fixtures, probes, and patch reproductions;
 - `docs/` for specifications, design decisions, and operating guidance;
 - Relay test directories for cross-boundary contract coverage.

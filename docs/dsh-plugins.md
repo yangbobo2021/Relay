@@ -21,16 +21,16 @@ Terminal executed a command in the Relay workspace.
 
 | Goal | Install | Notes |
 | --- | --- | --- |
+| Find, install, update, or remove DSH plugins through Chat | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | Searches npm and GitHub; every mutation requires separate confirmation, and Settings remains read-only help. |
 | Start Codex conversations in DSH | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | Independent backend powered by Codex App Server. |
 | Start Claude Code conversations in DSH | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | Independent backend powered by Claude Agent SDK. |
 | Browse workspace files | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) + [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | Files uses the shared Workbench side-panel host. |
 | Open a terminal panel | Workbench + [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | Add Codex or another provider for a live shell. |
-| Find, install, update, or remove plugins in a conversation | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | Uses npm and GitHub discovery; every mutation requires a separate confirmation. |
 | Build another side or bottom view | Workbench | Use its public contracts instead of importing another feature plugin. |
 
-The Codex and Claude plugins do not depend on Relay Events or Workbench. Files
-and Terminal depend only on Workbench's public plugin contract. Relay Events is
-a separate optional runtime and is not required for any plugin on this page.
+Plugin Manager, Codex, and Claude do not depend on the Relay runtime or
+Workbench. Files and Terminal depend only on Workbench's public plugin contract.
+Relay Events is a separate optional runtime and is not required by these plugins.
 
 Install the conversation-first manager by itself, restart DSH once, then use
 `/plugins` or an ordinary natural-language request:
@@ -51,6 +51,7 @@ DSH remains in preview. The Workbench plugins use their stable releases.
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \
+  relay-dsh-plugin-manager@latest \
   relay-dsh-plugin-codex@next \
   relay-dsh-plugin-claude@next \
   relay-dsh-plugin-workbench@latest \
@@ -65,6 +66,9 @@ same command because DSH profiles intentionally reject GitHub packages hidden
 as transitive dependencies. A live terminal also needs a provider; Codex is the
 currently published provider in this suite.
 
+KeySync's one-click DSH setup already installs Plugin Manager. Do not add it a
+second time there; the npm command is for standalone official DSH Profiles.
+
 ## Install From GitHub
 
 Use GitHub installs to test the newest unreleased code. Pin a tag or commit SHA
@@ -72,6 +76,7 @@ for reproducible environments instead of leaving `#main` in production.
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \
+  github:yangbobo2021/relay-dsh-plugin-manager#main \
   github:yangbobo2021/relay-dsh-plugin-codex#main \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
   github:yangbobo2021/relay-dsh-plugin-workbench#main \
@@ -91,9 +96,10 @@ dsh plugin --profile web why relay-dsh-plugin-terminal
 dsh plugin --profile web why relay-dsh-plugin-manager
 ```
 
-Then open a new DSH session. Codex and Claude Code should appear in the mode
-menu. With a workspace selected, the Workbench menu should expose Files and
-Terminal.
+Then open a new DSH session. Ask to list installed plugins, or open **Settings >
+Plugins > Plugin marketplace** for concise usage help. Codex and Claude Code
+should appear in the mode menu. With a workspace selected, the Workbench menu
+should expose Files and Terminal.
 
 The five backend/workbench repositories include English and Chinese setup; all
 six repositories document verification, npm publishing, and a GitHub
@@ -115,5 +121,6 @@ coordination.
 
 For the complete multi-device run, read
 [Leave the Work PC Running](articles/keysync-dsh-multi-device-agent-workbench.md):
-KeySync installs official DSH, the plugins add the three conversation choices,
-Files, and Terminal, and another device reopens the original session.
+KeySync installs official DSH with Plugin Manager built in; the optional plugins
+add the three conversation choices, Files, and Terminal, and another device
+reopens the original session.

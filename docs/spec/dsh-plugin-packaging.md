@@ -12,10 +12,14 @@ Relay's DeepSeek Harness integration is published as independent packages:
 - `relay-dsh-plugin-files` owns workspace file transport and its side view.
 - `relay-dsh-plugin-terminal` owns terminal transport, provider registry, and its
   bottom view.
+- `relay-dsh-plugin-manager` owns plugin discovery, confirmation-gated profile
+  lifecycle operations, its search-provider registry, and read-only Settings help.
 
-Codex and Claude have no runtime dependency on another Relay package. Installing
-either backend adds only its conversation mode and product behavior. They do not
-import, detect, or conditionally expose Events features.
+Codex, Claude, and Plugin Manager have no runtime dependency on another Relay
+package. Installing either backend adds only its conversation mode and product
+behavior; installing Plugin Manager adds only its command/tools, Host services,
+and read-only help tab. They do not import, detect, or conditionally expose
+Events features.
 
 Events is a provider-neutral DSH bundle. It attaches its tools to every root Agent
 through DSH's Agent lifecycle and delivers through DSH's shared Session lookup and
@@ -78,3 +82,6 @@ must not import Workbench source files or implementation modules.
     still match.
 16. Codex launcher and status/error tests run on macOS, Windows, and Linux CI;
     official DSH remains an immutable compatibility reference.
+17. Plugin Manager passes its independent package verification, packed official
+    DSH installation, real client-bundle registration, and control-free Settings
+    help acceptance before Relay advances its submodule pointer.

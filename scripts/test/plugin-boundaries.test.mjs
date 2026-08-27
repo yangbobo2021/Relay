@@ -13,6 +13,7 @@ const domains = [
   "integrations/dsh-workbench",
   "integrations/dsh-files",
   "integrations/dsh-terminal",
+  "integrations/dsh-plugin-manager",
   "packages/event-runtime-plugin",
 ];
 const sourceExtensions = new Set([".js", ".mjs", ".ts", ".tsx"]);
@@ -22,6 +23,7 @@ const allowedByDomain = new Map([
   ["integrations/dsh-workbench", new Set()],
   ["integrations/dsh-files", new Set(["relay-dsh-plugin-workbench/contracts"])],
   ["integrations/dsh-terminal", new Set(["relay-dsh-plugin-workbench/contracts"])],
+  ["integrations/dsh-plugin-manager", new Set()],
   ["packages/event-runtime-plugin", new Set([
     "@relay/monitor-runtime", "@relay/plugin-sdk", "@relay/runtime",
   ])],

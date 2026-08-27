@@ -28,6 +28,8 @@ choice, but neither should redefine the requirements here.
   monorepo boundaries, distribution composition, and regression gates.
 - [DSH Plugin Boundaries](dsh-plugin-boundaries.md): installable DSH plugin ownership,
   workbench extension contracts, and composition acceptance matrix.
+- [DSH Plugin Packaging](dsh-plugin-packaging.md): independently released package
+  ownership and package-level acceptance requirements.
 
 ## Organization Rules
 

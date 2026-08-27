@@ -15,12 +15,16 @@
   public contract.
 - `dsh-terminal/` contributes the provider-neutral interactive bottom view
   through Workbench's public contract.
+- `dsh-plugin-manager/` is the independently released
+  `relay-dsh-plugin-manager` bundle for conversation-based plugin discovery and
+  lifecycle management. Its Settings contribution is read-only help.
 
 Connectors to external systems live here.
 
-The installable bundles are implementation-independent: Codex and Claude have no
-Relay plugin dependencies, Events has no backend imports, and workbench features
-communicate through Cordis services, Typert Remotes, and DSH slots.
+The installable bundles are implementation-independent: Codex, Claude, and Plugin
+Manager have no Relay runtime dependencies, Events has no backend imports, and
+workbench features communicate through Cordis services, Typert Remotes, and DSH
+slots.
 
 Expected later provider-specific integrations:
 

@@ -49,6 +49,7 @@ verification, and a real DSH UI demo.
 
 | Plugin | Repository | npm package | Purpose |
 | --- | --- | --- | --- |
+| Plugin Manager | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | [`relay-dsh-plugin-manager`](https://www.npmjs.com/package/relay-dsh-plugin-manager) | Discovers and manages DSH plugins through Chat; included by KeySync's one-click DSH install. |
 | Codex | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | [`relay-dsh-plugin-codex`](https://www.npmjs.com/package/relay-dsh-plugin-codex) | Adds Codex as a DSH conversation backend. |
 | Claude Code | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | [`relay-dsh-plugin-claude`](https://www.npmjs.com/package/relay-dsh-plugin-claude) | Adds Claude Code as a DSH conversation backend. |
 | Workbench | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Provides the shared right/bottom panel shell for DSH view plugins. |

@@ -5,7 +5,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
-const plugins = ["codex", "claude", "dsh-workbench", "dsh-files", "dsh-terminal"];
+const plugins = ["codex", "claude", "dsh-workbench", "dsh-files", "dsh-terminal", "dsh-plugin-manager"];
 
 test("plugin repositories expose complete public-project metadata", async () => {
   for (const plugin of plugins) {
@@ -27,8 +27,10 @@ test("plugin repositories expose complete public-project metadata", async () => 
         assert.match(readme, new RegExp(escapeRegExp(marker)), `${plugin} README is missing ${marker}`);
       }
     }
-    assert.match(readme, /All Relay DSH plugins/, `${plugin} must link to the Relay plugin catalog`);
-    assert.match(chinese, /全部 Relay DSH 插件/, `${plugin} Chinese README must link to the catalog`);
+    const catalogMarker = plugin === "dsh-plugin-manager" ? /Relay DSH plugin catalog/ : /All Relay DSH plugins/;
+    const chineseCatalogMarker = plugin === "dsh-plugin-manager" ? /Relay DSH 插件目录/ : /全部 Relay DSH 插件/;
+    assert.match(readme, catalogMarker, `${plugin} must link to the Relay plugin catalog`);
+    assert.match(chinese, chineseCatalogMarker, `${plugin} Chinese README must link to the catalog`);
   }
 });
 
@@ -39,7 +41,8 @@ test("the bilingual catalog, article, and demo stay mutually linked", async () =
   const chineseArticle = await readFile(join(root, "docs", "articles", "no-fork-dsh-plugins.zh.md"), "utf8");
 
   for (const name of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude",
-    "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal"]) {
+    "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal",
+    "relay-dsh-plugin-manager"]) {
     assert.match(english, new RegExp(name), `English catalog must list ${name}`);
     assert.match(chinese, new RegExp(name), `Chinese catalog must list ${name}`);
   }

@@ -19,16 +19,16 @@
 
 | 你的目标 | 安装内容 | 说明 |
 | --- | --- | --- |
+| 通过 Chat 查找、安装、更新或删除 DSH 插件 | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | 搜索 npm 与 GitHub；每次变更都要单独确认，设置页只提供只读帮助。 |
 | 在 DSH 中创建 Codex 对话 | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | 基于 Codex App Server 的独立对话后端。 |
 | 在 DSH 中创建 Claude Code 对话 | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | 基于 Claude Agent SDK 的独立对话后端。 |
 | 浏览工作区文件 | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) + [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | Files 使用 Workbench 的右侧面板宿主。 |
 | 打开终端面板 | Workbench + [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | 如需真实 Shell，再安装 Codex 或其他 provider。 |
-| 在对话中查找、安装、更新或删除插件 | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | 同时搜索 npm 与 GitHub；每次变更都需要再次明确确认。 |
 | 开发其他右侧或底部视图 | Workbench | 使用公开插件契约，不要导入其他功能插件代码。 |
 
-Codex 和 Claude 插件不依赖 Relay Events 或 Workbench。Files 和 Terminal 只
-依赖 Workbench 的公开插件契约。Relay Events 是独立的可选运行时，本页任一
-插件都不要求安装它。
+Plugin Manager、Codex 和 Claude 都不依赖 Relay 运行时或 Workbench。Files 和
+Terminal 只依赖 Workbench 的公开插件契约。Relay Events 是独立的可选运行时，
+这些插件都不要求安装它。
 
 插件管理器可独立安装。首次安装后重启一次 DSH，然后使用 `/plugins` 或普通自然
 语言请求：
@@ -49,6 +49,7 @@ Workbench 系列插件使用稳定版。
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \
+  relay-dsh-plugin-manager@latest \
   relay-dsh-plugin-codex@next \
   relay-dsh-plugin-claude@next \
   relay-dsh-plugin-workbench@latest \
@@ -62,6 +63,9 @@ pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 web
 明确列出 Workbench。真实交互终端还需要一个 provider；当前这组已发布插件中，
 Codex 可以提供该能力。
 
+通过 KeySync 一键安装 DSH 时，Plugin Manager 已经内置安装，不要重复添加。
+上面的 npm 命令用于独立安装的官方 DSH Profile。
+
 ## 从 GitHub 安装
 
 GitHub 安装适合测试尚未发布的新代码。正式或可复现环境应把 `#main` 替换成
@@ -69,6 +73,7 @@ Tag 或完整 Commit SHA。
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \
+  github:yangbobo2021/relay-dsh-plugin-manager#main \
   github:yangbobo2021/relay-dsh-plugin-codex#main \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
   github:yangbobo2021/relay-dsh-plugin-workbench#main \
@@ -88,7 +93,8 @@ dsh plugin --profile web why relay-dsh-plugin-terminal
 dsh plugin --profile web why relay-dsh-plugin-manager
 ```
 
-然后新建 DSH 会话：模式菜单中应出现 Codex 和 Claude Code；选择工作区后，
+然后新建 DSH 会话，可以先询问“列出已安装插件”，也可以打开 **设置 > 插件 >
+插件市场** 查看简短说明。模式菜单中应出现 Codex 和 Claude Code；选择工作区后，
 Workbench 菜单中应出现 Files 和 Terminal。
 
 五个后端/Workbench 仓库提供中英文安装说明；六个独立仓库都记录了验证、npm
@@ -108,5 +114,5 @@ Session、项目 Workbench 和未来协调边界。
 
 多设备完整实测见
 [《电脑没带走，AI 工作没停》](articles/keysync-dsh-multi-device-agent-workbench.zh.md)：
-KeySync 安装官方 DSH，插件加入三类会话、Files 和 Terminal，再从手机或另一台
-电脑回到原会话继续。
+KeySync 安装官方 DSH 时已经内置 Plugin Manager；其他可选插件加入三类会话、
+Files 和 Terminal，再从手机或另一台电脑回到原会话继续。
