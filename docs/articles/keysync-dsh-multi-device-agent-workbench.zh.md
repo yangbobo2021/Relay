@@ -27,7 +27,8 @@ Code。这不是模型排名，只是按任务、价格和结果做选择。
 - **Codex 和 Claude 插件**给 DSH 增加两种可选的会话后端。
 - **Workbench、Files 和 Terminal 插件**把项目文件与终端放到对话旁边。
 
-KeySync 不会自动安装这些 Relay 插件。它先安装 DSH，插件再通过 DSH 自己的插件机制按需加入。
+KeySync 一键安装 DSH 时会内置 Relay Plugin Manager，方便直接通过 Chat 管理
+插件。其他 Relay 插件仍然按需通过 DSH 自己的插件机制加入。
 
 ## 第一步：安装官方 DSH
 

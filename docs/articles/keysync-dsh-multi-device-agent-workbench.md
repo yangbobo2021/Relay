@@ -40,8 +40,9 @@ The setup I now use has three parts:
 - The **Workbench, Files, and Terminal plugins** keep the project files and
   shell next to the conversation.
 
-KeySync does not bundle the Relay plugins. It installs DSH first; the plugins
-are added separately through DSH's own plugin system.
+KeySync's one-click DSH setup includes Relay Plugin Manager so plugins can be
+managed from Chat. The other Relay plugins are optional and are added through
+DSH's own plugin system as needed.
 
 ## First, install official DSH
 
