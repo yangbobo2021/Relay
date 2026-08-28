@@ -5,13 +5,13 @@
 在对话中发现和管理插件，或为官方 DeepSeek Harness 增加 Codex、Claude Code、
 工作区文件浏览和交互终端。无需维护 DSH Fork，也不需要修改官方核心代码。
 
-![Relay DSH 插件套件演示](media/dsh-plugin-suite-demo.gif)
+![在官方 DSH 中运行的 Codex 对话与工作区文件](media/dsh-plugin-suite-live.png)
 
-这不是静态页面拼接。演示使用全新的官方 DSH `0.1.1-rc.2` Profile，并从 npm
-安装五个正式包：Codex App Server 与 Claude Agent SDK 分别返回真实回复，Files
-打开本仓库的 `README.md`，Terminal 在 Relay 工作区实际执行命令。
+上图来自全新的官方 DSH `0.1.1-rc.2` Profile，展示 Codex App Server 的真实
+回复和 Files 视图。同一次 npm 安装验收还验证了 Claude Agent SDK 的真实回复，
+以及 Terminal 在 Relay 工作区执行命令的结果。
 
-[播放或下载 H.264 MP4](media/dsh-plugin-suite-demo.mp4?raw=1) ·
+[观看 Plugin Manager 在 38 秒内安装 Codex](media/dsh-plugin-manager-codex-install-demo.zh.mp4?raw=1) ·
 [查看全尺寸实机截图](media/dsh-plugin-suite-live.png) ·
 [查看录制与兼容性证据](acceptance/dsh-plugin-demo-qa.md)
 

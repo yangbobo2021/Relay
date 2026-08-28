@@ -6,14 +6,14 @@ Discover and manage plugins from a conversation, or add Codex, Claude Code,
 workspace files, and an interactive terminal to the official DeepSeek Harness.
 No DSH fork or core patch is required.
 
-![Relay DSH plugin suite demo](media/dsh-plugin-suite-demo.gif)
+![Codex conversation and workspace files running in official DSH](media/dsh-plugin-suite-live.png)
 
-This is a real run against a clean official DSH `0.1.1-rc.2` profile. All five
-packages were installed from npm: Codex App Server and Claude Agent SDK each
-returned a live response, Files opened this repository's `README.md`, and the
-Terminal executed a command in the Relay workspace.
+The screenshot shows a live Codex App Server reply beside the Files view on a
+clean official DSH `0.1.1-rc.2` profile. The same npm-installed acceptance run
+also verified a live Claude Agent SDK reply and a Terminal command in the Relay
+workspace.
 
-[Watch or download the H.264 MP4](media/dsh-plugin-suite-demo.mp4?raw=1) ·
+[Watch Plugin Manager install Codex in 40 seconds](media/dsh-plugin-manager-codex-install-demo.en.mp4?raw=1) ·
 [Open the full-size live screenshot](media/dsh-plugin-suite-live.png) ·
 [Read the recording and compatibility evidence](acceptance/dsh-plugin-demo-qa.md)
 
