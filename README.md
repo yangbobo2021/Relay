@@ -1,12 +1,95 @@
 # Relay
 
-Relay is the waiting and external-event subsystem for long-running Agent work.
+Plugin guide: [English](docs/dsh-plugins.md) | [中文](docs/dsh-plugins.zh.md)
 
-An ordinary DSH conversation can register Waits and durable local Monitors. Relay
-routes incoming Events back into that conversation. A DSH Session may use DSH's
-default Agent or bind a Codex Thread as its execution and model-context backend.
+**Add Codex, Claude Code, plugin management, workspace files, and a terminal to
+the official DeepSeek Harness, without maintaining a DSH fork.**
 
-## Initial Layout
+Relay is an open-source integration and runtime workspace for long-running Agent
+work. Its independently published DSH plugins are usable today: install only the
+capabilities you need, keep the official DSH core unchanged, and manage them from
+the DSH CLI or an ordinary Chat conversation. No Relay checkout is required.
+
+[![Plugin Manager installs the Codex backend in official DSH](docs/media/dsh-plugin-manager-codex-install-success.png)](docs/media/dsh-plugin-manager-codex-install-demo.en.mp4?raw=1)
+
+*A real 40-second run on official DSH: search, review the proposed change,
+confirm it separately, and finish with the Codex plugin installed. [Watch the
+demo](docs/media/dsh-plugin-manager-codex-install-demo.en.mp4?raw=1).*
+
+## Try It Now
+
+Already running official DSH? Stop DSH Web, install the conversation-first
+Plugin Manager, and restart:
+
+```bash
+dsh plugin --profile web add relay-dsh-plugin-manager@latest
+dsh web
+```
+
+Then ask in Chat:
+
+```text
+/plugins find a Codex conversation backend
+```
+
+Search and inspection are read-only. Installation, update, enablement,
+disablement, removal, or restart shows a plan and requires a separate
+confirmation. KeySync's one-click DSH setup already includes Plugin Manager.
+
+**Choose your path:** [install a specific plugin](docs/dsh-plugins.md#choose-what-you-need)
+· [read the Chinese guide](docs/dsh-plugins.zh.md) ·
+[report install feedback](https://github.com/yangbobo2021/Relay/issues)
+
+## Why Star Relay?
+
+- Keep official DSH unpatched while adding the Agent backends and workspace views
+  your project needs.
+- Use Codex or Claude Code as native DSH conversation modes, then combine the
+  optional Files and Terminal views in the same workspace.
+- Follow the next layer of long-running Agent work: durable Waits and Monitors,
+  external Events, and delivery back into the correct existing conversation.
+
+If that direction is useful to you, [star Relay](https://github.com/yangbobo2021/Relay)
+so more DSH users can discover the no-fork plugin path.
+
+Relay's runtime direction goes beyond the plugin suite. An ordinary DSH
+conversation can register Waits and durable local Monitors; Relay routes incoming
+Events back into the correct conversation. A DSH Session may use DSH's default
+Agent or bind a Codex Thread as its execution and model-context backend.
+
+## DSH Plugin Catalog
+
+Published plugins can be installed on official DSH without checking out this
+repository. Relay pins their repositories as submodules for distribution,
+compatibility testing, and cross-plugin validation; the optional Events package
+remains part of the local Relay runtime.
+
+See the [complete plugin chooser and installation guide](docs/dsh-plugins.md)
+([中文](docs/dsh-plugins.zh.md)) for npm and GitHub setup recipes, dependencies,
+verification, and real DSH UI evidence.
+
+| Plugin | Repository | npm package | Purpose |
+| --- | --- | --- | --- |
+| Plugin Manager | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | [`relay-dsh-plugin-manager`](https://www.npmjs.com/package/relay-dsh-plugin-manager) | Discovers and manages DSH plugins through Chat; included by KeySync's one-click DSH install. |
+| Codex | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | [`relay-dsh-plugin-codex`](https://www.npmjs.com/package/relay-dsh-plugin-codex) | Adds Codex as a DSH conversation backend. |
+| Claude Code | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | [`relay-dsh-plugin-claude`](https://www.npmjs.com/package/relay-dsh-plugin-claude) | Adds Claude Code as a DSH conversation backend. |
+| Workbench | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Provides the shared right/bottom panel shell for DSH view plugins. |
+| Files | [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | [`relay-dsh-plugin-files`](https://www.npmjs.com/package/relay-dsh-plugin-files) | Adds a right-side workspace file browser. |
+| Terminal | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Adds a bottom terminal panel and provider registry. |
+| Events | local package `integrations/deepseek-harness` | `@relay/plugin-events` | Adds optional Relay Wait/Event/Monitor runtime integration. |
+
+The individual plugin READMEs link back here and describe their boundary with
+Relay. Relay's repository workflow for these submodules is documented in
+[Repository Workflow](docs/spec/repository-workflow.md).
+
+## Build Relay
+
+Start with the [documentation index](docs/README.md). Product requirements and
+runtime behavior are defined by the [Relay specification](docs/spec/README.md).
+
+Clone DSH into the ignored upstream directory with `scripts/sync-dsh.sh`. Keep
+Relay-owned experiments and compatibility notes in `dsh-lab/` so the immutable
+upstream reference can be updated freely.
 
 ```text
 apps/                         User-facing Relay applications
@@ -20,47 +103,6 @@ tests/                        Cross-package and integration tests
 upstream/deepseek-harness/    Local ignored clone of DeepSeek Harness
 dsh-lab/                      Relay-owned DSH notes, tests, patches, adapters
 ```
-
-## DeepSeek Harness Workspace
-
-Clone DSH into the ignored upstream directory:
-
-```bash
-scripts/sync-dsh.sh
-```
-
-Use `dsh-lab/` for Relay-owned experiments and compatibility notes so the upstream clone can be updated freely.
-
-## Documentation
-
-Start with the [documentation index](docs/README.md). Product requirements and
-runtime behavior are defined by the [Relay specification](docs/spec/README.md).
-
-## DSH Plugin Catalog
-
-Relay tracks several independently installable DeepSeek Harness plugins. Each
-plugin can be installed on official DSH without checking out this Relay
-repository, while Relay pins the plugin repositories as submodules for
-distribution, compatibility testing, and cross-plugin validation.
-
-See the [complete plugin chooser and installation guide](docs/dsh-plugins.md)
-([中文](docs/dsh-plugins.zh.md)) for npm and GitHub setup recipes, dependencies,
-verification, and a real DSH UI demo.
-
-| Plugin | Repository | npm package | Purpose |
-| --- | --- | --- | --- |
-| Plugin Manager | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | [`relay-dsh-plugin-manager`](https://www.npmjs.com/package/relay-dsh-plugin-manager) | Discovers and manages DSH plugins through Chat; included by KeySync's one-click DSH install. |
-| Codex | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | [`relay-dsh-plugin-codex`](https://www.npmjs.com/package/relay-dsh-plugin-codex) | Adds Codex as a DSH conversation backend. |
-| Claude Code | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | [`relay-dsh-plugin-claude`](https://www.npmjs.com/package/relay-dsh-plugin-claude) | Adds Claude Code as a DSH conversation backend. |
-| Workbench | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Provides the shared right/bottom panel shell for DSH view plugins. |
-| Files | [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | [`relay-dsh-plugin-files`](https://www.npmjs.com/package/relay-dsh-plugin-files) | Adds a right-side workspace file browser. |
-| Terminal | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Adds a bottom terminal panel and provider registry. |
-| Plugin Manager | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | [`relay-dsh-plugin-manager`](https://www.npmjs.com/package/relay-dsh-plugin-manager) | Finds and manages DSH plugins from an ordinary conversation with confirmation-gated mutations. |
-| Events | local package `integrations/deepseek-harness` | `@relay/plugin-events` | Adds optional Relay Wait/Event/Monitor runtime integration. |
-
-The individual plugin READMEs link back here and describe their boundary with
-Relay. Relay's repository workflow for these submodules is documented in
-[Repository Workflow](docs/spec/repository-workflow.md).
 
 ## Local Vertical Demo
 
