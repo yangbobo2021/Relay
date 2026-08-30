@@ -9,7 +9,7 @@ No DSH fork or core patch is required.
 ![Codex conversation and workspace files running in official DSH](media/dsh-plugin-suite-live.png)
 
 The screenshot shows a live Codex App Server reply beside the Files view on a
-clean official DSH `0.1.1-rc.2` profile. The same npm-installed acceptance run
+clean official DSH `0.1.1-rc.2` profile. The same real run, from an actual npm installation,
 also verified a live Claude Agent SDK reply and a Terminal command in the Relay
 workspace.
 

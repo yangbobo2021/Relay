@@ -20,6 +20,7 @@ Remote, or a type-only public contract.
 | `relay-dsh-plugin-terminal` | installable DSH plugin | Terminal provider registry, terminal Remote, xterm UI, and one bottom-view contribution. |
 | `relay-dsh-plugin-codex` | installable DSH plugin | Codex conversations and an optional Codex terminal-provider contribution. |
 | `relay-dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
+| `relay-dsh-plugin-session-import` | installable DSH plugin | Neutral sidebar import entry and typed provider slot; each backend owns its import implementation. |
 | `relay-dsh-plugin-manager` | installable DSH plugin | Conversation-based plugin discovery and confirmation-gated lifecycle management, plus a read-only Settings help tab. |
 | `@relay/plugin-events` | installable DSH plugin | Optional event injection across every compatible conversation backend. |
 
@@ -72,6 +73,9 @@ read-only usage help and has no Remote or mutation control.
 ## Composition Rules
 
 - Codex-only and Claude-only profiles preserve the official DSH layout.
+- Backends may depend on the published neutral Session Import hub. This exact
+  exception does not permit Events, runtime, other backends, Workbench, or their
+  implementation modules as required runtime dependencies.
 - Workbench is an explicit profile layer. Files and Terminal require it as a
   peer and are installed with it by Relay's distribution tooling.
 - Events is optional and must not be required by any conversation or workbench

@@ -29,6 +29,8 @@
     "test:package:dsh": "node scripts/verify-dsh-plugin-package.mjs",
     "test:install:dsh-official": "node scripts/verify-dsh-official-install.mjs",
     "test:e2e:dsh-ui": "node scripts/verify-dsh-ui-e2e.mjs",
+    "test:e2e:codex-delivery": "node scripts/verify-codex-delivery.mjs",
+    "test:e2e:codex-coexistence": "node scripts/verify-codex-coexistence.mjs",
     "record:dsh-plugin-demo": "node scripts/record-dsh-plugin-demo.mjs",
     "record:dsh-plugin-manager-english-demo": "node scripts/record-dsh-plugin-manager-english-demo.mjs",
     "verify:dsh-plugin-manager-english-demo": "scripts/verify-dsh-plugin-manager-english-demo.sh",

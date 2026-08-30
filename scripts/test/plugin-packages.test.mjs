@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { forbiddenBackendDependencies } from "../lib/dsh-backend-dependencies.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const publishableVersion = /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
@@ -41,7 +42,7 @@ test("plugins and shared libraries are independently publishable workspace packa
 
   for (const directory of ["integrations/codex", "integrations/claude"]) {
     const manifest = await json(join(root, directory, "package.json"));
-    assert.deepEqual(Object.keys(manifest.dependencies ?? {}).filter(isRelayPackage), []);
+    assert.deepEqual(forbiddenBackendDependencies(manifest.dependencies), []);
     assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
   }
 
@@ -75,8 +76,4 @@ test("plugins and shared libraries are independently publishable workspace packa
 
 async function json(path) {
   return JSON.parse(await readFile(path, "utf8"));
-}
-
-function isRelayPackage(name) {
-  return name.startsWith("@relay/") || name.startsWith("relay-dsh-plugin-");
 }

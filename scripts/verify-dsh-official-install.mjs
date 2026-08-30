@@ -5,6 +5,8 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { prepareDshLocalWorkspaceLinks } from "./lib/dsh-local-workspace-links.mjs";
+import { forbiddenBackendDependencies } from "./lib/dsh-backend-dependencies.mjs";
+import { chromium } from "playwright";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const dshRoot = join(root, "upstream", "deepseek-harness");
@@ -28,6 +30,9 @@ const packages = [
 const cleanBefore = gitStatus();
 assert.equal(cleanBefore, "", "official DSH checkout must be clean before install verification");
 prepareDshLocalWorkspaceLinks(dshRoot);
+const browser = await chromium.launch({ headless: true,
+  executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
+});
 
 try {
   const tarballs = new Map(packages.map(([directory, name]) => {
@@ -47,6 +52,7 @@ try {
   await verifyScenario("codex-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
   await verifyScenario("all-plugins", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "@relay/plugin-events"], tarballs, 3199);
 } finally {
+  await browser.close();
   await rm(temporary, { recursive: true, force: true });
 }
 
@@ -72,7 +78,7 @@ async function verifyScenario(id, selected, tarballs, port) {
   for (const backend of ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude"]) {
     if (!selected.includes(backend)) continue;
     const installed = JSON.parse(await readFile(join(profile, "node_modules", ...backend.split("/"), "package.json"), "utf8"));
-    assert.deepEqual(Object.keys(installed.dependencies ?? {}).filter(isRelayPackage), [], `${id}: ${backend} is Relay-independent`);
+    assert.deepEqual(forbiddenBackendDependencies(installed.dependencies), [], `${id}: ${backend} is Relay-independent`);
   }
 
   const dump = execFileSync(process.execPath, [dshBin, "web", "--dump-config"], {
@@ -105,6 +111,20 @@ async function bootAndProbe(id, env, port, selected) {
       const asset = await fetch(`http://127.0.0.1:${port}/plugins/${name}/client.js`);
       assert.equal(asset.ok, true, `${id}: ${name} client asset is unavailable`);
     }
+    const page = await browser.newPage();
+    const errors = [];
+    page.on("pageerror", error => errors.push(error.message));
+    try {
+      await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
+      await page.locator("button").first().waitFor({ timeout: 20_000 });
+      const body = await page.locator("body").innerText();
+      assert.doesNotMatch(body, /Failed to load plugins|failed to import loader entry|missed the module table/i,
+        `${id}: actual browser loader failed`);
+      assert.deepEqual(errors, [], `${id}: browser runtime errors`);
+      console.log(`PASS ${id}: installed tarballs, composed, booted, browser loader`);
+    } finally {
+      await page.close();
+    }
   } finally {
     if (child.exitCode === null) child.kill("SIGINT");
     await Promise.race([
@@ -125,8 +145,4 @@ async function waitFor(predicate, timeoutMs) {
 
 function gitStatus() {
   return execFileSync("git", ["status", "--short"], { cwd: dshRoot, encoding: "utf8" }).trim();
-}
-
-function isRelayPackage(name) {
-  return name.startsWith("@relay/") || name.startsWith("relay-dsh-plugin-");
 }
