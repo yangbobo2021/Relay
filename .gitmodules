@@ -16,3 +16,6 @@
 [submodule "integrations/dsh-plugin-manager"]
 	path = integrations/dsh-plugin-manager
 	url = git@github.com:yangbobo2021/relay-dsh-plugin-manager.git
+[submodule "integrations/session-import"]
+	path = integrations/session-import
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-session-import.git
