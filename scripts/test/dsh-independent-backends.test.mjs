@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { forbiddenBackendDependencies } from "../lib/dsh-backend-dependencies.mjs";
 
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 
@@ -14,7 +15,7 @@ async function source(directory, file) {
   return readFile(join(root, directory, file), "utf8");
 }
 
-test("Codex and Claude are self-contained DSH plugins without Relay plugin dependencies", async () => {
+test("Codex and Claude require no Relay product runtime beyond the neutral import hub", async () => {
   for (const [directory, name] of [
     ["integrations/codex", "relay-dsh-plugin-codex"],
     ["integrations/claude", "relay-dsh-plugin-claude"],
@@ -23,9 +24,9 @@ test("Codex and Claude are self-contained DSH plugins without Relay plugin depen
     assert.equal(pkg.name, name);
     assert.ok(pkg.dsh?.bundle?.patch, `${name} must be directly installable as a DSH bundle`);
     assert.deepEqual(
-      Object.keys(pkg.dependencies ?? {}).filter(isRelayPackage),
+      forbiddenBackendDependencies(pkg.dependencies),
       [],
-      `${name} must not require another Relay package at runtime`,
+      `${name} must not require Relay product packages at runtime`,
     );
     const sources = await Promise.all([
       "host-plugin.js", "dsh-plugin.js", directory.endsWith("codex") ? "codex-adapter.js" : "claude-adapter.js",
@@ -60,6 +61,12 @@ test("Codex contributes terminal transport only through the optional Cordis prov
   assert.doesNotMatch(codexHost, /@relay\/dsh-plugin-(?:terminal|workbench|files)/);
 });
 
-function isRelayPackage(name) {
-  return name.startsWith("@relay/") || name.startsWith("relay-dsh-plugin-");
-}
+test("backend dependency exception permits only the neutral import hub", () => {
+  assert.deepEqual(forbiddenBackendDependencies({
+    "relay-dsh-plugin-session-import": "^0.1.0", "@openai/codex": "0.149.0",
+  }), []);
+  for (const name of ["@relay/runtime", "@relay/plugin-events", "relay-dsh-plugin-workbench",
+    "relay-dsh-plugin-terminal", "relay-dsh-plugin-claude", "relay-dsh-plugin-session-import-private"]) {
+    assert.deepEqual(forbiddenBackendDependencies({ [name]: "*" }), [name]);
+  }
+});

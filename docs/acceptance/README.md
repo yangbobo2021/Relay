@@ -7,5 +7,6 @@ evidence. They do not redefine requirements.
 - [Codex App Server acceptance report](codex-app-server-report.md)
 - [Conversation presentation scenarios](conversation-presentation-scenarios.md)
 - [Conversation presentation acceptance report](conversation-presentation-report.md)
+- [Codex execution presentation delivery acceptance](codex-execution-presentation.md)
 - [DSH plugin suite demo evidence](dsh-plugin-demo-qa.md)
 - [Plugin Manager Codex install demo evidence](dsh-plugin-manager-codex-install-demo-qa.md)
