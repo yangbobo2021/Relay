@@ -135,3 +135,44 @@ passed. The parent PR carries that lockfile repair alongside the accepted
 presentation scenarios and the merged Codex gitlink. No unrelated plugin gitlink,
 article, migration archive, or private screenshot/log is included. No npm release
 is implied by merging these PRs.
+
+## Stable 0.1.5 publication
+
+On 2026-08-30 the user separately authorized publication of the new stable
+version. Codex [release PR #29](https://github.com/yangbobo2021/relay-dsh-plugin-codex/pull/29)
+passed all eight push/PR checks and merged as
+`bcbdd92dd6fbd25d9f7a2ec10534b77a357faea2`, tagged `v0.1.5`.
+The main and tag CI runs passed, and the
+[Release workflow](https://github.com/yangbobo2021/relay-dsh-plugin-codex/actions/runs/33310612922)
+successfully published through npm OIDC with provenance. Registry verification
+confirmed `latest = 0.1.5`; the separate `next` channel remains `0.1.4`.
+
+Release verification also confirmed:
+
+- 232 unit tests, 121 component tests, type checking, and the production build
+  passed; the tracked production bundles did not change from the accepted code.
+- An isolated parent checkout passed `npm ci --ignore-scripts`, DSH peer
+  preparation, and all 450 tests with no skips. Build the Events package before
+  running the install matrix in a fresh checkout; its generated `lib/` is not
+  committed in Relay.
+- All nine official-DSH installation and actual browser-loader combinations
+  passed using the versioned candidate. The official reference remained clean
+  at `b150a551b8d465e31e418e1b2eaf5e79bbb7d28e`.
+- The npm tarball was downloaded independently. Its SHA-512 matched registry
+  metadata, its `gitHead` matched the tagged commit, and all 21 extracted files
+  matched the local release payload byte for byte.
+- A fresh official DSH Profile installed `relay-dsh-plugin-codex@0.1.5` directly
+  from npm and composed successfully. The installed host and client files
+  matched the independently downloaded release.
+
+Published tarball integrity:
+`sha512-2ZBruxActjwxUsGfeqgX1Izd62VsRn5ptuLEVkyoOCNFxUnQxORqzDpxPMX5fcSwHguDn8vw+MluH+fBYwHCoQ==`.
+Client SHA-256 remains
+`ab69b6a5d734155fbb4048b69fd78625aa0fdc810306238c80c6db39fb592a9a`.
+
+The [GitHub release](https://github.com/yangbobo2021/relay-dsh-plugin-codex/releases/tag/v0.1.5)
+includes the upgrade command and the compatibility boundaries above. Publication
+does not replace existing Threads or update a running user's DSH Profile.
+Relay [PR #13](https://github.com/yangbobo2021/Relay/pull/13) carries the released
+gitlink, matching workspace lock version, and this record. Unrelated developer
+worktree changes remain outside the release.
