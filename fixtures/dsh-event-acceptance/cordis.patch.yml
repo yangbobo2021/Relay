@@ -1,0 +1,3 @@
+- insert:
+    - id: relay-event-acceptance-fixture
+      name: 'relay-dsh-event-acceptance-fixture'

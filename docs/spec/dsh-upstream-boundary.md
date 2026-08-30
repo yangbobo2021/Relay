@@ -38,8 +38,8 @@ Every Relay capability MUST integrate through an official DSH extension boundary
 an external Relay-owned adapter. This includes Codex and Claude conversations, Waits,
 Monitors, Events, file browsing, terminal access, and workbench presentation.
 
-Persistent implementation MUST live in Relay, primarily under
-`integrations/deepseek-harness/`. Compatibility experiments and sanitized evidence
+Persistent implementation MUST live in independent plugin repositories under
+`integrations/` (including Events, Semantic Router and Monitors). Compatibility experiments and sanitized evidence
 MUST live under `dsh-lab/`. A Cordis profile patch distributed inside the Relay
 plugin is an external composition input and MUST NOT patch DSH source files.
 

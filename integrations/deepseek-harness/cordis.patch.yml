@@ -1,5 +1,0 @@
-- insert:
-    - id: relay-runtime-host
-      name: '@relay/plugin-events'
-      config:
-        pollIntervalMs: 1000

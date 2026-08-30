@@ -14,7 +14,6 @@ Remote, or a type-only public contract.
 
 | Package | Kind | Responsibility |
 | --- | --- | --- |
-| `@relay/dsh-plugin-contracts` | library | Legacy type-only contracts for Relay DSH plugins that have not moved to package-owned contracts. |
 | `relay-dsh-plugin-workbench` | installable DSH plugin | Generic shell layout, panel state, view registry, extension slots, and the public `./contracts` entry for view plugins. |
 | `relay-dsh-plugin-files` | installable DSH plugin | Workspace file Remote, explorer UI, and one side-view contribution. |
 | `relay-dsh-plugin-terminal` | installable DSH plugin | Terminal provider registry, terminal Remote, xterm UI, and one bottom-view contribution. |
@@ -22,7 +21,9 @@ Remote, or a type-only public contract.
 | `relay-dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
 | `relay-dsh-plugin-session-import` | installable DSH plugin | Neutral sidebar import entry and typed provider slot; each backend owns its import implementation. |
 | `relay-dsh-plugin-manager` | installable DSH plugin | Conversation-based plugin discovery and confirmation-gated lifecycle management, plus a read-only Settings help tab. |
-| `@relay/plugin-events` | installable DSH plugin | Optional event injection across every compatible conversation backend. |
+| `relay-dsh-plugin-events` | installable DSH plugin | Durable Wait/Event/Delivery and Monitor records, inbox admission, ingress, management, public contracts. |
+| `relay-dsh-plugin-semantic-router` | installable DSH plugin | Tool-free DSH model routing; no persistence or admission. |
+| `relay-dsh-plugin-monitors` | installable DSH plugin | Bounded observation and deterministic triggers; only high-level Events persistence operations. |
 
 Package-owned contracts contain no service implementation and are not added to a
 DSH profile by themselves. Workbench view plugins use
@@ -30,6 +31,16 @@ DSH profile by themselves. Workbench view plugins use
 must not import another plugin's implementation or internal source.
 
 ## Runtime Contracts
+
+### Events, Semantic Router and Monitors
+
+Events publishes `ctx.relayEvents` API v1 and `./contracts`. Semantic Router and
+Monitors park their contributions until Events is available, register exactly one
+provider, and release it on unload. Events alone supports exact-type routing;
+Router absence does not disable ingress or delivery. Monitor proposals fail before
+Wait replacement when no Monitor provider can prepare a baseline. Monitors exposes
+`ctx.relayMonitorObservers` API v1 for trusted providers. No plugin imports another
+plugin's runtime implementation or Relay parent source.
 
 ### Workbench
 

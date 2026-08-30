@@ -6,11 +6,15 @@
 - `claude/` is the `relay-dsh-plugin-claude` submodule and self-contained
   `relay-dsh-plugin-claude` DSH bundle. Its independent repository owns the Claude
   Agent SDK runtime.
-- `deepseek-harness/` is the provider-neutral `@relay/plugin-events` bundle. It
-  installs Wait/Monitor tools for every DSH root conversation and exposes the exact
-  `POST /api/relay/events` ingress route.
+- `events/` is the independent `relay-dsh-plugin-events` repository. It owns
+  Wait/Event/Delivery persistence, root-Agent Wait tools, the management UI and
+  `POST /api/relay/events`.
+- `semantic-router/` contributes semantic decisions through the versioned Events
+  Router contract and the existing DSH LLM service.
+- `monitors/` contributes the timer tool, trusted observer registry and bounded
+  leased checks through Events' high-level persistence contract.
 - `dsh-workbench/` is the generic shell, panel registry, keyed view host, and
-  public `@relay/dsh-plugin-workbench/contracts` provider.
+  public `relay-dsh-plugin-workbench/contracts` provider.
 - `dsh-files/` contributes the workspace explorer side view through Workbench's
   public contract.
 - `dsh-terminal/` contributes the provider-neutral interactive bottom view

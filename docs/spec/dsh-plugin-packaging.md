@@ -6,8 +6,10 @@ Relay's DeepSeek Harness integration is published as independent packages:
   optional terminal-provider contribution, and Codex preset.
 - `relay-dsh-plugin-claude` owns the Claude Agent SDK runtime, DSH adapter, activity UI,
   and Claude preset.
-- `@relay/plugin-events` owns external Events, Waits, Monitors, delivery, ingress,
-  agent tools, and the waiting-event settings view.
+- `relay-dsh-plugin-events` owns Wait/Event/Delivery and Monitor persistence,
+  delivery, ingress, Wait tools, and the waiting-event settings view.
+- `relay-dsh-plugin-semantic-router` owns structured model routing through DSH LLM.
+- `relay-dsh-plugin-monitors` owns timer tools, trusted observers, checks and triggers.
 - `relay-dsh-plugin-workbench` owns the generic replacement shell and view registry.
 - `relay-dsh-plugin-files` owns workspace file transport and its side view.
 - `relay-dsh-plugin-terminal` owns terminal transport, provider registry, and its
@@ -33,8 +35,9 @@ Claude uses an in-process SDK MCP server. Tool calls return to the owning Agent'
 lets Events and future plugins add capabilities without either backend importing or
 detecting them.
 
-Each package ships its own DSH bundle patch, browser entry, Host entry, Typert
-contract, and package-owned presets. A package tarball contains runtime artifacts,
+Each package ships its own DSH bundle patch and Host entry. Browser entries, Typert
+contracts and presets are included only where needed; Router and Monitors are
+Host-only plugins. A package tarball contains runtime artifacts,
 not Relay or DSH source trees. No install path writes into the official DSH checkout
 or assumes the Relay monorepo layout.
 

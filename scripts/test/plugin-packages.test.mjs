@@ -9,15 +9,11 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const publishableVersion = /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
 const dshRcCompatibility = ">=0.1.0-rc.5 <0.1.1 || >=0.1.1-rc.0 <0.2.0";
 const expected = new Map([
-  ["packages/plugin-sdk", "@relay/plugin-sdk"],
-  ["packages/event-router", "@relay/event-router"],
-  ["packages/runtime", "@relay/runtime"],
-  ["packages/monitor-runtime", "@relay/monitor-runtime"],
-  ["packages/event-runtime-plugin", "@relay/plugin-event-runtime"],
-  ["packages/dsh-plugin-contracts", "@relay/dsh-plugin-contracts"],
+  ["integrations/events", "relay-dsh-plugin-events"],
+  ["integrations/semantic-router", "relay-dsh-plugin-semantic-router"],
+  ["integrations/monitors", "relay-dsh-plugin-monitors"],
   ["integrations/codex", "relay-dsh-plugin-codex"],
   ["integrations/claude", "relay-dsh-plugin-claude"],
-  ["integrations/deepseek-harness", "@relay/plugin-events"],
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
   ["integrations/dsh-files", "relay-dsh-plugin-files"],
   ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
@@ -27,6 +23,10 @@ const expected = new Map([
 test("plugins and shared libraries are independently publishable workspace packages", async () => {
   const rootManifest = await json(join(root, "package.json"));
   assert.deepEqual(new Set(rootManifest.workspaces), new Set(expected.keys()));
+  const lock = await json(join(root, "package-lock.json"));
+  assert.deepEqual(lock.packages[""].workspaces, rootManifest.workspaces);
+  assert.deepEqual(Object.keys(lock.packages).filter(key => key.startsWith("packages/") || key === "integrations/deepseek-harness"), [],
+    "removed private runtime packages must not survive in the lockfile");
 
   for (const [directory, name] of expected) {
     const manifest = await json(join(root, directory, "package.json"));
@@ -46,7 +46,7 @@ test("plugins and shared libraries are independently publishable workspace packa
     assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
   }
 
-  const eventsManifest = await json(join(root, "integrations/deepseek-harness/package.json"));
+  const eventsManifest = await json(join(root, "integrations/events/package.json"));
   for (const dependency of ["@deepseek-ai/dsh-llm", "@deepseek-ai/dsh-session",
     "@deepseek-ai/dsh-tools", "@deepseek-ai/dsh-typert-protocol"]) {
     assert.equal(eventsManifest.peerDependencies?.[dependency], dshRcCompatibility,
@@ -68,7 +68,7 @@ test("plugins and shared libraries are independently publishable workspace packa
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: relay-workbench-host\n/, `${directory} must not reuse Workbench's direct-install loader id`);
   }
-  for (const directory of ["integrations/codex", "integrations/claude", "integrations/deepseek-harness", "integrations/dsh-plugin-manager"]) {
+  for (const directory of ["integrations/codex", "integrations/claude", "integrations/events", "integrations/semantic-router", "integrations/monitors", "integrations/dsh-plugin-manager"]) {
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: ui-layout/, `${directory} must preserve the official DSH layout`);
   }

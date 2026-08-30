@@ -19,3 +19,12 @@
 [submodule "integrations/session-import"]
 	path = integrations/session-import
 	url = git@github.com:yangbobo2021/relay-dsh-plugin-session-import.git
+[submodule "integrations/events"]
+	path = integrations/events
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-events.git
+[submodule "integrations/semantic-router"]
+	path = integrations/semantic-router
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-semantic-router.git
+[submodule "integrations/monitors"]
+	path = integrations/monitors
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-monitors.git

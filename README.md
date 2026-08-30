@@ -61,8 +61,9 @@ Agent or bind a Codex Thread as its execution and model-context backend.
 
 Published plugins can be installed on official DSH without checking out this
 repository. Relay pins their repositories as submodules for distribution,
-compatibility testing, and cross-plugin validation; the optional Events package
-remains part of the local Relay runtime.
+compatibility testing, and cross-plugin validation. Events, Semantic Router and
+Monitors now also have independent repositories; their initial delivery uses
+built tarballs, not an assumed npm publication.
 
 See the [complete plugin chooser and installation guide](docs/dsh-plugins.md)
 ([中文](docs/dsh-plugins.zh.md)) for npm and GitHub setup recipes, dependencies,
@@ -76,7 +77,9 @@ verification, and real DSH UI evidence.
 | Workbench | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Provides the shared right/bottom panel shell for DSH view plugins. |
 | Files | [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | [`relay-dsh-plugin-files`](https://www.npmjs.com/package/relay-dsh-plugin-files) | Adds a right-side workspace file browser. |
 | Terminal | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Adds a bottom terminal panel and provider registry. |
-| Events | local package `integrations/deepseek-harness` | `@relay/plugin-events` | Adds optional Relay Wait/Event/Monitor runtime integration. |
+| Events | [`relay-dsh-plugin-events`](https://github.com/yangbobo2021/relay-dsh-plugin-events) | `relay-dsh-plugin-events` (tarball) | Durable Wait/Event/Delivery, ingress, and management UI. |
+| Semantic Router | [`relay-dsh-plugin-semantic-router`](https://github.com/yangbobo2021/relay-dsh-plugin-semantic-router) | `relay-dsh-plugin-semantic-router` (tarball) | Tool-free semantic routing through an existing DSH model route. |
+| Monitors | [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | `relay-dsh-plugin-monitors` (tarball) | Durable timers, trusted observers, deterministic checks, and bound triggers. |
 
 The individual plugin READMEs link back here and describe their boundary with
 Relay. Relay's repository workflow for these submodules is documented in
@@ -93,7 +96,7 @@ upstream reference can be updated freely.
 
 ```text
 apps/                         User-facing Relay applications
-packages/                     Runtime modules
+packages/                     Reserved; no root-owned product runtime
 integrations/                 External systems and agent/tool bridges
 docs/                         Specification, architecture, and decisions
 experiments/                  Short-lived prototypes
@@ -106,14 +109,17 @@ dsh-lab/                      Relay-owned DSH notes, tests, patches, adapters
 
 ## Local Vertical Demo
 
-Run the full fixture-to-Runtime path without a model call:
+Run the three plugins and synthetic composition checks without a paid model call:
 
 ```bash
-npm run demo:worker -- --router expected --reset
+npm run test:event-plugins
+npm run test:package:plugins
+node scripts/verify-dsh-official-install.mjs --events-only
 ```
 
-Use `--router semantic` to route the same sanitized event through the configured
-Codex CLI model. See the [Worker CLI guide](apps/relay-worker/README.md) for options.
+The official-install test uses disposable profiles and a replay LLM adapter to
+verify routing and timer delivery into an existing real DSH Session. It does not
+change the running KeySync profile. See the [delivery report](docs/spec/event-plugin-delivery-20260830.md).
 
 ## Relay Web
 

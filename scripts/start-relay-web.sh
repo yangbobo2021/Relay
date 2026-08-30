@@ -7,7 +7,9 @@ plugin_roots=(
   "$relay_root/integrations/dsh-workbench"
   "$relay_root/integrations/dsh-files"
   "$relay_root/integrations/dsh-terminal"
-  "$relay_root/integrations/deepseek-harness"
+  "$relay_root/integrations/events"
+  "$relay_root/integrations/semantic-router"
+  "$relay_root/integrations/monitors"
   "$relay_root/integrations/codex"
   "$relay_root/integrations/claude"
 )
@@ -59,6 +61,7 @@ legacy_packages=(
   "@relay/dsh-claude"
   "@relay/plugin-codex"
   "@relay/plugin-claude"
+  "@relay/plugin-events"
 )
 if [[ -f "$profile_manifest" ]]; then
   for legacy_package in "${legacy_packages[@]}"; do
@@ -81,18 +84,14 @@ fi
 pnpm --dir "$dsh_root" dsh plugin --profile web add "${plugin_roots[@]}"
 
 # The source-mode DSH loader resolves plugin names from the upstream workspace.
-mkdir -p "$dsh_root/node_modules/@relay"
-for package in plugin-events dsh-plugin-workbench dsh-plugin-files dsh-plugin-terminal dsh-plugin-codex dsh-plugin-claude; do
-  case "$package" in
-    plugin-events) source="$relay_root/integrations/deepseek-harness" ;;
-    dsh-plugin-workbench) source="$relay_root/integrations/dsh-workbench" ;;
-    dsh-plugin-files) source="$relay_root/integrations/dsh-files" ;;
-    dsh-plugin-terminal) source="$relay_root/integrations/dsh-terminal" ;;
-    dsh-plugin-codex) source="$relay_root/integrations/codex" ;;
-    dsh-plugin-claude) source="$relay_root/integrations/claude" ;;
-  esac
-  target="$dsh_root/node_modules/@relay/$package"
-  rm -rf "$target"
+for source in "${plugin_roots[@]}"; do
+  package="$(node -p 'require(process.argv[1]).name' "$source/package.json")"
+  target="$dsh_root/node_modules/$package"
+  if [[ -e "$target" && ! -L "$target" ]]; then
+    printf 'Refusing to overwrite non-symlink plugin dependency: %s\n' "$target" >&2
+    exit 1
+  fi
+  [[ ! -L "$target" ]] || unlink "$target"
   ln -s "$source" "$target"
 done
 

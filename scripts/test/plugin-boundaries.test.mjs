@@ -9,27 +9,25 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const domains = [
   "integrations/codex",
   "integrations/claude",
-  "integrations/deepseek-harness",
+  "integrations/events",
+  "integrations/semantic-router",
+  "integrations/monitors",
   "integrations/dsh-workbench",
   "integrations/dsh-files",
   "integrations/dsh-terminal",
   "integrations/dsh-plugin-manager",
-  "packages/event-runtime-plugin",
 ];
 const sourceExtensions = new Set([".js", ".mjs", ".ts", ".tsx"]);
 const allowedByDomain = new Map([
-  ["integrations/codex", new Set()],
-  ["integrations/claude", new Set()],
+  ["integrations/codex", new Set(["relay-dsh-plugin-session-import/contracts"])],
+  ["integrations/claude", new Set(["relay-dsh-plugin-session-import/contracts"])],
   ["integrations/dsh-workbench", new Set()],
   ["integrations/dsh-files", new Set(["relay-dsh-plugin-workbench/contracts"])],
   ["integrations/dsh-terminal", new Set(["relay-dsh-plugin-workbench/contracts"])],
   ["integrations/dsh-plugin-manager", new Set()],
-  ["packages/event-runtime-plugin", new Set([
-    "@relay/monitor-runtime", "@relay/plugin-sdk", "@relay/runtime",
-  ])],
-  ["integrations/deepseek-harness", new Set([
-    "@relay/plugin-event-runtime", "@relay/plugin-sdk",
-  ])],
+  ["integrations/events", new Set()],
+  ["integrations/semantic-router", new Set(["relay-dsh-plugin-events/contracts"])],
+  ["integrations/monitors", new Set(["relay-dsh-plugin-events/contracts"])],
 ]);
 
 test("production plugins cannot import another plugin's source", async () => {
@@ -41,7 +39,9 @@ test("production plugins cannot import another plugin's source", async () => {
       for (const specifier of importSpecifiers(source, file)) {
         const fileRelative = relative(root, file).split(sep).join("/");
         const allowed = new Set(allowedByDomain.get(domain));
-        if (specifier.startsWith("@relay/") && ![...allowed].some(name => specifier === name || specifier.startsWith(`${name}/`))) {
+        const ownName = JSON.parse(await readFile(join(domainRoot, "package.json"), "utf8")).name;
+        if ((specifier.startsWith("@relay/") || specifier.startsWith("relay-dsh-plugin-"))
+            && specifier !== ownName && !allowed.has(specifier)) {
           violations.push(`${relative(root, file).split(sep).join("/")} -> ${specifier}`);
           continue;
         }
@@ -69,7 +69,7 @@ test("boundary parser sees static, dynamic, CommonJS, and createRequire imports"
 });
 
 test("cross-package imports use public entrypoints rather than internal source files", async () => {
-  const source = await readFile(join(root, "packages/runtime/src/runtime.mjs"), "utf8");
+  const source = await readFile(join(root, "integrations/events/src/runtime/runtime.mjs"), "utf8");
   assert.doesNotMatch(source, /event-router\/(src\/|decision\.mjs)/);
 });
 

@@ -36,17 +36,17 @@ test("Codex and Claude require no Relay product runtime beyond the neutral impor
 });
 
 test("Events is an optional provider-neutral DSH plugin", async () => {
-  const pkg = await manifest("integrations/deepseek-harness");
-  assert.equal(pkg.name, "@relay/plugin-events");
+  const pkg = await manifest("integrations/events");
+  assert.equal(pkg.name, "relay-dsh-plugin-events");
   assert.ok(pkg.dsh?.bundle?.patch);
-  const composition = await source("integrations/deepseek-harness", "dsh-plugin.js");
+  const composition = await source("integrations/events", "host-plugin.js");
   assert.match(composition, /ctx\.agents\.roots\(\)/, "Events must attach to every root DSH conversation");
   assert.doesNotMatch(composition, /codex|claude/i, "Events must not know execution backend names");
 });
 
 test("Workbench surfaces are independent from conversation and Events plugins", async () => {
   const codex = await source("integrations/codex", "src/client/index.ts");
-  const events = await source("integrations/deepseek-harness", "src/client/index.ts");
+  const events = await source("integrations/events", "src/client/index.ts");
   const workbench = await source("integrations/dsh-workbench", "src/client/layout/index.ts");
   assert.doesNotMatch(codex, /workbench|WorkspaceFiles|WebTerminal/);
   assert.doesNotMatch(events, /workbench|WorkspaceFiles/);

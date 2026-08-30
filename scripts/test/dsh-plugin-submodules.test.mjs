@@ -7,6 +7,11 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const plugins = [
+  ...["events", "semantic-router", "monitors"].map(id => ({
+    path: `integrations/${id}`,
+    url: `git@github.com:yangbobo2021/relay-dsh-plugin-${id}.git`,
+    packageName: `relay-dsh-plugin-${id}`,
+  })),
   {
     path: "integrations/codex",
     url: "git@github.com:yangbobo2021/relay-dsh-plugin-codex.git",

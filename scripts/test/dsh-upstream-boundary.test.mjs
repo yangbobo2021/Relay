@@ -24,7 +24,8 @@ test("the normative DSH boundary forbids source patches and Fork dependencies", 
   assert.match(specification, /MUST NOT:\n\n- edit, add, delete, or rename tracked files/);
   assert.match(specification, /MUST NOT be replaced by a Fork/);
   assert.match(specification, /Relay's official reference checkout has no contribution exception/);
-  assert.match(specification, /integrations\/deepseek-harness\//);
+  assert.match(specification, /independent plugin repositories/);
+  assert.match(specification, /`integrations\/`/);
 });
 
 test("the web launcher resolves Relay packages through the root workspace", async () => {

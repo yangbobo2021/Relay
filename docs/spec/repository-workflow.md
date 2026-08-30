@@ -3,18 +3,21 @@
 ## Purpose
 
 Relay, its independently released DSH plugins, and DeepSeek Harness have separate
-Git histories. Relay is the distribution and event-runtime repository. The nested
+Git histories. Relay is the distribution and cross-plugin acceptance repository. The nested
 DSH checkout is a synchronized, read-only compatibility reference governed by the
 [DSH Upstream Boundary](dsh-upstream-boundary.md).
 
 ## Repository Boundaries
 
-The Relay repository owns the event runtime, distribution composition,
+The Relay repository owns distribution composition,
 cross-plugin tests, specifications, and reproducible probes. Independently
 released DSH plugins are pinned as Git submodules:
 
 - `integrations/codex/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-codex.git`
 - `integrations/claude/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-claude.git`
+- `integrations/events/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-events.git`
+- `integrations/semantic-router/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-semantic-router.git`
+- `integrations/monitors/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-monitors.git`
 - `integrations/dsh-workbench/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-workbench.git`
 - `integrations/dsh-files/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-files.git`
 - `integrations/dsh-terminal/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git`
@@ -57,7 +60,8 @@ exact revision. It must stop rather than overwrite local DSH changes.
 
 Relay-owned DSH-facing implementation belongs under one of these locations:
 
-- `integrations/deepseek-harness/` for the installable plugin and runtime adapters;
+- `integrations/events/`, `integrations/semantic-router/`, `integrations/monitors/`
+  for the independent event subsystem plugins; no parent runtime dependency;
 - `integrations/codex/`, `integrations/claude/`, `integrations/dsh-workbench/`,
   `integrations/dsh-files/`, `integrations/dsh-terminal/`, and
   `integrations/dsh-plugin-manager/` for pinned independent plugin checkouts;
@@ -116,7 +120,8 @@ DSH installation scenarios pass.
 - Commit and push plugin changes in the child repository before advancing a Relay
   submodule pointer.
 - Keep plugin-to-plugin interaction on public DSH or capability contracts; a plugin
-  must not import Relay parent source or another plugin package.
+  must not import Relay parent source or another plugin's implementation. Explicit
+  package-owned contract entrypoints are allowed.
 - Keep generated dependencies and build output ignored and out of Relay commits.
 - Put every persistent implementation or compatibility change in Relay-owned paths.
 - Record the exact official DSH commit used for compatibility claims.

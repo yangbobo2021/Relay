@@ -1,7 +1,0 @@
-{
-  "name": "@relay/plugin-sdk",
-  "version": "0.1.0",
-  "type": "module",
-  "exports": { ".": "./index.mjs" },
-  "files": ["index.mjs"]
-}

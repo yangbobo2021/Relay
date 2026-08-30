@@ -1,8 +1,0 @@
-{
-  "name": "@relay/runtime",
-  "version": "0.1.0",
-  "type": "module",
-  "exports": { ".": "./index.mjs" },
-  "files": ["index.mjs", "src"],
-  "dependencies": { "@relay/event-router": "0.1.0" }
-}
