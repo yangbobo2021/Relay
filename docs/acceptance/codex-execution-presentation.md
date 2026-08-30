@@ -3,7 +3,8 @@
 Date: 2026-08-30.
 Official DSH: `b150a551b8d465e31e418e1b2eaf5e79bbb7d28e`, unchanged.
 Scope: the Codex plugin's grouped process presentation, persistence compatibility,
-and its installation into the official DSH host. No PR or release is performed.
+and its installation into the official DSH host. The acceptance commands do not
+create PRs or publish releases; authorized integration is recorded separately below.
 
 Requirements and slice reviews:
 [SPEC](../../integrations/codex/docs/spec/execution-presentation.md),
@@ -116,3 +117,21 @@ These checks qualify the working-tree candidate, not an npm release. The candida
 still carries the development version `0.1.4`; a future release must choose a new
 version and follow the repository's independent plugin review/release workflow.
 No commit, push, tag, PR, or registry publication is included in this acceptance.
+
+## Authorized PR integration
+
+After acceptance, the user authorized PR creation, check inspection and merging.
+Codex [PR #28](https://github.com/yangbobo2021/relay-dsh-plugin-codex/pull/28)
+passed all eight push/PR check instances (three runtime platforms and full verify
+in each run) and merged as `6cc10fdd38e0ffa36d54d819d6aff8a47121225f`.
+
+The parent repository has no configured GitHub Actions checks. Its merge gate
+therefore includes local validation from an isolated checkout containing only
+committed files and pinned plugin versions. This found a pre-existing parent
+lockfile mismatch that prevented `npm ci`. The lockfile was regenerated from those
+manifests, without overwriting the original developer worktree's local lockfile.
+Clean `npm ci --ignore-scripts`, DSH peer preparation, and all 450 parent tests then
+passed. The parent PR carries that lockfile repair alongside the accepted
+presentation scenarios and the merged Codex gitlink. No unrelated plugin gitlink,
+article, migration archive, or private screenshot/log is included. No npm release
+is implied by merging these PRs.
