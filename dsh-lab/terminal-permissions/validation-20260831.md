@@ -77,3 +77,29 @@ No Linux or Windows live acceptance was performed. The original running KeySync
 DSH instance was not restarted or modified during these tests. Four pre-existing
 terminals were left running. Applying the new package and restarting DSH remains
 a separate activation step; already running shells cannot gain a new policy.
+
+## Stable release: 0.1.1
+
+Terminal PR #1 merged the permission fix; PR #2 prepared the patch version.
+The `v0.1.1` tag and `main` point to
+`43cd55a83529bec2d30d3b14fea9772b1ad872de`. The release workflow
+[33365909827](https://github.com/yangbobo2021/relay-dsh-plugin-terminal/actions/runs/33365909827)
+passed and published `relay-dsh-plugin-terminal@0.1.1` through npm trusted
+publishing with provenance. Registry metadata confirms `latest: 0.1.1` and the
+same Git commit.
+
+Release verification repeated the typecheck, 12 plugin tests, production build,
+tracked-artifact reproducibility check, package dry run, 9 Relay boundary tests,
+and both clean official DSH installation scenarios described above. Branch, PR,
+merged-main, and release CI all passed.
+
+The archive downloaded from npm has SHA-1
+`eb24cdbaef330386f55036485a68032099c1e9eb`; its SHA-1 and SHA-512 match registry
+metadata. All 12 packaged files are byte-for-byte identical to the locally
+verified `0.1.1` candidate. Running the probe against the downloaded npm package
+again passed SSH exit 0, the disposable home-directory write, PTY resize, and
+preservation of the same App Server's default SSH denial before and after.
+
+Relay's Terminal gitlink advances to the published release commit. No running
+KeySync DSH profile was upgraded or restarted as part of publication; activation
+still requires upgrading the plugin, restarting DSH, and opening a new terminal.
