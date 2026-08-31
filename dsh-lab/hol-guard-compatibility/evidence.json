@@ -1,0 +1,1125 @@
+{
+  "validationDate": "2026-08-31",
+  "assertionsPassed": true,
+  "guardInstall": "hol-guard==3.0.1, isolated venv; PyPI hashes enforced; uv pip check passed",
+  "trustScope": "Invocation-only --dangerously-bypass-hook-trust in fresh homes containing only reviewed Guard hooks; not persisted trust or a production recommendation",
+  "settings": {
+    "codexSandbox": "workspace-write",
+    "guardCustomRiskRules": false,
+    "cliAndRuntimeApprovalPolicy": "never",
+    "dshApprovalPolicy": "ask; test driver rejects any request and records it separately",
+    "guardDesktopNotifications": false,
+    "guardApprovalSurfacePolicy": "native-only",
+    "guardCloudSync": false
+  },
+  "caveats": [
+    "No external model inference: the local Responses stub emits one shell call through the advertised functions.exec tool.",
+    "Title-generation requests are handled separately; DSH deny receipts must match the main conversation's Codex thread.",
+    "Guard command test classifies commands without evaluating runtime policy; its review result is not a deny event.",
+    "Guard events returned no lifecycle entries; actual runtime evidence comes from Guard receipts and Codex hook notifications.",
+    "Does not validate persistent hook trust UI, PermissionRequest approval workflows, all tools, or other versions."
+  ],
+  "suites": [
+    {
+      "name": "dsh-control",
+      "generatedAt": "2026-08-31T02:05:39.920Z",
+      "sourceSha256": "0c4d3e4c3f6b46532f4d372d9904e7c10913d1d9742f8ea0d37d3ebe6b5d198b",
+      "codexVersion": "codex-cli 0.149.0",
+      "pluginVersion": "0.1.6-rc.1",
+      "pluginCommit": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "model": "local deterministic Responses stub; no model account or credentials",
+      "results": [
+        {
+          "name": "codex-cli-no-guard",
+          "command": "rm -r ./hol-guard-smoke",
+          "explicitReviewedHookException": false,
+          "outcome": "directory-deleted",
+          "targetExists": false,
+          "sentinelExists": false,
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.2 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"8c29af\",\"wall_time_seconds\":0.000001334,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "dsh-host-no-guard",
+          "command": "rm -r ./hol-guard-smoke",
+          "explicitReviewedHookException": false,
+          "outcome": "directory-deleted",
+          "targetExists": false,
+          "sentinelExists": false,
+          "mainRequests": 2,
+          "titleRequests": 1,
+          "dshSessionId": "session-ab0894bc-24d0-4777-be86-cd86c3b79b2e",
+          "threadId": "01a05590-aaba-7fc0-9e73-26dcf10e7a5a",
+          "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+          "nativeApprovals": [],
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"cf5310\",\"wall_time_seconds\":0.000002792,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "original-untrusted",
+      "generatedAt": "2026-08-31T02:05:54.626Z",
+      "sourceSha256": "54cc0097f067b29b0733660b112fbe7ee161ba77dc2b59446fce271ab0c03931",
+      "codexVersion": "codex-cli 0.149.0",
+      "pluginVersion": "0.1.6-rc.1",
+      "pluginCommit": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "model": "local deterministic Responses stub; no model account or credentials",
+      "results": [
+        {
+          "name": "codex-cli-no-guard",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "explicitReviewedHookException": false,
+          "outcome": "codex-command-policy-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.0 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nexec_command failed for `/bin/bash -c 'rm -rf ~/hol-guard-smoke'`: CreateProcess { message: \"Rejected(\\\"`/bin/bash -c 'rm -rf ~/hol-guard-smoke'` rejected: rm -f style commands are not permitted. Use a safer approach\\\")\" }"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "codex-cli",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": false,
+          "outcome": "codex-command-policy-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.0 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nexec_command failed for `/bin/bash -c 'rm -rf ~/hol-guard-smoke'`: CreateProcess { message: \"Rejected(\\\"`/bin/bash -c 'rm -rf ~/hol-guard-smoke'` rejected: rm -f style commands are not permitted. Use a safer approach\\\")\" }"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "relay-runtime",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": false,
+          "outcome": "codex-command-policy-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "registeredHooks": [
+            {
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:d7891728da7814890306d95f49ff9cabcca8f65d2c71f7212d628f7da53e6c9e"
+            },
+            {
+              "eventName": "permissionRequest",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:e6664e2aa494b1de603fef975f4d59b34cb5b0cf21077b85412050a93ab08d5d"
+            },
+            {
+              "eventName": "postToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:9e89b78b180038d566cb0c2d28e662e1fab1450053ec3e39172fab26c7f711a9"
+            },
+            {
+              "eventName": "userPromptSubmit",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:d2bf40159769c27dd0ade81acbcfc7fb5258b018dfbd37f18701eedb3f0a75cc"
+            }
+          ],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.0 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nexec_command failed for `/bin/bash -c 'rm -rf ~/hol-guard-smoke'`: CreateProcess { message: \"Rejected(\\\"`/bin/bash -c 'rm -rf ~/hol-guard-smoke'` rejected: rm -f style commands are not permitted. Use a safer approach\\\")\" }"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "dsh-host",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": false,
+          "outcome": "native-approval-denied",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 1,
+          "dshSessionId": "session-2deab102-3703-4fcb-9686-aebccedfe9d2",
+          "threadId": "01a05590-dc53-7fa3-8d95-3591a08c82cc",
+          "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+          "nativeApprovals": [
+            {
+              "type": "approval/requested",
+              "sessionId": "session-2deab102-3703-4fcb-9686-aebccedfe9d2",
+              "approvalId": "4b6ab95c-c4eb-4950-8646-f2d87a6c02c5",
+              "toolName": "Codex command",
+              "reason": "/bin/bash -c 'rm -rf ~/hol-guard-smoke'",
+              "testResponse": "rejected"
+            }
+          ],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.0 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nexec_command failed for `/bin/bash -c 'rm -rf ~/hol-guard-smoke'`: CreateProcess { message: \"Rejected(\\\"rejected by user\\\")\" }"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "original-reviewed",
+      "generatedAt": "2026-08-31T02:06:21.448Z",
+      "sourceSha256": "b690336799390ac5d41046e8a3bba5f1c5f089bbd0eeb461b72bed08c0a3207f",
+      "codexVersion": "codex-cli 0.149.0",
+      "pluginVersion": "0.1.6-rc.1",
+      "pluginCommit": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "model": "local deterministic Responses stub; no model account or credentials",
+      "results": [
+        {
+          "name": "codex-cli-no-guard",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "explicitReviewedHookException": false,
+          "outcome": "codex-command-policy-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.0 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nexec_command failed for `/bin/bash -c 'rm -rf ~/hol-guard-smoke'`: CreateProcess { message: \"Rejected(\\\"`/bin/bash -c 'rm -rf ~/hol-guard-smoke'` rejected: rm -f style commands are not permitted. Use a safer approach\\\")\" }"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "codex-cli",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "guard-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [
+            {
+              "id": "guard-receipt-6b7374c4-b9aa-4941-80fc-1692bacdf1b1",
+              "timestamp": "2026-08-31T02:06:01.160447+00:00",
+              "policyDecision": "block",
+              "approvalSource": "policy",
+              "eventName": "PreToolUse",
+              "toolName": "Bash",
+              "command": "rm -rf ~/hol-guard-smoke",
+              "preExecutionResult": "block",
+              "threadId": "01a05590-efc8-78e3-ac46-3bb86b83d44c"
+            }
+          ],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.7 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nCommand blocked by PreToolUse hook: HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it.. Command: rm -rf ~/hol-guard-smoke"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "relay-runtime",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "guard-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "registeredHooks": [
+            {
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:1b969458a34d836be901d953b6c22560fbd3b7ee1c31d1cc3d1bd83b74f43d33"
+            },
+            {
+              "eventName": "permissionRequest",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:b091a8f7babbbc17f0ed81dd38b8c2e1f830f49d50d2f88a87432653ed9f61e5"
+            },
+            {
+              "eventName": "postToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:4918bf9b12586c3868fa55cb18b80425c1b875b826978de1201ea1d5242511c8"
+            },
+            {
+              "eventName": "userPromptSubmit",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:4c6fb0956f9279e32699701336bfa3c86b9e378cc7bac7d5273f0a4230d6dfcb"
+            }
+          ],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [
+            {
+              "method": "hook/started",
+              "threadId": "01a05591-0fcd-7fd0-9f18-b324e9bce6a6",
+              "eventName": "userPromptSubmit",
+              "source": "user",
+              "status": "running",
+              "durationMs": null,
+              "entries": []
+            },
+            {
+              "method": "hook/completed",
+              "threadId": "01a05591-0fcd-7fd0-9f18-b324e9bce6a6",
+              "eventName": "userPromptSubmit",
+              "source": "user",
+              "status": "completed",
+              "durationMs": 3434,
+              "entries": []
+            },
+            {
+              "method": "hook/started",
+              "threadId": "01a05591-0fcd-7fd0-9f18-b324e9bce6a6",
+              "eventName": "preToolUse",
+              "source": "user",
+              "status": "running",
+              "durationMs": null,
+              "entries": []
+            },
+            {
+              "method": "hook/completed",
+              "threadId": "01a05591-0fcd-7fd0-9f18-b324e9bce6a6",
+              "eventName": "preToolUse",
+              "source": "user",
+              "status": "blocked",
+              "durationMs": 659,
+              "entries": [
+                {
+                  "kind": "feedback",
+                  "text": "HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it."
+                }
+              ]
+            }
+          ],
+          "receipts": [
+            {
+              "id": "guard-receipt-44561f93-162d-46ab-8f0d-3bf5ccee8e63",
+              "timestamp": "2026-08-31T02:06:09.329241+00:00",
+              "policyDecision": "block",
+              "approvalSource": "policy",
+              "eventName": "PreToolUse",
+              "toolName": "Bash",
+              "command": "rm -rf ~/hol-guard-smoke",
+              "preExecutionResult": "block",
+              "threadId": "01a05591-0fcd-7fd0-9f18-b324e9bce6a6"
+            }
+          ],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.7 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nCommand blocked by PreToolUse hook: HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it.. Command: rm -rf ~/hol-guard-smoke"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "dsh-host",
+          "command": "rm -rf ~/hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "guard-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 1,
+          "dshSessionId": "session-3d38a194-d429-4fc9-b90f-99f6e793babb",
+          "threadId": "01a05591-3362-7491-b35c-31f112ceb3bd",
+          "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+          "nativeApprovals": [],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [
+            {
+              "id": "guard-receipt-43d171e8-d7c6-4dd3-b7c4-4c07846b1803",
+              "timestamp": "2026-08-31T02:06:18.912490+00:00",
+              "policyDecision": "block",
+              "approvalSource": "policy",
+              "eventName": "PreToolUse",
+              "toolName": "Bash",
+              "command": "rm -rf ~/hol-guard-smoke",
+              "preExecutionResult": "block",
+              "threadId": "01a05591-3362-7491-b35c-31f112ceb3bd"
+            }
+          ],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.8 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nCommand blocked by PreToolUse hook: HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it.. Command: rm -rf ~/hol-guard-smoke"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workspace-untrusted",
+      "generatedAt": "2026-08-31T02:06:35.706Z",
+      "sourceSha256": "b871573998cbc91c226fa80265579b583bf442f8b52cc703381925744dce8a95",
+      "codexVersion": "codex-cli 0.149.0",
+      "pluginVersion": "0.1.6-rc.1",
+      "pluginCommit": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "model": "local deterministic Responses stub; no model account or credentials",
+      "results": [
+        {
+          "name": "codex-cli-no-guard",
+          "command": "rm -r ./hol-guard-smoke",
+          "explicitReviewedHookException": false,
+          "outcome": "directory-deleted",
+          "targetExists": false,
+          "sentinelExists": false,
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"d692fa\",\"wall_time_seconds\":0.000001,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "codex-cli",
+          "command": "rm -r ./hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": false,
+          "outcome": "directory-deleted",
+          "targetExists": false,
+          "sentinelExists": false,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"c16ccf\",\"wall_time_seconds\":0.000001875,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "relay-runtime",
+          "command": "rm -r ./hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": false,
+          "outcome": "directory-deleted",
+          "targetExists": false,
+          "sentinelExists": false,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "registeredHooks": [
+            {
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:6677f75ab61001e023d2dedaec02cfdcb261ea84ca8ecc34d61518fec243e252"
+            },
+            {
+              "eventName": "permissionRequest",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:f17d26088edd7a413b380846fd02b8506c6bbcda7bcd2796fd94febd87ca4f26"
+            },
+            {
+              "eventName": "postToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:191c1de24df4ff8b4aa2579bc214ce5372932dfcc859078aa09a13bd8e1356f8"
+            },
+            {
+              "eventName": "userPromptSubmit",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:fdcee9ce0d91da7fe3b5492514f0fbf57b1a63ee9915b23bf66a4f9c5b25fd58"
+            }
+          ],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"8db903\",\"wall_time_seconds\":0.000002,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "dsh-host",
+          "command": "rm -r ./hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": false,
+          "outcome": "directory-deleted",
+          "targetExists": false,
+          "sentinelExists": false,
+          "mainRequests": 2,
+          "titleRequests": 1,
+          "dshSessionId": "session-4c4fcea3-745f-4026-814a-344f70dcdf8f",
+          "threadId": "01a05591-7c79-7a43-b187-26a4341f7f07",
+          "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+          "nativeApprovals": [],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"b32d89\",\"wall_time_seconds\":0.000003541,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workspace-reviewed",
+      "generatedAt": "2026-08-31T02:07:05.278Z",
+      "sourceSha256": "000fca1dd6b3d13f4a9195b433f161b206e56f50dca56c868c8bd99b6d39c8b6",
+      "codexVersion": "codex-cli 0.149.0",
+      "pluginVersion": "0.1.6-rc.1",
+      "pluginCommit": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "model": "local deterministic Responses stub; no model account or credentials",
+      "results": [
+        {
+          "name": "codex-cli-no-guard",
+          "command": "rm -r ./hol-guard-smoke",
+          "explicitReviewedHookException": false,
+          "outcome": "directory-deleted",
+          "targetExists": false,
+          "sentinelExists": false,
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"423c16\",\"wall_time_seconds\":0.0000015,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "codex-cli",
+          "command": "rm -r ./hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "guard-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [
+            {
+              "id": "guard-receipt-5df635ed-88a8-4982-b2d9-073b835ab028",
+              "timestamp": "2026-08-31T02:06:43.316917+00:00",
+              "policyDecision": "block",
+              "approvalSource": "policy",
+              "eventName": "PreToolUse",
+              "toolName": "Bash",
+              "command": "rm -r ./hol-guard-smoke",
+              "preExecutionResult": "block",
+              "threadId": "01a05591-90a8-7b22-8f8b-dafcfbc01975"
+            }
+          ],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.7 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nCommand blocked by PreToolUse hook: HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it.. Command: rm -r ./hol-guard-smoke"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "relay-runtime",
+          "command": "rm -r ./hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "guard-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "registeredHooks": [
+            {
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:359738fdad34f45c8de25d2ca604b54fc999755763d991cf876e597c2a7af51d"
+            },
+            {
+              "eventName": "permissionRequest",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:7ff4b38ad13ec38802a650f9b3012e543602ed0e29576fef833303d3b0c7411b"
+            },
+            {
+              "eventName": "postToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:03fd3d249df85a6309608404bb88600a04138c89c858739f3aba0a04cbd87cb5"
+            },
+            {
+              "eventName": "userPromptSubmit",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:52665bef6619bbbe7ea22bea41b1e0c1b5d991b1bdb28d6a089cd1368ca5a94d"
+            }
+          ],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [
+            {
+              "method": "hook/started",
+              "threadId": "01a05591-b56b-7591-944a-97f869395869",
+              "eventName": "userPromptSubmit",
+              "source": "user",
+              "status": "running",
+              "durationMs": null,
+              "entries": []
+            },
+            {
+              "method": "hook/completed",
+              "threadId": "01a05591-b56b-7591-944a-97f869395869",
+              "eventName": "userPromptSubmit",
+              "source": "user",
+              "status": "completed",
+              "durationMs": 3527,
+              "entries": []
+            },
+            {
+              "method": "hook/started",
+              "threadId": "01a05591-b56b-7591-944a-97f869395869",
+              "eventName": "preToolUse",
+              "source": "user",
+              "status": "running",
+              "durationMs": null,
+              "entries": []
+            },
+            {
+              "method": "hook/completed",
+              "threadId": "01a05591-b56b-7591-944a-97f869395869",
+              "eventName": "preToolUse",
+              "source": "user",
+              "status": "blocked",
+              "durationMs": 712,
+              "entries": [
+                {
+                  "kind": "feedback",
+                  "text": "HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it."
+                }
+              ]
+            }
+          ],
+          "receipts": [
+            {
+              "id": "guard-receipt-ba864a76-3d61-4581-8e8c-acf06091f898",
+              "timestamp": "2026-08-31T02:06:51.896979+00:00",
+              "policyDecision": "block",
+              "approvalSource": "policy",
+              "eventName": "PreToolUse",
+              "toolName": "Bash",
+              "command": "rm -r ./hol-guard-smoke",
+              "preExecutionResult": "block",
+              "threadId": "01a05591-b56b-7591-944a-97f869395869"
+            }
+          ],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.8 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nCommand blocked by PreToolUse hook: HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it.. Command: rm -r ./hol-guard-smoke"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "dsh-host",
+          "command": "rm -r ./hol-guard-smoke",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "guard-blocked",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 1,
+          "dshSessionId": "session-eabc4ecc-a704-4040-8cd1-b927ade88e74",
+          "threadId": "01a05591-db1d-7e21-bedd-bed794b7d94d",
+          "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+          "nativeApprovals": [],
+          "preflight": {
+            "status": "review",
+            "controllingRuleId": "command.filesystem.recursive-delete",
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [
+            {
+              "id": "guard-receipt-4d8ed47f-99aa-41c1-b591-0bce9a1ff700",
+              "timestamp": "2026-08-31T02:07:02.278088+00:00",
+              "policyDecision": "block",
+              "approvalSource": "policy",
+              "eventName": "PreToolUse",
+              "toolName": "Bash",
+              "command": "rm -r ./hol-guard-smoke",
+              "preExecutionResult": "block",
+              "threadId": "01a05591-db1d-7e21-bedd-bed794b7d94d"
+            }
+          ],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script failed\nWall time 0.7 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "Script error:\nCommand blocked by PreToolUse hook: HOL Guard flagged this request: This destructive shell command can delete or overwrite local files, discard work, or alter repository or system state. Recovery may require version control or a backup. HOL Guard blocked this action with a terminal policy decision. Browser approval cannot override it.. Command: rm -r ./hol-guard-smoke"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "safe-reviewed",
+      "generatedAt": "2026-08-31T02:07:35.069Z",
+      "sourceSha256": "5b185faed559c79d770792d01ac8284d99c5b1db27d729bc275b3eb2369a08c4",
+      "codexVersion": "codex-cli 0.149.0",
+      "pluginVersion": "0.1.6-rc.1",
+      "pluginCommit": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "model": "local deterministic Responses stub; no model account or credentials",
+      "results": [
+        {
+          "name": "codex-cli-no-guard",
+          "command": "printf GUARD_SAFE_COMMAND",
+          "explicitReviewedHookException": false,
+          "outcome": "safe-command-completed",
+          "targetExists": true,
+          "sentinelExists": true,
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"293668\",\"wall_time_seconds\":0.000001625,\"exit_code\":0,\"original_token_count\":5,\"output\":\"GUARD_SAFE_COMMAND\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "codex-cli",
+          "command": "printf GUARD_SAFE_COMMAND",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "safe-command-completed",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "preflight": {
+            "status": "no_match",
+            "controllingRuleId": null,
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 1.4 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"dcf170\",\"wall_time_seconds\":0.000003083,\"exit_code\":0,\"original_token_count\":5,\"output\":\"GUARD_SAFE_COMMAND\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "relay-runtime",
+          "command": "printf GUARD_SAFE_COMMAND",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "safe-command-completed",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 0,
+          "registeredHooks": [
+            {
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:b63ccc0bff52b5432060e09d9b8be8d89aaa0dc5256c284e57f59e697ccf8a59"
+            },
+            {
+              "eventName": "permissionRequest",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:2996656d7dc46c753d5537707746dfbfc240146cff29965f0a49da4e17f8cbcd"
+            },
+            {
+              "eventName": "postToolUse",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:6716c95b55dc6360895af6ba96edb172881a42a608860379c37a12aaa14a77b1"
+            },
+            {
+              "eventName": "userPromptSubmit",
+              "handlerType": "command",
+              "source": "user",
+              "enabled": true,
+              "trustStatus": "untrusted",
+              "currentHash": "sha256:2b1f0f2205aa1170ba52da336e77f7929c039e1d6515dd30a21b07830985736b"
+            }
+          ],
+          "preflight": {
+            "status": "no_match",
+            "controllingRuleId": null,
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [
+            {
+              "method": "hook/started",
+              "threadId": "01a05592-2892-7ee0-9627-4a5f3ef83dbe",
+              "eventName": "userPromptSubmit",
+              "source": "user",
+              "status": "running",
+              "durationMs": null,
+              "entries": []
+            },
+            {
+              "method": "hook/completed",
+              "threadId": "01a05592-2892-7ee0-9627-4a5f3ef83dbe",
+              "eventName": "userPromptSubmit",
+              "source": "user",
+              "status": "completed",
+              "durationMs": 3553,
+              "entries": []
+            },
+            {
+              "method": "hook/started",
+              "threadId": "01a05592-2892-7ee0-9627-4a5f3ef83dbe",
+              "eventName": "preToolUse",
+              "source": "user",
+              "status": "running",
+              "durationMs": null,
+              "entries": []
+            },
+            {
+              "method": "hook/completed",
+              "threadId": "01a05592-2892-7ee0-9627-4a5f3ef83dbe",
+              "eventName": "preToolUse",
+              "source": "user",
+              "status": "completed",
+              "durationMs": 675,
+              "entries": []
+            },
+            {
+              "method": "hook/started",
+              "threadId": "01a05592-2892-7ee0-9627-4a5f3ef83dbe",
+              "eventName": "postToolUse",
+              "source": "user",
+              "status": "running",
+              "durationMs": null,
+              "entries": []
+            },
+            {
+              "method": "hook/completed",
+              "threadId": "01a05592-2892-7ee0-9627-4a5f3ef83dbe",
+              "eventName": "postToolUse",
+              "source": "user",
+              "status": "completed",
+              "durationMs": 615,
+              "entries": []
+            }
+          ],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 1.4 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"19651a\",\"wall_time_seconds\":0.000006292,\"exit_code\":0,\"original_token_count\":5,\"output\":\"GUARD_SAFE_COMMAND\"}"
+              }
+            ]
+          ]
+        },
+        {
+          "name": "dsh-host",
+          "command": "printf GUARD_SAFE_COMMAND",
+          "guardVersion": "hol-guard 3.0.1",
+          "explicitReviewedHookException": true,
+          "outcome": "safe-command-completed",
+          "targetExists": true,
+          "sentinelExists": true,
+          "mainRequests": 2,
+          "titleRequests": 1,
+          "dshSessionId": "session-21c612ba-4565-4312-8182-f46c2e0c0012",
+          "threadId": "01a05592-509b-7dd0-8d13-a991ed44967b",
+          "dshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+          "nativeApprovals": [],
+          "preflight": {
+            "status": "no_match",
+            "controllingRuleId": null,
+            "policyEvaluation": "not_run",
+            "sideEffects": "none"
+          },
+          "hookNotifications": [],
+          "receipts": [],
+          "toolOutputs": [
+            [
+              {
+                "type": "input_text",
+                "text": "Script completed\nWall time 1.6 seconds\nOutput:\n"
+              },
+              {
+                "type": "input_text",
+                "text": "{\"chunk_id\":\"b5f737\",\"wall_time_seconds\":0.000002208,\"exit_code\":0,\"original_token_count\":5,\"output\":\"GUARD_SAFE_COMMAND\"}"
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

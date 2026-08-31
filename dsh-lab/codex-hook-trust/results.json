@@ -1,0 +1,723 @@
+{
+  "generatedAt": "2026-08-30T04:57:52.009Z",
+  "artifacts": "<RUN_ROOT> (printed during execution)",
+  "codexVersion": "codex-cli 0.149.0",
+  "pluginCommit": "cac79ddc271264e83604f2d3828b8d2f5c55261d",
+  "model": "local deterministic Responses stub; no real inference or credentials",
+  "results": [
+    {
+      "name": "cli-bypass",
+      "exit": 0,
+      "requests": 2,
+      "hookEvents": [
+        {
+          "event": "SessionStart",
+          "fromInstalledPlugin": true
+        },
+        {
+          "event": "PreToolUse",
+          "tool": "Bash",
+          "fromInstalledPlugin": true
+        }
+      ],
+      "targetExists": false,
+      "denyReturned": true,
+      "toolOutputs": [
+        "Command blocked by PreToolUse hook: RELAY_HOOK_TRUST_PROBE_BLOCKED. Command: /usr/bin/printf 'HOOK_BLOCK_PROBE\\n' > blocked.txt"
+      ]
+    },
+    {
+      "name": "server-launch-only",
+      "turnStatus": "completed",
+      "flag": true,
+      "manualRequestTrust": false,
+      "registeredHooks": [
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-launch-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": "^Bash$",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-launch-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:a211c2914503e90be5c1558ab4d113c0869b40b8f14c91c71fb08785d79e1ced",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:session_start:0:0",
+          "eventName": "sessionStart",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-launch-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-launch-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:01c535dba92b50308d5afaf293d9c406cae196a488f0d6ae5768faa9105479ed",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "lifecycleRequests": [
+        {
+          "method": "thread/start",
+          "config": {}
+        }
+      ],
+      "hookNotifications": [],
+      "requests": 2,
+      "hookEvents": [],
+      "targetExists": true,
+      "denyReturned": false,
+      "toolOutputs": [
+        "Chunk ID: 961808\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 0\nOutput:\n"
+      ]
+    },
+    {
+      "name": "server-launch-only-all-tools",
+      "turnStatus": "completed",
+      "flag": true,
+      "manualRequestTrust": false,
+      "registeredHooks": [
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-launch-only-all-tools/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": "*",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-launch-only-all-tools/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:ed5f9821e7356433c02c70077c63d74a17870cd769af2131d6c05e3c8dde1ce0",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:session_start:0:0",
+          "eventName": "sessionStart",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-launch-only-all-tools/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-launch-only-all-tools/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:2834244401bd5c328c0b451f2819a93a79f3336f95b22cdc5b8e67a399d297e2",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "lifecycleRequests": [
+        {
+          "method": "thread/start",
+          "config": {}
+        }
+      ],
+      "hookNotifications": [],
+      "requests": 2,
+      "hookEvents": [],
+      "targetExists": true,
+      "denyReturned": false,
+      "toolOutputs": [
+        "Chunk ID: 38845e\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 0\nOutput:\n"
+      ]
+    },
+    {
+      "name": "server-request-trust",
+      "turnStatus": "completed",
+      "flag": true,
+      "manualRequestTrust": true,
+      "registeredHooks": [
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": "^Bash$",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:6e27e4e8f9a00b667465589ae1ad5b8cdd8480600edd725767cb88bc4a6d2738",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:session_start:0:0",
+          "eventName": "sessionStart",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:42280e5025fa713c60014408f9389f74dc6ee59c90f6d7a98148eb4cd5a37bb7",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "lifecycleRequests": [
+        {
+          "method": "thread/start",
+          "config": {
+            "bypass_hook_trust": true
+          }
+        }
+      ],
+      "hookNotifications": [
+        {
+          "method": "hook/started",
+          "params": {
+            "threadId": "01a05107-f553-7410-8486-def3202fc738",
+            "turnId": "01a05107-f55c-7e02-b07c-299022a5b277",
+            "run": {
+              "id": "session-start:1:<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "eventName": "sessionStart",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "thread",
+              "sourcePath": "<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 1,
+              "status": "running",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": null,
+              "durationMs": null,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/completed",
+          "params": {
+            "threadId": "01a05107-f553-7410-8486-def3202fc738",
+            "turnId": "01a05107-f55c-7e02-b07c-299022a5b277",
+            "run": {
+              "id": "session-start:1:<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "eventName": "sessionStart",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "thread",
+              "sourcePath": "<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 1,
+              "status": "completed",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": 1788065871,
+              "durationMs": 57,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/started",
+          "params": {
+            "threadId": "01a05107-f553-7410-8486-def3202fc738",
+            "turnId": "01a05107-f55c-7e02-b07c-299022a5b277",
+            "run": {
+              "id": "pre-tool-use:0:<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json:probe-shell",
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "turn",
+              "sourcePath": "<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 0,
+              "status": "running",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": null,
+              "durationMs": null,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/completed",
+          "params": {
+            "threadId": "01a05107-f553-7410-8486-def3202fc738",
+            "turnId": "01a05107-f55c-7e02-b07c-299022a5b277",
+            "run": {
+              "id": "pre-tool-use:0:<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json:probe-shell",
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "turn",
+              "sourcePath": "<RUN_ROOT>/server-request-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 0,
+              "status": "blocked",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": 1788065871,
+              "durationMs": 56,
+              "entries": [
+                {
+                  "kind": "feedback",
+                  "text": "RELAY_HOOK_TRUST_PROBE_BLOCKED"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "requests": 2,
+      "hookEvents": [
+        {
+          "event": "SessionStart",
+          "fromInstalledPlugin": true
+        },
+        {
+          "event": "PreToolUse",
+          "tool": "Bash",
+          "fromInstalledPlugin": true
+        }
+      ],
+      "targetExists": false,
+      "denyReturned": true,
+      "toolOutputs": [
+        "Command blocked by PreToolUse hook: RELAY_HOOK_TRUST_PROBE_BLOCKED. Command: /usr/bin/printf 'HOOK_BLOCK_PROBE\\n' > blocked.txt"
+      ]
+    },
+    {
+      "name": "server-request-only",
+      "turnStatus": "completed",
+      "flag": false,
+      "manualRequestTrust": true,
+      "registeredHooks": [
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": "^Bash$",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:5b29c11e4f3a8cba7071cdc71aabcbddaa8a01ccaf225f71238403c4660dc8af",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:session_start:0:0",
+          "eventName": "sessionStart",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:e457e5af56a8e179102a186f103fc05033a6415aa670954defabe404760aa031",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "lifecycleRequests": [
+        {
+          "method": "thread/start",
+          "config": {
+            "bypass_hook_trust": true
+          }
+        }
+      ],
+      "hookNotifications": [
+        {
+          "method": "hook/started",
+          "params": {
+            "threadId": "01a05107-f64d-7150-b70e-fa9afbb822bb",
+            "turnId": "01a05107-f657-7d62-9590-b65a28194123",
+            "run": {
+              "id": "session-start:1:<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "eventName": "sessionStart",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "thread",
+              "sourcePath": "<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 1,
+              "status": "running",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": null,
+              "durationMs": null,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/completed",
+          "params": {
+            "threadId": "01a05107-f64d-7150-b70e-fa9afbb822bb",
+            "turnId": "01a05107-f657-7d62-9590-b65a28194123",
+            "run": {
+              "id": "session-start:1:<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "eventName": "sessionStart",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "thread",
+              "sourcePath": "<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 1,
+              "status": "completed",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": 1788065871,
+              "durationMs": 56,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/started",
+          "params": {
+            "threadId": "01a05107-f64d-7150-b70e-fa9afbb822bb",
+            "turnId": "01a05107-f657-7d62-9590-b65a28194123",
+            "run": {
+              "id": "pre-tool-use:0:<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json:probe-shell",
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "turn",
+              "sourcePath": "<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 0,
+              "status": "running",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": null,
+              "durationMs": null,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/completed",
+          "params": {
+            "threadId": "01a05107-f64d-7150-b70e-fa9afbb822bb",
+            "turnId": "01a05107-f657-7d62-9590-b65a28194123",
+            "run": {
+              "id": "pre-tool-use:0:<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json:probe-shell",
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "turn",
+              "sourcePath": "<RUN_ROOT>/server-request-only/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 0,
+              "status": "blocked",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": 1788065871,
+              "durationMs": 53,
+              "entries": [
+                {
+                  "kind": "feedback",
+                  "text": "RELAY_HOOK_TRUST_PROBE_BLOCKED"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "requests": 2,
+      "hookEvents": [
+        {
+          "event": "SessionStart",
+          "fromInstalledPlugin": true
+        },
+        {
+          "event": "PreToolUse",
+          "tool": "Bash",
+          "fromInstalledPlugin": true
+        }
+      ],
+      "targetExists": false,
+      "denyReturned": true,
+      "toolOutputs": [
+        "Command blocked by PreToolUse hook: RELAY_HOOK_TRUST_PROBE_BLOCKED. Command: /usr/bin/printf 'HOOK_BLOCK_PROBE\\n' > blocked.txt"
+      ]
+    },
+    {
+      "name": "relay-runtime-explicit-trust",
+      "turnStatus": "completed",
+      "flag": true,
+      "manualRequestTrust": false,
+      "registeredHooks": [
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": "^Bash$",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:02a4b2612c6a52b49ea684f8c2479300d003faf0b4174dbf12113a8a01d51075",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:session_start:0:0",
+          "eventName": "sessionStart",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:5021c08ec2a9e25d97b5833315c2234c796080d40ca1793d2324dfb6d0cf6ca1",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "lifecycleRequests": [
+        {
+          "method": "thread/start",
+          "config": {
+            "features.realtime_conversation": false,
+            "bypass_hook_trust": true
+          }
+        }
+      ],
+      "hookNotifications": [
+        {
+          "method": "hook/started",
+          "params": {
+            "threadId": "01a05107-f747-7b03-90fb-4be54ec6262f",
+            "turnId": "01a05107-f751-7701-b2af-a203e9ad3e19",
+            "run": {
+              "id": "session-start:1:<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "eventName": "sessionStart",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "thread",
+              "sourcePath": "<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 1,
+              "status": "running",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": null,
+              "durationMs": null,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/completed",
+          "params": {
+            "threadId": "01a05107-f747-7b03-90fb-4be54ec6262f",
+            "turnId": "01a05107-f751-7701-b2af-a203e9ad3e19",
+            "run": {
+              "id": "session-start:1:<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "eventName": "sessionStart",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "thread",
+              "sourcePath": "<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 1,
+              "status": "completed",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": 1788065871,
+              "durationMs": 55,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/started",
+          "params": {
+            "threadId": "01a05107-f747-7b03-90fb-4be54ec6262f",
+            "turnId": "01a05107-f751-7701-b2af-a203e9ad3e19",
+            "run": {
+              "id": "pre-tool-use:0:<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json:probe-shell",
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "turn",
+              "sourcePath": "<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 0,
+              "status": "running",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": null,
+              "durationMs": null,
+              "entries": []
+            }
+          }
+        },
+        {
+          "method": "hook/completed",
+          "params": {
+            "threadId": "01a05107-f747-7b03-90fb-4be54ec6262f",
+            "turnId": "01a05107-f751-7701-b2af-a203e9ad3e19",
+            "run": {
+              "id": "pre-tool-use:0:<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json:probe-shell",
+              "eventName": "preToolUse",
+              "handlerType": "command",
+              "executionMode": "sync",
+              "scope": "turn",
+              "sourcePath": "<RUN_ROOT>/relay-runtime-explicit-trust/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+              "source": "plugin",
+              "displayOrder": 0,
+              "status": "blocked",
+              "statusMessage": null,
+              "startedAt": 1788065871,
+              "completedAt": 1788065871,
+              "durationMs": 52,
+              "entries": [
+                {
+                  "kind": "feedback",
+                  "text": "RELAY_HOOK_TRUST_PROBE_BLOCKED"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "requests": 2,
+      "hookEvents": [
+        {
+          "event": "SessionStart",
+          "fromInstalledPlugin": true
+        },
+        {
+          "event": "PreToolUse",
+          "tool": "Bash",
+          "fromInstalledPlugin": true
+        }
+      ],
+      "targetExists": false,
+      "denyReturned": true,
+      "toolOutputs": [
+        "Command blocked by PreToolUse hook: RELAY_HOOK_TRUST_PROBE_BLOCKED. Command: /usr/bin/printf 'HOOK_BLOCK_PROBE\\n' > blocked.txt"
+      ]
+    },
+    {
+      "name": "relay-runtime-default",
+      "turnStatus": "completed",
+      "flag": false,
+      "manualRequestTrust": false,
+      "registeredHooks": [
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/relay-runtime-default/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": "^Bash$",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/relay-runtime-default/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:bcdd8175d55c7e4eab81997109f019ab5566b0140bee1b49ff71fad028ed3f21",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "relay-hook-probe@probe:hooks/hooks.json:session_start:0:0",
+          "eventName": "sessionStart",
+          "handlerType": "command",
+          "command": "\"<NODE>\" \"<RUN_ROOT>/relay-runtime-default/home/plugins/cache/probe/relay-hook-probe/local/hooks/probe.mjs\"",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "<RUN_ROOT>/relay-runtime-default/home/plugins/cache/probe/relay-hook-probe/local/hooks/hooks.json",
+          "source": "plugin",
+          "pluginId": "relay-hook-probe@probe",
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:a2574efb3589edecc7598f661fc75d39a70bb03be2dc94aac76d99235d9dddd3",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "lifecycleRequests": [
+        {
+          "method": "thread/start",
+          "config": {
+            "features.realtime_conversation": false
+          }
+        }
+      ],
+      "hookNotifications": [],
+      "requests": 2,
+      "hookEvents": [],
+      "targetExists": true,
+      "denyReturned": false,
+      "toolOutputs": [
+        "Chunk ID: 06d848\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 0\nOutput:\n"
+      ]
+    }
+  ]
+}
