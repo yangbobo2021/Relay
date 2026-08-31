@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>公众号富文本复制页</title>
+  <style>
+    html, body { margin: 0; background: #fff; }
+    .copy-tools { position: sticky; top: 0; z-index: 20; display: flex; gap: 8px; padding: 10px; background: #111827; }
+    .copy-tools button { flex: 1; min-height: 44px; border: 0; border-radius: 6px; background: #fff; color: #111827; font-size: 16px; font-weight: 700; }
+    #copy-status { padding: 8px 12px; background: #ecfdf5; color: #065f46; font-size: 14px; text-align: center; }
+    #title-copy, #summary-copy { position: fixed; left: -9999px; top: 0; }
+  </style>
+</head>
+<body>
+  <div class="copy-tools">
+    <button id="copy-title" type="button">复制标题</button>
+    <button id="copy-body" type="button">复制正文</button>
+    <button id="copy-summary" type="button">复制摘要</button>
+  </div>
+  <div id="copy-status">正在载入富文本...</div>
+  <span id="title-copy">不用敲命令：小白 3 分钟学会 DSH 插件搜索与安装</span>
+  <span id="summary-copy">不会敲安装命令，也能在 DSH 里搜索和安装插件。本文用 KeySync 和三句话，带你从搜索、查看计划到确认安装，完整走一遍。</span>
+  <main id="article-copy"></main>
+  <script>
+    const status = document.getElementById('copy-status')
+    const article = document.getElementById('article-copy')
+
+    function copyNode(node, successText) {
+      const selection = window.getSelection()
+      const range = document.createRange()
+      range.selectNodeContents(node)
+      selection.removeAllRanges()
+      selection.addRange(range)
+      const copied = document.execCommand('copy')
+      selection.removeAllRanges()
+      status.textContent = copied ? successText : '复制失败，请重试'
+    }
+
+    fetch('./wechat-builder.html')
+      .then((response) => response.text())
+      .then((html) => {
+        article.innerHTML = html
+        article.querySelector('h1')?.remove()
+        status.textContent = '富文本已就绪'
+      })
+      .catch(() => { status.textContent = '富文本载入失败' })
+
+    document.getElementById('copy-title').addEventListener('click', () => {
+      copyNode(document.getElementById('title-copy'), '标题已复制')
+    })
+    document.getElementById('copy-body').addEventListener('click', () => {
+      copyNode(article, '正文富文本已复制')
+    })
+    document.getElementById('copy-summary').addEventListener('click', () => {
+      copyNode(document.getElementById('summary-copy'), '摘要已复制')
+    })
+  </script>
+</body>
+</html>

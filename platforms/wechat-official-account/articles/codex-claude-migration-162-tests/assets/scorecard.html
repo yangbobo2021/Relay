@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1200px; height: 760px; overflow: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f7f9fc; color: #172033; }
+    main { padding: 58px 66px 48px; }
+    .eyebrow { margin: 0 0 12px; color: #2563eb; font-size: 24px; font-weight: 700; }
+    h1 { margin: 0; font-size: 48px; line-height: 1.24; letter-spacing: 0; }
+    .sub { margin: 14px 0 34px; color: #5b6577; font-size: 23px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .panel { padding: 28px 30px; background: white; border: 1px solid #dce2ea; border-radius: 8px; }
+    .panel-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 22px; }
+    .name { font-size: 30px; font-weight: 750; }
+    .total { color: #667085; font-size: 21px; }
+    .bar { display: flex; width: 100%; height: 58px; overflow: hidden; border-radius: 6px; background: #e8edf3; }
+    .supported { background: #16a36a; }
+    .partial { background: #f4b740; }
+    .unsupported { background: #e45b5b; }
+    .legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+    .metric { border-top: 4px solid; padding-top: 12px; }
+    .metric strong { display: block; font-size: 34px; line-height: 1; }
+    .metric span { display: block; margin-top: 9px; color: #667085; font-size: 19px; }
+    .metric.green { border-color: #16a36a; }
+    .metric.yellow { border-color: #f4b740; }
+    .metric.red { border-color: #e45b5b; }
+    footer { display: flex; justify-content: space-between; margin-top: 30px; color: #667085; font-size: 20px; }
+    footer strong { color: #172033; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">迁移测试快照</p>
+    <h1>162 项真实任务，不只测“能不能回复”</h1>
+    <p class="sub">对话、图片、文件、命令、配置、权限、扩展、旧会话和重启延续</p>
+    <section class="row">
+      <article class="panel">
+        <div class="panel-head"><span class="name">Codex 插件</span><span class="total">共 76 项</span></div>
+        <div class="bar"><span class="supported" style="width:77.6%"></span><span class="partial" style="width:7.9%"></span><span class="unsupported" style="width:14.5%"></span></div>
+        <div class="legend">
+          <div class="metric green"><strong>59</strong><span>支持</span></div>
+          <div class="metric yellow"><strong>6</strong><span>部分支持</span></div>
+          <div class="metric red"><strong>11</strong><span>不支持</span></div>
+        </div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><span class="name">Claude Code 插件</span><span class="total">共 86 项</span></div>
+        <div class="bar"><span class="supported" style="width:90.7%"></span><span class="partial" style="width:3.5%"></span><span class="unsupported" style="width:5.8%"></span></div>
+        <div class="legend">
+          <div class="metric green"><strong>78</strong><span>支持</span></div>
+          <div class="metric yellow"><strong>3</strong><span>部分支持</span></div>
+          <div class="metric red"><strong>5</strong><span>不支持</span></div>
+        </div>
+      </article>
+    </section>
+    <footer><span><strong>167 次</strong>验证运行，5 次为 Codex 复测</span><span>数据日期：2026 年 8 月 29 日</span></footer>
+  </main>
+</body>
+</html>

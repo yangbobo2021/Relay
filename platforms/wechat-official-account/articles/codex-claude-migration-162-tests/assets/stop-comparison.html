@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1200px; height: 1120px; overflow: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f7f9fc; color: #172033; }
+    main { padding: 48px 52px; }
+    h1 { margin: 0 0 12px; font-size: 42px; line-height: 1.25; letter-spacing: 0; }
+    .intro { margin: 0 0 28px; color: #5b6577; font-size: 22px; }
+    .panel { margin-bottom: 22px; overflow: hidden; background: white; border: 1px solid #dce2ea; border-radius: 8px; }
+    .label { display: flex; align-items: center; gap: 14px; padding: 16px 20px; font-size: 23px; font-weight: 700; }
+    .step { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; color: white; background: #2563eb; font-size: 19px; }
+    .panel img { display: block; width: 100%; height: 345px; object-fit: cover; object-position: center; border-top: 1px solid #e3e8ef; }
+    .result { display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: center; padding: 18px 22px; background: #fff4e5; border-left: 6px solid #f59e0b; border-radius: 6px; }
+    .result strong { color: #b54708; font-size: 25px; }
+    .result span { font-size: 22px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>界面显示“已停止”，后台任务真的停了吗？</h1>
+    <p class="intro">同一个 Codex 任务的中断测试</p>
+    <section class="panel">
+      <div class="label"><span class="step">1</span>任务运行中，点击停止按钮</div>
+      <img src="03a-stop-before.jpg" alt="停止前界面">
+    </section>
+    <section class="panel">
+      <div class="label"><span class="step">2</span>界面很快显示“已停止”</div>
+      <img src="03b-stop-after.jpg" alt="停止后界面">
+    </section>
+    <div class="result"><strong>结果</strong><span>约 5 秒后，子进程仍写出了本不该出现的测试文件。界面状态和真实进程状态不一致。</span></div>
+  </main>
+</body>
+</html>

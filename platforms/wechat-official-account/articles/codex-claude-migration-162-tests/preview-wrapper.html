@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentPost mobile preview</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const file = new URLSearchParams(location.search).get("file");
+    if (!file || !/^wechat-[a-z-]+\.html$/.test(file)) {
+      document.body.textContent = "Missing preview file.";
+    } else {
+      fetch(file)
+        .then((response) => response.text())
+        .then((html) => {
+          document.body.innerHTML = html;
+        });
+    }
+  </script>
+</body>
+</html>

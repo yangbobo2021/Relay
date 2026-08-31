@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>微信公众号 Builder Lab 预览</title>
+  <style>html,body{margin:0;background:#fff}</style>
+</head>
+<body>
+  <main id="preview"></main>
+  <script>
+    fetch('./wechat-builder.html')
+      .then((response) => response.text())
+      .then((html) => html
+        .replace('https://agentpost.com.cn/uploads/0b47eeb571cd4bb88f8c25fb468e36c0.jpg', './assets/01-select-codex.jpg')
+        .replace('https://agentpost.com.cn/uploads/51b3bd78d7f84d899c01d7389278d95a.jpg', './assets/02-codex-reply.jpg'))
+      .then((html) => { document.getElementById('preview').innerHTML = html })
+  </script>
+</body>
+</html>

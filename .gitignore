@@ -41,3 +41,9 @@ upstream/deepseek-harness/
 # Local visual QA evidence
 dsh-lab/*.png
 .artifacts/
+
+# Local capture scratch files and unpublished recording intermediates
+/.tmp-*
+/docs/media/keysync-dsh-plugin-onboarding/*/raw/
+/docs/media/keysync-dsh-plugin-onboarding/*/source/
+/docs/media/keysync-dsh-plugin-onboarding/*/qa/

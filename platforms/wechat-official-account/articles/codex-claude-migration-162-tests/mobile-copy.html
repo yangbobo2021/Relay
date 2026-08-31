@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>公众号复制页</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 16px 80px;
+      color: #18242b;
+      background: #f3f7f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .controls {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      margin: 0 auto 18px;
+      padding: 18px;
+      border: 1px solid #dbe7e3;
+      background: #fff;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    button {
+      min-height: 52px;
+      border: 0;
+      color: #fff;
+      background: #0f766e;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    #status {
+      min-height: 24px;
+      margin: 12px 0 0;
+      color: #0f766e;
+    }
+    #article {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <section class="controls">
+    <h1>公众号发布内容</h1>
+    <div class="actions">
+      <button type="button" data-copy="title">复制标题</button>
+      <button type="button" data-copy="summary">复制摘要</button>
+      <button type="button" data-copy="article">复制带样式正文</button>
+    </div>
+    <p id="status">正在载入正文...</p>
+  </section>
+  <main id="article"></main>
+  <script>
+    const TITLE = "把 Codex 和 Claude Code 放进同一个工作台，原来的功能还能用吗？";
+    const SUMMARY = "把 Codex 和 Claude Code 接入同一个工作台后，能回复只是第一关。我们用 162 项测试检查图片、任务中断、旧会话和敏感信息，看看原来的工作能否真正继续。";
+    const article = document.querySelector("#article");
+    const status = document.querySelector("#status");
+
+    function copyPlainText(text, label) {
+      const input = document.createElement("textarea");
+      input.value = text;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+      const ok = document.execCommand("copy");
+      input.remove();
+      status.textContent = ok ? `${label}已复制` : `${label}复制失败`;
+    }
+
+    function copyArticle() {
+      const source = article.querySelector("section");
+      if (!source) {
+        status.textContent = "正文尚未载入";
+        return;
+      }
+      const clone = source.cloneNode(true);
+      clone.querySelector("h1")?.remove();
+      const html = clone.outerHTML;
+      const plainText = clone.innerText;
+      const copyHandler = (event) => {
+        event.clipboardData.setData("text/plain", plainText);
+        event.clipboardData.setData("text/html", html);
+        event.preventDefault();
+      };
+      document.addEventListener("copy", copyHandler, { once: true });
+      const ok = document.execCommand("copy");
+      if (!ok) {
+        document.removeEventListener("copy", copyHandler);
+      }
+      const imageCount = clone.querySelectorAll("img").length;
+      const headingCount = clone.querySelectorAll("h2").length;
+      status.textContent = ok
+        ? `富文本已写入：${headingCount} 个章节，${imageCount} 张图片`
+        : "正文复制失败";
+    }
+
+    document.querySelector('[data-copy="title"]').addEventListener("click", () => copyPlainText(TITLE, "标题"));
+    document.querySelector('[data-copy="summary"]').addEventListener("click", () => copyPlainText(SUMMARY, "摘要"));
+    document.querySelector('[data-copy="article"]').addEventListener("click", copyArticle);
+
+    fetch("wechat-final.html")
+      .then((response) => response.text())
+      .then((html) => {
+        article.innerHTML = html;
+        status.textContent = "正文已载入";
+      })
+      .catch(() => {
+        status.textContent = "正文载入失败";
+      });
+  </script>
+</body>
+</html>

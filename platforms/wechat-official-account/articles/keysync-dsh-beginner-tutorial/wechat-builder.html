@@ -1,0 +1,93 @@
+<section class="agentpost-render agentpost-wechat agentpost-wechat-builder" data-platform="wechat" data-theme="builder" data-theme-name="Builder Lab" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;line-height:1.84;color:#18212f;background:#fbfdff;padding:26px 22px 30px;box-sizing:border-box;word-break:break-word;"><h1 data-source-anchor="node-1" style="margin:0 0 16px;color:#111827;font-size:25px;line-height:1.32;font-weight:500;">不用敲命令：小白 3 步用上 DeepSeek Harness，手机接着用</h1>
+<p data-source-anchor="node-2" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">很多人想试 DeepSeek Harness，最后却卡在第一步：要不要装环境？要不要打开终端？是不是还得输入一长串命令？</p>
+<p data-source-anchor="node-3" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果你只想先把它用起来，可以走一条更简单的路：在电脑上安装 KeySync，让它帮你完成 DSH 安装；再添加自己的 DeepSeek 服务，最后用手机远程打开电脑上的同一个页面。</p>
+<p data-source-anchor="node-4" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">全程分三步。<strong style="color:#2563eb;font-weight:500;">不用另外安装 Node，也不用敲命令。</strong></p>
+<blockquote data-source-anchor="node-5" style="margin:22px 0;padding:15px 16px;background:#fffbeb;border-left:4px solid #f59e0b;color:#334155;">
+<p data-source-anchor="node-6" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">DeepSeek Harness 下面简称 DSH。你可以把它理解成一个在浏览器里和 AI 对话、继续处理任务的工作页面。</p>
+</blockquote>
+<h2 data-source-anchor="node-7" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">开始前，只准备这三样</h2>
+<ol data-source-anchor="node-8" style="margin:0 0 18px;padding-left:28px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">一台可以正常上网的电脑。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">一个 KeySync 账号，安装后可以直接注册。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">一个可用的 DeepSeek API Key。</li>
+</ol>
+<p data-source-anchor="node-9" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">API Key 可以理解成连接 DeepSeek 服务的一把“钥匙”。如果还没有，可以到 <a href="https://platform.deepseek.com/" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">DeepSeek 开放平台</a> 创建。它只需要粘贴一次，不要发给别人，也不要放进截图里。</p>
+<blockquote data-source-anchor="node-10" style="margin:22px 0;padding:15px 16px;background:#fffbeb;border-left:4px solid #f59e0b;color:#334155;">
+<p data-source-anchor="node-11" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">KeySync 是帮助普通用户安装、打开和远程访问这些工具的第三方软件，不是 DSH 官方客户端，也不是开源项目。它支持 macOS、Windows、Linux；客户端和远程访问目前完全免费，没有隐藏收费。</p>
+</blockquote>
+<h2 data-source-anchor="node-12" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">第 1 步：安装 KeySync</h2>
+<p data-source-anchor="node-13" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">打开 <a href="https://sublang.ai/keysync/download/" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">KeySync 下载页</a>，选择自己的电脑系统。</p>
+<ul data-source-anchor="node-14" style="margin:0 0 18px;padding-left:24px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">Mac：选择 <strong style="color:#2563eb;font-weight:500;">macOS (Apple Silicon)</strong>。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">Windows：普通用户选择 <strong style="color:#2563eb;font-weight:500;">安装包 (x64)</strong>。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">Linux：选择与电脑对应的 <strong style="color:#2563eb;font-weight:500;">AppImage</strong>。</li>
+</ul>
+<p data-source-anchor="node-15" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="KeySync 下载页支持 macOS、Windows 和 Linux" src="https://agentpost.com.cn/uploads/ca7a432a96e24f9795e06dffe92a463f.png" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /></p>
+<p data-source-anchor="node-16" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">下载后，像安装普通软件一样完成安装，再打开 KeySync，注册或登录账号。</p>
+<p data-source-anchor="node-17" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">到这里就可以了。你不需要先装 Node，也不需要打开终端。</p>
+<h2 data-source-anchor="node-18" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">第 2 步：安装、配置并打开 DSH</h2>
+<p data-source-anchor="node-19" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">这一步都在电脑上的 KeySync Client 里完成。</p>
+<h3 data-source-anchor="node-20" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">1. 一键安装 DeepSeek Harness</h3>
+<p data-source-anchor="node-21" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">打开 <strong style="color:#2563eb;font-weight:500;">设备和应用</strong>，找到 <strong style="color:#2563eb;font-weight:500;">DeepSeek Harness</strong>，点击右侧的 <strong style="color:#2563eb;font-weight:500;">一键安装</strong>。</p>
+<p data-source-anchor="node-22" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="在 KeySync Client 中一键安装 DeepSeek Harness" src="https://agentpost.com.cn/uploads/4574a3f2c5c44b1fb53c16e40ff97707.jpg" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /></p>
+<p data-source-anchor="node-23" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">第一次安装需要下载文件，等一会儿即可。页面出现 <strong style="color:#2563eb;font-weight:500;">已安装</strong>，说明安装已经完成。</p>
+<p data-source-anchor="node-24" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">这里的“一键安装”只指 KeySync 帮你安装 DSH。接下来仍需要添加自己的 DeepSeek 服务。</p>
+<h3 data-source-anchor="node-25" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">2. 配置 DeepSeek 模型</h3>
+<p data-source-anchor="node-26" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">在 DeepSeek Harness 这一行点击 <strong style="color:#2563eb;font-weight:500;">配置模型</strong>，再选择：</p>
+<p data-source-anchor="node-27" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><strong style="color:#2563eb;font-weight:500;">我已经有 → 手动创建</strong></p>
+<p data-source-anchor="node-28" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">按页面填写：</p>
+<ul data-source-anchor="node-29" style="margin:0 0 18px;padding-left:24px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">模型服务类型：选择 <strong style="color:#2563eb;font-weight:500;">DeepSeek</strong>。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">模型服务名称：自己起一个容易认的名字，例如“我的 DeepSeek”。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">API Key：粘贴刚才准备好的 DeepSeek API Key。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">默认模型：保留页面自动填写的内容。</li>
+</ul>
+<p data-source-anchor="node-30" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">先点击 <strong style="color:#2563eb;font-weight:500;">测试</strong>。测试成功后，再点击 <strong style="color:#2563eb;font-weight:500;">创建模型服务</strong>。</p>
+<p data-source-anchor="node-31" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="填写 DeepSeek API Key 并测试模型" src="https://agentpost.com.cn/uploads/ebd33cce7ef04b91a5655a87340eb1ff.png" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /></p>
+<p data-source-anchor="node-32" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果测试失败，先检查 API Key 是否复制完整，再确认 DeepSeek 账号可以正常使用。</p>
+<h3 data-source-anchor="node-33" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">3. 打开 DeepSeek Harness</h3>
+<p data-source-anchor="node-34" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">回到 <strong style="color:#2563eb;font-weight:500;">设备和应用</strong> 页面。</p>
+<p data-source-anchor="node-35" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果先看到 <strong style="color:#2563eb;font-weight:500;">启动</strong>，就点击它。等 DeepSeek Harness 这一行出现 <strong style="color:#2563eb;font-weight:500;">停止</strong> 按钮，再点击旁边的 <strong style="color:#2563eb;font-weight:500;">打开</strong>。</p>
+<p data-source-anchor="node-36" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="KeySync Client 中的“停止”和“打开”按钮" src="https://agentpost.com.cn/uploads/d2523916525f4c39be948b9d3d661958.png" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /></p>
+<p data-source-anchor="node-37" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">这里最容易判断：<strong style="color:#2563eb;font-weight:500;">能看到“停止”按钮，就说明 DSH 已经打开。</strong></p>
+<p data-source-anchor="node-38" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">浏览器出现 DeepSeek Harness 的对话页面后，电脑端就准备好了。你可以先新建一个对话，发送一句简单的话，确认能够正常收到回答。</p>
+<h2 data-source-anchor="node-39" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">第 3 步：用手机打开电脑上的同一个 DSH</h2>
+<p data-source-anchor="node-40" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">出门前，先在电脑上确认三件事：</p>
+<ol data-source-anchor="node-41" style="margin:0 0 18px;padding-left:28px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">电脑没有关机，并且可以上网。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">KeySync 正在运行。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">DeepSeek Harness 旁边可以看到 <strong style="color:#2563eb;font-weight:500;">停止</strong> 按钮。</li>
+</ol>
+<p data-source-anchor="node-42" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">然后在手机浏览器打开 <a href="https://keysync.sublang.ai/" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">KeySync 网页版</a>，登录与电脑端相同的 KeySync 账号。</p>
+<p data-source-anchor="node-43" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">手机和电脑<strong style="color:#2563eb;font-weight:500;">不需要连接同一个 Wi-Fi</strong>。只要两边都能联网即可。</p>
+<p data-source-anchor="node-44" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">在网页中找到自己的电脑，再找到 <strong style="color:#2563eb;font-weight:500;">DeepSeek Harness</strong>，点击 <strong style="color:#2563eb;font-weight:500;">远程打开</strong>。</p>
+<p data-source-anchor="node-45" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="在手机上找到自己的电脑并点击远程打开" src="https://agentpost.com.cn/uploads/ada008217ce24cba94c273a1782d45f3.png" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /></p>
+<p data-source-anchor="node-46" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">页面打开后，看到的就是电脑上已经打开的 DSH。原来的对话和任务仍然保留，可以接着使用。</p>
+<p data-source-anchor="node-47" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="手机浏览器中打开电脑上的 DeepSeek Harness" src="https://agentpost.com.cn/uploads/43ee52fc8cbc4bccb5c6add46415b2b6.png" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /></p>
+<p data-source-anchor="node-48" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">需要注意：<strong style="color:#2563eb;font-weight:500;">任务仍在电脑上处理，手机只是远程打开它。</strong></p>
+<p data-source-anchor="node-49" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">所以电脑一旦关机、断网，或者 KeySync 被退出，手机就无法继续打开。关掉手机页面不会把电脑上的任务搬到手机里，也不会自动新建一段对话。</p>
+<h2 data-source-anchor="node-50" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">没成功，先检查这三处</h2>
+<h3 data-source-anchor="node-51" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">手机显示电脑离线</h3>
+<p data-source-anchor="node-52" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">检查电脑是否开机、联网，KeySync 是否仍在运行。</p>
+<h3 data-source-anchor="node-53" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">看不到“远程打开”</h3>
+<p data-source-anchor="node-54" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">回到电脑，确认 DeepSeek Harness 已经打开。判断标准是它旁边出现 <strong style="color:#2563eb;font-weight:500;">停止</strong> 按钮。</p>
+<h3 data-source-anchor="node-55" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">模型测试失败</h3>
+<p data-source-anchor="node-56" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">重新复制 DeepSeek API Key，确认没有多空格、没有漏字符，并检查 DeepSeek 账号是否可以正常使用。</p>
+<h2 data-source-anchor="node-57" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">做到这三点，就算完成</h2>
+<ol data-source-anchor="node-58" style="margin:0 0 18px;padding-left:28px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">电脑端的 DeepSeek Harness 旁边能看到 <strong style="color:#2563eb;font-weight:500;">停止</strong>。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">手机端能找到同一台电脑，并看到 <strong style="color:#2563eb;font-weight:500;">远程打开</strong>。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">手机打开 DSH 后，电脑里原来的对话仍然在。</li>
+</ol>
+<p data-source-anchor="node-59" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">三项都满足，就说明安装、配置和手机远程访问已经打通。</p>
+<h2 data-source-anchor="node-60" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">最后把边界说清楚</h2>
+<p data-source-anchor="node-61" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">这条路线适合不想处理安装环境和命令、还希望用手机接着操作的人。KeySync 做的事情很具体：把 DSH 的安装、打开和远程访问整理成普通用户更容易操作的页面。</p>
+<p data-source-anchor="node-62" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果你本来就会用命令安装 DSH，也不需要手机远程打开，那么直接使用 <a href="https://github.com/deepseek-ai/deepseek-harness" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">DeepSeek Harness 官方项目</a> 就可以。</p>
+<p data-source-anchor="node-63" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果你最担心的是安装环境和终端命令，可以先把这篇收藏起来：在电脑走完前两步，再拿手机完成一次 <strong style="color:#2563eb;font-weight:500;">远程打开</strong> 测试。</p>
+<p data-source-anchor="node-64" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">相关链接：</p>
+<ul data-source-anchor="node-65" style="margin:0 0 18px;padding-left:24px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><a href="https://sublang.ai/keysync/download/" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">下载 KeySync</a></li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><a href="https://keysync.sublang.ai/" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">打开 KeySync 网页版</a></li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><a href="https://platform.deepseek.com/" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">DeepSeek 开放平台</a></li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><a href="https://github.com/deepseek-ai/deepseek-harness" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">DeepSeek Harness 官方项目</a></li>
+</ul></section>

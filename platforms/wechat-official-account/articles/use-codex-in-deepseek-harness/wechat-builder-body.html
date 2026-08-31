@@ -1,0 +1,69 @@
+<section class="agentpost-render agentpost-wechat agentpost-wechat-builder" data-platform="wechat" data-theme="builder" data-theme-name="Builder Lab" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;line-height:1.84;color:#18212f;background:#fbfdff;padding:26px 22px 30px;box-sizing:border-box;word-break:break-word;"><p data-source-anchor="node-2" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">你平时用 Codex 写代码，又想把项目和对话都放在 DeepSeek Harness 里管理，不必在两个软件之间反复切换。</p>
+<p data-source-anchor="node-3" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">装好一个插件，新建对话时选择 <strong style="color:#2563eb;font-weight:500;">Codex</strong>，就能直接在 DeepSeek Harness 的页面里让 Codex 读取项目、回答问题。</p>
+<blockquote data-source-anchor="node-4" style="margin:22px 0;padding:15px 16px;background:#fffbeb;border-left:4px solid #f59e0b;color:#334155;">
+<p data-source-anchor="node-5" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">这篇文章只做一件事：带你完成第一次 Codex 对话。照着下面 3 步操作即可。</p>
+</blockquote>
+<h2 data-source-anchor="node-6" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">先认清三个名字</h2>
+<ul data-source-anchor="node-7" style="margin:0 0 18px;padding-left:24px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><strong style="color:#2563eb;font-weight:500;">DeepSeek Harness</strong>：DeepSeek 开源的 AI 工作界面，简称 <strong style="color:#2563eb;font-weight:500;">DSH</strong>。你可以在里面添加项目文件夹、建立对话。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><strong style="color:#2563eb;font-weight:500;">Codex</strong>：OpenAI 的 AI 编程助手。它可以在你允许的项目里读取文件、修改代码和运行命令。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><strong style="color:#2563eb;font-weight:500;">Codex 插件</strong>：给 DSH 增加 Codex 对话入口的小组件。装好后，新建对话时会多出一个 Codex 选项。</li>
+</ul>
+<p data-source-anchor="node-8" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">下面不讲复杂原理，先把它用起来。</p>
+<h2 data-source-anchor="node-9" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">开始前，只检查三件事</h2>
+<ol data-source-anchor="node-10" style="margin:0 0 18px;padding-left:28px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">在终端输入 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">node --version</code>，显示 22.13 或更高版本。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">输入 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">pnpm --version</code>，能够看到版本号。</li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;">你已经登录 Codex，并且平时能够正常使用它。</li>
+</ol>
+<p data-source-anchor="node-11" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">“终端”就是输入电脑命令的窗口。macOS 可以打开“终端”，Windows 可以打开 PowerShell。</p>
+<p data-source-anchor="node-12" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果 DSH 正在运行，先回到启动它的终端，按 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">Ctrl + C</code> 停止。</p>
+<h2 data-source-anchor="node-13" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">第 1 步：用官方命令启动 DSH</h2>
+<p data-source-anchor="node-14" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">DeepSeek 官方目前推荐用下面的命令快速启动 DSH：</p>
+<pre data-source-anchor="node-15" style="margin:20px 0;padding:16px;border-left:4px solid #2563eb;background:#f8fafc;color:#0f172a;white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.72;font-family:Menlo,Consolas,monospace;"><code class="language-bash" style="font-family:Menlo,Consolas,monospace;background:transparent;color:inherit;font-size:inherit;line-height:inherit;padding:0;border:0;box-shadow:none;">npx @deepseek-ai/dsh web
+</code></pre>
+<p data-source-anchor="node-16" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">第一次运行会下载所需文件。启动成功后，浏览器通常会自动打开；也可以手动访问终端显示的地址，一般是 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">http://127.0.0.1:3080</code>。</p>
+<p data-source-anchor="node-17" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">能看到 DSH 页面，就说明基础环境正常。安装插件前，再按一次 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">Ctrl + C</code> 停止 DSH。</p>
+<h2 data-source-anchor="node-18" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">第 2 步：安装 Codex 插件</h2>
+<p data-source-anchor="node-19" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">DSH 官方提供了 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">dsh plugin</code> 命令管理插件。输入下面这条命令：</p>
+<pre data-source-anchor="node-20" style="margin:20px 0;padding:16px;border-left:4px solid #2563eb;background:#f8fafc;color:#0f172a;white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.72;font-family:Menlo,Consolas,monospace;"><code class="language-bash" style="font-family:Menlo,Consolas,monospace;background:transparent;color:inherit;font-size:inherit;line-height:inherit;padding:0;border:0;box-shadow:none;">dsh plugin --profile web add relay-dsh-plugin-codex@latest
+</code></pre>
+<p data-source-anchor="node-21" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">这句话的意思是：给 DSH 的网页界面安装最新版 Codex 插件。</p>
+<p data-source-anchor="node-22" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果终端提示找不到 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">dsh</code> 命令，说明你之前只临时运行过 DSH，还没有把命令安装到电脑中。先执行：</p>
+<pre data-source-anchor="node-23" style="margin:20px 0;padding:16px;border-left:4px solid #2563eb;background:#f8fafc;color:#0f172a;white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.72;font-family:Menlo,Consolas,monospace;"><code class="language-bash" style="font-family:Menlo,Consolas,monospace;background:transparent;color:inherit;font-size:inherit;line-height:inherit;padding:0;border:0;box-shadow:none;">npm install --global @deepseek-ai/dsh
+</code></pre>
+<p data-source-anchor="node-24" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">完成后，再重新执行上面的 <code style="font-family:Menlo,Consolas,monospace;background:#eff6ff;color:#1d4ed8;font-size:0.92em;">dsh plugin</code> 命令。</p>
+<p data-source-anchor="node-25" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">安装结束后，用下面的命令重新启动 DSH：</p>
+<pre data-source-anchor="node-26" style="margin:20px 0;padding:16px;border-left:4px solid #2563eb;background:#f8fafc;color:#0f172a;white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.72;font-family:Menlo,Consolas,monospace;"><code class="language-bash" style="font-family:Menlo,Consolas,monospace;background:transparent;color:inherit;font-size:inherit;line-height:inherit;padding:0;border:0;box-shadow:none;">dsh web
+</code></pre>
+<h2 data-source-anchor="node-27" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">第 3 步：新建一段 Codex 对话</h2>
+<p data-source-anchor="node-28" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">打开 DSH 后，先点击左侧的 <strong style="color:#2563eb;font-weight:500;">Add workspace</strong>，选择一个测试项目文件夹。</p>
+<p data-source-anchor="node-29" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">再点击 <strong style="color:#2563eb;font-weight:500;">New Session</strong>。找到输入框上方的 <strong style="color:#2563eb;font-weight:500;">Standard mode</strong>，点开后选择 <strong style="color:#2563eb;font-weight:500;">Codex</strong>。</p>
+<p data-source-anchor="node-30" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="在 DSH 的新建对话菜单中选择 Codex" src="https://agentpost.com.cn/uploads/0b47eeb571cd4bb88f8c25fb468e36c0.jpg" title="在 DSH 的新建对话菜单中选择 Codex" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /><span data-agentpost-image-caption="true" style="display:block;margin:-12px auto 20px;color:#6b7280;font-size:13px;line-height:1.7;text-align:center;">在 DSH 的新建对话菜单中选择 Codex</span></p>
+<p data-source-anchor="node-31" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">看到 Codex 选项，说明插件已经被 DSH 识别。</p>
+<p data-source-anchor="node-32" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">第一次建议发送一条只读任务：</p>
+<blockquote data-source-anchor="node-33" style="margin:22px 0;padding:15px 16px;background:#fffbeb;border-left:4px solid #f59e0b;color:#334155;">
+<p data-source-anchor="node-34" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">先不要修改文件。请告诉我这个项目是做什么的，并列出三个主要文件。</p>
+</blockquote>
+<p data-source-anchor="node-35" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果页面顶部显示 <strong style="color:#2563eb;font-weight:500;">Codex</strong>，并且它能根据项目内容回答问题，就说明接入成功。</p>
+<p data-source-anchor="node-36" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;"><img alt="Codex 在 DSH 中读取项目并返回回答" src="https://agentpost.com.cn/uploads/51b3bd78d7f84d899c01d7389278d95a.jpg" title="Codex 在 DSH 中读取项目并返回回答" style="display:block;max-width:100%;height:auto;margin:22px auto;border:1px solid #bfdbfe;border-radius:6px;" /><span data-agentpost-image-caption="true" style="display:block;margin:-12px auto 20px;color:#6b7280;font-size:13px;line-height:1.7;text-align:center;">Codex 在 DSH 中读取项目并返回回答</span></p>
+<blockquote data-source-anchor="node-37" style="margin:22px 0;padding:15px 16px;background:#fffbeb;border-left:4px solid #f59e0b;color:#334155;">
+<p data-source-anchor="node-38" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">成功的标准只有两个：菜单里能选 Codex；发送问题后能收到结合项目内容的回答。</p>
+</blockquote>
+<h2 data-source-anchor="node-39" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">没成功，先检查这三处</h2>
+<h3 data-source-anchor="node-40" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">菜单里没有 Codex</h3>
+<p data-source-anchor="node-41" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">彻底停止并重新启动 DSH。插件是在启动时加载的，安装后不重启，菜单不会变化。</p>
+<p data-source-anchor="node-42" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">仍然看不到时，输入下面的命令检查插件：</p>
+<pre data-source-anchor="node-43" style="margin:20px 0;padding:16px;border-left:4px solid #2563eb;background:#f8fafc;color:#0f172a;white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.72;font-family:Menlo,Consolas,monospace;"><code class="language-bash" style="font-family:Menlo,Consolas,monospace;background:transparent;color:inherit;font-size:inherit;line-height:inherit;padding:0;border:0;box-shadow:none;">dsh plugin --profile web why relay-dsh-plugin-codex
+</code></pre>
+<h3 data-source-anchor="node-44" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">输入框不能发送消息</h3>
+<p data-source-anchor="node-45" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">通常是还没有选择项目文件夹。点击 <strong style="color:#2563eb;font-weight:500;">Add workspace</strong>，选好文件夹后再新建对话。</p>
+<h3 data-source-anchor="node-46" style="margin:24px 0 10px;color:#111827;font-size:17px;line-height:1.48;font-weight:500;">第一条消息提示登录失败</h3>
+<p data-source-anchor="node-47" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">先在同一个电脑账户中完成 Codex 登录，再重启 DSH。插件负责把 Codex 接入 DSH，但不会替你登录账号。</p>
+<h2 data-source-anchor="node-48" style="margin:32px 0 14px;padding:10px 14px;background:#eff6ff;border-left:5px solid #2563eb;color:#111827;font-size:19px;line-height:1.45;font-weight:500;">最后提醒一句</h2>
+<p data-source-anchor="node-49" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">第一次请选测试项目，并先让 Codex 只读文件。确认一切正常后，再交给它修改任务。</p>
+<p data-source-anchor="node-50" style="margin:0 0 15px;color:#334155;font-size:16px;line-height:1.84;">如果你只使用 Codex，不需要在 DSH 中管理项目和对话，直接使用 Codex 会更简单。这个插件适合已经在用 DSH、希望把 Codex 对话也放到同一个页面的人。</p>
+<ul data-source-anchor="node-51" style="margin:0 0 18px;padding-left:24px;color:#334155;">
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><a href="https://github.com/deepseek-ai/deepseek-harness" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">DeepSeek Harness 官方项目</a></li>
+<li style="margin:0 0 9px;color:#334155;line-height:1.8;"><a href="https://github.com/yangbobo2021/relay-dsh-plugin-codex" style="color:#2563eb;text-decoration:none;border-bottom:1px solid #93c5fd;">Codex 插件</a></li>
+</ul></section>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>公众号粘贴助手</title>
+  <style>
+    body { margin: 0; padding: 24px; font-family: sans-serif; background: #f5f7fa; color: #18212f; }
+    main { max-width: 560px; margin: 0 auto; }
+    h1 { font-size: 22px; line-height: 1.4; }
+    button { width: 100%; min-height: 52px; margin: 8px 0; border: 0; border-radius: 6px; background: #111827; color: white; font-size: 17px; }
+    button:active { background: #2563eb; }
+    #status { min-height: 28px; margin-top: 12px; color: #2563eb; }
+    #copy-source { position: fixed; left: -10000px; top: 0; width: 360px; background: white; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>公众号粘贴助手</h1>
+    <button id="copy-title">复制标题</button>
+    <button id="copy-body">复制带样式正文</button>
+    <button id="copy-summary">复制摘要</button>
+    <p id="status">正在加载正文...</p>
+  </main>
+  <div id="copy-source" contenteditable="true"></div>
+  <script>
+    const title = '不用敲命令：小白 3 步用上 DeepSeek Harness，手机接着用';
+    const summary = '不用安装 Node，也不用敲命令。用 KeySync 三步装好并打开 DeepSeek Harness，再从手机远程打开电脑上的同一个 DSH，原来的对话和任务可以接着用。';
+    const source = document.querySelector('#copy-source');
+    const status = document.querySelector('#status');
+
+    function copyPlain(text, label) {
+      source.textContent = text;
+      selectAndCopy(label);
+    }
+
+    function selectAndCopy(label) {
+      const range = document.createRange();
+      range.selectNodeContents(source);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      const copied = document.execCommand('copy');
+      selection.removeAllRanges();
+      status.textContent = copied ? `${label}已复制` : `${label}复制失败，请重试`;
+    }
+
+    document.querySelector('#copy-title').addEventListener('click', () => copyPlain(title, '标题'));
+    document.querySelector('#copy-summary').addEventListener('click', () => copyPlain(summary, '摘要'));
+    document.querySelector('#copy-body').addEventListener('click', async () => {
+      const html = await fetch('./wechat-builder.html').then((response) => response.text());
+      const parsed = new DOMParser().parseFromString(html, 'text/html');
+      parsed.querySelector('h1')?.remove();
+      source.innerHTML = parsed.body.innerHTML;
+      selectAndCopy('正文');
+    });
+
+    fetch('./wechat-builder.html')
+      .then((response) => response.ok ? response.text() : Promise.reject())
+      .then(() => { status.textContent = '正文已就绪'; })
+      .catch(() => { status.textContent = '正文加载失败，请检查本地服务'; });
+  </script>
+</body>
+</html>
