@@ -1,0 +1,309 @@
+{
+  "date": "2026-08-31",
+  "oldDshCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+  "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+  "dshVersion": "0.1.2-alpha.2",
+  "newCommitsIncludingMerges": 1313,
+  "diffWithRenameLimit10000": {
+    "files": 6451,
+    "insertions": 305637,
+    "deletions": 94907
+  },
+  "plugins": [
+    {
+      "directory": "integrations/claude",
+      "name": "relay-dsh-plugin-claude",
+      "version": "0.1.5",
+      "commit": "dc209eb82966933b0895f37d86e1ab82a3d2f77e"
+    },
+    {
+      "directory": "integrations/codex",
+      "name": "relay-dsh-plugin-codex",
+      "version": "0.1.6-rc.1",
+      "commit": "90b3038ed4eca4cf43a4df2049180f8f1f134811"
+    },
+    {
+      "directory": "integrations/dsh-files",
+      "name": "relay-dsh-plugin-files",
+      "version": "0.1.0",
+      "commit": "e676da231412113d65e44189a4d27dcc4313b058"
+    },
+    {
+      "directory": "integrations/dsh-plugin-manager",
+      "name": "relay-dsh-plugin-manager",
+      "version": "0.1.0-rc.3",
+      "commit": "169f5d80bab3946e26f1ebe69b81aa74661b3426"
+    },
+    {
+      "directory": "integrations/dsh-terminal",
+      "name": "relay-dsh-plugin-terminal",
+      "version": "0.1.1",
+      "commit": "43cd55a83529bec2d30d3b14fea9772b1ad872de"
+    },
+    {
+      "directory": "integrations/dsh-workbench",
+      "name": "relay-dsh-plugin-workbench",
+      "version": "0.1.0",
+      "commit": "07fa06d88942b14411cd0048a7f3dcfaa06dba92"
+    },
+    {
+      "directory": "integrations/events",
+      "name": "relay-dsh-plugin-events",
+      "version": "0.1.0-internal.2",
+      "commit": "266b8e9c30e56cdb63d41bce6313a5f6dc671571"
+    },
+    {
+      "directory": "integrations/monitors",
+      "name": "relay-dsh-plugin-monitors",
+      "version": "0.1.0-internal.2",
+      "commit": "787919e5719290574d6a3208b4dbf28eaf0f675f"
+    },
+    {
+      "directory": "integrations/semantic-router",
+      "name": "relay-dsh-plugin-semantic-router",
+      "version": "0.1.0-internal.2",
+      "commit": "15875b16c6e66b70b47ddc934f5578710391a13c"
+    },
+    {
+      "directory": "integrations/session-import",
+      "name": "relay-dsh-plugin-session-import",
+      "version": "0.1.0",
+      "commit": "39aa35c42adb056fdb88779ddb37b2103644d7ab"
+    }
+  ],
+  "officialBuild": {
+    "passed": true,
+    "command": "pnpm run clean && pnpm run build",
+    "note": "Initial incremental build hit obsolete generated artifacts; clean rebuild succeeded without source changes."
+  },
+  "tests": {
+    "repositoryBoundaries": {
+      "passed": 15,
+      "failed": 0
+    },
+    "eventPluginsAndComposition": {
+      "passed": 55,
+      "failed": 0
+    },
+    "codexAndClaudeNodeTests": {
+      "passed": 226,
+      "failed": 8,
+      "note": "All eight failures are test-file module loading failures caused by CallId, not eight fully executed behavioral test cases."
+    },
+    "officialSessionSurfaceAndStorageUnits": {
+      "passed": 172,
+      "failed": 0
+    }
+  },
+  "workspaceNpmVerify": [
+    {
+      "plugin": "codex",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.45
+    },
+    {
+      "plugin": "claude",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.39
+    },
+    {
+      "plugin": "session-import",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.46
+    },
+    {
+      "plugin": "dsh-workbench",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.62
+    },
+    {
+      "plugin": "dsh-files",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.77
+    },
+    {
+      "plugin": "dsh-terminal",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.4
+    },
+    {
+      "plugin": "dsh-plugin-manager",
+      "command": "npm run verify",
+      "exitCode": 0,
+      "seconds": 5.89
+    },
+    {
+      "plugin": "events",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.46
+    },
+    {
+      "plugin": "semantic-router",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.68
+    },
+    {
+      "plugin": "monitors",
+      "command": "npm run verify",
+      "exitCode": 1,
+      "seconds": 0.61
+    }
+  ],
+  "workspaceNpmVerifyCaveat": "Manager verify passed with old 0.1.1-rc.2/4.0.1 compiler dependencies; its install/config-dump acceptance used new DSH. Other nine workflows stopped at obsolete runtime peer preparation.",
+  "isolatedFrontendTypechecks": [
+    {
+      "plugin": "codex",
+      "exitCode": 2,
+      "compilerErrors": 52,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    },
+    {
+      "plugin": "claude",
+      "exitCode": 2,
+      "compilerErrors": 11,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    },
+    {
+      "plugin": "session-import",
+      "exitCode": 2,
+      "compilerErrors": 1,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    },
+    {
+      "plugin": "dsh-workbench",
+      "exitCode": 2,
+      "compilerErrors": 25,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    },
+    {
+      "plugin": "dsh-files",
+      "exitCode": 2,
+      "compilerErrors": 6,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    },
+    {
+      "plugin": "dsh-terminal",
+      "exitCode": 2,
+      "compilerErrors": 6,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    },
+    {
+      "plugin": "dsh-plugin-manager",
+      "exitCode": 2,
+      "compilerErrors": 1,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    },
+    {
+      "plugin": "events",
+      "exitCode": 2,
+      "compilerErrors": 4,
+      "interpretation": "Compile against new official declaration packages, without fallback to old parent DSH dependencies; errors can cascade."
+    }
+  ],
+  "authenticatedPackedPluginScenarios": [
+    {
+      "scenario": "manager-only",
+      "passed": true,
+      "failure": null
+    },
+    {
+      "scenario": "session-import-only",
+      "passed": true,
+      "failure": null
+    },
+    {
+      "scenario": "router-only",
+      "passed": true,
+      "failure": null
+    },
+    {
+      "scenario": "monitors-only",
+      "passed": true,
+      "failure": null
+    },
+    {
+      "scenario": "event-plugins",
+      "passed": true,
+      "failure": null
+    },
+    {
+      "scenario": "event-plugins-codex",
+      "passed": false,
+      "failure": "CallId export removed; Host cannot start"
+    },
+    {
+      "scenario": "event-plugins-claude",
+      "passed": false,
+      "failure": "CallId export removed; Host cannot start"
+    },
+    {
+      "scenario": "events-only",
+      "passed": true,
+      "failure": null
+    },
+    {
+      "scenario": "codex-only",
+      "passed": false,
+      "failure": "CallId export removed; Host cannot start"
+    },
+    {
+      "scenario": "claude-only",
+      "passed": false,
+      "failure": "CallId export removed; Host cannot start"
+    },
+    {
+      "scenario": "codex-and-claude",
+      "passed": false,
+      "failure": "CallId export removed; Host cannot start"
+    },
+    {
+      "scenario": "workbench-only",
+      "passed": false,
+      "failure": "sessions required in inactive context"
+    },
+    {
+      "scenario": "workbench-files",
+      "passed": false,
+      "failure": "sessions required in inactive context"
+    },
+    {
+      "scenario": "workbench-terminal",
+      "passed": false,
+      "failure": "sessions required in inactive context"
+    },
+    {
+      "scenario": "codex-terminal",
+      "passed": false,
+      "failure": "CallId export removed; Host cannot start"
+    },
+    {
+      "scenario": "all-plugins",
+      "passed": false,
+      "failure": "CallId export removed; Host cannot start"
+    }
+  ],
+  "browserAuditNotes": [
+    "Temporary profiles, current official build, launch-token cookie exchange, real browser loading.",
+    "Frontend scenario results supersede exploratory assertions against obsolete individual plugin URLs.",
+    "Manager was built during verify; other tarballs use existing baseline build artifacts, as an upgrade of currently shipped plugins would.",
+    "Passing browser boot is not full feature certification.",
+    "No live model calls, no customer sessions, telemetry disabled."
+  ],
+  "eventReplay": {
+    "ok": true,
+    "sessionId": "relay-acceptance-owner",
+    "routedMessages": 1,
+    "totalDeliveredMessages": 2,
+    "semanticCalls": 1,
+    "timerCompleted": true
+  },
+  "officialSourceStatus": ""
+}

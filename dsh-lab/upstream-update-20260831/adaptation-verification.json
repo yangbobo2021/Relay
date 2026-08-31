@@ -1,0 +1,308 @@
+{
+  "verifiedAt": "2026-08-31T16:54:14.191629+08:00",
+  "dsh": {
+    "version": "0.1.2-alpha.2",
+    "commit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+    "officialSourceUnmodified": true
+  },
+  "publication": {
+    "performed": false,
+    "pluginVersionsUnchanged": true,
+    "npmTagsChanged": false
+  },
+  "plugins": [
+    {
+      "plugin": "codex",
+      "passed": 368,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-codex",
+      "versionUnchanged": "0.1.6-rc.1",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "526f06c403fa05f3d58e1e7625ffe1192256effa408c345ed5595833569accb4",
+        "host-plugin.js": "2fdcf39b20bfd5bc1f0610c9ff84a4aa28ce428f086c15c0d6c0d6fec221f284",
+        "typert.host.js": "5d657512a7e231016ca33499862ea9fd5a23ddf5d223bf00e59c94128a9ef737"
+      }
+    },
+    {
+      "plugin": "claude",
+      "passed": 132,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-claude",
+      "versionUnchanged": "0.1.5",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "dc209eb82966933b0895f37d86e1ab82a3d2f77e",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "2c686a37556db23b71be0e27005f97874feabf695e17ef106319fe43e9c9b35c",
+        "host-plugin.js": "49a5f4cdd62d3818f01a141f63ab7c49a4ff70034722b4598b1e7d838b14edff",
+        "typert.host.js": "9cf61038525ae415f7c6be1a55a1b227e39aaaf9120242af4b4c8cd5b2932456"
+      }
+    },
+    {
+      "plugin": "session-import",
+      "passed": 19,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-session-import",
+      "versionUnchanged": "0.1.0",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "39aa35c42adb056fdb88779ddb37b2103644d7ab",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "2c5662225aeee9aed701c0bbbd71a054ce1c97e322aece4ba509b4608d014074",
+        "contracts.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "host-plugin.js": "3b8c1052550bbdd0253a366185741347f9c68e607d03ef28bb2c34236c167fc8"
+      }
+    },
+    {
+      "plugin": "dsh-workbench",
+      "passed": 10,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-workbench",
+      "versionUnchanged": "0.1.0",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "07fa06d88942b14411cd0048a7f3dcfaa06dba92",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "7eda7acbea91001c8cc745d5e7ebbf74ba04371619dbdd0dee207c7d81505f0b",
+        "host-plugin.js": "5cf1eaa62202db97d67e7272224756b5652205483bd490ff31afe60e59b7ec39",
+        "typert.host.js": "ace581ad18c90ca6d3918e7b6d0918e3ba4bce75d8cabbcc969841a920ea9984"
+      }
+    },
+    {
+      "plugin": "dsh-files",
+      "passed": 7,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-files",
+      "versionUnchanged": "0.1.0",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "e676da231412113d65e44189a4d27dcc4313b058",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "541a8e3dcc7d2bc922f986ad7e80892a1f8a249fee591032d909da40f6620d4f",
+        "host-plugin.js": "71a945808440171af1be1f8c36e316c34523ecaf13e68946a90411275acc7b5b",
+        "typert.host.js": "abbc0c62807ea60804ac294724d50adddb6dc79c9cabf53094e27afbd7a1cceb"
+      }
+    },
+    {
+      "plugin": "dsh-terminal",
+      "passed": 12,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-terminal",
+      "versionUnchanged": "0.1.1",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "43cd55a83529bec2d30d3b14fea9772b1ad872de",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "255d05f2dd5c483dada2eccf081d041f76b7a65fbfa9b31426b40882090f5d82",
+        "host-plugin.js": "22273c7e6972e07f5c29e2dc99a4e76d30faa4bf192fa1a99ffc2e770c6f51db",
+        "typert.host.js": "a7c383e49977af30ab86c145cf9bac6bd0f925013b56fccb5e3fc43e1222a5a0"
+      }
+    },
+    {
+      "plugin": "dsh-plugin-manager",
+      "passed": 94,
+      "liveSkipped": 2,
+      "package": "relay-dsh-plugin-manager",
+      "versionUnchanged": "0.1.1",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "90db0ac024e5a683d1214f757ea84ca7faa59a18",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "a3121a975e98c6067c59e12eef2078d5b21f9dfc39ca48672edce158a2bfe999",
+        "errors-BGx4K2uq.js": "884beefd65b510b1149f8b29313486c119c63c79532877a20a2ebd82034d1575",
+        "index.js": "2621d95ff0af4a9db8e92dc6a5f643dc49197a5ae6ca3e406f9c0de4d0169fc7",
+        "search-runtime.js": "fea7d7ebda5a12ef0220dde45487a5a56137e236f2645dd0ac48d06014543d15"
+      }
+    },
+    {
+      "plugin": "events",
+      "passed": 25,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-events",
+      "versionUnchanged": "0.1.0-internal.2",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "266b8e9c30e56cdb63d41bce6313a5f6dc671571",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "client.js": "c81671b4c455288bb7855d7041fd87fca0d5ab2bd15043d2e0b6c6b5b6eea273",
+        "host-plugin.js": "7ca7360e276e0686e48d822262124f4bc5547cc7bc61072a94573e16fa71d64e",
+        "typert.host.js": "a1995b26e145d00be79d974ad0234fe791b28b89b1cc84b14c136abbf118e1f5"
+      }
+    },
+    {
+      "plugin": "semantic-router",
+      "passed": 10,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-semantic-router",
+      "versionUnchanged": "0.1.0-internal.2",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "15875b16c6e66b70b47ddc934f5578710391a13c",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "host-plugin.js": "17602ab924ff99655b828d6935ae66d592045d0bcdfdea33cfbb95613471ca69"
+      }
+    },
+    {
+      "plugin": "monitors",
+      "passed": 9,
+      "liveSkipped": 0,
+      "package": "relay-dsh-plugin-monitors",
+      "versionUnchanged": "0.1.0-internal.2",
+      "branch": "codex/dsh-0.1.2-alpha.2",
+      "baseCommit": "787919e5719290574d6a3208b4dbf28eaf0f675f",
+      "typeOrSyntaxCheck": "passed",
+      "build": "passed",
+      "isolatedInstallTypecheckTestBuild": "passed",
+      "artifactsSha256": {
+        "host-plugin.js": "bd4d10e78ed4e05c5fe392446c8b06c77649a4c434f7653a65d3086f09d8ae20"
+      }
+    }
+  ],
+  "pluginTests": {
+    "passed": 686,
+    "skipped": 2
+  },
+  "crossPluginContractTests": {
+    "passed": 5
+  },
+  "officialInstallScenarios": [
+    {
+      "id": "manager-only",
+      "ok": true
+    },
+    {
+      "id": "session-import-only",
+      "ok": true
+    },
+    {
+      "id": "router-only",
+      "ok": true
+    },
+    {
+      "id": "monitors-only",
+      "ok": true
+    },
+    {
+      "id": "event-plugins",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-codex",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-claude",
+      "ok": true
+    },
+    {
+      "id": "events-only",
+      "ok": true
+    },
+    {
+      "id": "codex-only",
+      "ok": true
+    },
+    {
+      "id": "claude-only",
+      "ok": true
+    },
+    {
+      "id": "codex-and-claude",
+      "ok": true
+    },
+    {
+      "id": "workbench-only",
+      "ok": true
+    },
+    {
+      "id": "workbench-files",
+      "ok": true
+    },
+    {
+      "id": "workbench-terminal",
+      "ok": true
+    },
+    {
+      "id": "codex-terminal",
+      "ok": true
+    },
+    {
+      "id": "all-plugins",
+      "ok": true
+    }
+  ],
+  "finalClaudeChangeRechecks": [
+    {
+      "id": "claude-only",
+      "ok": true
+    },
+    {
+      "id": "codex-and-claude",
+      "ok": true
+    },
+    {
+      "id": "all-plugins",
+      "ok": true
+    }
+  ],
+  "browserUiE2E": {
+    "passed": 5,
+    "scenarios": [
+      "workbench-only",
+      "files-with-workbench",
+      "terminal-with-workbench",
+      "files-terminal-with-workbench",
+      "workbench-files-terminal-explicit"
+    ]
+  },
+  "managerPackageAcceptance": {
+    "officialCheckout": true,
+    "npmDshFixture": true,
+    "recommendedCards": 2,
+    "readOnlyClient": true,
+    "frozenFixtureInstall": {
+      "status": "blocked_by_release_age",
+      "policy": "minimumReleaseAge = 1440 minutes",
+      "checkedPnpmVersions": [
+        "11.19.0",
+        "11.7.0"
+      ],
+      "policyExceptionsRetained": false,
+      "explanation": "Local functional acceptance of the installed npm fixture passed. After removing pnpm-generated exact-version age exceptions, frozen installation rejects newly published official packages. Retry after the release-age cutoff; no global policy change was made."
+    }
+  },
+  "isolatedVerificationNotes": [
+    "Initial Codex/Claude source snapshots needed git init and git add for their existing independence tests; both passed after correcting this test environment.",
+    "All tracked generated artifacts match independent builds outside Relay."
+  ],
+  "notVerified": [
+    "Live paid Codex/Claude conversation calls were not executed. Two opt-in manager live tests remain skipped.",
+    "Validation ran on macOS; Linux/Windows CI was not executed in this local task.",
+    "Manager CI-style frozen pnpm fixture installation remains blocked until new official dependencies pass the 24-hour release-age policy."
+  ],
+  "codexOnlyDependencyOverrideRecheck": {
+    "passed": true,
+    "sessionImportCandidatePacked": true
+  }
+}

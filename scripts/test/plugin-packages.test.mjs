@@ -7,7 +7,8 @@ import { forbiddenBackendDependencies } from "../lib/dsh-backend-dependencies.mj
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const publishableVersion = /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
-const dshRcCompatibility = ">=0.1.0-rc.5 <0.1.1 || >=0.1.1-rc.0 <0.2.0";
+// Official DSH 0a53fb55bea101816fa226bb964ae2bed71c343b; this is not a backward-compatible release.
+const dshCompatibility = ">=0.1.2-alpha.2 <0.1.3";
 const expected = new Map([
   ["integrations/events", "relay-dsh-plugin-events"],
   ["integrations/semantic-router", "relay-dsh-plugin-semantic-router"],
@@ -49,8 +50,8 @@ test("plugins and shared libraries are independently publishable workspace packa
   const eventsManifest = await json(join(root, "integrations/events/package.json"));
   for (const dependency of ["@deepseek-ai/dsh-llm", "@deepseek-ai/dsh-session",
     "@deepseek-ai/dsh-tools", "@deepseek-ai/dsh-typert-protocol"]) {
-    assert.equal(eventsManifest.peerDependencies?.[dependency], dshRcCompatibility,
-      `Events ${dependency} peer must include both supported DSH RC version lines`);
+    assert.equal(eventsManifest.peerDependencies?.[dependency], dshCompatibility,
+      `Events ${dependency} peer must declare the current DSH adaptation target`);
   }
 
   for (const directory of ["integrations/dsh-workbench", "integrations/dsh-files", "integrations/dsh-terminal"]) {

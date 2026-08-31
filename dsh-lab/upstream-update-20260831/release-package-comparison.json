@@ -1,0 +1,198 @@
+[
+  {
+    "directory": "claude",
+    "version": "0.1.5",
+    "currentHead": "dc209eb82966933b0895f37d86e1ab82a3d2f77e",
+    "releasedGitHead": "dc209eb82966933b0895f37d86e1ab82a3d2f77e",
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-claude/-/relay-dsh-plugin-claude-0.1.5.tgz",
+    "identicalCount": 19,
+    "changedCount": 0,
+    "changed": [],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "codex",
+    "version": "0.1.6-rc.1",
+    "currentHead": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+    "releasedGitHead": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-codex/-/relay-dsh-plugin-codex-0.1.6-rc.1.tgz",
+    "identicalCount": 21,
+    "changedCount": 0,
+    "changed": [],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "dsh-files",
+    "version": "0.1.0",
+    "currentHead": "e676da231412113d65e44189a4d27dcc4313b058",
+    "releasedGitHead": null,
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-files/-/relay-dsh-plugin-files-0.1.0.tgz",
+    "manifestChanges": {
+      "bugs": {
+        "published": null,
+        "local": {
+          "url": "https://github.com/yangbobo2021/relay-dsh-plugin-files/issues"
+        }
+      },
+      "homepage": {
+        "published": null,
+        "local": "https://github.com/yangbobo2021/relay-dsh-plugin-files#readme"
+      },
+      "license": {
+        "published": null,
+        "local": "MIT"
+      },
+      "repository": {
+        "published": null,
+        "local": {
+          "type": "git",
+          "url": "git+https://github.com/yangbobo2021/relay-dsh-plugin-files.git"
+        }
+      }
+    },
+    "identicalCount": 8,
+    "changedCount": 3,
+    "changed": [
+      "package.json",
+      "README.md",
+      "README.zh.md"
+    ],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "dsh-plugin-manager",
+    "version": "0.1.0-rc.4",
+    "currentHead": "2115aa26734ec4cf0b6a2fe5c4b65fbff857812e",
+    "releasedGitHead": "a9c1d7178805c9ff7027b15032997dffedcc9084",
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-manager/-/relay-dsh-plugin-manager-0.1.0-rc.4.tgz",
+    "identicalCount": 17,
+    "changedCount": 8,
+    "changed": [
+      "lib/client.js",
+      "lib/client.js.map",
+      "docs/acceptance.md",
+      "CHANGELOG.md",
+      "README.md",
+      "README.zh.md",
+      "SPEC.md",
+      "docs/technical-design.md"
+    ],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": [
+      "lib/client.js"
+    ],
+    "comparisonPhase": "after pulling and rebuilding manager HEAD 2115aa2"
+  },
+  {
+    "directory": "dsh-terminal",
+    "version": "0.1.1",
+    "currentHead": "43cd55a83529bec2d30d3b14fea9772b1ad872de",
+    "releasedGitHead": "43cd55a83529bec2d30d3b14fea9772b1ad872de",
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-terminal/-/relay-dsh-plugin-terminal-0.1.1.tgz",
+    "identicalCount": 12,
+    "changedCount": 0,
+    "changed": [],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "dsh-workbench",
+    "version": "0.1.0",
+    "currentHead": "07fa06d88942b14411cd0048a7f3dcfaa06dba92",
+    "releasedGitHead": null,
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-workbench/-/relay-dsh-plugin-workbench-0.1.0.tgz",
+    "manifestChanges": {
+      "bugs": {
+        "published": null,
+        "local": {
+          "url": "https://github.com/yangbobo2021/relay-dsh-plugin-workbench/issues"
+        }
+      },
+      "homepage": {
+        "published": null,
+        "local": "https://github.com/yangbobo2021/relay-dsh-plugin-workbench#readme"
+      },
+      "license": {
+        "published": null,
+        "local": "MIT"
+      },
+      "repository": {
+        "published": null,
+        "local": {
+          "type": "git",
+          "url": "git+https://github.com/yangbobo2021/relay-dsh-plugin-workbench.git"
+        }
+      }
+    },
+    "identicalCount": 10,
+    "changedCount": 3,
+    "changed": [
+      "package.json",
+      "README.md",
+      "README.zh.md"
+    ],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "events",
+    "version": "0.1.0-internal.2",
+    "currentHead": "266b8e9c30e56cdb63d41bce6313a5f6dc671571",
+    "releasedGitHead": null,
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-events/-/relay-dsh-plugin-events-0.1.0-internal.2.tgz",
+    "identicalCount": 16,
+    "changedCount": 0,
+    "changed": [],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "monitors",
+    "version": "0.1.0-internal.2",
+    "currentHead": "787919e5719290574d6a3208b4dbf28eaf0f675f",
+    "releasedGitHead": null,
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-monitors/-/relay-dsh-plugin-monitors-0.1.0-internal.2.tgz",
+    "identicalCount": 9,
+    "changedCount": 0,
+    "changed": [],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "semantic-router",
+    "version": "0.1.0-internal.2",
+    "currentHead": "15875b16c6e66b70b47ddc934f5578710391a13c",
+    "releasedGitHead": null,
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-semantic-router/-/relay-dsh-plugin-semantic-router-0.1.0-internal.2.tgz",
+    "identicalCount": 9,
+    "changedCount": 0,
+    "changed": [],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  },
+  {
+    "directory": "session-import",
+    "version": "0.1.0",
+    "currentHead": "39aa35c42adb056fdb88779ddb37b2103644d7ab",
+    "releasedGitHead": null,
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-session-import/-/relay-dsh-plugin-session-import-0.1.0.tgz",
+    "identicalCount": 16,
+    "changedCount": 0,
+    "changed": [],
+    "missingCount": 0,
+    "missing": [],
+    "changedLibExcludingMaps": []
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "verifiedAt": "2026-08-31T10:59:37.323694+00:00",
+  "scenario": "new adapted Codex candidate on old official DSH",
+  "oldDshVersion": "0.1.1-rc.2",
+  "baselineSource": "Installed official npm DSH 0.1.1-rc.2 used read-only; all Profile state isolated",
+  "targetDshVersion": "0.1.2-alpha.2",
+  "targetDshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+  "candidates": [
+    {
+      "name": "relay-dsh-plugin-session-import",
+      "version": "0.1.0",
+      "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+    },
+    {
+      "name": "relay-dsh-plugin-codex",
+      "version": "0.1.6-rc.1",
+      "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+    }
+  ],
+  "installExitCode": 0,
+  "oldHostBootExitCode": 1,
+  "failure": "The requested module '@deepseek-ai/dsh-llm' does not provide an export named 'ToolCallId'",
+  "oldHostRejectedBeforeInstallation": false,
+  "profileBundleRegistered": true,
+  "classification": "confirmed backward-incompatible runtime; compatibility metadata did not block installation",
+  "modelCalls": 0,
+  "claudeInvoked": false,
+  "dailyProfileModified": false,
+  "previewServiceRestarted": false,
+  "versionsOrDistTagsChanged": false,
+  "automaticCompatibilityGuardImplemented": false,
+  "rawEvidence": "/Users/boboyang/work/Relay/.artifacts/dsh-backward-compatibility/result.json",
+  "isolatedRun": "/var/folders/jh/mt3s144j7wg98ww3zyqc1np00000gn/T/relay-old-dsh-install-eaK6F9",
+  "setupNote": "A fresh npm baseline download stalled and was cancelled; reused the installed official 0.1.1-rc.2 runtime read-only with a new temporary DSH_HOME."
+}

@@ -1,0 +1,521 @@
+{
+  "scope": "Codex authentication recovery and partial real functional regression; not full ten-plugin release approval",
+  "createdAt": "2026-08-31T09:53:19.442776+00:00",
+  "dshVersion": "0.1.2-alpha.2",
+  "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+  "platform": "darwin",
+  "arch": "arm64",
+  "node": "v25.5.0",
+  "codexLaunchSource": "bundled",
+  "codexCliVersion": "0.149.0",
+  "browser": "Chromium Headless Shell 149.0.7827.55",
+  "environment": {
+    "isolatedDshHome": true,
+    "syntheticWorkspace": true,
+    "credentialsCopied": false,
+    "dailyProfileModified": false
+  },
+  "authentication": {
+    "status": "passed",
+    "previousStatus": "blocked",
+    "previousError": "Refresh token was already used",
+    "previousEvidence": "functional-batch-2.json",
+    "resolution": "User signed in again; actual model reply succeeded"
+  },
+  "core": {
+    "status": "failed",
+    "caseCount": 7,
+    "passed": 6,
+    "failed": 1,
+    "createdAt": "2026-08-31T09:48:34.965Z",
+    "packages": [
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "version": "0.1.0",
+        "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+      },
+      {
+        "name": "relay-dsh-plugin-codex",
+        "version": "0.1.6-rc.1",
+        "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+      }
+    ],
+    "runtimes": {
+      "@openai/codex": "0.149.0"
+    },
+    "browserPageErrorCount": 0,
+    "artifactDirectory": "/tmp/relay-alpha2-codex-relogin2",
+    "cases": [
+      {
+        "id": "codex-smoke",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:48:47.354Z",
+        "checks": [
+          "real reply rendered",
+          "backend Thread binding exists"
+        ],
+        "selection": {
+          "model": "gpt-5.6-sol",
+          "reasoningEffort": "low"
+        },
+        "turn": {
+          "elapsedMs": 7204,
+          "end": {
+            "turn": 1,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "gpt-5.6-sol",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "codex-tools",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:48:55.739Z",
+        "checks": [
+          "result.json equals total 10",
+          "input.json unchanged",
+          "native tool activity persisted",
+          "completion visible"
+        ],
+        "turn": {
+          "elapsedMs": 15605,
+          "end": {
+            "turn": 2,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 3
+        },
+        "approvals": []
+      },
+      {
+        "id": "codex-approval-allow",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:49:11.380Z",
+        "checks": [
+          "one real approval card answered Allow once",
+          "no target before decision",
+          "exact expected file content afterward"
+        ],
+        "sideEffectMatchesDecision": true,
+        "turn": {
+          "elapsedMs": 9203,
+          "end": {
+            "turn": 3,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 1
+        },
+        "approvals": [
+          {
+            "key": "approval:1",
+            "allowed": true
+          }
+        ]
+      },
+      {
+        "id": "codex-approval-deny",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:49:20.588Z",
+        "checks": [
+          "one real approval card answered Reject",
+          "no target before or after decision"
+        ],
+        "sideEffectMatchesDecision": true,
+        "turn": {
+          "elapsedMs": 7731,
+          "end": {
+            "turn": 4,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 1
+        },
+        "approvals": [
+          {
+            "key": "approval:2",
+            "allowed": false
+          }
+        ]
+      },
+      {
+        "id": "codex-cancel",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:49:28.326Z",
+        "checks": [
+          "real Stop button clicked after fixture PID recorded",
+          "process exits within 12 seconds without harness cleanup",
+          "no delayed side effect",
+          "next turn recovers"
+        ],
+        "childStopped": true,
+        "turn": {
+          "elapsedMs": 4629,
+          "end": {
+            "turn": 5,
+            "reason": {
+              "kind": "aborted",
+              "reason": {
+                "kind": "user"
+              }
+            }
+          },
+          "activityCount": 1
+        },
+        "approvals": [],
+        "recovery": {
+          "end": {
+            "turn": 6,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 0,
+          "text": "CANCEL_RECOVERED"
+        }
+      },
+      {
+        "id": "codex-question",
+        "status": "failed",
+        "startedAt": "2026-08-31T09:49:36.652Z",
+        "checks": [
+          "requires actual question card answered BETA and submitted; not satisfied"
+        ],
+        "turn": {
+          "elapsedMs": 14202,
+          "end": {
+            "turn": 7,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 0
+        },
+        "failure": "No real question card was answered through the UI",
+        "observedReply": "`request_user_input` is unavailable in Default mode, so I couldn’t present the choices.",
+        "classification": "existing Default-mode reachability limitation; no new DSH regression established"
+      },
+      {
+        "id": "codex-restart-memory",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:49:50.893Z",
+        "checks": [
+          "initial reply visible after refresh and host restart",
+          "nonce recalled without tool activity",
+          "same Thread binding"
+        ],
+        "bindingPreserved": true,
+        "turn": {
+          "elapsedMs": 7069,
+          "end": {
+            "turn": 8,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "gpt-5.6-sol",
+          "activityCount": 0
+        }
+      }
+    ]
+  },
+  "modelSelection": {
+    "status": "passed",
+    "caseCount": 3,
+    "passed": 3,
+    "failed": 0,
+    "createdAt": "2026-08-31T09:49:54.947Z",
+    "packages": [
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "version": "0.1.0",
+        "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+      },
+      {
+        "name": "relay-dsh-plugin-codex",
+        "version": "0.1.6-rc.1",
+        "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+      }
+    ],
+    "runtimes": {
+      "@openai/codex": "0.149.0"
+    },
+    "browserPageErrorCount": 0,
+    "artifactDirectory": "/tmp/relay-alpha2-codex-model",
+    "cases": [
+      {
+        "id": "codex-smoke",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:50:06.308Z",
+        "checks": [
+          "real reply rendered",
+          "backend Thread binding exists"
+        ],
+        "selection": {
+          "model": "gpt-5.6-sol",
+          "reasoningEffort": "low"
+        },
+        "turn": {
+          "elapsedMs": 6796,
+          "end": {
+            "turn": 1,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "gpt-5.6-sol",
+          "requestedReasoningEffort": "low",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "codex-model-ui",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:50:14.256Z",
+        "checks": [
+          "UI selects gpt-5.6-terra and medium",
+          "prompt sent through input textbox",
+          "persisted request model and effort match",
+          "response and selection visible",
+          "same Thread binding"
+        ],
+        "bindingPreserved": true,
+        "turn": {
+          "elapsedMs": 2729,
+          "end": {
+            "turn": 2,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "gpt-5.6-terra",
+          "requestedReasoningEffort": "medium",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "codex-restart-memory",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:50:17.267Z",
+        "checks": [
+          "initial reply visible after refresh and host restart",
+          "nonce recalled without tool activity",
+          "same Thread binding"
+        ],
+        "bindingPreserved": true,
+        "turn": {
+          "elapsedMs": 8278,
+          "end": {
+            "turn": 3,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "gpt-5.6-sol",
+          "requestedReasoningEffort": "low",
+          "activityCount": 0
+        }
+      }
+    ]
+  },
+  "upgradeComparison": {
+    "status": "failed",
+    "caseCount": 4,
+    "passed": 2,
+    "failed": 2,
+    "createdAt": "2026-08-31T09:50:19.608Z",
+    "packages": [
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "version": "0.1.0",
+        "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+      },
+      {
+        "name": "relay-dsh-plugin-codex",
+        "version": "0.1.6-rc.1",
+        "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+      }
+    ],
+    "runtimes": {
+      "@openai/codex": "0.149.0"
+    },
+    "browserPageErrorCount": 0,
+    "artifactDirectory": "/tmp/relay-alpha2-codex-upgrade",
+    "cases": [
+      {
+        "id": "codex-smoke",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:50:33.059Z",
+        "checks": [
+          "real reply rendered",
+          "backend Thread binding exists"
+        ],
+        "selection": {
+          "model": "gpt-5.6-sol",
+          "reasoningEffort": "low"
+        },
+        "turn": {
+          "elapsedMs": 7262,
+          "end": {
+            "turn": 1,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "gpt-5.6-sol",
+          "requestedReasoningEffort": "low",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "codex-baseline-question",
+        "status": "failed",
+        "startedAt": "2026-08-31T09:50:41.523Z",
+        "checks": [
+          "same question-card criterion on published old combination; not satisfied"
+        ],
+        "turn": {
+          "elapsedMs": 13021,
+          "end": {
+            "turn": 2,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 0
+        },
+        "failure": "No real question card was answered through the UI",
+        "observedReply": "Choose a fixture option\n\n- ALPHA\n- BETA",
+        "classification": "existing Default-mode reachability limitation; no new DSH regression established"
+      },
+      {
+        "id": "codex-old-to-new-upgrade",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:50:54.576Z",
+        "checks": [
+          "same isolated Home upgraded from published baseline",
+          "old user and assistant messages deep-equal without duplication",
+          "same Thread binding",
+          "nonce recalled without tool activity"
+        ],
+        "bindingPreserved": true,
+        "oldMessagesPreserved": true,
+        "turn": {
+          "elapsedMs": 6539,
+          "end": {
+            "turn": 3,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "gpt-5.6-sol",
+          "requestedReasoningEffort": "low",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "codex-question",
+        "status": "failed",
+        "startedAt": "2026-08-31T09:51:07.575Z",
+        "checks": [
+          "requires actual question card answered BETA and submitted; not satisfied"
+        ],
+        "turn": {
+          "elapsedMs": 6917,
+          "end": {
+            "turn": 4,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 0
+        },
+        "failure": "No real question card was answered through the UI",
+        "observedReply": "request_user_input is unavailable in Default mode.",
+        "classification": "existing Default-mode reachability limitation; no new DSH regression established"
+      }
+    ],
+    "baseline": {
+      "dshVersion": "0.1.1-rc.2",
+      "packages": [
+        {
+          "name": "relay-dsh-plugin-session-import",
+          "version": "0.1.0",
+          "sha256": "1768a41c6aef6c329ce710738777547d93a40df0557ff40514bb0ed5cfaab3e8"
+        },
+        {
+          "name": "relay-dsh-plugin-codex",
+          "version": "0.1.6-rc.1",
+          "sha256": "c8900c02243aa39530644f1319ffe2069a434d3ce1742b30520aeac07c15bd4c"
+        }
+      ],
+      "dshNpmIntegrity": "sha512-UP1UIh6q3Gme/yXRn/QL2P8IsVlv8Shpg22TRJIZPsCRWLm4CBiA1MUvXmJAfsOEETBMLAl+xWPtFw6ICsN3wg==",
+      "sourceCommit": null
+    }
+  },
+  "questionLimitation": {
+    "status": "failed",
+    "baseline": "published DSH 0.1.1-rc.2 + Codex 0.1.6-rc.1 also produced no card",
+    "current": "DSH 0.1.2-alpha.2 candidate also produced no card",
+    "sourceEvidence": "Both published baseline host bundle and current session-runtime.mjs send collaborationMode.mode=default",
+    "classification": "Existing mode limitation in tested configuration; not established as an upgrade regression",
+    "bypassOrModeChangeApplied": false,
+    "mockBridgeTestsDoNotProveRealCard": true
+  },
+  "browserSetupAttempt": {
+    "status": "failed",
+    "artifactDirectory": "/tmp/relay-alpha2-codex-relogin",
+    "classification": "test environment initialization",
+    "stage": "browser.newContext",
+    "dshStarted": false,
+    "modelCalls": 0,
+    "resolution": "Only the driver-owned Chrome process was stopped; reran using already installed Chromium Headless Shell"
+  },
+  "verification": {
+    "focusedExistingTests": {
+      "status": "passed",
+      "count": 32,
+      "files": [
+        "test/host-services.test.mjs",
+        "test/session-runtime.test.mjs",
+        "test/model-selection.test.mjs"
+      ],
+      "log": "/tmp/relay-alpha2-codex-post-login-tests.log"
+    },
+    "crossPluginContracts": {
+      "status": "passed",
+      "count": 5,
+      "log": "/tmp/relay-alpha2-codex-post-login-contracts.log"
+    },
+    "driverSyntax": "passed",
+    "diffWhitespace": "passed",
+    "officialSourceClean": true
+  },
+  "notRun": [
+    "real question card in a supported mode",
+    "image input/output and old attachments",
+    "native selective import and fork",
+    "DSH dynamic tools and child agents",
+    "Skills/MCP/Hooks",
+    "cross-session and cross-workspace isolation",
+    "full external history synchronization and failure recovery",
+    "remaining other-plugin feature catalogue",
+    "strict frozen install rerun",
+    "Linux/Windows CI",
+    "rollback rehearsal"
+  ],
+  "productionCodeChanged": false,
+  "releasePerformed": false,
+  "versionsOrDistTagsChanged": false,
+  "releaseGate": {
+    "status": "blocked",
+    "reason": "Required original-feature acceptance still incomplete; question limitation recorded separately"
+  }
+}

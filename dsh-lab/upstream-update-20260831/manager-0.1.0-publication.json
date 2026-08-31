@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-08-31T08:09:35.431580+00:00",
+  "name": "relay-dsh-plugin-manager",
+  "version": "0.1.0",
+  "publishedAt": "2026-08-31T08:08:28.407Z",
+  "gitHead": "2d0d19d74d3951ace49a6d7026b2a631d23e773b",
+  "distTags": {
+    "latest": "0.1.0",
+    "next": "0.1.0-rc.4"
+  },
+  "dist": {
+    "integrity": "sha512-qtoZjcGa9UDTT44Q2OVtyvbYOGoSuvao/kEKK0G1I/R8xpyvu3U2l/2SeeFWo3GG5tyGstQ0pipMSJidoc++MA==",
+    "shasum": "b7f9e28f0c3bb9c1088413519bb03ea20e7c88d6",
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-manager/-/relay-dsh-plugin-manager-0.1.0.tgz",
+    "fileCount": 25,
+    "unpackedSize": 336223,
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-manager@0.1.0",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    },
+    "signatures": [
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEYCIQCYd/et+dgg99YWLU2uRBd7FHKdyjF6i4Ugab1GfITJlgIhAKHzSudHyZdB9kYaczSGHh3DKwh3Ao4xmbUTfFNxi+za"
+      }
+    ]
+  },
+  "pr": "https://github.com/yangbobo2021/relay-dsh-plugin-manager/pull/10",
+  "releaseWorkflow": "https://github.com/yangbobo2021/relay-dsh-plugin-manager/actions/runs/33371433249",
+  "identicalFiles": [
+    "LICENSE",
+    "lib/client.js",
+    "lib/errors-BGx4K2uq.js",
+    "lib/index.js",
+    "lib/search-runtime.js",
+    "package.json",
+    "lib/client.js.map",
+    "lib/errors-BGx4K2uq.js.map",
+    "lib/index.js.map",
+    "lib/search-runtime.js.map",
+    "docs/acceptance.md",
+    "CHANGELOG.md",
+    "docs/acceptance/live-codex-2026-08-26.md",
+    "docs/acceptance/live-owner-discovery-2026-08-28.md",
+    "README.md",
+    "README.zh.md",
+    "docs/acceptance/release-candidate-0.1.0-rc.4.md",
+    "docs/acceptance/release-candidate-2026-08-26.md",
+    "docs/releasing.md",
+    "SPEC.md",
+    "docs/technical-design.md",
+    "lib/index.d.ts",
+    "lib/search-runtime-DsmnI673.d.ts",
+    "lib/search-runtime.d.ts",
+    "cordis.patch.yml"
+  ],
+  "differentOrMissingFiles": [],
+  "recommendedClientVerified": true,
+  "nextUpdate": "npm dist-tag requires OTP; awaiting maintainer input"
+}

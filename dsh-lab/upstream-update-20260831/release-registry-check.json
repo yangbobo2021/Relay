@@ -1,0 +1,449 @@
+{
+  "checkedAt": "2026-08-31T08:00:28.178374+00:00",
+  "plugins": [
+    {
+      "directory": "claude",
+      "name": "relay-dsh-plugin-claude",
+      "localVersion": "0.1.5",
+      "localHead": "dc209eb82966933b0895f37d86e1ab82a3d2f77e",
+      "tags": {
+        "next": "0.1.5",
+        "latest": "0.1.5"
+      },
+      "releases": {
+        "0.1.5": {
+          "exists": true,
+          "published": "2026-08-30T03:19:34.378Z",
+          "gitHead": "dc209eb82966933b0895f37d86e1ab82a3d2f77e",
+          "dist": {
+            "shasum": "cdd5926eef11824d42a9700b781e4d654c8d108f",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-claude/-/relay-dsh-plugin-claude-0.1.5.tgz",
+            "fileCount": 19,
+            "integrity": "sha512-U70gcl9+qTe17xvF4zk6RilgOezqyWKWysk+imTB7fjJiws3957w3gDQzuLqXUzuTN+XVcuvUeSMQXVI20jvrg==",
+            "signatures": [
+              {
+                "sig": "MEUCIBNbxXAtsnjdpMqT0nizPvo0WgIh2QWI95ERbOXwVCI+AiEA3EuMnzgDf01LfwauzHKP5lQkenloH+wTj5D53E8QrB8=",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "attestations": {
+              "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-claude@0.1.5",
+              "provenance": {
+                "predicateType": "https://slsa.dev/provenance/v1"
+              }
+            },
+            "unpackedSize": 556281
+          }
+        }
+      }
+    },
+    {
+      "directory": "codex",
+      "name": "relay-dsh-plugin-codex",
+      "localVersion": "0.1.6-rc.1",
+      "localHead": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+      "tags": {
+        "latest": "0.1.5",
+        "next": "0.1.6-rc.1"
+      },
+      "releases": {
+        "0.1.5": {
+          "exists": true,
+          "published": "2026-08-30T12:10:20.599Z",
+          "gitHead": "bcbdd92dd6fbd25d9f7a2ec10534b77a357faea2",
+          "dist": {
+            "shasum": "ff0b2d3161b3108eb95330b91f3236ea47383d2e",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-codex/-/relay-dsh-plugin-codex-0.1.5.tgz",
+            "fileCount": 21,
+            "integrity": "sha512-2ZBruxActjwxUsGfeqgX1Izd62VsRn5ptuLEVkyoOCNFxUnQxORqzDpxPMX5fcSwHguDn8vw+MluH+fBYwHCoQ==",
+            "signatures": [
+              {
+                "sig": "MEUCIEI1z3/XjVrAiYio1gC3VFDZqcQz06bBREjCmDrr4mYEAiEAoINAhAfvtcHWu2gJiZKh+URUZduMeVL1YOwrIg9RvGg=",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "attestations": {
+              "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-codex@0.1.5",
+              "provenance": {
+                "predicateType": "https://slsa.dev/provenance/v1"
+              }
+            },
+            "unpackedSize": 3157033
+          }
+        },
+        "0.1.6-rc.1": {
+          "exists": true,
+          "published": "2026-08-31T01:17:04.500Z",
+          "gitHead": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+          "dist": {
+            "integrity": "sha512-IurcX1jVXx+TchEVp1+sPJUtjQJWkxXgug5pmQ/fsPR8poonoKkbp6f5rEfJYoHHX0haN9qVpjWIZkb+61GI4A==",
+            "shasum": "bbb932d75995494a0ab04ac5d67711be564ea843",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-codex/-/relay-dsh-plugin-codex-0.1.6-rc.1.tgz",
+            "fileCount": 21,
+            "unpackedSize": 3183400,
+            "attestations": {
+              "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-codex@0.1.6-rc.1",
+              "provenance": {
+                "predicateType": "https://slsa.dev/provenance/v1"
+              }
+            },
+            "signatures": [
+              {
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                "sig": "MEUCIBK0X/A1RFv33mjZWGpGlP4RqtDOlL9MB6SrUvevNonMAiEA371YJgJ9UQO25MHSNq/b34UbEoWkix+Vz+/xMXf9iq4="
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "directory": "dsh-files",
+      "name": "relay-dsh-plugin-files",
+      "localVersion": "0.1.0",
+      "localHead": "e676da231412113d65e44189a4d27dcc4313b058",
+      "tags": {
+        "latest": "0.1.0",
+        "next": "0.1.0"
+      },
+      "releases": {
+        "0.1.0": {
+          "exists": true,
+          "published": "2026-08-24T03:23:41.375Z",
+          "gitHead": null,
+          "dist": {
+            "shasum": "ca2e4b1bb32f77348dd88a532cf943964d1c9358",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-files/-/relay-dsh-plugin-files-0.1.0.tgz",
+            "fileCount": 11,
+            "integrity": "sha512-3S1zXUXp/i3/yPrhClvkBOv1bxXDn2pujHthsAklRJkyJloEArVm/+iCG6sOus0IidzCJ8Y0xoWhn3oQJ7fyZg==",
+            "signatures": [
+              {
+                "sig": "MEUCIQD5oKV75sfBUUjXc8AmmUrFmNjvZVrOplYjIpea9rQB5wIgOe5ashtl8vDpeModWp66HZvGrueKPUGBf9nxda9DgWI=",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "unpackedSize": 664271
+          }
+        }
+      }
+    },
+    {
+      "directory": "dsh-plugin-manager",
+      "name": "relay-dsh-plugin-manager",
+      "localVersion": "0.1.0-rc.3",
+      "localHead": "169f5d80bab3946e26f1ebe69b81aa74661b3426",
+      "tags": {
+        "latest": "0.1.0-rc.4",
+        "next": "0.1.0-rc.4"
+      },
+      "releases": {
+        "0.1.0-rc.3": {
+          "exists": true,
+          "published": "2026-08-27T09:43:01.007Z",
+          "gitHead": "4b1a6ef73a26f07417dce4940d4b41208f62f53b",
+          "dist": {
+            "shasum": "b4e908bd587b18d8af6b74b88318a316ff2c69e7",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-manager/-/relay-dsh-plugin-manager-0.1.0-rc.3.tgz",
+            "fileCount": 23,
+            "integrity": "sha512-gqq1bXfEMpayh/P3mhB8jRdlk9V48rdKBa2dn0QuAKsU1bLCLCWYMSOJonVxsyF8b9rZIXcDhRNr8v8OQEaeMA==",
+            "signatures": [
+              {
+                "sig": "MEQCICHep3/disIRsOv9MVgf4j2dmw4vOMcVDWNYDOmqnaUJAiBpK1Nlj+b6cRTcihYF6Wv/Vg+9N1ae1C4RkSThV01cLg==",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "attestations": {
+              "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-manager@0.1.0-rc.3",
+              "provenance": {
+                "predicateType": "https://slsa.dev/provenance/v1"
+              }
+            },
+            "unpackedSize": 260401
+          }
+        },
+        "0.1.0-rc.4": {
+          "exists": true,
+          "published": "2026-08-28T01:33:38.982Z",
+          "gitHead": "a9c1d7178805c9ff7027b15032997dffedcc9084",
+          "dist": {
+            "shasum": "2298d6962702bde2d11bcfe1609744059363dd93",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-manager/-/relay-dsh-plugin-manager-0.1.0-rc.4.tgz",
+            "fileCount": 25,
+            "integrity": "sha512-3c7puTHvaaWw6NrSq21zZejpBSO5niQvg7Esa/F9+8HnOK40yR4fays6bmLe02NIODqtz+tXBxtKJXZOKE2Lyw==",
+            "signatures": [
+              {
+                "sig": "MEYCIQDHtZgiarR6wrN86jUXIa6zFEVSNfKP++gHUCnAqDs9vAIhAOCXS4bHhSVBJhwXxNSN8YOIQPDIPArjnBTaqf0Qywix",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "attestations": {
+              "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-manager@0.1.0-rc.4",
+              "provenance": {
+                "predicateType": "https://slsa.dev/provenance/v1"
+              }
+            },
+            "unpackedSize": 327652
+          }
+        }
+      }
+    },
+    {
+      "directory": "dsh-terminal",
+      "name": "relay-dsh-plugin-terminal",
+      "localVersion": "0.1.1",
+      "localHead": "43cd55a83529bec2d30d3b14fea9772b1ad872de",
+      "tags": {
+        "latest": "0.1.1",
+        "next": "0.1.0"
+      },
+      "releases": {
+        "0.1.0": {
+          "exists": true,
+          "published": "2026-08-24T03:23:49.684Z",
+          "gitHead": null,
+          "dist": {
+            "shasum": "c99031330e1993281822ba796fec1c8f8c8b2e4b",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-terminal/-/relay-dsh-plugin-terminal-0.1.0.tgz",
+            "fileCount": 11,
+            "integrity": "sha512-ckSInQ21hgWxd30/xzv+5u3RuE9+8b8OHP2Z3bBh/1O2ZCmgtl9TxaTSprE6NdYfcYEA7b0K/WoxT/Kx/3YnKA==",
+            "signatures": [
+              {
+                "sig": "MEYCIQDysq85NpHt2aP7OjcvWvFLNvVkRRJnF9WntwWfiY3buAIhAPSYoBQrSVRbhkpc5RowUPthXyfBoj28JoDBOsfUQbxQ",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "unpackedSize": 2339927
+          }
+        },
+        "0.1.1": {
+          "exists": true,
+          "published": "2026-08-31T06:54:51.683Z",
+          "gitHead": "43cd55a83529bec2d30d3b14fea9772b1ad872de",
+          "dist": {
+            "integrity": "sha512-vHlqrvP6W+cM6JDv+uyvy1dpvQD8u1hbz2UP5760PcT1OUk4BggEMMIarNjmJk8tDxorfrHLNwBzPz9gwnTYwQ==",
+            "shasum": "eb24cdbaef330386f55036485a68032099c1e9eb",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-terminal/-/relay-dsh-plugin-terminal-0.1.1.tgz",
+            "fileCount": 12,
+            "unpackedSize": 2347399,
+            "attestations": {
+              "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-terminal@0.1.1",
+              "provenance": {
+                "predicateType": "https://slsa.dev/provenance/v1"
+              }
+            },
+            "signatures": [
+              {
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                "sig": "MEUCIFp4RHJyPYWYNZ34GRjyH6KQXaW4oArVsZaKA19XeNjMAiEA1N/6bPElNrcQbVGuThqdfATTin8PMS5a4GDcxfw0MkI="
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "directory": "dsh-workbench",
+      "name": "relay-dsh-plugin-workbench",
+      "localVersion": "0.1.0",
+      "localHead": "07fa06d88942b14411cd0048a7f3dcfaa06dba92",
+      "tags": {
+        "latest": "0.1.0",
+        "next": "0.1.0"
+      },
+      "releases": {
+        "0.1.0": {
+          "exists": true,
+          "published": "2026-08-24T03:23:31.330Z",
+          "gitHead": null,
+          "dist": {
+            "shasum": "3f8501b09e20c42e9384358ddcc8a9a1d43eaa1b",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-workbench/-/relay-dsh-plugin-workbench-0.1.0.tgz",
+            "fileCount": 13,
+            "integrity": "sha512-1nvsO5kTrVineoe803hlvD28ixuN3E31gSPzl5W0qaH7emSyIPcOgUAXCmAFTS+GqOeWI289KDSDy9+hcm5JnQ==",
+            "signatures": [
+              {
+                "sig": "MEQCIE6ZWlYXUfAY5pDYu1VfvFgzZTQdUOTONZH5OzTq6ylYAiAtumglZryJ/KLZybaVdRjlZsvnUJnd/zAK4K2gRuWF2Q==",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "unpackedSize": 171166
+          }
+        }
+      }
+    },
+    {
+      "directory": "events",
+      "name": "relay-dsh-plugin-events",
+      "localVersion": "0.1.0-internal.2",
+      "localHead": "266b8e9c30e56cdb63d41bce6313a5f6dc671571",
+      "tags": {
+        "internal": "0.1.0-internal.2",
+        "latest": "0.1.0-internal.1"
+      },
+      "releases": {
+        "0.1.0-internal.1": {
+          "exists": true,
+          "published": "2026-08-31T02:57:00.241Z",
+          "gitHead": null,
+          "dist": {
+            "shasum": "bf07000ab9dd0af9a5b530b5eac35c287fad1904",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-events/-/relay-dsh-plugin-events-0.1.0-internal.1.tgz",
+            "fileCount": 16,
+            "integrity": "sha512-n1OVv8dbnB0h1+9i0cqyRihT7ShiI5qxwdeaYX8RxNZQUZjK2dS/8alH93fsooz0T8aJjgxk8TVJ58VZHCqCzQ==",
+            "signatures": [
+              {
+                "sig": "MEUCIQCmcsxfqllCabRNeBtCbELyj7iXcAqoDkIDXDu4NFYvagIgCkcyup4ZoywXg0x/H5Kk/0vJEzOIqjtHdppSYvJvseg=",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "unpackedSize": 789641
+          }
+        },
+        "0.1.0-internal.2": {
+          "exists": true,
+          "published": "2026-08-31T03:07:47.349Z",
+          "gitHead": null,
+          "dist": {
+            "integrity": "sha512-bI1wFAoHrN4Skr6Uf1Hd33z0dKH2F5dCwivY0+nDQNMRvBN2eo8XEwTWvBPNzLOTF8MOEc00ElL/1NFQ9T98WA==",
+            "shasum": "b15e2395fa7fca8a64abd46ce3b7512aaa075b14",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-events/-/relay-dsh-plugin-events-0.1.0-internal.2.tgz",
+            "fileCount": 16,
+            "unpackedSize": 789757,
+            "signatures": [
+              {
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                "sig": "MEQCIEZQC3tsFeWmdFyhvNX/SveVkMxfF9JKVaN2jkalwJ1fAiB1W/4p6Rzxz6Zg/Bf4gunuuQfGUMZtbTLfVmpo/Lfa9A=="
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "directory": "monitors",
+      "name": "relay-dsh-plugin-monitors",
+      "localVersion": "0.1.0-internal.2",
+      "localHead": "787919e5719290574d6a3208b4dbf28eaf0f675f",
+      "tags": {
+        "internal": "0.1.0-internal.2",
+        "latest": "0.1.0-internal.1"
+      },
+      "releases": {
+        "0.1.0-internal.1": {
+          "exists": true,
+          "published": "2026-08-31T02:59:14.170Z",
+          "gitHead": null,
+          "dist": {
+            "shasum": "db65582614b745a8f294543d5cb0fda76753e25d",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-monitors/-/relay-dsh-plugin-monitors-0.1.0-internal.1.tgz",
+            "fileCount": 9,
+            "integrity": "sha512-s6sFHEcBkl/v3bn+1zaZKW7fgwwpkD2/N/O3k6zK/OJ0q1f7FKuka+SrNAF8deLwT8Sk3tV26t0gwI+Wny2KZQ==",
+            "signatures": [
+              {
+                "sig": "MEUCICJsHf84HMB50TsCtz/JXg1ips+8OXE0wau3DRNio2rtAiEA9EZ8d4dB7NMXuGV7KZ7hoZOpb790DYgq1He052a6+18=",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "unpackedSize": 58596
+          }
+        },
+        "0.1.0-internal.2": {
+          "exists": true,
+          "published": "2026-08-31T03:10:13.470Z",
+          "gitHead": null,
+          "dist": {
+            "integrity": "sha512-Z5oNbKlOm3/z+BeidTOKRupplR1P8IXThvv8YPkfAEQilZ7FbI6Wpovr2aNtxJznd9vgIDeVo4mooMPXplh9WQ==",
+            "shasum": "e9a8c67b5b9a1810b077f281dc30aa9324fa192d",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-monitors/-/relay-dsh-plugin-monitors-0.1.0-internal.2.tgz",
+            "fileCount": 9,
+            "unpackedSize": 58780,
+            "signatures": [
+              {
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                "sig": "MEYCIQDhh9zbLjm4TuW2aOCC3dAZKJfcEnw3DaKSfNOhbUoFAwIhAOKEwlq0Nhla5RijEihkXo8JePDy786bf4MBZWPAx1Pu"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "directory": "semantic-router",
+      "name": "relay-dsh-plugin-semantic-router",
+      "localVersion": "0.1.0-internal.2",
+      "localHead": "15875b16c6e66b70b47ddc934f5578710391a13c",
+      "tags": {
+        "internal": "0.1.0-internal.2",
+        "latest": "0.1.0-internal.1"
+      },
+      "releases": {
+        "0.1.0-internal.1": {
+          "exists": true,
+          "published": "2026-08-31T02:58:12.932Z",
+          "gitHead": null,
+          "dist": {
+            "shasum": "bc1a30aab6db3afbdab4849680eeee820c96c476",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-semantic-router/-/relay-dsh-plugin-semantic-router-0.1.0-internal.1.tgz",
+            "fileCount": 9,
+            "integrity": "sha512-JpRtxhOfUWEbbJ5eRj2yNIAUe3kBS5894DA8hVtSwU8N2ajlehYylCnkIkXe+eRUw4KpS7f7JpChb+X0k65O2Q==",
+            "signatures": [
+              {
+                "sig": "MEUCIDwPzTIM+/9qIiL2eK+Ylz4zb6Gtp8MmA0Th5xlEXv3cAiEA9q/QmFYQ9JRbRnHCAfYvyr+mgvJRfdPx8gZc24FXhNU=",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "unpackedSize": 34720
+          }
+        },
+        "0.1.0-internal.2": {
+          "exists": true,
+          "published": "2026-08-31T03:09:12.316Z",
+          "gitHead": null,
+          "dist": {
+            "integrity": "sha512-7pe2xrIplWYVn6gSrTNN5QU1lN0PIazml+Apy7OmZ6Z0jklLdZGiI/2duPW+hJF4edbecplz4jpoqNoN80xoTw==",
+            "shasum": "4e8f88d12b405819f853bbe097d38c88743f0e56",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-semantic-router/-/relay-dsh-plugin-semantic-router-0.1.0-internal.2.tgz",
+            "fileCount": 9,
+            "unpackedSize": 34893,
+            "signatures": [
+              {
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                "sig": "MEQCIC+iAiOoZQALClqGjK754rbdglJ79w6kwi6YuMQO9ptyAiBWbUUkgpQc00QrlJ6h4IATAFumgOv5VgV0X5LCMITy1A=="
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "directory": "session-import",
+      "name": "relay-dsh-plugin-session-import",
+      "localVersion": "0.1.0",
+      "localHead": "39aa35c42adb056fdb88779ddb37b2103644d7ab",
+      "tags": {
+        "latest": "0.1.0",
+        "next": "0.1.0"
+      },
+      "releases": {
+        "0.1.0": {
+          "exists": true,
+          "published": "2026-08-30T03:00:15.699Z",
+          "gitHead": null,
+          "dist": {
+            "shasum": "4473a2d7c19969e9548933cd0a685d96d8a1b4b6",
+            "tarball": "https://registry.npmjs.org/relay-dsh-plugin-session-import/-/relay-dsh-plugin-session-import-0.1.0.tgz",
+            "fileCount": 16,
+            "integrity": "sha512-qn5p+ayiRVSJQ4QB+Er3I8pNm+hHIL+Prkglo5jRqNBaiNzlRfs41g0G7gYcFF+3vlSbYZBT/sLzGudr7O7mVQ==",
+            "signatures": [
+              {
+                "sig": "MEYCIQCNXuE/r39yUw09WjmJvgmRqZH5hC9iApE1CpfYBPOKEAIhAIj7hNEq7dIx4MQ1ESNd/WXSzVkIk/Nh6p3RG4nUxS/b",
+                "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+              }
+            ],
+            "unpackedSize": 89148
+          }
+        }
+      }
+    }
+  ]
+}

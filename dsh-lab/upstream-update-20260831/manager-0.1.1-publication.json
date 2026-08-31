@@ -1,0 +1,63 @@
+{
+  "checkedAt": "2026-08-31T08:32:19.272452+00:00",
+  "name": "relay-dsh-plugin-manager",
+  "version": "0.1.1",
+  "publishedAt": "2026-08-31T08:31:27.450Z",
+  "gitHead": "90db0ac024e5a683d1214f757ea84ca7faa59a18",
+  "distTags": {
+    "next": "0.1.1",
+    "latest": "0.1.1"
+  },
+  "dist": {
+    "integrity": "sha512-TuApRqrXMlMNy6BSFuPA4T8qu2NH1pvJ3IlLyQlGPyWeLo0SG2CpnhllVDONIlt6ttqrkA3e82h1IvLvsQWoAg==",
+    "shasum": "24c3c72b8955d587291cbf805011d46d852b4a1f",
+    "tarball": "https://registry.npmjs.org/relay-dsh-plugin-manager/-/relay-dsh-plugin-manager-0.1.1.tgz",
+    "fileCount": 25,
+    "unpackedSize": 336674,
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/relay-dsh-plugin-manager@0.1.1",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    },
+    "signatures": [
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEYCIQChgE4hHS7LpAlCu63Dqjs2ICnq0ZeOChjSjoCgo8nrTwIhAM9TDjm7S8raR0t+k0mflWVSd+e+KIHF6rcpnJPau6XM"
+      }
+    ]
+  },
+  "pr": "https://github.com/yangbobo2021/relay-dsh-plugin-manager/pull/11",
+  "releaseWorkflow": "https://github.com/yangbobo2021/relay-dsh-plugin-manager/actions/runs/33373249330",
+  "identicalFiles": [
+    "LICENSE",
+    "lib/client.js",
+    "lib/errors-BGx4K2uq.js",
+    "lib/index.js",
+    "lib/search-runtime.js",
+    "package.json",
+    "lib/client.js.map",
+    "lib/errors-BGx4K2uq.js.map",
+    "lib/index.js.map",
+    "lib/search-runtime.js.map",
+    "docs/acceptance.md",
+    "CHANGELOG.md",
+    "docs/acceptance/live-codex-2026-08-26.md",
+    "docs/acceptance/live-owner-discovery-2026-08-28.md",
+    "README.md",
+    "README.zh.md",
+    "docs/acceptance/release-candidate-0.1.0-rc.4.md",
+    "docs/acceptance/release-candidate-2026-08-26.md",
+    "docs/releasing.md",
+    "SPEC.md",
+    "docs/technical-design.md",
+    "lib/index.d.ts",
+    "lib/search-runtime-DsmnI673.d.ts",
+    "lib/search-runtime.d.ts",
+    "cordis.patch.yml"
+  ],
+  "differentOrMissingFiles": [],
+  "recommendedClientVerified": true,
+  "nextUpdate": "completed through npm interactive web second-factor verification",
+  "channelsVerifiedAt": "2026-08-31T08:32:48.292033+00:00"
+}

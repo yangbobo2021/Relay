@@ -1,0 +1,72 @@
+[
+  {
+    "directory": "claude",
+    "localHead": "dc209eb82966933b0895f37d86e1ab82a3d2f77e",
+    "remoteDefaultHead": "dc209eb82966933b0895f37d86e1ab82a3d2f77e",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "codex",
+    "localHead": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+    "remoteDefaultHead": "90b3038ed4eca4cf43a4df2049180f8f1f134811",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "dsh-files",
+    "localHead": "e676da231412113d65e44189a4d27dcc4313b058",
+    "remoteDefaultHead": "e676da231412113d65e44189a4d27dcc4313b058",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "dsh-plugin-manager",
+    "localHead": "2115aa26734ec4cf0b6a2fe5c4b65fbff857812e",
+    "remoteDefaultHead": "2115aa26734ec4cf0b6a2fe5c4b65fbff857812e",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "dsh-terminal",
+    "localHead": "43cd55a83529bec2d30d3b14fea9772b1ad872de",
+    "remoteDefaultHead": "43cd55a83529bec2d30d3b14fea9772b1ad872de",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "dsh-workbench",
+    "localHead": "07fa06d88942b14411cd0048a7f3dcfaa06dba92",
+    "remoteDefaultHead": "07fa06d88942b14411cd0048a7f3dcfaa06dba92",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "events",
+    "localHead": "266b8e9c30e56cdb63d41bce6313a5f6dc671571",
+    "remoteDefaultHead": "266b8e9c30e56cdb63d41bce6313a5f6dc671571",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "monitors",
+    "localHead": "787919e5719290574d6a3208b4dbf28eaf0f675f",
+    "remoteDefaultHead": "787919e5719290574d6a3208b4dbf28eaf0f675f",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "semantic-router",
+    "localHead": "15875b16c6e66b70b47ddc934f5578710391a13c",
+    "remoteDefaultHead": "15875b16c6e66b70b47ddc934f5578710391a13c",
+    "matches": true,
+    "error": null
+  },
+  {
+    "directory": "session-import",
+    "localHead": "39aa35c42adb056fdb88779ddb37b2103644d7ab",
+    "remoteDefaultHead": "39aa35c42adb056fdb88779ddb37b2103644d7ab",
+    "matches": true,
+    "error": null
+  }
+]

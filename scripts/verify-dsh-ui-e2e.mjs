@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
-import { existsSync } from "node:fs";
-import { appendFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import { appendFile, mkdir, mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -21,6 +22,8 @@ const packages = [
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
   ["integrations/dsh-files", "relay-dsh-plugin-files"],
   ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
+  ["integrations/session-import", "relay-dsh-plugin-session-import"],
+  ["integrations/codex", "relay-dsh-plugin-codex"],
 ];
 
 const scenarios = [
@@ -55,7 +58,19 @@ const scenarios = [
     views: ["Files", "Terminal"],
     workspace: true,
   },
+  {
+    id: "codex-real-terminal",
+    plugins: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex"],
+    activePackages: ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"],
+    views: ["Files", "Terminal"],
+    workspace: true,
+    realTerminal: true,
+  },
 ];
+const selectedIds = process.env.DSH_UI_E2E_SCENARIOS?.split(",");
+const selectedScenarios = selectedIds === undefined ? scenarios : scenarios.filter(scenario => selectedIds.includes(scenario.id));
+assert.ok(selectedScenarios.length > 0, "no matching UI E2E scenarios");
+for (const id of selectedIds ?? []) assert.ok(scenarios.some(scenario => scenario.id === id), `unknown scenario: ${id}`);
 
 assert.ok(existsSync(dshBin), `official DSH CLI build is missing: ${dshBin}`);
 assert.ok(existsSync(webDist), `official DSH Web dist is missing: ${webDist}; run pnpm run build in the official DSH checkout first`);
@@ -71,6 +86,13 @@ try {
     }))[0];
     return [name, join(temporary, packed.filename)];
   }));
+  await writeFile(join(artifactRoot, "candidate-packages.json"), JSON.stringify({
+    dshCommit: execFileSync("git", ["rev-parse", "HEAD"], { cwd: dshRoot, encoding: "utf8" }).trim(),
+    createdAt: new Date().toISOString(),
+    node: process.version,
+    scenarios: selectedScenarios.map(scenario => scenario.id),
+    packages: [...tarballs].map(([name, path]) => ({ name, sha256: createHash("sha256").update(readFileSync(path)).digest("hex") })),
+  }, null, 2) + "\n");
 
   browser = await chromium.launch({
     headless: true,
@@ -78,9 +100,10 @@ try {
     args: ["--no-sandbox"],
   });
 
-  for (const scenario of scenarios) {
+  for (const scenario of selectedScenarios) {
     const port = await freePort();
     await verifyScenario(scenario, tarballs, port);
+    console.log(`PASS ${scenario.id}`);
   }
 } finally {
   await browser?.close().catch(() => {});
@@ -88,11 +111,19 @@ try {
 }
 
 assert.equal(gitStatus(), "", "official DSH checkout changed during UI E2E verification");
-console.log("Verified DSH Workbench UI E2E installs, Web boot, panel menu, Files empty state, workspace file preview, and Terminal view scenarios against official DSH.");
+console.log(`Verified ${selectedScenarios.length} DSH UI E2E scenarios against official DSH.`);
 
 async function verifyScenario(scenario, tarballs, port) {
   const home = join(temporary, scenario.id);
-  const env = { ...process.env, DSH_HOME: home };
+  const env = { ...process.env, DSH_HOME: home, DSH_AGENTS_HOME: join(home, "agents") };
+  if (scenario.realTerminal) {
+    // Keep interactive zsh startup files out of the synthetic terminal fixture.
+    env.ZDOTDIR = join(home, "shell-config");
+    await mkdir(env.ZDOTDIR, { recursive: true });
+    // CI/tool shells may export LC_ALL=C, making zsh echo UTF-8 bytes as escapes.
+    // This fixture tests an explicit UTF-8 locale without changing user config.
+    env.LC_ALL = process.env.DSH_UI_E2E_TERMINAL_LOCALE ?? (process.platform === "darwin" ? "en_US.UTF-8" : "C.UTF-8");
+  }
   execFileSync(process.execPath, [dshBin, "plugin", "--profile", "web", "install"], {
     cwd: dshRoot, env, stdio: "ignore",
   });
@@ -121,8 +152,9 @@ async function verifyScenario(scenario, tarballs, port) {
   try {
     await waitFor(() => output.includes(`http://127.0.0.1:${port}`) || child.exitCode !== null, 20_000);
     assert.equal(child.exitCode, null, `${scenario.id}: DSH Host exited before serving\n${output}`);
-    await assertPluginAssets(scenario, port);
-    await verifyBrowserScenario(scenario, port);
+    const launchUrl = output.match(/http:\/\/127\.0\.0\.1:\d+\/\?token=[^\s]+/)?.[0];
+    assert.ok(launchUrl, 'missing DSH launch token');
+    await verifyBrowserScenario(scenario, port, launchUrl);
   } finally {
     if (child.exitCode === null) child.kill("SIGINT");
     await Promise.race([
@@ -159,18 +191,9 @@ function assertConfig(scenario, dump) {
   if (!activePackages.includes("relay-dsh-plugin-terminal")) assert.doesNotMatch(dump, /relay-terminal-host/, `${scenario.id}: no Terminal host`);
 }
 
-async function assertPluginAssets(scenario, port) {
-  const rootResponse = await fetch(`http://127.0.0.1:${port}/`);
-  assert.equal(rootResponse.ok, true, `${scenario.id}: Web root did not respond`);
-  assert.match(await rootResponse.text(), /<html/i, `${scenario.id}: Web root is not HTML`);
-  for (const name of scenario.activePackages ?? scenario.plugins) {
-    const asset = await fetch(`http://127.0.0.1:${port}/plugins/${name}/client.js`);
-    assert.equal(asset.ok, true, `${scenario.id}: ${name} client asset is unavailable`);
-  }
-}
-
-async function verifyBrowserScenario(scenario, port) {
+async function verifyBrowserScenario(scenario, port, launchUrl) {
   const context = await browser.newContext({ viewport: { width: 1440, height: 960 } });
+  await context.request.get(launchUrl);
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", error => { errors.push(`pageerror: ${error.message}`); });
@@ -187,8 +210,15 @@ async function verifyBrowserScenario(scenario, port) {
 
   try {
     await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
+    const graph = await page.evaluate(() => window.__DSH_BOOT__);
+    for (const name of scenario.activePackages ?? scenario.plugins) {
+      const batch = graph.batches.find(batch => batch.entries.includes(name));
+      assert.ok(batch, `${scenario.id}: ${name} missing from boot graph`);
+      const asset = await context.request.get(new URL(batch.url, `http://127.0.0.1:${port}`).href);
+      assert.equal(asset.ok(), true, `${scenario.id}: ${name} combo asset unavailable`);
+    }
     await dismissOfficialOnboarding(page, scenario.id);
-    if (scenario.workspace === true) await connectFreshWorkspace(page, scenario.id);
+    const workspace = scenario.workspace === true ? await connectFreshWorkspace(page, scenario.id) : undefined;
     await page.screenshot({ path: join(artifactRoot, `${scenario.id}-loaded.png`), fullPage: true });
     assert.deepEqual(errors, [], `${scenario.id}: browser reported runtime/resource errors`);
 
@@ -206,7 +236,10 @@ async function verifyBrowserScenario(scenario, port) {
     await page.keyboard.press("Escape");
 
     if (scenario.views.includes("Files")) await verifyFilesView(page, scenario.id, scenario.workspace === true);
-    if (scenario.views.includes("Terminal")) await verifyTerminalView(page, scenario.id, scenario.workspace === true);
+    if (scenario.views.includes("Terminal")) {
+      if (scenario.realTerminal) await verifyRealTerminal(page, scenario.id, workspace);
+      else await verifyTerminalView(page, scenario.id, scenario.workspace === true);
+    }
 
     await page.screenshot({ path: join(artifactRoot, `${scenario.id}-interacted.png`), fullPage: true });
     assert.deepEqual(errors, [], `${scenario.id}: browser reported runtime/resource errors after interaction`);
@@ -252,7 +285,8 @@ async function connectFreshWorkspace(page, id) {
   await pathInput.press("Enter");
   await dialog.getByRole("button", { name: "Open", exact: true }).click();
   await dialog.waitFor({ state: "hidden", timeout: 10_000 });
-  await page.locator('textarea:enabled[placeholder="Describe what you want to build"]').waitFor({ timeout: 15_000 });
+  await page.locator('[contenteditable="true"][role="textbox"]').waitFor({ timeout: 15_000 });
+  return workspace;
 }
 
 async function dismissOfficialOnboarding(page, id) {
@@ -307,6 +341,12 @@ async function verifyFilesView(page, id, hasWorkspace) {
     await page.getByRole("article", { name: "File content relay-e2e.txt" }).waitFor({ state: "visible", timeout: 10_000 });
     await page.getByText("RELAY_DSH_FILES_E2E_OK").waitFor({ state: "visible", timeout: 10_000 });
     await page.screenshot({ path: join(artifactRoot, `${id}-files-preview.png`), fullPage: true });
+    await filter.fill("notes");
+    await page.getByRole("treeitem", { name: "notes.md" }).click();
+    const markdown = page.getByRole("article", { name: "File content notes.md" });
+    await markdown.getByRole("heading", { name: "Relay DSH E2E" }).waitFor({ timeout: 10_000 });
+    await markdown.getByText("Workbench plugin file preview.", { exact: true }).waitFor({ timeout: 10_000 });
+    await page.screenshot({ path: join(artifactRoot, `${id}-markdown-preview.png`), fullPage: true });
   } else {
     await page.getByText("Open a workspace session to browse files.").waitFor({ state: "visible", timeout: 10_000 });
     assert.equal(await page.getByRole("tree", { name: "Workspace files" }).count(), 0, `${id}: Files tree should wait for an active workspace session`);
@@ -338,6 +378,87 @@ async function verifyTerminalView(page, id, hasWorkspace) {
   }
   await page.getByRole("button", { name: "Close terminal" }).click();
   await terminal.waitFor({ state: "hidden", timeout: 10_000 });
+}
+
+async function verifyRealTerminal(page, id, workspace) {
+  assert.ok(workspace);
+  await openPanelMenu(page, id);
+  await page.getByRole("menuitem", { name: "Terminal" }).click();
+  const terminal = page.getByRole("region", { name: "Terminal" });
+  const canvas = page.getByRole("application", { name: "Terminal canvas" });
+  await canvas.waitFor({ state: "visible" });
+  await waitFor(async () => await canvas.getAttribute("aria-busy") === "false", 30_000);
+  const send = async command => {
+    await terminal.locator(".xterm-helper-textarea").focus();
+    await page.keyboard.insertText(command);
+    await page.keyboard.press("Enter");
+  };
+  const waitFile = name => waitFor(() => existsSync(join(workspace, name)), 15_000);
+  await send(`printf '%s\\n' "$PWD" "中文终端验证" > relay-terminal-cwd.txt; printf '%s\\n' "$$" > relay-terminal-shell.pid; cat relay-terminal-cwd.txt`);
+  await waitFile("relay-terminal-cwd.txt");
+  const cwdLines = (await readFile(join(workspace, "relay-terminal-cwd.txt"), "utf8")).trim().split("\n");
+  assert.equal(await realpath(cwdLines[0]), await realpath(workspace), `${id}: shell cwd`);
+  assert.equal(cwdLines[1], "中文终端验证", `${id}: Unicode keyboard input reaches the shell`);
+  // The expected output is absent from the echoed command, so echo alone cannot pass.
+  await send(`${shellQuote(process.execPath)} -e ${shellQuote('process.stdout.write("\\u001b[32m\\u8f93\\u51fa\\u56de\\u8def\\u5df2\\u901a\\u8fc7\\u001b[0m\\n")')}`);
+  await waitFor(async () => (await terminal.locator(".xterm-rows").innerText()).includes("输出回路已通过"), 10_000);
+
+  await send("stty size > relay-terminal-size-before.txt");
+  await waitFile("relay-terminal-size-before.txt");
+  await page.setViewportSize({ width: 1000, height: 720 });
+  await page.waitForTimeout(500);
+  await send("stty size > relay-terminal-size-after.txt");
+  await waitFile("relay-terminal-size-after.txt");
+  const before = (await readFile(join(workspace, "relay-terminal-size-before.txt"), "utf8")).trim();
+  const after = (await readFile(join(workspace, "relay-terminal-size-after.txt"), "utf8")).trim();
+  assert.match(before, /^\d+ \d+$/);
+  assert.match(after, /^\d+ \d+$/);
+  assert.notEqual(before, after, `${id}: viewport resize reaches the real PTY`);
+
+  const program = 'const fs=require("node:fs");fs.writeFileSync("relay-terminal-child.pid",String(process.pid));setTimeout(()=>fs.writeFileSync("relay-terminal-unwanted.txt","not cancelled"),5000)';
+  await send(`${shellQuote(process.execPath)} -e ${shellQuote(program)}`);
+  await waitFile("relay-terminal-child.pid");
+  const childPid = Number(await readFile(join(workspace, "relay-terminal-child.pid"), "utf8"));
+  assert.ok(childPid > 0);
+  await page.keyboard.press("Control+c");
+  await waitFor(() => !processAlive(childPid), 10_000);
+  assert.equal(existsSync(join(workspace, "relay-terminal-unwanted.txt")), false, `${id}: cancelled process has no late file write`);
+  await send("printf '%s\\n' resumed > relay-terminal-resumed.txt");
+  await waitFile("relay-terminal-resumed.txt");
+  assert.equal((await readFile(join(workspace, "relay-terminal-resumed.txt"), "utf8")).trim(), "resumed");
+
+  await page.getByRole("button", { name: "Close terminal" }).click();
+  await terminal.waitFor({ state: "hidden" });
+  await openPanelMenu(page, id);
+  await page.getByRole("menuitem", { name: "Terminal" }).click();
+  await waitFor(async () => (await terminal.locator(".xterm-rows").innerText()).includes("中文终端验证"), 10_000);
+  await send("printf '%s\\n' \"$$\" > relay-terminal-reattached.pid");
+  await waitFile("relay-terminal-reattached.pid");
+  const shellPid = Number(await readFile(join(workspace, "relay-terminal-shell.pid"), "utf8"));
+  assert.equal(Number(await readFile(join(workspace, "relay-terminal-reattached.pid"), "utf8")), shellPid, `${id}: reopening panel reattaches existing shell`);
+  await page.screenshot({ path: join(artifactRoot, `${id}-terminal-executed.png`), fullPage: true });
+  await send("exit");
+  await waitFor(() => !processAlive(shellPid), 10_000);
+  await writeFile(join(artifactRoot, `${id}-terminal-evidence.json`), JSON.stringify({
+    dshCommit: execFileSync("git", ["rev-parse", "HEAD"], { cwd: dshRoot, encoding: "utf8" }).trim(),
+    platform: process.platform, arch: process.arch,
+    terminalLocale: process.env.DSH_UI_E2E_TERMINAL_LOCALE ?? (process.platform === "darwin" ? "en_US.UTF-8" : "C.UTF-8"),
+    cwdMatchesWorkspace: true, unicodeRoundTrip: true, ptySize: { before, after },
+    ctrlCProcessExited: true, cancelledSideEffectAbsent: true, shellUsableAfterCtrlC: true,
+    reopenedPanelRetainsShellAndHistory: true, explicitExitTerminatesShell: true,
+    modelTurns: 0,
+  }, null, 2) + "\n");
+  await page.getByRole("button", { name: "Close terminal" }).click();
+  await page.setViewportSize({ width: 1440, height: 960 });
+}
+
+function processAlive(pid) {
+  try { process.kill(pid, 0); return true; }
+  catch (error) { if (error.code === "ESRCH") return false; throw error; }
+}
+
+function shellQuote(value) {
+  return `'${value.replaceAll("'", "'\\''")}'`;
 }
 
 async function freePort() {

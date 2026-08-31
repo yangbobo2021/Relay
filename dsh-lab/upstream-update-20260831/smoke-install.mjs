@@ -6,12 +6,12 @@ import { appendFile, mkdtemp, readFile, rm, access } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { prepareDshLocalWorkspaceLinks } from "./lib/dsh-local-workspace-links.mjs";
-import { forbiddenBackendDependencies } from "./lib/dsh-backend-dependencies.mjs";
+import { prepareDshLocalWorkspaceLinks } from "../../scripts/lib/dsh-local-workspace-links.mjs";
+import { forbiddenBackendDependencies } from "../../scripts/lib/dsh-backend-dependencies.mjs";
 import { chromium } from "playwright";
 import { createServer } from "node:net";
 
-const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+const root = resolve(fileURLToPath(new URL("../../", import.meta.url)));
 const auditResults = [];
 process.env.DSH_TELEMETRY_DISABLED = "1";
 const dshRoot = join(root, "upstream", "deepseek-harness");
@@ -30,7 +30,7 @@ const packages = [
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
   ["integrations/dsh-files", "relay-dsh-plugin-files"],
   ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
-].filter(([, name]) => !codexOnly || ["relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"].includes(name));
+].filter(([, name]) => !codexOnly || name === "relay-dsh-plugin-codex");
 
 const cleanBefore = gitStatus();
 assert.equal(cleanBefore, "", "official DSH checkout must be clean before install verification");
@@ -67,7 +67,7 @@ try {
   await verifyScenario("workbench-files", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files"], tarballs, 3196);
   await verifyScenario("workbench-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal"], tarballs, 3197);
   await verifyScenario("codex-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
-  await verifyScenario("all-plugins", ["relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins], tarballs, 3199);
+  await verifyScenario("all-plugins", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins], tarballs, 3199);
   }
   }
 } finally {
@@ -81,19 +81,10 @@ console.log(`Audit completed against ${dshBin}; inspect AUDIT_RESULT rows for fa
 if (auditResults.some(result => !result.ok)) process.exitCode = 1;
 
 async function verifyScenario(id, selected, tarballs, port) {
-  const filter = process.env.DSH_INSTALL_SCENARIOS?.split(",");
-  if (filter && !filter.includes(id)) return;
-  let result;
-  try {
-    await verifyScenarioImpl(id, selected, tarballs, port);
-    result = { id, ok: true };
-  } catch (error) {
-    result = { id, ok: false, error: String(error.message).replace(/token=[^\s'"<]+/g, 'token=[REDACTED]') };
-  }
-  auditResults.push(result);
-  console.log('AUDIT_RESULT ' + JSON.stringify(result));
-}
 
+  try { await verifyScenarioImpl(id, selected, tarballs, port); const result = {id, ok:true}; auditResults.push(result); console.log('AUDIT_RESULT ' + JSON.stringify(result)); }
+  catch (error) { const result = {id, ok:false, error:String(error.message).replace(/token=[^\s'"<]+/g,'token=[REDACTED]')}; auditResults.push(result); console.log('AUDIT_RESULT ' + JSON.stringify(result)); }
+}
 async function verifyScenarioImpl(id, selected, tarballs, port) {
   const home = join(temporary, id);
   const env = { ...process.env, DSH_HOME: home, RELAY_DATABASE_PATH: join(home, "events.sqlite"), RELAY_ROUTER_PROVIDER: "", RELAY_ROUTER_MODEL: "" };

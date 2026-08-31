@@ -1,0 +1,207 @@
+{
+  "recordedAt": "2026-08-31T19:22:15.786773+08:00",
+  "dsh": {
+    "version": "0.1.2-alpha.2",
+    "commit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+    "sourceChanged": false
+  },
+  "plugins": [
+    {
+      "repo": "claude",
+      "name": "relay-dsh-plugin-claude",
+      "version": "0.1.5",
+      "head": "e216e553a1f71fd4b2397832c55083a9ea146d06",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "codex",
+      "name": "relay-dsh-plugin-codex",
+      "version": "0.1.6-rc.1",
+      "head": "c4fb2d74d4511e3e3a16b27d22aafd86abf6dc02",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "dsh-files",
+      "name": "relay-dsh-plugin-files",
+      "version": "0.1.0",
+      "head": "2360b6faa532c6cf54dd423bd2130ddf05d853b7",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "dsh-plugin-manager",
+      "name": "relay-dsh-plugin-manager",
+      "version": "0.1.1",
+      "head": "f2d81138b522aa48d4976b2f0fe77e2a493972ef",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "dsh-terminal",
+      "name": "relay-dsh-plugin-terminal",
+      "version": "0.1.1",
+      "head": "70b2fc1483b6d4c60929bd3b6d269d726a85ec3d",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "dsh-workbench",
+      "name": "relay-dsh-plugin-workbench",
+      "version": "0.1.0",
+      "head": "f95cb78d64c7eea7c95007ccfc928fbfc4bc8711",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "events",
+      "name": "relay-dsh-plugin-events",
+      "version": "0.1.0-internal.2",
+      "head": "aabf30362ee0e5d374a1f1d6ae1b1f7be8553c6a",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "monitors",
+      "name": "relay-dsh-plugin-monitors",
+      "version": "0.1.0-internal.2",
+      "head": "f07657e23dfde45dab1a9a22dfd680ac7dd2da7c",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "semantic-router",
+      "name": "relay-dsh-plugin-semantic-router",
+      "version": "0.1.0-internal.2",
+      "head": "dadfa8044c8a55a28b9b13a86dd592a7237ce046",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    },
+    {
+      "repo": "session-import",
+      "name": "relay-dsh-plugin-session-import",
+      "version": "0.1.0",
+      "head": "65417a5abd365d19c619c8a1c1679768189a68e4",
+      "verifyExitCode": 0,
+      "packDryRunExitCode": 0,
+      "mergedBranch": "main",
+      "pushed": true
+    }
+  ],
+  "relayContractTests": {
+    "passed": 36,
+    "failed": 0
+  },
+  "officialInstallScenarios": [
+    {
+      "id": "manager-only",
+      "ok": true
+    },
+    {
+      "id": "session-import-only",
+      "ok": true
+    },
+    {
+      "id": "router-only",
+      "ok": true
+    },
+    {
+      "id": "monitors-only",
+      "ok": true
+    },
+    {
+      "id": "event-plugins",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-codex",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-claude",
+      "ok": true
+    },
+    {
+      "id": "events-only",
+      "ok": true
+    },
+    {
+      "id": "codex-only",
+      "ok": true
+    },
+    {
+      "id": "claude-only",
+      "ok": true
+    },
+    {
+      "id": "codex-and-claude",
+      "ok": true
+    },
+    {
+      "id": "workbench-only",
+      "ok": true
+    },
+    {
+      "id": "workbench-files",
+      "ok": true
+    },
+    {
+      "id": "workbench-terminal",
+      "ok": true
+    },
+    {
+      "id": "codex-terminal",
+      "ok": true
+    },
+    {
+      "id": "all-plugins",
+      "ok": true
+    }
+  ],
+  "publication": {
+    "performed": false,
+    "versionsChanged": false,
+    "npmDistTagsChanged": false
+  },
+  "scope": {
+    "realModelCalls": false,
+    "claudeDeferredCasesRerun": false,
+    "compatibilityGuardsImplemented": false,
+    "releaseReady": false
+  },
+  "relayFullTest": {
+    "exitCode": 0
+  },
+  "remoteCiKnownBlocker": {
+    "plugin": "dsh-plugin-manager",
+    "error": "ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION",
+    "entries": 223,
+    "policyWeakened": false,
+    "run": "https://github.com/yangbobo2021/relay-dsh-plugin-manager/actions/runs/33386923557",
+    "node22And24Verify": "passed"
+  },
+  "claudePullRequest": {
+    "url": "https://github.com/yangbobo2021/relay-dsh-plugin-claude/pull/39",
+    "state": "merged",
+    "requiredChecks": "passed"
+  }
+}

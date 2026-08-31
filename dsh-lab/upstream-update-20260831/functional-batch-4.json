@@ -1,0 +1,415 @@
+{
+  "scope": "Additional acceptance; unresolved findings deferred to FINAL-ISSUES.zh.md as requested",
+  "createdAt": "2026-08-31T10:14:24.730659+00:00",
+  "dshVersion": "0.1.2-alpha.2",
+  "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+  "platform": "darwin",
+  "arch": "arm64",
+  "node": "v25.5.0",
+  "productionCodeChangedThisBatch": false,
+  "releasePerformed": false,
+  "versionsOrDistTagsChanged": false,
+  "runs": [
+    {
+      "name": "extra-backends2",
+      "artifactDirectory": "/tmp/relay-alpha2-extra-backends2",
+      "rawResultSha256": "32f8f1896d67b47f004751a7e2cc89dddd1ebee2404307bc9086205c76ad616c",
+      "runtimes": {
+        "@openai/codex": "0.149.0",
+        "@anthropic-ai/claude-agent-sdk": "0.3.251"
+      },
+      "cases": [
+        {
+          "id": "codex-smoke",
+          "startedAt": "2026-08-31T09:59:35.962Z",
+          "status": "passed"
+        },
+        {
+          "id": "codex-image-input-restart",
+          "startedAt": "2026-08-31T09:59:49.119Z",
+          "status": "passed",
+          "storedSha256": "38bac39075d225f7c03eae6da918735d594e6e47031aa348973c6c8409bc7f51",
+          "imageAfterRestart": true,
+          "dimensions": [
+            640,
+            220
+          ]
+        },
+        {
+          "id": "codex-fork-isolation",
+          "startedAt": "2026-08-31T09:59:57.498Z",
+          "status": "passed",
+          "newBindingDistinct": true,
+          "inheritedAttachmentReadable": true,
+          "parentUnaffected": true
+        },
+        {
+          "id": "codex-workspace-isolation",
+          "startedAt": "2026-08-31T10:00:21.994Z",
+          "status": "passed",
+          "crossSessionAttachmentDenied": true,
+          "switchesIsolated": true
+        },
+        {
+          "id": "claude-smoke",
+          "startedAt": "2026-08-31T10:00:36.651Z",
+          "status": "passed"
+        },
+        {
+          "id": "claude-image-input-restart",
+          "startedAt": "2026-08-31T10:00:42.703Z",
+          "status": "failed",
+          "failure": "AssertionError [ERR_ASSERTION]: model must read code known only through image input",
+          "classification": "split into recognition and attachment storage in claude-attachments"
+        },
+        {
+          "id": "claude-fork-isolation",
+          "startedAt": "2026-08-31T10:00:46.489Z",
+          "status": "failed",
+          "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+          "observedReply": "I have no synthetic MEM_ marker in this conversation — none was provided or remembered."
+        },
+        {
+          "id": "claude-workspace-isolation",
+          "startedAt": "2026-08-31T10:00:52.189Z",
+          "status": "passed",
+          "switchesIsolated": true
+        }
+      ],
+      "browserErrors": []
+    },
+    {
+      "name": "claude-attachments",
+      "artifactDirectory": "/tmp/relay-alpha2-claude-attachments",
+      "rawResultSha256": "d28ac825bbb9d7f04d5127092733cef9244fef92ceb26faa6f175a2ab9fb7e27",
+      "runtimes": {
+        "@anthropic-ai/claude-agent-sdk": "0.3.251"
+      },
+      "cases": [
+        {
+          "id": "claude-smoke",
+          "startedAt": "2026-08-31T10:03:15.950Z",
+          "status": "passed"
+        },
+        {
+          "id": "claude-image-storage-restart",
+          "startedAt": "2026-08-31T10:03:22.186Z",
+          "status": "passed",
+          "storedSha256": "334dfd2dcaacfabf1e6ada7a2c2949a6bbb7e95f153ff1a65e2ad78c857d10bf",
+          "imageAfterRestart": true,
+          "dimensions": [
+            640,
+            220
+          ]
+        },
+        {
+          "id": "claude-image-recognition",
+          "startedAt": "2026-08-31T10:03:25.628Z",
+          "status": "failed",
+          "failure": "AssertionError [ERR_ASSERTION]: model must read code known only through image input",
+          "observedReply": "I can't view the image — it was provided as unsupported, so there's no visible content for me to read."
+        },
+        {
+          "id": "claude-workspace-isolation",
+          "startedAt": "2026-08-31T10:03:29.117Z",
+          "status": "passed",
+          "crossSessionAttachmentDenied": true,
+          "switchesIsolated": true
+        }
+      ],
+      "browserErrors": []
+    },
+    {
+      "name": "combined-acceptance",
+      "artifactDirectory": "/tmp/relay-alpha2-combined-acceptance",
+      "rawResultSha256": "2f3aac5b4cbcbce021c17ab88dcdaf8d928e6a3ac149040ade21b06112ac0183",
+      "runtimes": {
+        "@openai/codex": "0.149.0"
+      },
+      "cases": [
+        {
+          "id": "codex-smoke",
+          "startedAt": "2026-08-31T10:09:57.309Z",
+          "status": "passed"
+        },
+        {
+          "id": "files-text-boundaries",
+          "startedAt": "2026-08-31T10:10:08.460Z",
+          "status": "passed",
+          "largePreviewBytes": 262143
+        },
+        {
+          "id": "files-parent-traversal",
+          "startedAt": "2026-08-31T10:10:08.486Z",
+          "status": "passed"
+        },
+        {
+          "id": "files-symlink-boundary",
+          "startedAt": "2026-08-31T10:10:08.489Z",
+          "status": "passed"
+        },
+        {
+          "id": "files-markdown-code-ui",
+          "startedAt": "2026-08-31T10:10:08.490Z",
+          "status": "passed",
+          "copySourceAndTreeToggle": true
+        },
+        {
+          "id": "workbench-resize-persistence",
+          "startedAt": "2026-08-31T10:10:09.282Z",
+          "status": "failed",
+          "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+          "classification": "superseded_driver_error: conversation width handle selected; see layout-final"
+        },
+        {
+          "id": "files-workspace-switch",
+          "startedAt": "2026-08-31T10:10:09.915Z",
+          "status": "passed",
+          "distinctWorkspaceContent": true
+        },
+        {
+          "id": "terminal-multiple-and-host-cleanup",
+          "startedAt": "2026-08-31T10:10:23.035Z",
+          "status": "passed",
+          "distinctShellsAndHostCleanup": true
+        },
+        {
+          "id": "events-real-tool-overdue-restart",
+          "startedAt": "2026-08-31T10:10:34.918Z",
+          "status": "passed",
+          "overdueDeliveredToOriginalSession": true,
+          "deliveryCount": 1,
+          "secondRestartNoDuplicate": true
+        },
+        {
+          "id": "events-management-ui-cancel",
+          "startedAt": "2026-08-31T10:11:39.893Z",
+          "status": "passed",
+          "cancelledViaUi": true
+        },
+        {
+          "id": "manager-conversation-disable-decline",
+          "startedAt": "2026-08-31T10:11:51.742Z",
+          "status": "passed",
+          "unchangedBeforeAnswer": true,
+          "confirmedProfileState": true
+        },
+        {
+          "id": "manager-conversation-disable-approve",
+          "startedAt": "2026-08-31T10:12:12.431Z",
+          "status": "passed",
+          "unchangedBeforeAnswer": true,
+          "confirmedProfileState": true
+        },
+        {
+          "id": "manager-conversation-enable-approve",
+          "startedAt": "2026-08-31T10:12:29.606Z",
+          "status": "passed",
+          "unchangedBeforeAnswer": true,
+          "confirmedProfileState": true
+        },
+        {
+          "id": "manager-recommended-plugins-ui",
+          "startedAt": "2026-08-31T10:12:47.582Z",
+          "status": "passed",
+          "twoBackendRecommendationsVisible": true
+        }
+      ],
+      "browserErrors": []
+    },
+    {
+      "name": "import-contract-verified",
+      "artifactDirectory": "/tmp/relay-alpha2-import-contract-verified",
+      "rawResultSha256": "4d8fd1f47ba9675bcb979e2ef089675315bb2933b2bc4776fb59a5672771b567",
+      "runtimes": {
+        "@openai/codex": "0.149.0",
+        "@anthropic-ai/claude-agent-sdk": "0.3.251"
+      },
+      "cases": [
+        {
+          "id": "codex-smoke",
+          "startedAt": "2026-08-31T10:12:40.365Z",
+          "status": "passed"
+        },
+        {
+          "id": "codex-selective-import",
+          "startedAt": "2026-08-31T10:12:50.560Z",
+          "status": "passed",
+          "selectionAndProgress": true,
+          "resumeUsesOriginalNativeBinding": true
+        },
+        {
+          "id": "codex-repeat-import",
+          "startedAt": "2026-08-31T10:13:06.096Z",
+          "status": "passed",
+          "noDuplicateBinding": true
+        },
+        {
+          "id": "claude-smoke",
+          "startedAt": "2026-08-31T10:13:18.724Z",
+          "status": "passed"
+        },
+        {
+          "id": "claude-sdk-sources-excluded",
+          "startedAt": "2026-08-31T10:13:28.527Z",
+          "status": "passed",
+          "programmaticSourcesExcluded": true
+        }
+      ],
+      "browserErrors": []
+    },
+    {
+      "name": "layout-final",
+      "artifactDirectory": "/tmp/relay-alpha2-layout-final",
+      "rawResultSha256": "b1ad8fcfb43e9299d816e1319db6595fca175eb8ffc0e0af16b116d6fd0bee6a",
+      "runtimes": {
+        "@openai/codex": "0.149.0"
+      },
+      "cases": [
+        {
+          "id": "codex-smoke",
+          "startedAt": "2026-08-31T10:13:27.117Z",
+          "status": "passed"
+        },
+        {
+          "id": "workbench-resize",
+          "startedAt": "2026-08-31T10:13:39.424Z",
+          "status": "passed",
+          "widths": [
+            743,
+            679
+          ],
+          "narrowViewportNoOverflow": true
+        },
+        {
+          "id": "workbench-refresh-preference",
+          "startedAt": "2026-08-31T10:13:40.423Z",
+          "status": "failed",
+          "widths": [
+            679,
+            743
+          ],
+          "failure": "AssertionError [ERR_ASSERTION]: resized preference survives refresh and reopening"
+        }
+      ],
+      "browserErrors": []
+    }
+  ],
+  "candidatePackages": [
+    {
+      "name": "relay-dsh-plugin-session-import",
+      "version": "0.1.0",
+      "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+    },
+    {
+      "name": "relay-dsh-plugin-codex",
+      "version": "0.1.6-rc.1",
+      "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+    },
+    {
+      "name": "relay-dsh-plugin-claude",
+      "version": "0.1.5",
+      "sha256": "22f04b53cc295f6218d2aa4f268e02d87b5a1b150e4231320e0344211ebd627b"
+    },
+    {
+      "name": "relay-dsh-plugin-workbench",
+      "version": "0.1.0",
+      "sha256": "81d0175352dc6c9ad23b1be5bde0c26332c4fba131dad6f74a4043e01f8b6663"
+    },
+    {
+      "name": "relay-dsh-plugin-files",
+      "version": "0.1.0",
+      "sha256": "910ae0c2fd315f90138aff7304ac00a6136e53cb9fa768814c22199d0203d20a"
+    },
+    {
+      "name": "relay-dsh-plugin-terminal",
+      "version": "0.1.1",
+      "sha256": "cad81fce292595bf4c2de6f2df7ef0297bad6ab06865066d3441cc3807cbb8cc"
+    },
+    {
+      "name": "relay-dsh-plugin-events",
+      "version": "0.1.0-internal.2",
+      "sha256": "61b91c45efe02d60e569414bf5abe86be4d268e2bfcfcd65ae83a9696e24e34a"
+    },
+    {
+      "name": "relay-dsh-plugin-monitors",
+      "version": "0.1.0-internal.2",
+      "sha256": "d90b477a1342b7c3eec4c484b917298ed52657819451331bd5eb69b30e962d3d"
+    },
+    {
+      "name": "relay-dsh-plugin-manager",
+      "version": "0.1.1",
+      "sha256": "30e42f3cb7cd7d1ea3cef1bb8b30f4825d0d147ea8f558da77443b18eb0d34b4"
+    }
+  ],
+  "deterministicVerification": {
+    "status": "passed",
+    "tests": 55,
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0,
+    "scope": [
+      "Events unit/runtime/HTTP",
+      "Semantic Router model adapter and invalid output/timeout",
+      "Monitors observer/detector/lifecycle",
+      "cross-plugin composition and late load/unload/reload"
+    ],
+    "rawLog": "/tmp/relay-alpha2-events-contracts-batch4.log"
+  },
+  "managerPublicSources": {
+    "status": "blocked",
+    "rawTests": {
+      "passed": 1,
+      "failed": 1
+    },
+    "passed": "Public npm batch install Codex, Files, Terminal, controller-level A-024/A-025",
+    "partialEvidence": [
+      "npm/GitHub discovery and inspection",
+      "public npm Codex installation and profile registration"
+    ],
+    "blockedAt": "Boot of published Codex package: @deepseek-ai/dsh-llm has no CallId export",
+    "notExecutedAfterFailure": [
+      "npm lifecycle toggle/update/remove",
+      "GitHub full installation lifecycle"
+    ],
+    "rawLog": "/tmp/relay-alpha2-manager-public-live.log",
+    "candidateVsPublishedWarning": "The installed public packages are not the adapted local candidate tarballs."
+  },
+  "managerFrozenInstall": {
+    "status": "blocked",
+    "error": "ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION",
+    "rejectedEntries": 223,
+    "minimumReleaseAgeMinutes": 1440,
+    "policyUnchanged": true,
+    "rawLog": "/tmp/relay-alpha2-manager-frozen-batch4.log",
+    "displayedLatestPackageEligibleAfter": "2026-08-31T14:07:03.368000+00:00",
+    "timingCaveat": "The pnpm log truncates rejected entries; this timestamp is not an all-packages eligibility guarantee."
+  },
+  "notRun": [
+    "Claude interactive terminal history positive import/resume (SDK sources are intentionally excluded)",
+    "Old-version attachment upgrade",
+    "Skills/MCP/Hooks and subagents across both backends",
+    "Codex external native history sync and long-running fault injection",
+    "Manager conversation install/update/remove and cross-session replay",
+    "Real configured semantic-routing model decisions in DSH",
+    "Event ingress-to-real-session busy/concurrent and admission-failure recovery",
+    "Complex terminal TUI/provider reconnect/unload",
+    "Windows/Linux and all-plugin combined long-run regression"
+  ],
+  "releaseGate": "not_met",
+  "privacy": "Only synthetic fixtures and public package metadata; no credentials, user histories, or production logs copied into the repository.",
+  "verification": {
+    "verifiedAt": "2026-08-31T10:17:09.565814+00:00",
+    "driverSyntax": "passed",
+    "trackedDiffWhitespace": "passed",
+    "newFilesWhitespace": "passed",
+    "officialCheckoutClean": true,
+    "testDriverSha256": {
+      "scripts/verify-dsh-backend-e2e.mjs": "d8f65a5aa945302301e44c273ba00147814aefa1865613374d0c5cc60ceb810a",
+      "scripts/lib/dsh-workbench-extra-cases.mjs": "abe3afd6b71a11fa9834e8558b2b767c728efd9600b8d99e9a8e5d76c90bb7dd",
+      "scripts/lib/dsh-manager-extra-cases.mjs": "1165f9687c8eb9ae940b8c175d36b7f05c894786fd1820ab85319eb9a106d90f",
+      "scripts/lib/dsh-events-extra-cases.mjs": "d5ed48e20befba8814cc178ef193b2e204b90387f60c5cfc8160981c784f4b73",
+      "scripts/lib/dsh-extended-backend-cases.mjs": "990ee9bbc04bde5f57e286fa9a888ec03f96897a50f683e15911ce2e2e2c5dad"
+    }
+  }
+}

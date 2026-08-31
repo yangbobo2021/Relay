@@ -1,0 +1,559 @@
+{
+  "scope": "Second functional regression batch; partial acceptance only, not full ten-plugin compatibility approval",
+  "createdAt": "2026-08-31T09:37:51.674532+00:00",
+  "dshVersion": "0.1.2-alpha.2",
+  "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+  "platform": "darwin",
+  "arch": "arm64",
+  "node": "v25.5.0",
+  "driver": "scripts/verify-dsh-backend-e2e.mjs",
+  "syntheticInputVersion": "batch2-20260831",
+  "environment": {
+    "isolatedDshHome": true,
+    "isolatedWorkspaceAndBackendBindings": true,
+    "usesExistingBackendLogin": true,
+    "credentialsCopied": false,
+    "dailyDshProfileModified": false,
+    "modelAliasCaveat": "sonnet/haiku follow existing account/provider configuration; not a provider or model quality comparison"
+  },
+  "claudeSdk": {
+    "status": "passed",
+    "caseCount": 8,
+    "createdAt": "2026-08-31T09:28:53.010Z",
+    "packages": [
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "version": "0.1.0",
+        "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+      },
+      {
+        "name": "relay-dsh-plugin-claude",
+        "version": "0.1.5",
+        "sha256": "22f04b53cc295f6218d2aa4f268e02d87b5a1b150e4231320e0344211ebd627b"
+      }
+    ],
+    "runtimes": {
+      "@anthropic-ai/claude-agent-sdk": "0.3.251"
+    },
+    "browserPageErrorCount": 0,
+    "artifactDirectory": "/tmp/relay-alpha2-claude-fixed",
+    "cases": [
+      {
+        "id": "claude-smoke",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:03.624Z",
+        "checks": [
+          "real backend reply rendered",
+          "backend session binding created"
+        ],
+        "selection": {
+          "model": "sonnet",
+          "reasoningEffort": "low"
+        },
+        "turn": {
+          "elapsedMs": 4879,
+          "end": {
+            "turn": 1,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "sonnet",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "claude-tools",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:09.637Z",
+        "checks": [
+          "fixture sum equals 10 in result.json",
+          "input unchanged",
+          "tool activity persisted",
+          "completion rendered"
+        ],
+        "turn": {
+          "elapsedMs": 8475,
+          "end": {
+            "turn": 2,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 4
+        },
+        "approvals": [
+          {
+            "key": "approval:1",
+            "allowed": true
+          }
+        ]
+      },
+      {
+        "id": "claude-approval-allow",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:18.139Z",
+        "checks": [
+          "one real UI approval answered allow once",
+          "no target before answer",
+          "exact expected target content after allow"
+        ],
+        "sideEffectMatchesDecision": true,
+        "turn": {
+          "elapsedMs": 5618,
+          "end": {
+            "turn": 3,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 2
+        },
+        "approvals": [
+          {
+            "key": "approval:2",
+            "allowed": true
+          }
+        ]
+      },
+      {
+        "id": "claude-approval-deny",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:23.761Z",
+        "checks": [
+          "one real UI approval rejected",
+          "no target before or after rejection"
+        ],
+        "sideEffectMatchesDecision": true,
+        "turn": {
+          "elapsedMs": 4840,
+          "end": {
+            "turn": 4,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 2
+        },
+        "approvals": [
+          {
+            "key": "approval:3",
+            "allowed": false
+          }
+        ]
+      },
+      {
+        "id": "claude-cancel",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:28.606Z",
+        "checks": [
+          "actual Stop button clicked after fixture PID recorded",
+          "fixture process exited within 12 seconds without harness cleanup",
+          "delayed side-effect file absent",
+          "next turn recovered and rendered"
+        ],
+        "childStopped": true,
+        "turn": {
+          "elapsedMs": 4536,
+          "end": {
+            "turn": 5,
+            "reason": {
+              "kind": "aborted",
+              "reason": {
+                "kind": "user"
+              }
+            }
+          },
+          "activityCount": 1
+        },
+        "approvals": [
+          {
+            "key": "approval:4",
+            "allowed": true
+          }
+        ],
+        "recovery": {
+          "end": {
+            "turn": 6,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "claude-question",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:35.677Z",
+        "checks": [
+          "real question card answered BETA and submitted",
+          "current turn reply contains CHOICE_BETA",
+          "reply visible"
+        ],
+        "turn": {
+          "elapsedMs": 5796,
+          "end": {
+            "turn": 7,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 2
+        }
+      },
+      {
+        "id": "claude-model-ui",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:41.483Z",
+        "checks": [
+          "Sonnet to Haiku selected through UI",
+          "prompt submitted via contenteditable textbox",
+          "persisted request model is haiku",
+          "reply rendered",
+          "backend binding unchanged",
+          "selection remains Haiku"
+        ],
+        "bindingPreserved": true,
+        "turn": {
+          "elapsedMs": 2858,
+          "end": {
+            "turn": 8,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "haiku",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "claude-restart-memory",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:29:44.496Z",
+        "checks": [
+          "initial reply visible after page refresh and host restart",
+          "random nonce recalled in same backend session",
+          "no tool activity in recall turn",
+          "binding unchanged"
+        ],
+        "bindingPreserved": true,
+        "turn": {
+          "elapsedMs": 3248,
+          "end": {
+            "turn": 9,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "sonnet",
+          "activityCount": 0
+        }
+      }
+    ],
+    "backendSelection": "SDK; initial driver relied on auto mode, real SDK bridge observed"
+  },
+  "claudeCli": {
+    "status": "passed",
+    "caseCount": 2,
+    "createdAt": "2026-08-31T09:31:06.396Z",
+    "packages": [
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "version": "0.1.0",
+        "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+      },
+      {
+        "name": "relay-dsh-plugin-claude",
+        "version": "0.1.5",
+        "sha256": "22f04b53cc295f6218d2aa4f268e02d87b5a1b150e4231320e0344211ebd627b"
+      }
+    ],
+    "runtimes": {
+      "@anthropic-ai/claude-agent-sdk": "0.3.251"
+    },
+    "browserPageErrorCount": 0,
+    "artifactDirectory": "/tmp/relay-alpha2-claude-cli2",
+    "cases": [
+      {
+        "id": "claude-smoke",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:31:14.723Z",
+        "checks": [
+          "real backend reply rendered",
+          "backend session binding created"
+        ],
+        "selection": {
+          "model": "sonnet"
+        },
+        "turn": {
+          "elapsedMs": 5161,
+          "end": {
+            "turn": 1,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "sonnet",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "claude-restart-memory",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:31:21.031Z",
+        "checks": [
+          "initial reply visible after page refresh and host restart",
+          "random nonce recalled in same backend session",
+          "no tool activity in recall turn",
+          "binding unchanged"
+        ],
+        "bindingPreserved": true,
+        "turn": {
+          "elapsedMs": 3572,
+          "end": {
+            "turn": 2,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "sonnet",
+          "activityCount": 0
+        }
+      }
+    ],
+    "cliVersion": "2.1.251 (Claude Code)",
+    "backendSelection": "explicit cli",
+    "scopeNote": "Only real reply and restart memory; no inference about SDK approval or import coverage"
+  },
+  "claudeUpgrade": {
+    "status": "passed",
+    "caseCount": 4,
+    "createdAt": "2026-08-31T09:31:35.274Z",
+    "packages": [
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "version": "0.1.0",
+        "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+      },
+      {
+        "name": "relay-dsh-plugin-claude",
+        "version": "0.1.5",
+        "sha256": "22f04b53cc295f6218d2aa4f268e02d87b5a1b150e4231320e0344211ebd627b"
+      }
+    ],
+    "runtimes": {
+      "@anthropic-ai/claude-agent-sdk": "0.3.251"
+    },
+    "browserPageErrorCount": 0,
+    "artifactDirectory": "/tmp/relay-alpha2-claude-upgrade-question",
+    "cases": [
+      {
+        "id": "claude-smoke",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:31:44.066Z",
+        "checks": [
+          "real backend reply rendered",
+          "backend session binding created"
+        ],
+        "selection": {
+          "model": "sonnet",
+          "reasoningEffort": "low"
+        },
+        "turn": {
+          "elapsedMs": 5408,
+          "end": {
+            "turn": 1,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "sonnet",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "claude-baseline-question",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:31:50.359Z",
+        "checks": [
+          "old published combination displays real question card",
+          "BETA submitted through UI",
+          "CHOICE_BETA reply visible"
+        ],
+        "turn": {
+          "elapsedMs": 5515,
+          "end": {
+            "turn": 2,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 2
+        }
+      },
+      {
+        "id": "claude-old-to-new-upgrade",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:31:55.879Z",
+        "checks": [
+          "old user and assistant messages deep-equal after upgrade with no duplication",
+          "same backend binding",
+          "random nonce recalled without tool activity",
+          "upgraded conversation rendered"
+        ],
+        "bindingPreserved": true,
+        "oldMessagesPreserved": true,
+        "turn": {
+          "elapsedMs": 2962,
+          "end": {
+            "turn": 3,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "requestedModel": "sonnet",
+          "activityCount": 0
+        }
+      },
+      {
+        "id": "claude-question",
+        "status": "passed",
+        "startedAt": "2026-08-31T09:32:03.246Z",
+        "checks": [
+          "real question card answered BETA and submitted",
+          "current turn reply contains CHOICE_BETA",
+          "reply visible"
+        ],
+        "turn": {
+          "elapsedMs": 4959,
+          "end": {
+            "turn": 4,
+            "reason": {
+              "kind": "completed"
+            }
+          },
+          "activityCount": 2
+        }
+      }
+    ],
+    "baseline": {
+      "dshVersion": "0.1.1-rc.2",
+      "packages": [
+        {
+          "name": "relay-dsh-plugin-session-import",
+          "version": "0.1.0",
+          "sha256": "1768a41c6aef6c329ce710738777547d93a40df0557ff40514bb0ed5cfaab3e8"
+        },
+        {
+          "name": "relay-dsh-plugin-claude",
+          "version": "0.1.5",
+          "sha256": "39147f9eeabaf6540aa0c569023c0d63ced03e5bbc93641a246f1fd8467a805e"
+        }
+      ],
+      "dshNpmIntegrity": "sha512-UP1UIh6q3Gme/yXRn/QL2P8IsVlv8Shpg22TRJIZPsCRWLm4CBiA1MUvXmJAfsOEETBMLAl+xWPtFw6ICsN3wg==",
+      "sourceCommit": null
+    },
+    "scopeNote": "First two cases run on old published combination; last two on upgraded same isolated Home. Old npm version/integrity pinned; source commit not asserted."
+  },
+  "resolvedRegression": {
+    "id": "claude-question-lossless-json",
+    "baselineStatus": "passed",
+    "beforeFixStatus": "failed",
+    "afterFixStatus": "passed",
+    "symptom": "AskUserQuestion had no DSH question card; Remote rejected present undefined optional fields",
+    "gatewayError": "api gateway: Remote event request is not lossless JSON data",
+    "beforeFixPackages": [
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "version": "0.1.0",
+        "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+      },
+      {
+        "name": "relay-dsh-plugin-claude",
+        "version": "0.1.5",
+        "sha256": "2d496a77e70f7bb8cdd077f50dfff167aab49a0c24fbe74a68a6f0b42cd8f754"
+      }
+    ],
+    "beforeFixArtifactDirectory": "/tmp/relay-alpha2-claude-interactions2",
+    "fix": "Omit absent detail and option description; preserve supplied strings including empty strings",
+    "sourceFiles": [
+      "integrations/claude/claude-tools.js",
+      "integrations/claude/test/host-services.test.mjs"
+    ],
+    "baselineEvidence": "claudeUpgrade/claude-baseline-question",
+    "fixedEvidence": "claudeSdk/claude-question"
+  },
+  "codex": {
+    "status": "blocked",
+    "case": "codex-smoke",
+    "createdAt": "2026-08-31T09:23:16.058Z",
+    "selection": {
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "low"
+    },
+    "package": {
+      "name": "relay-dsh-plugin-codex",
+      "version": "0.1.6-rc.1",
+      "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+    },
+    "errorCode": "CODEX_TURN_FAILED",
+    "reason": "Refresh token was already used; local Codex CLI needs user sign-in again",
+    "classification": "environment/authentication, not established plugin regression",
+    "artifactDirectory": "/tmp/relay-alpha2-backend-smoke2",
+    "remainingRealModelCasesStatus": "not_run",
+    "automaticLogoutPerformed": false
+  },
+  "postFixChecks": {
+    "claudeVerify": {
+      "status": "passed",
+      "nodeTests": 130,
+      "componentTests": 3,
+      "typecheck": "passed",
+      "build": "passed",
+      "log": "/tmp/relay-alpha2-claude-question-fix-verify.log"
+    },
+    "crossPluginContracts": {
+      "status": "passed",
+      "tests": 5,
+      "log": "/tmp/relay-alpha2-post-question-contracts.log"
+    },
+    "officialInstall": {
+      "status": "passed",
+      "scenarios": [
+        "claude-only",
+        "codex-and-claude",
+        "all-plugins"
+      ],
+      "log": "/tmp/relay-alpha2-post-question-install.log",
+      "scope": "packaged host/browser loading, not all-plugin functional equivalence"
+    }
+  },
+  "driverCorrections": [
+    "Open empty sessions only after first prompt makes them visible in sidebar",
+    "Resolve SDK metadata without assuming package.json export",
+    "CLI catalog does not expose low reasoning; omit unsupported setting",
+    "Use system Chrome when Playwright bundled executable is absent"
+  ],
+  "notRun": [
+    "Codex remaining real model flows pending login",
+    "Claude image input/output and old attachment upgrade",
+    "native selective import and fork",
+    "cross-session and cross-workspace isolation",
+    "DSH dynamic tools and Skills/MCP/Hooks",
+    "long-running failure recovery and synthetic secret leakage checks",
+    "manager conversation confirmation and public-source lifecycle",
+    "full Workbench and Files interactions",
+    "Events/Router/Monitors full recovery and combination flows",
+    "Linux/Windows CI",
+    "strict frozen install rerun",
+    "rollback rehearsal",
+    "complete original-feature catalogue acceptance"
+  ],
+  "releaseGate": {
+    "status": "blocked",
+    "reason": "Required scenarios remain blocked/not_run",
+    "releasePerformed": false,
+    "versionsAndDistTagsChanged": false
+  }
+}

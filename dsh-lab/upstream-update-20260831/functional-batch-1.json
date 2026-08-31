@@ -1,0 +1,208 @@
+{
+  "scope": "First functional regression batch; not full plugin compatibility approval",
+  "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+  "ui": {
+    "status": "passed",
+    "scenarioCount": 6,
+    "candidates": {
+      "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+      "createdAt": "2026-08-31T09:13:32.947Z",
+      "node": "v25.5.0",
+      "scenarios": [
+        "workbench-only",
+        "files-with-workbench",
+        "terminal-with-workbench",
+        "files-terminal-with-workbench",
+        "workbench-files-terminal-explicit",
+        "codex-real-terminal"
+      ],
+      "packages": [
+        {
+          "name": "relay-dsh-plugin-workbench",
+          "sha256": "81d0175352dc6c9ad23b1be5bde0c26332c4fba131dad6f74a4043e01f8b6663"
+        },
+        {
+          "name": "relay-dsh-plugin-files",
+          "sha256": "910ae0c2fd315f90138aff7304ac00a6136e53cb9fa768814c22199d0203d20a"
+        },
+        {
+          "name": "relay-dsh-plugin-terminal",
+          "sha256": "cad81fce292595bf4c2de6f2df7ef0297bad6ab06865066d3441cc3807cbb8cc"
+        },
+        {
+          "name": "relay-dsh-plugin-session-import",
+          "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+        },
+        {
+          "name": "relay-dsh-plugin-codex",
+          "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+        }
+      ]
+    },
+    "artifactDirectory": "/tmp/relay-alpha2-functional-ui-full"
+  },
+  "utf8TerminalRerun": {
+    "status": "passed",
+    "candidates": {
+      "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+      "createdAt": "2026-08-31T09:17:21.517Z",
+      "node": "v25.5.0",
+      "scenarios": [
+        "codex-real-terminal"
+      ],
+      "packages": [
+        {
+          "name": "relay-dsh-plugin-workbench",
+          "sha256": "81d0175352dc6c9ad23b1be5bde0c26332c4fba131dad6f74a4043e01f8b6663"
+        },
+        {
+          "name": "relay-dsh-plugin-files",
+          "sha256": "910ae0c2fd315f90138aff7304ac00a6136e53cb9fa768814c22199d0203d20a"
+        },
+        {
+          "name": "relay-dsh-plugin-terminal",
+          "sha256": "cad81fce292595bf4c2de6f2df7ef0297bad6ab06865066d3441cc3807cbb8cc"
+        },
+        {
+          "name": "relay-dsh-plugin-session-import",
+          "sha256": "ef66dfbcdc3f7db09c6b3661804cb20061766e7d6c62f2df9603d062aba10898"
+        },
+        {
+          "name": "relay-dsh-plugin-codex",
+          "sha256": "e25b9541172c4b2fa48c8c18c1d0097bf9398b80d6ec748f8bdaf0e5c8c37058"
+        }
+      ]
+    },
+    "evidence": {
+      "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+      "platform": "darwin",
+      "arch": "arm64",
+      "terminalLocale": "en_US.UTF-8",
+      "cwdMatchesWorkspace": true,
+      "unicodeRoundTrip": true,
+      "ptySize": {
+        "before": "13 158",
+        "after": "13 128"
+      },
+      "ctrlCProcessExited": true,
+      "cancelledSideEffectAbsent": true,
+      "shellUsableAfterCtrlC": true,
+      "reopenedPanelRetainsShellAndHistory": true,
+      "explicitExitTerminatesShell": true,
+      "modelTurns": 0
+    },
+    "artifactDirectory": "/tmp/relay-alpha2-functional-ui-utf8"
+  },
+  "manager": {
+    "status": "passed",
+    "evidence": {
+      "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+      "managerSha256": "30e42f3cb7cd7d1ea3cef1bb8b30f4825d0d147ea8f558da77443b18eb0d34b4",
+      "platform": "darwin",
+      "arch": "arm64",
+      "node": "v25.5.0",
+      "registry": "loopback-controlled-fixture",
+      "fixturePackage": "@relay-controlled/dsh-plugin-fixture-xr1egf",
+      "fixtureVersions": [
+        {
+          "version": "1.0.0",
+          "integrity": "sha512-c/AR+LPFkv2353R2SeN0POfjEFMqy3hllFHTzzUFAb90PDZ7GGRplYSoWO19ZF0YD9498qY+Dj6A+m8nWBRNzw=="
+        },
+        {
+          "version": "1.0.1",
+          "integrity": "sha512-8FofFvRRkajF8eaNdDr/715cHXOGc6L703YCOzg0pqiODEn9FLnzqA2hixUyh364BVpzw7frewhw3oGnZmsLbQ=="
+        }
+      ],
+      "steps": [
+        {
+          "id": "manager-install",
+          "status": "passed",
+          "completion": "waiting_for_manual_restart",
+          "confirmationRequired": true,
+          "tokenReplayRejected": true
+        },
+        {
+          "id": "installed-cold-boot",
+          "status": "passed",
+          "authenticatedWebStatus": 200,
+          "activatedVersion": "1.0.0"
+        },
+        {
+          "id": "manager-disable",
+          "status": "passed",
+          "completion": "waiting_for_manual_restart",
+          "confirmationRequired": true,
+          "tokenReplayRejected": true
+        },
+        {
+          "id": "disabled-cold-boot",
+          "status": "passed",
+          "authenticatedWebStatus": 200,
+          "activatedVersion": null
+        },
+        {
+          "id": "manager-enable",
+          "status": "passed",
+          "completion": "waiting_for_manual_restart",
+          "confirmationRequired": true,
+          "tokenReplayRejected": true
+        },
+        {
+          "id": "enabled-cold-boot",
+          "status": "passed",
+          "authenticatedWebStatus": 200,
+          "activatedVersion": "1.0.0"
+        },
+        {
+          "id": "manager-update",
+          "status": "passed",
+          "completion": "waiting_for_manual_restart",
+          "confirmationRequired": true,
+          "tokenReplayRejected": true
+        },
+        {
+          "id": "updated-cold-boot",
+          "status": "passed",
+          "authenticatedWebStatus": 200,
+          "activatedVersion": "1.0.1"
+        },
+        {
+          "id": "manager-remove",
+          "status": "passed",
+          "completion": "waiting_for_manual_restart",
+          "confirmationRequired": true,
+          "tokenReplayRejected": true
+        },
+        {
+          "id": "removed-cold-boot",
+          "status": "passed",
+          "authenticatedWebStatus": 200,
+          "activatedVersion": null
+        }
+      ],
+      "notCovered": [
+        "public npm/GitHub lifecycle",
+        "conversation approval UI and session-bound tokens",
+        "hot reload",
+        "batch failure/cancellation",
+        "all real plugin dependencies"
+      ]
+    },
+    "unitAndReleaseTestsPassed": 94,
+    "publicSourceTestsNotRun": 2
+  },
+  "notRun": [
+    "old-versus-new same-case comparison",
+    "real Codex/Claude model turns and conversation approvals",
+    "old Session and attachment in-place upgrade",
+    "full ten-plugin feature catalogue",
+    "public npm/GitHub lifecycle",
+    "hot reload and batch cancellation",
+    "cross-session UI isolation",
+    "Linux/Windows CI",
+    "strict frozen install rerun",
+    "rollback rehearsal"
+  ],
+  "productionCodeChangedInThisBatch": false,
+  "releasePerformed": false
+}
