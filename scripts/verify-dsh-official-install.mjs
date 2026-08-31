@@ -13,6 +13,7 @@ const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const dshRoot = join(root, "upstream", "deepseek-harness");
 const dshBin = process.env.DSH_BIN ?? join(dshRoot, "apps", "cli", "lib", "bin.js");
 const temporary = await mkdtemp(join(tmpdir(), "relay-official-dsh-"));
+const codexOnly = process.argv.includes("--codex-only");
 const packages = [
   ["fixtures/dsh-event-acceptance", "relay-dsh-event-acceptance-fixture"],
   ["integrations/codex", "relay-dsh-plugin-codex"],
@@ -23,7 +24,7 @@ const packages = [
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
   ["integrations/dsh-files", "relay-dsh-plugin-files"],
   ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
-];
+].filter(([, name]) => !codexOnly || name === "relay-dsh-plugin-codex");
 
 const cleanBefore = gitStatus();
 assert.equal(cleanBefore, "", "official DSH checkout must be clean before install verification");
@@ -40,6 +41,9 @@ try {
     return [name, join(temporary, packed.filename)];
   }));
 
+  if (codexOnly) {
+    await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 3191);
+  } else {
   const eventPlugins = ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors"];
   await verifyScenario("router-only", [eventPlugins[1]], tarballs, 3200);
   await verifyScenario("monitors-only", [eventPlugins[2]], tarballs, 3201);
@@ -56,6 +60,7 @@ try {
   await verifyScenario("workbench-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal"], tarballs, 3197);
   await verifyScenario("codex-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
   await verifyScenario("all-plugins", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins], tarballs, 3199);
+  }
   }
 } finally {
   await browser.close();
