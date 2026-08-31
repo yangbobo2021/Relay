@@ -2,6 +2,36 @@
 
 日期：2026-08-30。交付版本：三个插件均为 `0.1.0`。
 
+## 2026-08-31 公开 internal 发布补充
+
+三个插件已公开发布 npm 内部测试通道 `0.1.0-internal.2`：
+
+| 插件 | npm | 发布提交 |
+| --- | --- | --- |
+| Events | [`relay-dsh-plugin-events@internal`](https://www.npmjs.com/package/relay-dsh-plugin-events/v/0.1.0-internal.2) | `266b8e9c30e56cdb63d41bce6313a5f6dc671571` |
+| Semantic Router | [`relay-dsh-plugin-semantic-router@internal`](https://www.npmjs.com/package/relay-dsh-plugin-semantic-router/v/0.1.0-internal.2) | `15875b16c6e66b70b47ddc934f5578710391a13c` |
+| Monitors | [`relay-dsh-plugin-monitors@internal`](https://www.npmjs.com/package/relay-dsh-plugin-monitors/v/0.1.0-internal.2) | `787919e5719290574d6a3208b4dbf28eaf0f675f` |
+
+这是公开可下载的内部集成测试包，不是 `next` 预览版或正式稳定版，不提供
+兼容性承诺。安装时必须显式使用 `@internal` 或完整版本：
+
+```bash
+dsh plugin --profile web add --save-exact \
+  relay-dsh-plugin-events@internal \
+  relay-dsh-plugin-semantic-router@internal \
+  relay-dsh-plugin-monitors@internal
+```
+
+npm 在三个全新包首次发布时自动增加了 `latest -> 0.1.0-internal.1`；注册表拒绝
+删除该首次 `latest` 标签并返回 HTTP 400。该标签不代表 Relay 将其声明为稳定版；
+当前内部测试通道是 `internal -> 0.1.0-internal.2`。测试者必须显式安装
+`@internal`，不能依赖裸包名。
+
+发布前，三个仓库的 main CI 均针对官方 DSH 提交
+`b150a551b8d465e31e418e1b2eaf5e79bbb7d28e` 通过。发布后又在全新临时 DSH
+Profile 中直接从 npm 安装三个 `@internal` 包；DSH 锁定的三个版本均为
+`0.1.0-internal.2`，Host 配置全部成功合成。
+
 ## 交付边界
 
 | 独立仓库 | 提交 | 职责 |
@@ -28,8 +58,8 @@ Plugin Manager 修改未纳入本次交付。
 - Router：给模型明确输出结构；每次调用最多 60 秒，1–3 次尝试；卸载取消且不重试。
 - 生命周期：真实 Cordis 中覆盖依赖迟到、卸载、重新启用、恢复默认路由，
   以及仍存活 Agent 的插件工具移除。
-- 独立分发：修正“从 GitHub main 直接安装”的不实指引。源码不跟踪 `lib/`，
-  当前交付是包含构建产物的 tarball，不宣称已发布 npm。
+- 独立分发：修正“从 GitHub main 直接安装”的不实指引。源码不跟踪 `lib/`；
+  2026-08-30 本次验收点仅交付包含构建产物的 tarball，当时尚未发布 npm。
 
 ## 已执行验收
 
@@ -97,4 +127,5 @@ bc7ed62b462d6c4af3c24c12f6770122f72da2873ee3b379654d3cd5588e6a89  relay-dsh-plug
 - Monitor v0.1 是一次性定时器、可信 provider、字段变化/未见条目检测与显式
   周期重新激活；不包含任意生成代码、任意 shell/browser/network 权限或日历解析。
 - `escalate` 保存决策但不负责发通知。生产凭据、真实日志、用户会话未进入仓库。
-- 没有 npm 发布或替用户自动安装到正式使用环境。
+- 2026-08-30 本次验收点尚无 npm 发布；2026-08-31 的公开 internal 发布见文首
+  补充。没有替用户安装到正式使用环境。
