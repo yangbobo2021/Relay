@@ -2,6 +2,10 @@
 
 English | [中文](dsh-plugins.zh.md)
 
+> **All 10 Relay plugins now support the latest DSH `0.1.2-alpha.3`.** Stable
+> `0.2.1` is verified on `0.1.2-alpha.3`, `0.1.2-alpha.2`, and `0.1.1-rc.2`.
+> Install the complete suite below or choose only the capabilities you need.
+
 Discover and manage plugins from a conversation, or add Codex, Claude Code,
 workspace files, and an interactive terminal to the official DeepSeek Harness.
 No DSH fork or core patch is required.
@@ -27,6 +31,10 @@ workspace.
 | Browse workspace files | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) + [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | Files uses the shared Workbench side-panel host. |
 | Open a terminal panel | Workbench + [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | Add Codex or another provider for a live shell. |
 | Build another side or bottom view | Workbench | Use its public contracts instead of importing another feature plugin. |
+| Import existing provider sessions | [`relay-dsh-plugin-session-import`](https://github.com/yangbobo2021/relay-dsh-plugin-session-import) | Shared import surface used by the Codex and Claude providers. |
+| Receive external events in an existing DSH Session | [`relay-dsh-plugin-events`](https://github.com/yangbobo2021/relay-dsh-plugin-events) | Durable Wait, Event, and Delivery runtime. |
+| Watch systems that cannot push events | Events + [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | Runs restricted durable monitors and emits normal Relay Events. |
+| Route events with a DSH model | Events + [`relay-dsh-plugin-semantic-router`](https://github.com/yangbobo2021/relay-dsh-plugin-semantic-router) | Optional semantic routing for `deliver`, `escalate`, or `dismiss`. |
 
 Plugin Manager, Codex, and Claude do not depend on the Relay runtime or
 Workbench. Files and Terminal depend only on Workbench's public plugin contract.
@@ -36,7 +44,8 @@ Install the conversation-first manager by itself, restart DSH once, then use
 `/plugins` or an ordinary natural-language request:
 
 ```bash
-dsh plugin --profile web add --save-exact relay-dsh-plugin-manager@0.1.0-rc.2
+npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add --save-exact \
+  relay-dsh-plugin-manager@0.2.1
 ```
 
 ```text
@@ -46,19 +55,23 @@ list installed plugins and whether DSH needs a restart
 
 ## Install From npm
 
-The backend plugins currently recommend their tested release candidates while
-DSH remains in preview. The Workbench plugins use their stable releases.
+All ten plugins use the same stable `0.2.1` release line. npm `latest` points to
+`0.2.1`; the older `0.2.0-rc.1` remains on `next` for reproducibility.
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \
-  relay-dsh-plugin-manager@latest \
-  relay-dsh-plugin-codex@next \
-  relay-dsh-plugin-claude@next \
-  relay-dsh-plugin-workbench@latest \
-  relay-dsh-plugin-files@latest \
-  relay-dsh-plugin-terminal@latest
+pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
+  relay-dsh-plugin-manager@0.2.1 \
+  relay-dsh-plugin-codex@0.2.1 \
+  relay-dsh-plugin-claude@0.2.1 \
+  relay-dsh-plugin-session-import@0.2.1 \
+  relay-dsh-plugin-workbench@0.2.1 \
+  relay-dsh-plugin-files@0.2.1 \
+  relay-dsh-plugin-terminal@0.2.1 \
+  relay-dsh-plugin-events@0.2.1 \
+  relay-dsh-plugin-monitors@0.2.1 \
+  relay-dsh-plugin-semantic-router@0.2.1
 
-pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 web
+pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 web
 ```
 
 Install only the rows you need. Files and Terminal must list Workbench in the
@@ -75,7 +88,7 @@ Use GitHub installs to test the newest unreleased code. Pin a tag or commit SHA
 for reproducible environments instead of leaving `#main` in production.
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.1-rc.2 plugin --profile web add \
+pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
   github:yangbobo2021/relay-dsh-plugin-manager#main \
   github:yangbobo2021/relay-dsh-plugin-codex#main \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
@@ -101,9 +114,8 @@ Plugins > Plugin marketplace** for concise usage help. Codex and Claude Code
 should appear in the mode menu. With a workspace selected, the Workbench menu
 should expose Files and Terminal.
 
-The five backend/workbench repositories include English and Chinese setup; all
-six repositories document verification, npm publishing, and a GitHub
-development path. See the longer article,
+All ten plugin repositories include English and Chinese setup and document
+verification, npm publishing, and a GitHub development path. See the longer article,
 [No Fork Required: Add Codex, Claude Code, Files, and Terminal to DSH](articles/no-fork-dsh-plugins.md),
 for the design rationale and a guided walkthrough.
 
