@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T05:23:56.898Z",
+  "generatedAt": "2026-09-01T06:11:14.444Z",
   "host": {
     "version": "0.1.2-alpha.3",
     "tag": "dsh-v0.1.2-alpha.3",
@@ -9,47 +9,47 @@
   },
   "packages": {
     "source": "npm registry",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "artifacts": [
       {
         "name": "relay-dsh-plugin-manager",
-        "sha256": "b05379aa3c0523e5dc21dc35f7ecd326c79c7870e7f323607eb1c165002aed2f"
+        "sha256": "a0d67f7f3930db1bb4a95400c0afeca3942e03690a65b016403d7fe6105f8524"
       },
       {
         "name": "relay-dsh-plugin-session-import",
-        "sha256": "3beb1a6402355f76b50ebaaa285b8ca170bef58583135ed6e75b6e123306ec45"
+        "sha256": "081ec660a450cffe6011a3b57aee71825373d739f3e56aef7ef16e11c8b05b78"
       },
       {
         "name": "relay-dsh-plugin-codex",
-        "sha256": "1cb3787cd6af1991c1013b327f0ae2006f3f22d6555eeda78a34ce887ee56713"
+        "sha256": "6413c4e9326da45541e609e53bffb78d34184a5c51fc53611dca4a3aeb3db67d"
       },
       {
         "name": "relay-dsh-plugin-claude",
-        "sha256": "ea02287b76e2320d6bc4f02b15bbed49cc4e03dfbb8715b2eaefe4c6392a890a"
+        "sha256": "23a96cb1cd6df6fe9206cc83b795cf9514c529a2a861d48bb88d0709f4905439"
       },
       {
         "name": "relay-dsh-plugin-events",
-        "sha256": "1b08770c874e6b4eb80de5d1f50833bbd805cd3e9e0989bef931c4d7d5f0940f"
+        "sha256": "5bed0e7d6b9123695f782b0fd80eb11848900c990b2bc40e12781d2bf548a5d6"
       },
       {
         "name": "relay-dsh-plugin-semantic-router",
-        "sha256": "fcb9f51ef428f41e995f82c2ed7b1e610afee031ea202c6b1d49775473bdf284"
+        "sha256": "3ef4299753865abd4269fdf5e67564bc75e1af681792865a4ef6fc059d4cb567"
       },
       {
         "name": "relay-dsh-plugin-monitors",
-        "sha256": "743c1196ac5aefe21d3b68b017fa0e1d9ebd29ba61a33169d5a600c5dd3860ad"
+        "sha256": "c514aa1648c528b3836a2cb77b291c2996391c6aece352db0a6201c6d3302b8b"
       },
       {
         "name": "relay-dsh-plugin-workbench",
-        "sha256": "93a00de00ff0bbae4a51be4e3a28884ba2341df9824d09c740fbf7ddcb2a5339"
+        "sha256": "808e4049a6fc10339f2483f3d4db25c73376116cf87f5af1f394871f12643bc0"
       },
       {
         "name": "relay-dsh-plugin-files",
-        "sha256": "1d226fa9dc326a8e1e8e48fecdaf807d9155e66d798d334f1d6181c7650b3fe9"
+        "sha256": "c5afb41f5cabfc8dc07db75b9fb0e851248607e2267d2f8b73418aa33882ea82"
       },
       {
         "name": "relay-dsh-plugin-terminal",
-        "sha256": "b243ed5190ece229126d54e4b393d10e972a405865fcd389498414c3177f797a"
+        "sha256": "a8209d7f6b9df4dde45206e37687de3d1fb3c711ee273a3d075050f3db5af40d"
       }
     ]
   },
@@ -281,20 +281,20 @@
   "managerLifecycle": {
     "dshVersion": "0.1.2-alpha.3",
     "dshCommit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
-    "managerSha256": "b05379aa3c0523e5dc21dc35f7ecd326c79c7870e7f323607eb1c165002aed2f",
+    "managerSha256": "5173ba7c32082dd86e96d5cb1f42b8f30535bc0b45a1d7c2baf6762b51de749d",
     "platform": "darwin",
     "arch": "arm64",
     "node": "v25.5.0",
     "registry": "loopback-controlled-fixture",
-    "fixturePackage": "@relay-controlled/dsh-plugin-fixture-h9s8xg",
+    "fixturePackage": "@relay-controlled/dsh-plugin-fixture-7ribr9",
     "fixtureVersions": [
       {
         "version": "1.0.0",
-        "integrity": "sha512-ULp0ThXnlQE20WUFschwa1zEkYmUMDfCZHDumorpOT5rfua/EO9DNzoyMph+j6mAW8MU5DodiSY0I4qQrmwhzw=="
+        "integrity": "sha512-6t4Utcz0y7cZCSuZxqdYnDWtORG39AUiXbgISayUYg+Ql9Ej76sZJXOcXE3VaMPVd45oXgtFM+pyYfI8UWvxKA=="
       },
       {
         "version": "1.0.1",
-        "integrity": "sha512-l/aNLUjlc83i9IKh3NkyLtIBNDKU7N/+5s4gumZ8PUY0l5M/G49MpitAneIf0tHZoSlOgx8Q3vaxKL42Nu86xw=="
+        "integrity": "sha512-t8AF50PnYGDO6DoDwWRGH4AL37SZTOpNeDXedcvgfBaw+YlmCvaburgmEiapTKfkVdO0WamRyClwFaSMzCfPbA=="
       }
     ],
     "steps": [
