@@ -1,0 +1,415 @@
+{
+  "generatedAt": "2026-09-01T05:23:56.898Z",
+  "host": {
+    "version": "0.1.2-alpha.3",
+    "tag": "dsh-v0.1.2-alpha.3",
+    "commit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
+    "baseVersion": "0.1.2-alpha.2",
+    "baseCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b"
+  },
+  "packages": {
+    "source": "npm registry",
+    "version": "0.2.0",
+    "artifacts": [
+      {
+        "name": "relay-dsh-plugin-manager",
+        "sha256": "b05379aa3c0523e5dc21dc35f7ecd326c79c7870e7f323607eb1c165002aed2f"
+      },
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "sha256": "3beb1a6402355f76b50ebaaa285b8ca170bef58583135ed6e75b6e123306ec45"
+      },
+      {
+        "name": "relay-dsh-plugin-codex",
+        "sha256": "1cb3787cd6af1991c1013b327f0ae2006f3f22d6555eeda78a34ce887ee56713"
+      },
+      {
+        "name": "relay-dsh-plugin-claude",
+        "sha256": "ea02287b76e2320d6bc4f02b15bbed49cc4e03dfbb8715b2eaefe4c6392a890a"
+      },
+      {
+        "name": "relay-dsh-plugin-events",
+        "sha256": "1b08770c874e6b4eb80de5d1f50833bbd805cd3e9e0989bef931c4d7d5f0940f"
+      },
+      {
+        "name": "relay-dsh-plugin-semantic-router",
+        "sha256": "fcb9f51ef428f41e995f82c2ed7b1e610afee031ea202c6b1d49775473bdf284"
+      },
+      {
+        "name": "relay-dsh-plugin-monitors",
+        "sha256": "743c1196ac5aefe21d3b68b017fa0e1d9ebd29ba61a33169d5a600c5dd3860ad"
+      },
+      {
+        "name": "relay-dsh-plugin-workbench",
+        "sha256": "93a00de00ff0bbae4a51be4e3a28884ba2341df9824d09c740fbf7ddcb2a5339"
+      },
+      {
+        "name": "relay-dsh-plugin-files",
+        "sha256": "1d226fa9dc326a8e1e8e48fecdaf807d9155e66d798d334f1d6181c7650b3fe9"
+      },
+      {
+        "name": "relay-dsh-plugin-terminal",
+        "sha256": "b243ed5190ece229126d54e4b393d10e972a405865fcd389498414c3177f797a"
+      }
+    ]
+  },
+  "packagedAcceptance": {
+    "passed": 16,
+    "total": 16,
+    "scenarios": [
+      {
+        "id": "manager-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "session-import-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "router-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "monitors-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "event-plugins",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "event-plugins-codex",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "event-plugins-claude",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "events-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "codex-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "claude-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "codex-and-claude",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "workbench-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "workbench-files",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "workbench-terminal",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "codex-terminal",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      },
+      {
+        "id": "all-plugins",
+        "hostVersion": "0.1.2-alpha.3",
+        "ok": true
+      }
+    ],
+    "functional": [
+      {
+        "id": "manager-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations"
+        ]
+      },
+      {
+        "id": "session-import-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations"
+        ]
+      },
+      {
+        "id": "router-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations"
+        ]
+      },
+      {
+        "id": "monitors-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations"
+        ]
+      },
+      {
+        "id": "event-plugins",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations"
+        ]
+      },
+      {
+        "id": "event-plugins-codex",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Codex preset/model synchronization"
+        ]
+      },
+      {
+        "id": "event-plugins-claude",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session"
+        ]
+      },
+      {
+        "id": "events-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations"
+        ]
+      },
+      {
+        "id": "codex-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Codex preset/model synchronization"
+        ]
+      },
+      {
+        "id": "claude-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session"
+        ]
+      },
+      {
+        "id": "codex-and-claude",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Codex preset/model synchronization"
+        ]
+      },
+      {
+        "id": "workbench-only",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Workbench mounted actions"
+        ]
+      },
+      {
+        "id": "workbench-files",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Workbench mounted actions",
+          "Files tree/Markdown/source, resize, close/reopen"
+        ]
+      },
+      {
+        "id": "workbench-terminal",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Workbench mounted actions",
+          "Terminal reports missing provider without crashing"
+        ]
+      },
+      {
+        "id": "codex-terminal",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Codex preset/model synchronization",
+          "Workbench mounted actions",
+          "Terminal spawn/input/output/resize/exit"
+        ]
+      },
+      {
+        "id": "all-plugins",
+        "hostVersion": "0.1.2-alpha.3",
+        "checks": [
+          "client registrations",
+          "create/open session",
+          "Codex preset/model synchronization",
+          "Workbench mounted actions",
+          "Files tree/Markdown/source, resize, close/reopen",
+          "Terminal spawn/input/output/resize/exit"
+        ]
+      }
+    ]
+  },
+  "managerLifecycle": {
+    "dshVersion": "0.1.2-alpha.3",
+    "dshCommit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
+    "managerSha256": "b05379aa3c0523e5dc21dc35f7ecd326c79c7870e7f323607eb1c165002aed2f",
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v25.5.0",
+    "registry": "loopback-controlled-fixture",
+    "fixturePackage": "@relay-controlled/dsh-plugin-fixture-h9s8xg",
+    "fixtureVersions": [
+      {
+        "version": "1.0.0",
+        "integrity": "sha512-ULp0ThXnlQE20WUFschwa1zEkYmUMDfCZHDumorpOT5rfua/EO9DNzoyMph+j6mAW8MU5DodiSY0I4qQrmwhzw=="
+      },
+      {
+        "version": "1.0.1",
+        "integrity": "sha512-l/aNLUjlc83i9IKh3NkyLtIBNDKU7N/+5s4gumZ8PUY0l5M/G49MpitAneIf0tHZoSlOgx8Q3vaxKL42Nu86xw=="
+      }
+    ],
+    "steps": [
+      {
+        "id": "manager-install",
+        "status": "passed",
+        "completion": "waiting_for_manual_restart",
+        "confirmationRequired": true,
+        "tokenReplayRejected": true
+      },
+      {
+        "id": "installed-cold-boot",
+        "status": "passed",
+        "authenticatedWebStatus": 200,
+        "activatedVersion": "1.0.0"
+      },
+      {
+        "id": "manager-disable",
+        "status": "passed",
+        "completion": "waiting_for_manual_restart",
+        "confirmationRequired": true,
+        "tokenReplayRejected": true
+      },
+      {
+        "id": "disabled-cold-boot",
+        "status": "passed",
+        "authenticatedWebStatus": 200,
+        "activatedVersion": null
+      },
+      {
+        "id": "manager-enable",
+        "status": "passed",
+        "completion": "waiting_for_manual_restart",
+        "confirmationRequired": true,
+        "tokenReplayRejected": true
+      },
+      {
+        "id": "enabled-cold-boot",
+        "status": "passed",
+        "authenticatedWebStatus": 200,
+        "activatedVersion": "1.0.0"
+      },
+      {
+        "id": "manager-update",
+        "status": "passed",
+        "completion": "waiting_for_manual_restart",
+        "confirmationRequired": true,
+        "tokenReplayRejected": true
+      },
+      {
+        "id": "updated-cold-boot",
+        "status": "passed",
+        "authenticatedWebStatus": 200,
+        "activatedVersion": "1.0.1"
+      },
+      {
+        "id": "manager-remove",
+        "status": "passed",
+        "completion": "waiting_for_manual_restart",
+        "confirmationRequired": true,
+        "tokenReplayRejected": true
+      },
+      {
+        "id": "removed-cold-boot",
+        "status": "passed",
+        "authenticatedWebStatus": 200,
+        "activatedVersion": null
+      }
+    ],
+    "notCovered": [
+      "public npm/GitHub lifecycle",
+      "conversation approval UI and session-bound tokens",
+      "hot reload",
+      "batch failure/cancellation",
+      "all real plugin dependencies"
+    ]
+  },
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v25.5.0",
+    "browser": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  },
+  "exclusions": [
+    "Claude real image recognition",
+    "Claude fork context inheritance",
+    "Codex default-mode native question-card limitation",
+    "Workbench refresh persistence for resized panels",
+    "real-model end-to-end conversations",
+    "cross-platform and long-duration concurrency"
+  ],
+  "peerCheck": {
+    "ok": false,
+    "alpha3Conflict": false,
+    "issue": "lucide-react@1.37.0 declares a React peer that is not a direct profile dependency; DSH supplies React through the client module table and browser probes pass."
+  },
+  "sourceVerification": {
+    "plugins": {
+      "passed": 10,
+      "total": 10
+    },
+    "relay": {
+      "passed": 450,
+      "total": 450
+    },
+    "codex": {
+      "node": {
+        "passed": 250,
+        "total": 250
+      },
+      "component": {
+        "passed": 140,
+        "total": 140
+      },
+      "adaptation": "Activate the chat target in the direct ConversationNodeAssembler test fixture when the host exposes alpha.3 lazy target activation; no runtime code changed."
+    }
+  }
+}
