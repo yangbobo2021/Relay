@@ -1,0 +1,547 @@
+{
+  "generatedAt": "2026-09-01T07:15:42.287Z",
+  "status": "passed",
+  "packages": {
+    "source": "npm registry",
+    "version": "0.2.1-rc.1",
+    "distTagsObserved": {
+      "next": "0.2.1-rc.1",
+      "latest": "0.2.1"
+    },
+    "count": 10,
+    "artifacts": [
+      {
+        "name": "relay-dsh-plugin-manager",
+        "sha256": "4c628c82d1894e6db7d1041abbec911a89f06f5c09d9d81b4d3f919e74dcc574"
+      },
+      {
+        "name": "relay-dsh-plugin-session-import",
+        "sha256": "288aaf295449993d431642a9a61dfc270a8a6b99e481b124a1b2e3237f657f7a"
+      },
+      {
+        "name": "relay-dsh-plugin-codex",
+        "sha256": "29846eec85fcca2f7e0b1d6b0ab74dd31bed2c62c223765bb119178632991d15"
+      },
+      {
+        "name": "relay-dsh-plugin-claude",
+        "sha256": "bafdcbe708152d6a0554e1c44e8c407ac04fdfd3b498bcd9fee434c171eb04cf"
+      },
+      {
+        "name": "relay-dsh-plugin-events",
+        "sha256": "e073da58349281433326f2bc730810939eb75cc2afe2e6f33a3990f2a31a6b1e"
+      },
+      {
+        "name": "relay-dsh-plugin-semantic-router",
+        "sha256": "0cb2a621c3d3913ccc14932c9673145ef21603105d5d74eec8866631888f385f"
+      },
+      {
+        "name": "relay-dsh-plugin-monitors",
+        "sha256": "25e966a20c583e4dd5f4e21966b6a284b7c94b41eb24e38bac6d5abcd9ca969c"
+      },
+      {
+        "name": "relay-dsh-plugin-workbench",
+        "sha256": "e3aa79ba0d87ddb553bd5cffedff54a395c35ecc9c4c8eaccef2250c115a12e7"
+      },
+      {
+        "name": "relay-dsh-plugin-files",
+        "sha256": "326e9902b21fefdd62133b4ce85c69cdbddc272ed6f2c7eb709cc285801c0172"
+      },
+      {
+        "name": "relay-dsh-plugin-terminal",
+        "sha256": "3ddc94e2790fd8dceb62a0b5aab6d31f886d7196413f08eebd0b6a5010962c81"
+      }
+    ]
+  },
+  "result": {
+    "passed": 32,
+    "total": 32,
+    "samePublishedArtifactsUsedOnBothHosts": true
+  },
+  "runs": [
+    {
+      "host": {
+        "version": "0.1.1-rc.2",
+        "tag": "dsh-v0.1.1-rc.2",
+        "commit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+        "source": "official npm package"
+      },
+      "passed": 16,
+      "total": 16,
+      "scenarios": [
+        {
+          "id": "manager-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "session-import-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "router-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "monitors-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "event-plugins",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "event-plugins-codex",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "event-plugins-claude",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "events-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "codex-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "claude-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "codex-and-claude",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "workbench-only",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "workbench-files",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "workbench-terminal",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "codex-terminal",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        },
+        {
+          "id": "all-plugins",
+          "hostVersion": "0.1.1-rc.2",
+          "ok": true
+        }
+      ],
+      "functional": [
+        {
+          "id": "manager-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "session-import-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "router-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "monitors-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "event-plugins",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "event-plugins-codex",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization"
+          ]
+        },
+        {
+          "id": "event-plugins-claude",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session"
+          ]
+        },
+        {
+          "id": "events-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "codex-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization"
+          ]
+        },
+        {
+          "id": "claude-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session"
+          ]
+        },
+        {
+          "id": "codex-and-claude",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization"
+          ]
+        },
+        {
+          "id": "workbench-only",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Workbench mounted actions"
+          ]
+        },
+        {
+          "id": "workbench-files",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Workbench mounted actions",
+            "Files tree/Markdown/source, resize, close/reopen"
+          ]
+        },
+        {
+          "id": "workbench-terminal",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Workbench mounted actions",
+            "Terminal reports missing provider without crashing"
+          ]
+        },
+        {
+          "id": "codex-terminal",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization",
+            "Workbench mounted actions",
+            "Terminal spawn/input/output/resize/exit"
+          ]
+        },
+        {
+          "id": "all-plugins",
+          "hostVersion": "0.1.1-rc.2",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization",
+            "Workbench mounted actions",
+            "Files tree/Markdown/source, resize, close/reopen",
+            "Terminal spawn/input/output/resize/exit"
+          ]
+        }
+      ],
+      "eventReplay": true,
+      "eventsHttpContract": true
+    },
+    {
+      "host": {
+        "version": "0.1.2-alpha.3",
+        "tag": "dsh-v0.1.2-alpha.3",
+        "commit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
+        "source": "official source checkout"
+      },
+      "passed": 16,
+      "total": 16,
+      "scenarios": [
+        {
+          "id": "manager-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "session-import-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "router-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "monitors-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "event-plugins",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "event-plugins-codex",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "event-plugins-claude",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "events-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "codex-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "claude-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "codex-and-claude",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "workbench-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "workbench-files",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "workbench-terminal",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "codex-terminal",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        },
+        {
+          "id": "all-plugins",
+          "hostVersion": "0.1.2-alpha.3",
+          "ok": true
+        }
+      ],
+      "functional": [
+        {
+          "id": "manager-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "session-import-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "router-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "monitors-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "event-plugins",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "event-plugins-codex",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization"
+          ]
+        },
+        {
+          "id": "event-plugins-claude",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session"
+          ]
+        },
+        {
+          "id": "events-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations"
+          ]
+        },
+        {
+          "id": "codex-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization"
+          ]
+        },
+        {
+          "id": "claude-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session"
+          ]
+        },
+        {
+          "id": "codex-and-claude",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization"
+          ]
+        },
+        {
+          "id": "workbench-only",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Workbench mounted actions"
+          ]
+        },
+        {
+          "id": "workbench-files",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Workbench mounted actions",
+            "Files tree/Markdown/source, resize, close/reopen"
+          ]
+        },
+        {
+          "id": "workbench-terminal",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Workbench mounted actions",
+            "Terminal reports missing provider without crashing"
+          ]
+        },
+        {
+          "id": "codex-terminal",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization",
+            "Workbench mounted actions",
+            "Terminal spawn/input/output/resize/exit"
+          ]
+        },
+        {
+          "id": "all-plugins",
+          "hostVersion": "0.1.2-alpha.3",
+          "checks": [
+            "client registrations",
+            "create/open session",
+            "Codex preset/model synchronization",
+            "Workbench mounted actions",
+            "Files tree/Markdown/source, resize, close/reopen",
+            "Terminal spawn/input/output/resize/exit"
+          ]
+        }
+      ],
+      "eventReplay": true,
+      "eventsHttpContract": true
+    }
+  ],
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v25.5.0",
+    "browser": "Google Chrome"
+  },
+  "exclusions": [
+    "Claude real image recognition",
+    "Claude fork context inheritance",
+    "Codex default-mode native question-card limitation",
+    "Workbench refresh persistence for resized panels",
+    "real-model end-to-end conversations",
+    "cross-platform and long-duration concurrency"
+  ],
+  "peerInstallWarning": {
+    "observed": true,
+    "blocking": false,
+    "detail": "Some Codex combinations report the pre-existing lucide-react React peer warning; DSH supplies React through its client module table and every browser probe passed."
+  }
+}
