@@ -56,7 +56,7 @@ list installed plugins and whether DSH needs a restart
 ## Install From npm
 
 All ten plugins use the same stable `0.2.1` release line. npm `latest` points to
-`0.2.1`; the older `0.2.0-rc.1` remains on `next` for reproducibility.
+`0.2.1`; `next` points to the `0.2.1-rc.1` release candidate.
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \

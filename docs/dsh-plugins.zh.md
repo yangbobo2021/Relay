@@ -53,8 +53,8 @@ npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add --save-exact \
 
 ## 从 npm 安装
 
-10 个插件统一使用稳定版 `0.2.1`。npm `latest` 指向 `0.2.1`；旧候选版
-`0.2.0-rc.1` 继续保留在 `next`，用于可复现安装。
+10 个插件统一使用稳定版 `0.2.1`。npm `latest` 指向 `0.2.1`；`next` 指向
+候选版 `0.2.1-rc.1`。
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
