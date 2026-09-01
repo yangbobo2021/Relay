@@ -2,7 +2,7 @@
 // Adapts the existing installation verifier to launch-token authentication and advertised combo URLs.
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
-import { appendFile, mkdtemp, readFile, rm, access } from "node:fs/promises";
+import { appendFile, mkdtemp, readFile, rm, access, mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,15 +10,22 @@ import { prepareDshLocalWorkspaceLinks } from "./lib/dsh-local-workspace-links.m
 import { forbiddenBackendDependencies } from "./lib/dsh-backend-dependencies.mjs";
 import { chromium } from "playwright";
 import { createServer } from "node:net";
+import { createHash } from "node:crypto";
+import { dirname } from "node:path";
+import { verifyClientFeatures } from "./lib/dsh-client-acceptance.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const auditResults = [];
 process.env.DSH_TELEMETRY_DISABLED = "1";
 const dshRoot = join(root, "upstream", "deepseek-harness");
-const dshBin = process.env.DSH_BIN ?? join(dshRoot, "apps", "cli", "lib", "bin.js");
+let dshBin = process.env.DSH_BIN ?? join(dshRoot, "apps", "cli", "lib", "bin.js");
+let hostVersion;
+const hosts = process.env.DSH_LEGACY_BIN ? [process.env.DSH_LEGACY_BIN, dshBin] : [dshBin];
 const temporary = await mkdtemp(join(tmpdir(), "relay-official-dsh-"));
 const codexOnly = process.argv.includes("--codex-only");
+const clientFixture = "relay-dsh-client-acceptance-fixture";
 const packages = [
+  ["fixtures/dsh-client-acceptance", clientFixture],
   ["fixtures/dsh-event-acceptance", "relay-dsh-event-acceptance-fixture"],
   ["integrations/dsh-plugin-manager", "relay-dsh-plugin-manager"],
   ["integrations/session-import", "relay-dsh-plugin-session-import"],
@@ -30,7 +37,7 @@ const packages = [
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
   ["integrations/dsh-files", "relay-dsh-plugin-files"],
   ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
-].filter(([, name]) => !codexOnly || ["relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"].includes(name));
+].filter(([, name]) => !codexOnly || [clientFixture, "relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"].includes(name));
 
 const cleanBefore = gitStatus();
 assert.equal(cleanBefore, "", "official DSH checkout must be clean before install verification");
@@ -46,6 +53,13 @@ try {
     }))[0];
     return [name, join(temporary, packed.filename)];
   }));
+
+  for (const [name, file] of tarballs) console.log('ARTIFACT ' + JSON.stringify({ name,
+    sha256: createHash('sha256').update(await readFile(file)).digest('hex') }));
+  for (const host of hosts) {
+  dshBin = host;
+  hostVersion = JSON.parse(await readFile(join(dirname(dirname(host)), 'package.json'), 'utf8')).version;
+  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2'].includes(hostVersion), 'select an audited official DSH runtime');
 
   if (codexOnly) {
     await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 3191);
@@ -70,6 +84,7 @@ try {
   await verifyScenario("all-plugins", ["relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins], tarballs, 3199);
   }
   }
+  }
 } finally {
   await browser.close();
   if (process.env.RELAY_VERIFY_KEEP === "1") console.log(`Retained synthetic acceptance profiles: ${temporary}`);
@@ -83,20 +98,24 @@ if (auditResults.some(result => !result.ok)) process.exitCode = 1;
 async function verifyScenario(id, selected, tarballs, port) {
   const filter = process.env.DSH_INSTALL_SCENARIOS?.split(",");
   if (filter && !filter.includes(id)) return;
+  selected = [...selected, clientFixture];
   let result;
   try {
     await verifyScenarioImpl(id, selected, tarballs, port);
-    result = { id, ok: true };
+    result = { id, hostVersion, ok: true };
   } catch (error) {
-    result = { id, ok: false, error: String(error.message).replace(/token=[^\s'"<]+/g, 'token=[REDACTED]') };
+    result = { id, hostVersion, ok: false, error: String(error.message).replace(/token=[^\s'"<]+/g, 'token=[REDACTED]') };
   }
   auditResults.push(result);
   console.log('AUDIT_RESULT ' + JSON.stringify(result));
 }
 
 async function verifyScenarioImpl(id, selected, tarballs, port) {
-  const home = join(temporary, id);
-  const env = { ...process.env, DSH_HOME: home, RELAY_DATABASE_PATH: join(home, "events.sqlite"), RELAY_ROUTER_PROVIDER: "", RELAY_ROUTER_MODEL: "" };
+  const home = join(temporary, hostVersion, id);
+  const workspace = join(home, "workspace");
+  await mkdir(workspace, { recursive: true });
+  await writeFile(join(workspace, "dual-compatibility.md"), "# Synthetic file\n\n```text\nRELAY_DUAL_FILE\n```\n");
+  const env = { ...process.env, RELAY_ACCEPTANCE_WORKSPACE: workspace, DSH_HOME: home, RELAY_DATABASE_PATH: join(home, "events.sqlite"), RELAY_ROUTER_PROVIDER: "", RELAY_ROUTER_MODEL: "" };
   if (selected.includes("relay-dsh-event-acceptance-fixture")) Object.assign(env, {
     RELAY_ROUTER_PROVIDER: "relay-acceptance", RELAY_ROUTER_MODEL: "router", RELAY_ACCEPTANCE_REPORT: join(home, "acceptance.json"),
   });
@@ -141,15 +160,15 @@ async function bootAndProbe(id, env, port, selected) {
     cwd: dshRoot, env, stdio: ["ignore", "pipe", "pipe"],
   });
   let output = "";
-  const authenticated = await browser.newContext();
+  const authenticated = await browser.newContext({ viewport: { width: 2000, height: 1100 } });
   child.stdout.on("data", chunk => { output += chunk; });
   child.stderr.on("data", chunk => { output += chunk; });
   try {
     await waitFor(() => output.includes(`http://127.0.0.1:${port}`) || child.exitCode !== null, 20_000);
     assert.equal(child.exitCode, null, `${id}: DSH Host exited before serving\n${output}`);
     const launchUrl = output.match(/http:\/\/127\.0\.0\.1:\d+\/\?token=[^\s]+/)?.[0];
-    if (!launchUrl) throw new Error('Missing launch token in synthetic DSH startup');
-    await authenticated.request.get(launchUrl);
+    if (!launchUrl && hostVersion !== '0.1.1-rc.2') throw new Error('Missing launch token in synthetic DSH startup');
+    if (launchUrl) await authenticated.request.get(launchUrl);
     const cookieHeader = (await authenticated.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
     const fetch = (url, options = {}) => globalThis.fetch(url, {...options, headers: {...options.headers, cookie: cookieHeader}});
     const response = await fetch(`http://127.0.0.1:${port}/`);
@@ -171,7 +190,10 @@ async function bootAndProbe(id, env, port, selected) {
       console.log("PASS HTTP: durable duplicate identity, unmatched isolation, method and JSON validation");
     }
     const page = await authenticated.newPage();
+    page.setDefaultTimeout(10_000);
     const errors = [];
+    const consoleErrors = [];
+    page.on('console', message => { if (['error', 'warning'].includes(message.type())) consoleErrors.push(message.text()); });
     page.on("pageerror", error => errors.push(error.message));
     try {
       await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
@@ -179,12 +201,16 @@ async function bootAndProbe(id, env, port, selected) {
       for (const name of selected) {
         if (["relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-event-acceptance-fixture"].includes(name)) continue;
         assert.ok(graph.entries.some(entry => entry.id === name), `${id}: ${name} missing from boot graph`);
-        const batch = graph.batches.find(batch => batch.entries.includes(name));
-        assert.ok(batch, `${id}: ${name} missing from combo batches`);
-        assert.equal((await fetch(new URL(batch.url, `http://127.0.0.1:${port}`))).ok, true, `${id}: combo asset unavailable`);
+        const asset = hostVersion === '0.1.1-rc.2'
+          ? graph.entries.find(entry => entry.id === name)
+          : graph.batches.find(batch => batch.entries.includes(name));
+        assert.ok(asset, `${id}: ${name} missing from advertised assets`);
+        assert.equal((await fetch(new URL(asset.url, `http://127.0.0.1:${port}`))).ok, true, `${id}: client asset unavailable`);
       }
       assert.deepEqual(errors, [], `${id}: browser runtime errors`);
       await page.locator("button").first().waitFor({ timeout: 20_000 });
+      const checks = await verifyClientFeatures(page, { selected, workspace: env.RELAY_ACCEPTANCE_WORKSPACE });
+      console.log('FUNCTIONAL_RESULT ' + JSON.stringify({ id, hostVersion, checks }));
       const body = await page.locator("body").innerText();
       assert.doesNotMatch(body, /Failed to load plugins|failed to import loader entry|missed the module table/i,
         `${id}: actual browser loader failed`);
@@ -197,6 +223,8 @@ async function bootAndProbe(id, env, port, selected) {
       }
       assert.doesNotMatch(output, /failed to import|Cannot find (?:package|module)|\[E\].*(?:relay|Error)/i, `${id}: Host plugin activation error\n${output}`);
       console.log(`PASS ${id}: installed tarballs, composed, booted, browser loader`);
+    } catch (error) {
+      throw new Error(`${error.message}\nBrowser: ${consoleErrors.join('\n')}\nBody: ${(await page.locator('body').innerText()).slice(0, 3000)}`);
     } finally {
       await page.close();
     }

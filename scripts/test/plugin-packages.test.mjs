@@ -7,8 +7,8 @@ import { forbiddenBackendDependencies } from "../lib/dsh-backend-dependencies.mj
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const publishableVersion = /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
-// Official DSH 0a53fb55bea101816fa226bb964ae2bed71c343b; this is not a backward-compatible release.
-const dshCompatibility = ">=0.1.2-alpha.2 <0.1.3";
+// One artifact supports official DSH 0.1.1-rc.2 and 0.1.2-alpha.2; runtime probes verify this range.
+const dshCompatibility = ">=0.1.1-rc.2 <0.1.2-0 || >=0.1.2-alpha.2 <0.1.3-0";
 const expected = new Map([
   ["integrations/events", "relay-dsh-plugin-events"],
   ["integrations/semantic-router", "relay-dsh-plugin-semantic-router"],
@@ -62,9 +62,9 @@ test("plugins and shared libraries are independently publishable workspace packa
     const manifest = await json(join(root, directory, "package.json"));
     assert.equal(manifest.dependencies?.["relay-dsh-plugin-workbench"], undefined,
       `${directory} must not use a GitHub Workbench subdependency because DSH profiles block exotic subdependencies`);
-    assert.equal(manifest.peerDependencies?.["relay-dsh-plugin-workbench"], "^0.1.0",
+    assert.equal(manifest.peerDependencies?.["relay-dsh-plugin-workbench"], "0.2.0",
       `${directory} must declare the Workbench peer contract`);
-    assert.equal(manifest.devDependencies?.["relay-dsh-plugin-workbench"], "github:yangbobo2021/relay-dsh-plugin-workbench#main",
+    assert.equal(manifest.devDependencies?.["relay-dsh-plugin-workbench"], "github:yangbobo2021/relay-dsh-plugin-workbench#4f63502c0291832304f09ccb38426c65290d06fd",
       `${directory} may use GitHub Workbench only as a local development dependency`);
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: relay-workbench-host\n/, `${directory} must not reuse Workbench's direct-install loader id`);

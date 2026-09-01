@@ -1,0 +1,587 @@
+{
+  "date": "2026-09-01",
+  "status": "passed",
+  "scope": "same-package dual-DSH compatibility; not exhaustive real-provider regression",
+  "platform": "Darwin",
+  "arch": "arm64",
+  "node": "v25.5.0",
+  "hosts": [
+    {
+      "version": "0.1.1-rc.2",
+      "officialCommit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
+      "passed": 16
+    },
+    {
+      "version": "0.1.2-alpha.2",
+      "officialCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+      "passed": 16
+    }
+  ],
+  "artifactsPackedOnceAndReusedForBothHosts": [
+    {
+      "name": "relay-dsh-client-acceptance-fixture",
+      "sha256": "3fb6775063d796871235f30eb32717b0f948e01a6610c31f52713b9fb8f81b91"
+    },
+    {
+      "name": "relay-dsh-event-acceptance-fixture",
+      "sha256": "fb6a7d26f2411360de39fb60f31dd73f1e6aafe571bb272914e38fcaf13bba05"
+    },
+    {
+      "name": "relay-dsh-plugin-manager",
+      "sha256": "8ab1c0b0d0b00f4344eec29cacf464478d06f78287d7dacae7f7857cba0cae7d"
+    },
+    {
+      "name": "relay-dsh-plugin-session-import",
+      "sha256": "ada484b391ab077a8689cef130d6c6b4333c88aa9c7392f480c6d7e094ceb8fd"
+    },
+    {
+      "name": "relay-dsh-plugin-codex",
+      "sha256": "51b9d5e44fde04c3fdcba8a0a89d77143144bd960895cecc4190b9d685d473b8"
+    },
+    {
+      "name": "relay-dsh-plugin-claude",
+      "sha256": "ba2d0d8fee539db04bea3a91a701fb99627aa199a9c041e4058992373846092b"
+    },
+    {
+      "name": "relay-dsh-plugin-events",
+      "sha256": "de7826151378a83179bce7e0ab8cb565dbcbb8918d42f2611bdc1063e95894a0"
+    },
+    {
+      "name": "relay-dsh-plugin-semantic-router",
+      "sha256": "f4d12cc7a4127dfa2f6cff19da819624ea199aa7b53163ef317f6cde091155df"
+    },
+    {
+      "name": "relay-dsh-plugin-monitors",
+      "sha256": "a16129aa465c247c5328e0c7e15812b54912a351187533b592db8ff65fbfc1cd"
+    },
+    {
+      "name": "relay-dsh-plugin-workbench",
+      "sha256": "901b8672036ba84a1adcda4deed0411a27ee346e529a29646ae4059ff8198936"
+    },
+    {
+      "name": "relay-dsh-plugin-files",
+      "sha256": "f087a6a5460b26126a15de25a5bdd2e6fb36c3e46e3c8d53cb4bb0160e313668"
+    },
+    {
+      "name": "relay-dsh-plugin-terminal",
+      "sha256": "26e4281192f58308b6d275ca300d5a7dcccdc4d576a03915cc6485b1374d08eb"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "manager-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "session-import-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "router-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "monitors-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "event-plugins",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-codex",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-claude",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "events-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "codex-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "claude-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "codex-and-claude",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "workbench-only",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "workbench-files",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "workbench-terminal",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "codex-terminal",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "all-plugins",
+      "hostVersion": "0.1.1-rc.2",
+      "ok": true
+    },
+    {
+      "id": "manager-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "session-import-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "router-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "monitors-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "event-plugins",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-codex",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "event-plugins-claude",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "events-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "codex-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "claude-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "codex-and-claude",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "workbench-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "workbench-files",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "workbench-terminal",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "codex-terminal",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    },
+    {
+      "id": "all-plugins",
+      "hostVersion": "0.1.2-alpha.2",
+      "ok": true
+    }
+  ],
+  "functionalChecks": [
+    {
+      "id": "manager-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "session-import-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "router-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "monitors-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "event-plugins",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "event-plugins-codex",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization"
+      ]
+    },
+    {
+      "id": "event-plugins-claude",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session"
+      ]
+    },
+    {
+      "id": "events-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "codex-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization"
+      ]
+    },
+    {
+      "id": "claude-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session"
+      ]
+    },
+    {
+      "id": "codex-and-claude",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization"
+      ]
+    },
+    {
+      "id": "workbench-only",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Workbench mounted actions"
+      ]
+    },
+    {
+      "id": "workbench-files",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Workbench mounted actions",
+        "Files tree/Markdown/source, resize, close/reopen"
+      ]
+    },
+    {
+      "id": "workbench-terminal",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Workbench mounted actions",
+        "Terminal reports missing provider without crashing"
+      ]
+    },
+    {
+      "id": "codex-terminal",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization",
+        "Workbench mounted actions",
+        "Terminal spawn/input/output/resize/exit"
+      ]
+    },
+    {
+      "id": "all-plugins",
+      "hostVersion": "0.1.1-rc.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization",
+        "Workbench mounted actions",
+        "Files tree/Markdown/source, resize, close/reopen",
+        "Terminal spawn/input/output/resize/exit"
+      ]
+    },
+    {
+      "id": "manager-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "session-import-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "router-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "monitors-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "event-plugins",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "event-plugins-codex",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization"
+      ]
+    },
+    {
+      "id": "event-plugins-claude",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session"
+      ]
+    },
+    {
+      "id": "events-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations"
+      ]
+    },
+    {
+      "id": "codex-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization"
+      ]
+    },
+    {
+      "id": "claude-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session"
+      ]
+    },
+    {
+      "id": "codex-and-claude",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization"
+      ]
+    },
+    {
+      "id": "workbench-only",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Workbench mounted actions"
+      ]
+    },
+    {
+      "id": "workbench-files",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Workbench mounted actions",
+        "Files tree/Markdown/source, resize, close/reopen"
+      ]
+    },
+    {
+      "id": "workbench-terminal",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Workbench mounted actions",
+        "Terminal reports missing provider without crashing"
+      ]
+    },
+    {
+      "id": "codex-terminal",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization",
+        "Workbench mounted actions",
+        "Terminal spawn/input/output/resize/exit"
+      ]
+    },
+    {
+      "id": "all-plugins",
+      "hostVersion": "0.1.2-alpha.2",
+      "checks": [
+        "client registrations",
+        "create/open session",
+        "Codex preset/model synchronization",
+        "Workbench mounted actions",
+        "Files tree/Markdown/source, resize, close/reopen",
+        "Terminal spawn/input/output/resize/exit"
+      ]
+    }
+  ],
+  "rootRegression": {
+    "passed": 450,
+    "failed": 0
+  },
+  "independentNpmCi": [
+    {
+      "repo": "codex",
+      "exitCode": 0
+    },
+    {
+      "repo": "claude",
+      "exitCode": 0
+    },
+    {
+      "repo": "session-import",
+      "exitCode": 0
+    },
+    {
+      "repo": "dsh-plugin-manager",
+      "exitCode": 0
+    },
+    {
+      "repo": "dsh-workbench",
+      "exitCode": 0
+    },
+    {
+      "repo": "dsh-files",
+      "exitCode": 0
+    },
+    {
+      "repo": "dsh-terminal",
+      "exitCode": 0
+    },
+    {
+      "repo": "events",
+      "exitCode": 0
+    },
+    {
+      "repo": "semantic-router",
+      "exitCode": 0
+    },
+    {
+      "repo": "monitors",
+      "exitCode": 0
+    }
+  ],
+  "managerControlledLifecycle": {
+    "old": "manager-old.json",
+    "new": "manager-new.json",
+    "sameTarballForBothHosts": true,
+    "stepsPerHost": 10
+  },
+  "limits": [
+    "Claude real image recognition and fork deferred by user",
+    "Codex Default-mode native question limitation remains",
+    "Workbench refresh size persistence remains unimplemented",
+    "no exhaustive real-provider / cross-platform / public-release upgrade validation"
+  ],
+  "published": false,
+  "pushed": false,
+  "committed": false,
+  "officialSourceClean": true,
+  "existingRuntimePidsUnchanged": [
+    47387,
+    55862
+  ],
+  "documentationRefreshReverification": {
+    "reason": "English and Chinese README compatibility and latest-DSH installation CTAs are included in published tarballs",
+    "englishReadmes": 10,
+    "chineseReadmes": 10,
+    "chineseReadmesAdded": [
+      "relay-dsh-plugin-events",
+      "relay-dsh-plugin-semantic-router",
+      "relay-dsh-plugin-monitors"
+    ],
+    "sameTarballsReusedForBothHosts": true,
+    "oldHostPassed": 16,
+    "newHostPassed": 16
+  }
+}
