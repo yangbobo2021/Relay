@@ -1,0 +1,3 @@
+- insert:
+    - id: relay-client-acceptance-fixture
+      name: 'relay-dsh-client-acceptance-fixture'

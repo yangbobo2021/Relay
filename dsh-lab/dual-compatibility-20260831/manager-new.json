@@ -1,0 +1,94 @@
+{
+  "dshVersion": "0.1.2-alpha.2",
+  "dshCommit": "0a53fb55bea101816fa226bb964ae2bed71c343b",
+  "managerSha256": "d3ac64b741912a70cc564d608f6f503eeaea5efe908c9ee6ec3334e04e0abaf3",
+  "platform": "darwin",
+  "arch": "arm64",
+  "node": "v25.5.0",
+  "registry": "loopback-controlled-fixture",
+  "fixturePackage": "@relay-controlled/dsh-plugin-fixture-ozphcs",
+  "fixtureVersions": [
+    {
+      "version": "1.0.0",
+      "integrity": "sha512-8EHn7pLD8zixHJn02FzGWCwKKX7+RxSK9zH4QqQ9BqK+gfaCfLHt/8OYbMU+lakcl9m4UHXTkVinRem0zFIxwQ=="
+    },
+    {
+      "version": "1.0.1",
+      "integrity": "sha512-PQKD8FNTGcVEIfBVXrMEbbs0Ylt4MiOoYr6nit6FSEnoDQPhvvXF34Ix4uDOD/sp0nDguydou9Q/8gNMHY8JJQ=="
+    }
+  ],
+  "steps": [
+    {
+      "id": "manager-install",
+      "status": "passed",
+      "completion": "waiting_for_manual_restart",
+      "confirmationRequired": true,
+      "tokenReplayRejected": true
+    },
+    {
+      "id": "installed-cold-boot",
+      "status": "passed",
+      "authenticatedWebStatus": 200,
+      "activatedVersion": "1.0.0"
+    },
+    {
+      "id": "manager-disable",
+      "status": "passed",
+      "completion": "waiting_for_manual_restart",
+      "confirmationRequired": true,
+      "tokenReplayRejected": true
+    },
+    {
+      "id": "disabled-cold-boot",
+      "status": "passed",
+      "authenticatedWebStatus": 200,
+      "activatedVersion": null
+    },
+    {
+      "id": "manager-enable",
+      "status": "passed",
+      "completion": "waiting_for_manual_restart",
+      "confirmationRequired": true,
+      "tokenReplayRejected": true
+    },
+    {
+      "id": "enabled-cold-boot",
+      "status": "passed",
+      "authenticatedWebStatus": 200,
+      "activatedVersion": "1.0.0"
+    },
+    {
+      "id": "manager-update",
+      "status": "passed",
+      "completion": "waiting_for_manual_restart",
+      "confirmationRequired": true,
+      "tokenReplayRejected": true
+    },
+    {
+      "id": "updated-cold-boot",
+      "status": "passed",
+      "authenticatedWebStatus": 200,
+      "activatedVersion": "1.0.1"
+    },
+    {
+      "id": "manager-remove",
+      "status": "passed",
+      "completion": "waiting_for_manual_restart",
+      "confirmationRequired": true,
+      "tokenReplayRejected": true
+    },
+    {
+      "id": "removed-cold-boot",
+      "status": "passed",
+      "authenticatedWebStatus": 200,
+      "activatedVersion": null
+    }
+  ],
+  "notCovered": [
+    "public npm/GitHub lifecycle",
+    "conversation approval UI and session-bound tokens",
+    "hot reload",
+    "batch failure/cancellation",
+    "all real plugin dependencies"
+  ]
+}

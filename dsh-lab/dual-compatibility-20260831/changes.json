@@ -1,0 +1,277 @@
+[
+  {
+    "repository": "codex",
+    "name": "relay-dsh-plugin-codex",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "c4fb2d74d4511e3e3a16b27d22aafd86abf6dc02",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "README.zh.md",
+      "codex-adapter.js",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "dsh-client-compat.d.mts",
+      "dsh-client-compat.mjs",
+      "dsh-compat.mjs",
+      "dsh-import-target.js",
+      "lib/client.js",
+      "lib/client.js.map",
+      "lib/host-plugin.js",
+      "lib/host-plugin.js.map",
+      "model-selection.d.mts",
+      "model-selection.mjs",
+      "package-lock.json",
+      "package.json",
+      "src/client/CodexActivityView.tsx",
+      "src/client/CodexProcessView.tsx",
+      "src/client/CodexStatus.tsx",
+      "src/client/compatible-chat.ts",
+      "src/client/compatible-runtime.ts",
+      "src/client/index.ts",
+      "src/client/process-presentation.tsx",
+      "test/CodexProcessView.spec.tsx",
+      "test/advanced-debug-composition.test.mjs",
+      "test/compatible-runtime.spec.tsx",
+      "test/dsh-client-compat.test.mjs",
+      "test/independence.test.mjs",
+      "test/model-selection.test.mjs",
+      "test/process-presentation.spec.tsx",
+      "test/session-import-composition.test.mjs"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        250
+      ],
+      "vitestSummaries": [
+        "140 passed (140)"
+      ]
+    }
+  },
+  {
+    "repository": "claude",
+    "name": "relay-dsh-plugin-claude",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "e216e553a1f71fd4b2397832c55083a9ea146d06",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "README.zh.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "dsh-client-compat.d.mts",
+      "dsh-client-compat.mjs",
+      "dsh-compat.mjs",
+      "dsh-import-target.js",
+      "lib/client.js",
+      "lib/client.js.map",
+      "lib/host-plugin.js",
+      "lib/host-plugin.js.map",
+      "model-selection.d.mts",
+      "model-selection.mjs",
+      "package-lock.json",
+      "package.json",
+      "src/client/compatible-runtime.ts",
+      "src/client/index.ts",
+      "test/compatible-runtime.spec.tsx",
+      "test/dsh-client-compat.test.mjs",
+      "test/independence.test.mjs",
+      "test/model-selection.test.mjs",
+      "test/session-import-composition.test.mjs"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        135
+      ],
+      "vitestSummaries": [
+        "5 passed (5)"
+      ]
+    }
+  },
+  {
+    "repository": "session-import",
+    "name": "relay-dsh-plugin-session-import",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "65417a5abd365d19c619c8a1c1679768189a68e4",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "README.zh.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "package-lock.json",
+      "package.json"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        5
+      ],
+      "vitestSummaries": [
+        "7 passed (7)"
+      ]
+    }
+  },
+  {
+    "repository": "dsh-plugin-manager",
+    "name": "relay-dsh-plugin-manager",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "f2d81138b522aa48d4976b2f0fe77e2a493972ef",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "README.zh.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "package-lock.json",
+      "package.json",
+      "scripts/accept-controlled-lifecycle.mjs",
+      "test/unit/package-contract.test.ts"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        4
+      ],
+      "vitestSummaries": [
+        "90 passed | 2 skipped (92)"
+      ]
+    }
+  },
+  {
+    "repository": "dsh-workbench",
+    "name": "relay-dsh-plugin-workbench",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "f95cb78d64c7eea7c95007ccfc928fbfc4bc8711",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "README.zh.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "lib/client.js",
+      "lib/client.js.map",
+      "package-lock.json",
+      "package.json",
+      "scripts/link-dsh-development-peers.mjs",
+      "src/client/layout/AppFrame.tsx",
+      "src/client/layout/compatible-store.ts",
+      "src/client/layout/index.ts",
+      "src/client/layout/stores.ts",
+      "tsdown.config.ts"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        10
+      ],
+      "vitestSummaries": []
+    }
+  },
+  {
+    "repository": "dsh-files",
+    "name": "relay-dsh-plugin-files",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "2360b6faa532c6cf54dd423bd2130ddf05d853b7",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "README.zh.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "lib/client.js",
+      "lib/client.js.map",
+      "package-lock.json",
+      "package.json",
+      "src/client/files/FileExplorer.tsx",
+      "test/files.test.mjs"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        7
+      ],
+      "vitestSummaries": []
+    }
+  },
+  {
+    "repository": "dsh-terminal",
+    "name": "relay-dsh-plugin-terminal",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "70b2fc1483b6d4c60929bd3b6d269d726a85ec3d",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "README.zh.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "package-lock.json",
+      "package.json",
+      "test/terminal.test.mjs"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        12
+      ],
+      "vitestSummaries": []
+    }
+  },
+  {
+    "repository": "events",
+    "name": "relay-dsh-plugin-events",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "aabf30362ee0e5d374a1f1d6ae1b1f7be8553c6a",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "package-lock.json",
+      "package.json"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        25
+      ],
+      "vitestSummaries": []
+    }
+  },
+  {
+    "repository": "semantic-router",
+    "name": "relay-dsh-plugin-semantic-router",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "dadfa8044c8a55a28b9b13a86dd592a7237ce046",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "package-lock.json",
+      "package.json",
+      "test/config.test.mjs"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        10
+      ],
+      "vitestSummaries": []
+    }
+  },
+  {
+    "repository": "monitors",
+    "name": "relay-dsh-plugin-monitors",
+    "candidateVersion": "0.2.0-rc.1",
+    "baseCommit": "f07657e23dfde45dab1a9a22dfd680ac7dd2da7c",
+    "branch": "codex/dsh-dual-compatibility",
+    "files": [
+      "README.md",
+      "docs/dsh-0.1.2-alpha.2.md",
+      "package-lock.json",
+      "package.json",
+      "test/package-boundary.test.mjs"
+    ],
+    "verification": {
+      "status": "passed",
+      "nodeTestPassCounts": [
+        9
+      ],
+      "vitestSummaries": []
+    }
+  }
+]

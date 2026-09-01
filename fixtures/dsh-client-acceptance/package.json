@@ -1,0 +1,13 @@
+{
+  "name": "relay-dsh-client-acceptance-fixture",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.mjs",
+  "exports": { ".": "./index.mjs", "./client": "./lib/client.js", "./package.json": "./package.json" },
+  "files": ["index.mjs", "lib/client.js", "cordis.patch.yml"],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": { "platform": "web", "inject": ["@deepseek-ai/dsh-client-ui-slots", "@deepseek-ai/dsh-client-connection"] }
+  }
+}
