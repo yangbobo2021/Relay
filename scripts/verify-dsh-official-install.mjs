@@ -1,4 +1,4 @@
-// Relay-owned compatibility probe for official DSH 0a53fb55bea101816fa226bb964ae2bed71c343b.
+// Relay-owned compatibility probe for official DSH 0.1.2 prereleases.
 // Adapts the existing installation verifier to launch-token authentication and advertised combo URLs.
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
@@ -23,6 +23,7 @@ let hostVersion;
 const hosts = process.env.DSH_LEGACY_BIN ? [process.env.DSH_LEGACY_BIN, dshBin] : [dshBin];
 const temporary = await mkdtemp(join(tmpdir(), "relay-official-dsh-"));
 const codexOnly = process.argv.includes("--codex-only");
+const publishedVersion = process.env.RELAY_VERIFY_PUBLISHED_VERSION;
 const clientFixture = "relay-dsh-client-acceptance-fixture";
 const packages = [
   ["fixtures/dsh-client-acceptance", clientFixture],
@@ -48,8 +49,10 @@ const browser = await chromium.launch({ headless: true,
 
 try {
   const tarballs = new Map(packages.map(([directory, name]) => {
-    const packed = JSON.parse(execFileSync("npm", ["pack", "--ignore-scripts", "--json", "--pack-destination", temporary], {
-      cwd: join(root, directory), encoding: "utf8",
+    const published = publishedVersion && name.startsWith("relay-dsh-plugin-");
+    const source = published ? `${name}@${publishedVersion}` : undefined;
+    const packed = JSON.parse(execFileSync("npm", ["pack", ...(source ? [source] : []), "--ignore-scripts", "--json", "--pack-destination", temporary], {
+      cwd: published ? root : join(root, directory), encoding: "utf8",
     }))[0];
     return [name, join(temporary, packed.filename)];
   }));
@@ -59,7 +62,7 @@ try {
   for (const host of hosts) {
   dshBin = host;
   hostVersion = JSON.parse(await readFile(join(dirname(dirname(host)), 'package.json'), 'utf8')).version;
-  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2'].includes(hostVersion), 'select an audited official DSH runtime');
+  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2', '0.1.2-alpha.3'].includes(hostVersion), 'select an audited official DSH runtime');
 
   if (codexOnly) {
     await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 3191);
