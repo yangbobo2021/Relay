@@ -48,9 +48,9 @@ export function createPullRequestWatchProposal({
       monitor_id: monitorId,
       wait_id: waitId,
       lifecycle: "one_shot",
-      observer: { provider: "github" },
+      observer: { provider: "github.pull-request.read" },
       detector: {
-        kind: "snapshot_changed",
+        kind: "github.pull-request",
         fingerprint_field: "state_fingerprint",
         identity_field: "transition_key",
         correlation_key_field: "correlation_key",
@@ -58,10 +58,20 @@ export function createPullRequestWatchProposal({
       },
       schedule: { interval_seconds: cadenceSeconds, jitter_seconds: Math.min(10, Math.floor(cadenceSeconds / 10)) },
       retry: { degraded_after: 1, fail_after: 5, backoff_seconds: [60, 120, 300, 600, 900] },
-      capabilities: { provider: "github", read_only: true },
+      capabilities: {
+        "github.pull-request.read": {
+          repository: target.repository,
+          pull_number: target.pull_number,
+          read_only: true,
+        },
+      },
       artifact: {
         kind: "trusted-provider",
         name: "github.pull_request",
+        type_id: "github.pull-request",
+        bundle_version: 1,
+        plugin_id: "relay-github",
+        plugin_version: "0.2.0",
         repository: target.repository,
         pull_number: target.pull_number,
         stable_subject: target.stable_subject,

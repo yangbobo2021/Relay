@@ -7,7 +7,7 @@ import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const packages = ["events", "monitors", "semantic-router", "github", "email"];
+const packages = ["events", "monitors", "monitor-time", "monitor-process", "semantic-router", "github", "email"];
 const temporary = await mkdtemp(join(tmpdir(), "relay-package-audit-"));
 const reports = [];
 

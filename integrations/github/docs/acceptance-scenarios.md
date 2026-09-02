@@ -20,3 +20,12 @@
 | GIT-016 | Each project resolves its own DSH credential handle; forged/missing durable scopes and cross-project fallback cannot use a global or sibling token. | credential/provider composition |
 | GIT-017 | Configure, rotate with overlap, revoke, status, and post-revoke rejection are fully usable in English and Chinese without rendering a secret. | official DSH browser + HTTP |
 | GIT-018 | Webhook and polling observations for one canonical transition converge to one Event/Delivery regardless of order. | Events/Monitors race composition |
+| MB06-001 | Connector separation | Webhook remains a push Connector while polling is a registered Bundle Type; Monitor Core contains no GitHub provider. | package composition |
+| MB06-002 | Extension discovery | Install exposes bilingual type, declared Event, parameter schema, capability, health, and tool. | registry + pack + browser |
+| MB06-003 | Provider-owned transitions | Head, checks, review, draft, mergeability, open/closed/merged, and unchanged observations detect deterministically in this plugin. | provider matrix |
+| MB06-004 | Project scope | Catalog visibility, repository target, and credential are restricted to canonical project policy. | authorization security |
+| MB06-005 | Push/poll convergence | Signed webhook racing or following polling produces one Trigger/Event/Delivery. | protocol concurrency |
+| MB06-006 | Provider failures | Auth, permission, not found, rate, timeout, cancellation, malformed, pagination, and size failures are redacted and recoverable. | fault matrix |
+| MB06-007 | Unload/reinstall | Webhook remains active, polling degrades, and compatible reinstall resumes without replay. | official DSH lifecycle |
+| MB06-008 | Legacy migration | Legacy `github` provider identity remains resolvable while data migrates to the versioned type. | SQLite migration |
+| MB06-009 | Controlled live | A real GitHub transition wakes the same backend context exactly once. | controlled live |

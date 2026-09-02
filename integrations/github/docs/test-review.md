@@ -45,3 +45,28 @@ or inbox evidence rather than handler return values alone.
   correlation key in real Events/Monitors composition.
 - Controlled-live GitHub against an external repository is a separate environment
   gate and is not fabricated from the provider-compatible HTTP suite.
+
+## Implementation Review 3 — Bundle extension boundary
+
+- GitHub verification discovers 24/24 tests with zero skip/todo and packs version
+  `0.2.0` against Monitor Core `0.3.0`; dependency resolution must reject the old
+  Core instead of using a forced install.
+- Registry tests prove bilingual metadata, authorized hiding, live
+  `configuration_required` to `available` health, and provider-owned factory output.
+- Detection tests invoke the GitHub provider's production detector, assert the
+  declared Event/key/correlation output, and prove unchanged observations emit none.
+- Root SQLite composition uses the new provider/detector identity and still proves
+  polling/webhook dedupe. External-account certification remains separate and is not
+  fabricated from deterministic provider evidence.
+
+## Implementation Review 4 — migration and final official profile
+
+- A real-file migration test stores the legacy `github` observer and
+  `snapshot_changed` detector, records the original PR baseline, closes Events and
+  Monitors, then reopens the same SQLite file through the extension-owned alias.
+  The original Monitor/Wait/version, stable subject, fingerprint, continuation, and
+  Session are asserted before a check transition emits the original canonical
+  correlation key.
+- The final GitHub suite discovers 24/24 tests with zero skip/todo. Official DSH
+  installs the artifact recorded by the external root acceptance report and completes
+  the packed bilingual browser/configuration matrix.

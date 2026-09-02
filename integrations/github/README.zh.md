@@ -4,6 +4,11 @@ Relay GitHub 插件负责校验签名 Webhook、归一化拉取请求状态变�
 监控观察器，并为经过认证的根 Agent 提供
 `relay_watch_github_pull_request` 操作。
 
+`0.2.0` 同时也是 Monitor Bundle 扩展：它向 Monitor Core `0.3.0` 动态注册双语的
+`github.pull-request` Type 和 `github.pull-request.read` Provider。实时目录会区分已授权且
+可用的配置与仍需配置的状态。Webhook Connector 继续作为推送路径，并通过相同的状态
+变化关联键与轮询结果收敛。
+
 请配置至少 16 个字符的 `RELAY_GITHUB_WEBHOOK_SECRET`，如需轮询再配置
 `RELAY_GITHUB_TOKEN`。Webhook 地址为 `/api/relay/github/webhook`。API Token
 只需具备目标仓库、拉取请求、检查和评审的读取权限。

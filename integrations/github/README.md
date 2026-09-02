@@ -4,6 +4,12 @@ Relay's GitHub plugin verifies signed webhooks, normalizes pull-request transiti
 provides a read-only pull-request Monitor observer, and adds the authenticated root
 Agent operation `relay_watch_github_pull_request`.
 
+Version `0.2.0` is also a Monitor Bundle extension: it dynamically registers the
+localized `github.pull-request` type and `github.pull-request.read` provider with
+Monitor Core `0.3.0`. The live catalog distinguishes an authorized available setup
+from one that still requires configuration. The webhook Connector remains usable as
+the push path and converges with polling by the same transition correlation key.
+
 Configure `RELAY_GITHUB_WEBHOOK_SECRET` (minimum 16 characters) and optionally
 `RELAY_GITHUB_TOKEN`. GitHub should send webhooks to
 `/api/relay/github/webhook`. The API token needs read access to the configured
