@@ -178,13 +178,18 @@ a stable key derived from the Process Handle, and resumes the same Session. Miss
 unauthorized, reused, or unverifiable process identities fail closed rather than
 claiming that the process exited.
 
-## MB-10: Agent Authoring Skill
+## MB-10: DSH Agent Authoring Plugin
 
-Relay ships a discoverable `relay-monitor-author` Skill. It first queries the live
-Bundle Type Catalog and prefers an available plugin type. Only when no type satisfies
-the task does it scaffold a custom Bundle, request the minimum capability, generate
-fixtures, run the deterministic validator, and call the public validation/install
-tools.
+Relay ships `relay-dsh-plugin-monitor-author`, a DSH plugin that registers the
+discoverable `relay-monitor-author` Skill through DSH's native Skill registry. The
+Skill is visible to DSH's model-facing catalog and explicit user invocation; it is
+not installed through or coupled to Codex's plugin system.
+
+Inside the current DSH Session, the Skill first queries the live Bundle Type Catalog
+and prefers an available plugin type. Only when no type satisfies the task does it
+scaffold a custom Bundle, request the minimum capability, generate fixtures, run the
+deterministic validator, and call the public validation/install tools bound to that
+DSH root Agent.
 
 The Skill contains no credentials and never treats generated prose as successful
 installation. It reports the durable Monitor ID, artifact hash, approved capabilities,
@@ -203,8 +208,8 @@ and secret redaction are release requirements.
 
 ## MB-12: Release And Compatibility
 
-Core, extension plugins, Skill, and public contracts are independently packable and
-versioned. Packages import only public entrypoints. A release records exact package
+Core, extension plugins, the DSH Author plugin, and public contracts are independently
+packable and versioned. Packages import only public entrypoints. A release records exact package
 hashes, official DSH commit, catalog contents, sandbox implementation/version, and
 executed scenario IDs.
 

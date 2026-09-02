@@ -42,6 +42,13 @@ if (gmailControlledLive) {
 }
 const temporary = await mkdtemp(join(tmpdir(), "relay-official-dsh-"));
 const publishedVersion = process.env.RELAY_VERIFY_PUBLISHED_VERSION;
+const publishedPackages = JSON.parse(process.env.RELAY_VERIFY_PUBLISHED_PACKAGES ?? "{}");
+assert.ok(publishedPackages && typeof publishedPackages === "object" && !Array.isArray(publishedPackages),
+  "RELAY_VERIFY_PUBLISHED_PACKAGES must be a JSON object");
+for (const [name, version] of Object.entries(publishedPackages)) {
+  assert.match(name, /^relay-dsh-plugin-[a-z0-9-]+$/u, "published package name must be a Relay DSH plugin");
+  assert.match(version, /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/u, `published version for ${name} must be exact`);
+}
 const clientFixture = "relay-dsh-client-acceptance-fixture";
 const packages = [
   ["fixtures/dsh-client-acceptance", clientFixture],
@@ -55,6 +62,7 @@ const packages = [
   ["integrations/monitors", "relay-dsh-plugin-monitors"],
   ["integrations/monitor-time", "relay-dsh-plugin-monitor-time"],
   ["integrations/monitor-process", "relay-dsh-plugin-monitor-process"],
+  ["integrations/monitor-author", "relay-dsh-plugin-monitor-author"],
   ["integrations/github", "relay-dsh-plugin-github"],
   ["integrations/email", "relay-dsh-plugin-email"],
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
@@ -63,7 +71,7 @@ const packages = [
 ].filter(([, name]) => {
   if (codexOnly) return [clientFixture, "relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"].includes(name);
   if (eventsOnly) return [clientFixture, "relay-dsh-plugin-events"].includes(name);
-  if (eventsUiOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email"].includes(name);
+  if (eventsUiOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email"].includes(name);
   if (eventBackendsOnly) return [clientFixture, "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router"].includes(name);
   if (backendControlledLive) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router"].includes(name);
   if (githubCodexClosedLoop) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github"].includes(name);
@@ -83,9 +91,10 @@ const browser = await chromium.launch({ headless: true,
 
 try {
   const tarballs = new Map(packages.map(([directory, name]) => {
-    const published = publishedVersion && name.startsWith("relay-dsh-plugin-");
-    const source = published ? `${name}@${publishedVersion}` : undefined;
-    if (!published) {
+    const published = publishedPackages[name]
+      ?? (publishedVersion && name.startsWith("relay-dsh-plugin-") ? publishedVersion : undefined);
+    const source = published ? `${name}@${published}` : undefined;
+    if (!source) {
       try {
         execFileSync("npm", ["run", "build", "--if-present"], {
           cwd: join(root, directory), env: { ...process.env, DSH_ROOT: dshRoot }, stdio: "pipe",
@@ -95,7 +104,7 @@ try {
       }
     }
     const packed = JSON.parse(execFileSync("npm", ["pack", ...(source ? [source] : []), "--ignore-scripts", "--json", "--pack-destination", temporary], {
-      cwd: published ? root : join(root, directory), encoding: "utf8",
+      cwd: source ? root : join(root, directory), encoding: "utf8",
     }))[0];
     return [name, join(temporary, packed.filename)];
   }));
@@ -112,7 +121,7 @@ try {
   } else if (eventsOnly) {
     await verifyScenario("events-only", ["relay-dsh-plugin-events"], tarballs, 3193);
   } else if (eventsUiOnly) {
-    await verifyScenario("event-management-ui", ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-github", "relay-dsh-plugin-email", "relay-dsh-event-acceptance-fixture"], tarballs, 3207);
+    await verifyScenario("event-management-ui", ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-github", "relay-dsh-plugin-email", "relay-dsh-event-acceptance-fixture"], tarballs, 3207);
   } else if (eventBackendsOnly) {
     const eventPlugins = ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors"];
     await verifyScenario("event-plugins-codex", [...eventPlugins, "relay-dsh-plugin-codex"], tarballs, 3203);
@@ -142,6 +151,7 @@ try {
   await verifyScenario("router-only", [eventPlugins[1]], tarballs, 3200);
   await verifyScenario("monitors-only", [eventPlugins[2]], tarballs, 3201);
   await verifyScenario("event-plugins", [...eventPlugins, "relay-dsh-event-acceptance-fixture"], tarballs, 3202);
+  await verifyScenario("monitor-author", [...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author", "relay-dsh-event-acceptance-fixture"], tarballs, 3214);
   await verifyScenario("event-plugins-codex", [...eventPlugins, "relay-dsh-plugin-codex"], tarballs, 3203);
   await verifyScenario("event-plugins-claude", [...eventPlugins, "relay-dsh-plugin-claude"], tarballs, 3204);
   await verifyScenario("events-only", [eventPlugins[0]], tarballs, 3193);
@@ -152,7 +162,7 @@ try {
   await verifyScenario("workbench-files", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files"], tarballs, 3196);
   await verifyScenario("workbench-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal"], tarballs, 3197);
   await verifyScenario("codex-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
-  await verifyScenario("all-plugins", ["relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins], tarballs, 3199);
+  await verifyScenario("all-plugins", ["relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author"], tarballs, 3199);
   }
   }
 } finally {
@@ -327,7 +337,7 @@ async function bootAndProbe(id, env, port, selected) {
       await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
       const graph = await page.evaluate(() => window.__DSH_BOOT__);
       for (const name of selected) {
-        if (["relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process",
+        if (["relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author",
           "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email",
           "relay-dsh-event-acceptance-fixture"].includes(name)) continue;
         assert.ok(graph.entries.some(entry => entry.id === name), `${id}: ${name} missing from boot graph`);

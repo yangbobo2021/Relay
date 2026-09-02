@@ -30,7 +30,7 @@ const dictionaries = {
       schema_too_new: "Run this database only with the same or a newer compatible Relay release.",
       locale_unsupported: "Select en-US or zh-CN.",
       timezone_invalid: "Select a valid IANA timezone such as Asia/Shanghai.",
-      profile_not_initialized: "Initialize the selected profile and install the five packed Relay plugins.",
+      profile_not_initialized: "Initialize the selected profile and install the required packed Relay plugins.",
       probe_not_requested: "Run doctor with --probe before release or after an upgrade.",
       database_locked: "Stop the conflicting Host and retry; do not delete the database.",
       database_corrupt: "Restore a verified backup and retain the damaged database for diagnosis.",
@@ -63,7 +63,7 @@ const dictionaries = {
       schema_too_new: "请仅使用同版本或更高兼容版本的 Relay 打开该数据库。",
       locale_unsupported: "请选择 en-US 或 zh-CN。",
       timezone_invalid: "请选择有效的 IANA 时区，例如 Asia/Shanghai。",
-      profile_not_initialized: "请初始化所选配置档，并安装五个 Relay 打包插件。",
+      profile_not_initialized: "请初始化所选配置档，并安装所需的 Relay 打包插件。",
       probe_not_requested: "发布前或升级后，请使用 --probe 运行诊断。",
       database_locked: "请停止占用数据库的 Host 后重试，不要删除数据库。",
       database_corrupt: "请恢复已验证的备份，并保留损坏数据库用于诊断。",
@@ -107,6 +107,7 @@ await runCheck("packages.events", "blocking", () => packageCheck("integrations/e
 await runCheck("packages.monitors", "blocking", () => packageCheck("integrations/monitors", "relay-dsh-plugin-monitors"));
 await runCheck("packages.monitor_time", "blocking", () => packageCheck("integrations/monitor-time", "relay-dsh-plugin-monitor-time"));
 await runCheck("packages.monitor_process", "blocking", () => packageCheck("integrations/monitor-process", "relay-dsh-plugin-monitor-process"));
+await runCheck("packages.monitor_author", "blocking", () => packageCheck("integrations/monitor-author", "relay-dsh-plugin-monitor-author"));
 await runCheck("packages.github", "blocking", () => packageCheck("integrations/github", "relay-dsh-plugin-github"));
 await runCheck("packages.router", "optional", () => packageCheck("integrations/semantic-router", "relay-dsh-plugin-semantic-router"));
 await runCheck("packages.email", "optional", () => packageCheck("integrations/email", "relay-dsh-plugin-email"));
@@ -129,7 +130,7 @@ await runCheck("profile.plugins", "blocking", async () => {
     throw error;
   }
   const installed = new Set(Object.keys(manifest.dependencies ?? {}));
-  const required = ["relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-github"];
+  const required = ["relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-github"];
   const missing = required.filter(name => !installed.has(name));
   return missing.length === 0 ? healthy("Required Relay plugins are installed", { profile: context.profile, required })
     : failed("profile_plugin_missing", `Selected profile is missing ${missing.join(", ")}`, { profile: context.profile, missing });

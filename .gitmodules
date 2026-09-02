@@ -28,3 +28,15 @@
 [submodule "integrations/monitors"]
 	path = integrations/monitors
 	url = git@github.com:yangbobo2021/relay-dsh-plugin-monitors.git
+[submodule "integrations/monitor-time"]
+	path = integrations/monitor-time
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-monitor-time.git
+	branch = main
+[submodule "integrations/monitor-process"]
+	path = integrations/monitor-process
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-monitor-process.git
+	branch = main
+[submodule "integrations/monitor-author"]
+	path = integrations/monitor-author
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-monitor-author.git
+	branch = main

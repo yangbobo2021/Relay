@@ -2,9 +2,9 @@
 
 [English](dsh-plugins.md) | 中文
 
-> **10 个 Relay 插件现已全部支持最新 DSH `0.1.2-alpha.3`。** 稳定版
-> `0.2.1` 已在 `0.1.2-alpha.3`、`0.1.2-alpha.2` 和 `0.1.1-rc.2` 上完成
-> 验证。可以安装下方完整套件，也可以只选择需要的能力。
+> **13 个 Relay 插件组成的套件已在 DSH `0.1.2-alpha.3` 上完成发布验收。**
+> 原有插件线使用 `0.2.1`，Monitor Core 使用 `0.3.0`，新的 Time、Process 和
+> Author 扩展使用 `0.1.0`。
 
 在对话中发现和管理插件，或为官方 DeepSeek Harness 增加 Codex、Claude Code、
 工作区文件浏览和交互终端。无需维护 DSH Fork，也不需要修改官方核心代码。
@@ -32,6 +32,9 @@
 | 导入已有 Provider 会话 | [`relay-dsh-plugin-session-import`](https://github.com/yangbobo2021/relay-dsh-plugin-session-import) | Codex 与 Claude Provider 共用的会话导入入口。 |
 | 将外部事件送回原 DSH Session | [`relay-dsh-plugin-events`](https://github.com/yangbobo2021/relay-dsh-plugin-events) | 持久化 Wait、Event 与 Delivery 运行时。 |
 | 监控无法主动推送事件的系统 | Events + [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | 运行受限的持久 Monitor，并产生普通 Relay Event。 |
+| 等待持久化截止时间 | Events + Monitor Core + [`relay-dsh-plugin-monitor-time`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-time) | 增加可发现的 `time.deadline` Bundle Type 和计时器工具。 |
+| 等待某个进程退出 | Monitor Core + [`relay-dsh-plugin-monitor-process`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-process) + [`relay-dsh-plugin-monitor-author`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-author) | 先签发不透明 Process Handle，再创建最小权限、Session 范围的 Bundle。 |
+| 临时创建自定义 Monitor | Monitor Core + Monitor Author + 对应 capability 插件 | 先查询已安装类型；受限自定义代码只是兜底路径。 |
 | 使用 DSH 模型路由事件 | Events + [`relay-dsh-plugin-semantic-router`](https://github.com/yangbobo2021/relay-dsh-plugin-semantic-router) | 可选语义路由，决定 `deliver`、`escalate` 或 `dismiss`。 |
 
 Plugin Manager、Codex 和 Claude 都不依赖 Relay 运行时或 Workbench。Files 和
@@ -53,8 +56,8 @@ npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add --save-exact \
 
 ## 从 npm 安装
 
-10 个插件统一使用稳定版 `0.2.1`。npm `latest` 指向 `0.2.1`；`next` 指向
-候选版 `0.2.1-rc.1`。
+原有插件继续使用稳定版 `0.2.1`。可扩展 Monitor 运行时版本为 `0.3.0`，Time、
+Process 和 Author 首个正式版为 `0.1.0`。生产环境应固定精确版本。
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
@@ -66,7 +69,10 @@ pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
   relay-dsh-plugin-files@0.2.1 \
   relay-dsh-plugin-terminal@0.2.1 \
   relay-dsh-plugin-events@0.2.1 \
-  relay-dsh-plugin-monitors@0.2.1 \
+  relay-dsh-plugin-monitors@0.3.0 \
+  relay-dsh-plugin-monitor-time@0.1.0 \
+  relay-dsh-plugin-monitor-process@0.1.0 \
+  relay-dsh-plugin-monitor-author@0.1.0 \
   relay-dsh-plugin-semantic-router@0.2.1
 
 pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 web
@@ -91,7 +97,10 @@ pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
   github:yangbobo2021/relay-dsh-plugin-workbench#main \
   github:yangbobo2021/relay-dsh-plugin-files#main \
-  github:yangbobo2021/relay-dsh-plugin-terminal#main
+  github:yangbobo2021/relay-dsh-plugin-terminal#main \
+  github:yangbobo2021/relay-dsh-plugin-monitor-time#v0.1.0 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-process#v0.1.0 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-author#v0.1.0
 ```
 
 安装、更新或删除插件后，请重启 DSH Web。
@@ -104,13 +113,16 @@ dsh plugin --profile web why relay-dsh-plugin-claude
 dsh plugin --profile web why relay-dsh-plugin-files
 dsh plugin --profile web why relay-dsh-plugin-terminal
 dsh plugin --profile web why relay-dsh-plugin-manager
+dsh plugin --profile web why relay-dsh-plugin-monitor-time
+dsh plugin --profile web why relay-dsh-plugin-monitor-process
+dsh plugin --profile web why relay-dsh-plugin-monitor-author
 ```
 
 然后新建 DSH 会话，可以先询问“列出已安装插件”，也可以打开 **设置 > 插件 >
 插件市场** 查看简短说明。模式菜单中应出现 Codex 和 Claude Code；选择工作区后，
 Workbench 菜单中应出现 Files 和 Terminal。
 
-10 个插件仓库均提供中英文安装说明，并记录验证、npm 发布和 GitHub 开发版安装
+13 个插件仓库均提供中英文安装说明，并记录验证、npm 发布和 GitHub 开发版安装
 方式。关于为什么采用这种插件边界，以及完整体验步骤，
 可继续阅读
 [《不改 DSH 核心：用插件加入 Codex、Claude Code、文件浏览和终端》](articles/no-fork-dsh-plugins.zh.md)。

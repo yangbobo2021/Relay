@@ -12,6 +12,7 @@ plugin_roots=(
   "$relay_root/integrations/monitors"
   "$relay_root/integrations/monitor-time"
   "$relay_root/integrations/monitor-process"
+  "$relay_root/integrations/monitor-author"
   "$relay_root/integrations/codex"
   "$relay_root/integrations/claude"
 )

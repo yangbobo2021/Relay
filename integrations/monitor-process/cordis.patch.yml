@@ -1,3 +1,0 @@
-- insert:
-    - id: relay-monitor-process-host
-      name: 'relay-dsh-plugin-monitor-process'
