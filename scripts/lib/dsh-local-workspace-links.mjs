@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, readlinkSync, rmSync, symlinkSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 export function prepareDshLocalWorkspaceLinks(dshRoot) {
@@ -64,5 +64,13 @@ function linkStandardSchemaSpec(dshRoot, source) {
 function linkForce(source, target) {
   rmSync(target, { recursive: true, force: true });
   mkdirSync(dirname(target), { recursive: true });
-  symlinkSync(source, target, "dir");
+  try {
+    symlinkSync(source, target, "dir");
+  } catch (error) {
+    // Concurrent acceptance runs prepare the same immutable DSH checkout. If a
+    // peer created the intended link after our rmSync, the operation is already
+    // complete; a different target remains a hard failure.
+    if (error?.code === "EEXIST" && readlinkSync(target) === source) return;
+    throw error;
+  }
 }

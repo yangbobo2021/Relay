@@ -15,15 +15,19 @@ a Session in response to an Event and never acquires an execution lease over it.
 ## Records
 
 `Wait` is a compact, phase-specific description of an external Event the Agent wants
-Relay to recognize. A conversation may expose several active Waits.
+Relay to recognize. A conversation may expose several active Waits. A Wait may contain
+versioned Agent-authored continuation describing the next action, success condition,
+constraints, artifacts, failure handling, and timeout handling. Relay never derives
+that continuation from external Event content or a routing model.
 
 `Monitor` is a durable observer bound to a Wait. It produces an Event when a source
 condition changes.
 
 `Event` is normalized external input durably accepted by Relay.
 
-`Delivery` assigns one Event to one existing conversation backend and records matched
-Waits; the owning DSH Session remains its presentation target.
+`Delivery` assigns one Event to one existing conversation backend and records immutable
+matched-Wait snapshots and routing evidence; the owning DSH Session remains its
+presentation target.
 
 `Activation` is one stable Delivery batch for one backend-bound DSH Session. Its identity and
 Delivery set survive retries. It is a Relay delivery record, not an Agent run.
@@ -55,6 +59,10 @@ are committed. A registration failure leaves the previous set unchanged.
 7. The Agent processes the message in normal inbox order and may register its next
    Waits.
 
+The injected envelope includes the exact matched Wait version and continuation that
+were validated during step 3. Replacing a Wait after routing cannot rewrite an already
+committed Delivery envelope.
+
 Failure before step 6 leaves the same Activation and Deliveries retryable. The
 Activation ID is included in the injected envelope for reconciliation and tool-side
 idempotency.
@@ -82,6 +90,10 @@ ordinary queued message.
 - User messages bypass Relay routing and enter their conversation backend directly.
 - Relay Events and user messages share the owning backend's admission path.
 - One expected exclusive reply cannot have multiple known live owners.
+- A trusted binding is accepted only through a registered source capability. Caller
+  fields in generic Event JSON cannot assert Session or Wait ownership.
+- Conflicting cross-Session exclusive exact matches escalate instead of selecting by
+  storage or iteration order.
 - A non-exclusive Event may target several conversations.
 - An Event cannot be resolved before all required Deliveries are accepted.
 - Retry reuses Event, Delivery, and Activation identities.

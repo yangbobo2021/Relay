@@ -1,5 +1,7 @@
 # Relay Documentation
 
+- [Event productization operations](event-productization-operations.md)
+
 - [Specification](spec/README.md) defines required product and runtime behavior.
 - [Design](design/README.md) maps the specification to the first implementation.
 - [Acceptance](acceptance/README.md) traces requirements to executable scenarios and
