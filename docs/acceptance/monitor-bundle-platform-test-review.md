@@ -92,8 +92,8 @@ Final official-DSH SHA-256 artifacts were:
 
 | Artifact | SHA-256 |
 | --- | --- |
-| Events | `9b3f75b8aac78618eb6dce684b091596f0b66b618cafcee2c1f7404edd2bbdf4` |
-| Monitors | `bd139a682db8c7d1c50a450d377818870a0118fa586e78220cf387b04d74a75b` |
+| Events | `98527dd69df6d43013851641bbe31e4cec8a56939d4045244fef4145119bcef2` |
+| Monitors | `f0405536fc3aa89dc9e4e256ae838343d20bbd98163ab5ea54dd5c9550e192f4` |
 | Time | `e7c9270e6218cf2f0b1e68c1517755c6e15ddbe5fa8365aae2fb85238ad6f00b` |
 | GitHub | `e1486028bc2c0baffac70563c50958571b3b3c4576375c19edb99695da2abea2` |
 | Third-party fixture | `7d8870a9d8909e77aadbe34900f9288f51ee68d955537ea2fc2adbb3d743dc5c` |
