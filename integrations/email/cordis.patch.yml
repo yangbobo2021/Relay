@@ -1,0 +1,6 @@
+- insert:
+    - id: relay-email-host
+      name: 'relay-dsh-plugin-email'
+      config:
+        pushPath: '/api/relay/email/gmail/push'
+        maxBodyBytes: 262144
