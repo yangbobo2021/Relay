@@ -14,6 +14,11 @@ No routing result waits for human approval.
 Events from a validated bound Monitor bypass semantic owner selection because the
 Session and Wait were fixed at registration.
 
+Events from another validated bound source follow the same rule. Binding authority
+comes from a registered provider capability, never from ownership fields inside a
+generic external payload. Stale or cross-Session bindings fail closed and remain
+inspectable.
+
 ## Wait Representation
 
 A routable Wait contains only compact matching context:
@@ -44,6 +49,10 @@ instructions inside email or IM content cannot change routing policy.
 `deliver` selects one or more existing DSH Sessions. Matched Waits are claimed in the
 same transaction as their Deliveries. Multi-Session delivery is valid only for
 non-exclusive relationships.
+
+Exact Event type is matching evidence, not unique owner identity. When exact matching
+finds more than one Session and any selected relationship is exclusive, the result is
+`escalate`; routing must not select the first stored Wait.
 
 `escalate` is the autonomous conservative result for an actionable Event with no safe
 existing target. It preserves the Event and invokes configured notification policy;

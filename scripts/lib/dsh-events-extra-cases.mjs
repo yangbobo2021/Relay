@@ -48,7 +48,11 @@ export async function runEventsCases(api) {
       await getPage().getByRole('button', { name: 'Check now', exact: true }).click();
       await getPage().getByRole('button', { name: 'Cancel waits', exact: true }).click();
       await getPage().getByRole('button', { name: 'Confirm cancel', exact: true }).click();
-      await until(async () => !(await list()).registrations.some(r => r.session_id === session.sessionId), 10000);
+      await until(async () => {
+        const item = (await list()).registrations.find(r => r.session_id === session.sessionId);
+        return item != null && !item.waits.some(w => ['active', 'claimed'].includes(w.status))
+          && !item.monitors.some(m => ['active', 'paused', 'triggered', 'degraded'].includes(m.state));
+      }, 10000);
       record.cancelledViaUi = true;
       await getPage().screenshot({ path: join(artifacts, 'events-management-cancel.png') });
     } finally {

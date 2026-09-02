@@ -20,6 +20,9 @@ choice, but neither should redefine the requirements here.
 - [Event Routing](event-routing.md): autonomous semantic matching and reliable event disposition.
 - [Trigger Monitoring](trigger-monitoring.md): dynamic condition observation and
   durable Event generation for systems that cannot push to Relay.
+- [Event Productization](event-productization.md): release requirements for
+  continuation, GitHub callbacks and monitoring, lifecycle management, bilingual UI,
+  operations, semantic routing, and the first email connector.
 - [Repository Workflow](repository-workflow.md): Relay and DSH repository ownership,
   official checkout synchronization and development checks.
 - [DSH Upstream Boundary](dsh-upstream-boundary.md): mandatory immutability and

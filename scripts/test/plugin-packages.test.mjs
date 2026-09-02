@@ -13,6 +13,8 @@ const expected = new Map([
   ["integrations/events", "relay-dsh-plugin-events"],
   ["integrations/semantic-router", "relay-dsh-plugin-semantic-router"],
   ["integrations/monitors", "relay-dsh-plugin-monitors"],
+  ["integrations/github", "relay-dsh-plugin-github"],
+  ["integrations/email", "relay-dsh-plugin-email"],
   ["integrations/codex", "relay-dsh-plugin-codex"],
   ["integrations/claude", "relay-dsh-plugin-claude"],
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
@@ -69,7 +71,7 @@ test("plugins and shared libraries are independently publishable workspace packa
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: relay-workbench-host\n/, `${directory} must not reuse Workbench's direct-install loader id`);
   }
-  for (const directory of ["integrations/codex", "integrations/claude", "integrations/events", "integrations/semantic-router", "integrations/monitors", "integrations/dsh-plugin-manager"]) {
+  for (const directory of ["integrations/codex", "integrations/claude", "integrations/events", "integrations/semantic-router", "integrations/monitors", "integrations/github", "integrations/email", "integrations/dsh-plugin-manager"]) {
     const patch = await readFile(join(root, directory, "cordis.patch.yml"), "utf8");
     assert.doesNotMatch(patch, /- id: ui-layout/, `${directory} must preserve the official DSH layout`);
   }

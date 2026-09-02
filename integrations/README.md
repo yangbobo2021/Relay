@@ -13,6 +13,11 @@
   Router contract and the existing DSH LLM service.
 - `monitors/` contributes the timer tool, trusted observer registry and bounded
   leased checks through Events' high-level persistence contract.
+- `github/` contributes signed GitHub webhook ingestion, pull-request observation,
+  and the authenticated root-Agent pull-request waiting workflow through the public
+  Events and Monitors capabilities.
+- `email/` contributes a provider-compatible Gmail push/history cursor, bounded MIME
+  normalization, deterministic thread binding, and uncorrelated semantic routing.
 - `dsh-workbench/` is the generic shell, panel registry, keyed view host, and
   public `relay-dsh-plugin-workbench/contracts` provider.
 - `dsh-files/` contributes the workspace explorer side view through Workbench's

@@ -1,0 +1,7 @@
+- insert:
+    - id: relay-github-host
+      name: 'relay-dsh-plugin-github'
+      config:
+        webhookPath: '/api/relay/github/webhook'
+        maxBodyBytes: 1048576
+        requestsPerMinute: 120
