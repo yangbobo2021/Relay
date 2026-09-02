@@ -31,7 +31,7 @@ test("EP10-002/003/007: doctor is read-only, versioned, layer-specific, and secr
   assert.equal(report.schema_version, 1);
   assert.equal(report.status, "healthy");
   assert.equal(report.summary.blocking_failures, 0);
-  for (const id of ["packages.events", "packages.monitors", "packages.github", "dsh.runtime", "storage.database", "github.webhook_secret", "scheduler.availability"]) {
+  for (const id of ["packages.events", "packages.monitors", "packages.monitor_author", "packages.github", "dsh.runtime", "storage.database", "github.webhook_secret", "scheduler.availability"]) {
     assert.ok(report.checks.some(check => check.id === id), `missing doctor check ${id}`);
   }
   assert.equal(report.checks.find(check => check.id === "storage.database").details.schema_version, 10);
@@ -146,7 +146,9 @@ test("EP10-004/007: profile inventory and stored credential discovery expose no 
   }));
   result = runDoctor(fixture, env);
   assert.equal(result.status, 1);
-  assert.deepEqual(check(result, "profile.plugins").details.missing.sort(), ["relay-dsh-plugin-github", "relay-dsh-plugin-monitors"]);
+  assert.deepEqual(check(result, "profile.plugins").details.missing.sort(), [
+    "relay-dsh-plugin-github", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-monitors",
+  ]);
 });
 
 test("EP10-005: explicit disposable probe crosses ingress-to-inbox and removes isolated storage", async t => {
@@ -175,6 +177,7 @@ async function createFixture(t) {
   await writeFile(join(dshHome, "profiles", "web", "package.json"), JSON.stringify({ dependencies: {
     "relay-dsh-plugin-events": "0.2.1",
     "relay-dsh-plugin-monitors": "0.2.1",
+    "relay-dsh-plugin-monitor-author": "0.1.0",
     "relay-dsh-plugin-github": "0.1.0",
   } }));
   const databasePath = join(directory, "events.sqlite");

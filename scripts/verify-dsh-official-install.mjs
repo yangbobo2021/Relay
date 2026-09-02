@@ -55,6 +55,7 @@ const packages = [
   ["integrations/monitors", "relay-dsh-plugin-monitors"],
   ["integrations/monitor-time", "relay-dsh-plugin-monitor-time"],
   ["integrations/monitor-process", "relay-dsh-plugin-monitor-process"],
+  ["integrations/monitor-author", "relay-dsh-plugin-monitor-author"],
   ["integrations/github", "relay-dsh-plugin-github"],
   ["integrations/email", "relay-dsh-plugin-email"],
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
@@ -63,7 +64,7 @@ const packages = [
 ].filter(([, name]) => {
   if (codexOnly) return [clientFixture, "relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"].includes(name);
   if (eventsOnly) return [clientFixture, "relay-dsh-plugin-events"].includes(name);
-  if (eventsUiOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email"].includes(name);
+  if (eventsUiOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email"].includes(name);
   if (eventBackendsOnly) return [clientFixture, "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router"].includes(name);
   if (backendControlledLive) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router"].includes(name);
   if (githubCodexClosedLoop) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github"].includes(name);
@@ -112,7 +113,7 @@ try {
   } else if (eventsOnly) {
     await verifyScenario("events-only", ["relay-dsh-plugin-events"], tarballs, 3193);
   } else if (eventsUiOnly) {
-    await verifyScenario("event-management-ui", ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-github", "relay-dsh-plugin-email", "relay-dsh-event-acceptance-fixture"], tarballs, 3207);
+    await verifyScenario("event-management-ui", ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-github", "relay-dsh-plugin-email", "relay-dsh-event-acceptance-fixture"], tarballs, 3207);
   } else if (eventBackendsOnly) {
     const eventPlugins = ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors"];
     await verifyScenario("event-plugins-codex", [...eventPlugins, "relay-dsh-plugin-codex"], tarballs, 3203);
@@ -142,6 +143,7 @@ try {
   await verifyScenario("router-only", [eventPlugins[1]], tarballs, 3200);
   await verifyScenario("monitors-only", [eventPlugins[2]], tarballs, 3201);
   await verifyScenario("event-plugins", [...eventPlugins, "relay-dsh-event-acceptance-fixture"], tarballs, 3202);
+  await verifyScenario("monitor-author", [...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-author", "relay-dsh-event-acceptance-fixture"], tarballs, 3214);
   await verifyScenario("event-plugins-codex", [...eventPlugins, "relay-dsh-plugin-codex"], tarballs, 3203);
   await verifyScenario("event-plugins-claude", [...eventPlugins, "relay-dsh-plugin-claude"], tarballs, 3204);
   await verifyScenario("events-only", [eventPlugins[0]], tarballs, 3193);
@@ -327,7 +329,7 @@ async function bootAndProbe(id, env, port, selected) {
       await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
       const graph = await page.evaluate(() => window.__DSH_BOOT__);
       for (const name of selected) {
-        if (["relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process",
+        if (["relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author",
           "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email",
           "relay-dsh-event-acceptance-fixture"].includes(name)) continue;
         assert.ok(graph.entries.some(entry => entry.id === name), `${id}: ${name} missing from boot graph`);

@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { createUserMessage, LlmAdapter } from "@deepseek-ai/dsh-llm";
 
-export const inject = ["relayEvents", "relayMonitorObservers", "relayMonitorBundles", "llm", "agents", "agentPresets", "sessions"];
+export const inject = ["relayEvents", "relayMonitorObservers", "relayMonitorBundles", "llm", "agents", "agentPresets", "sessions", "skills"];
 export function apply(ctx) {
   assert.ok(process.env.RELAY_ACCEPTANCE_REPORT, "fixture requires an explicit report path");
   const adapter = new ReplayAdapter();
@@ -81,6 +81,7 @@ async function run(ctx, adapter) {
     meta: { cwd: process.cwd(), title: "Synthetic Events acceptance" },
   });
   const sessionId = handle.agent.id;
+  const monitorAuthor = await verifyMonitorAuthor(ctx, handle, sessionId);
   await ctx.relayEvents.registerWaits({ sessionId, taskSummary: "Synthetic approval",
     waits: [wait("acceptance-approval", "approved")] });
   const event = { event_id: "acceptance-semantic", source: "fixture", fingerprint: "acceptance-semantic", type: "provider.message", body: "Synthetic approval." };
@@ -153,9 +154,50 @@ async function run(ctx, adapter) {
   const controlledGmail = await runControlledGmail(ctx, handle, sessionId);
   const controlledBackend = await runControlledBackend(ctx);
   return { sessionId, routedMessages: before, totalDeliveredMessages: 2, semanticCalls: 2, timerCompleted: true,
+    ...(monitorAuthor ? { monitorAuthor } : {}),
     ...(controlledGitHub ? { controlledGitHub } : {}),
     ...(controlledGmail ? { controlledGmail } : {}),
     ...(controlledBackend ? { controlledBackend } : {}) };
+}
+
+async function verifyMonitorAuthor(ctx, handle, sessionId) {
+  const lookup = { cwd: handle.agent.session.header.cwd, scope: handle.agent };
+  const catalog = await ctx.skills.list(lookup);
+  const summary = catalog.find(skill => skill.name === "relay-monitor-author");
+  if (!summary) return null;
+  assert.equal(summary.provider, "relay-monitor-author");
+  assert.deepEqual(summary.invocation, { modelInvocable: true, userInvocable: true });
+  const loaded = await ctx.skills.get("relay-monitor-author", lookup);
+  assert.ok(loaded, "DSH must load the packed Monitor Author Skill");
+  assert.match(loaded.content, /relay_list_monitor_bundle_types/u);
+  assert.match(loaded.content, /relay_install_monitor_bundle/u);
+
+  const listTool = handle.agent.ctx.tools.get("relay_list_monitor_bundle_types", handle.agent);
+  const createTool = handle.agent.ctx.tools.get("relay_create_monitor_from_type", handle.agent);
+  assert.ok(listTool && createTool, "DSH root Agent must expose Monitor creation tools");
+  const types = await listTool.execute({ locale: "zh-CN", limit: 100 });
+  const time = types.bundleTypes.find(type => type.type_id === "time.deadline");
+  assert.equal(time?.status, "available", "packed Time Bundle must be available to the DSH Session");
+  const created = await createTool.execute({
+    type_id: time.type_id,
+    bundle_version: time.bundle_version,
+    task_summary: "DSH Monitor Author 官方验收",
+    parameters: { after_seconds: 3600, resume_prompt: "继续 DSH Monitor Author 官方验收" },
+  });
+  assert.equal(created.created, true);
+  assert.equal(created.sessionId, sessionId);
+  assert.equal(created.typeId, "time.deadline");
+  assert.equal(created.monitorIds.length, 1);
+  const monitor = ctx.relayEvents.inspectMonitor(created.monitorIds[0]);
+  assert.equal(monitor.session_id, sessionId, "created Monitor must belong to the invoking DSH Session");
+  assert.equal(monitor.artifact.name, "relay.time.deadline");
+  return {
+    skill: summary.name,
+    provider: summary.provider,
+    monitor_id: created.monitorIds[0],
+    session_id: sessionId,
+    type_id: time.type_id,
+  };
 }
 
 async function runControlledGmail(ctx, handle, sessionId) {

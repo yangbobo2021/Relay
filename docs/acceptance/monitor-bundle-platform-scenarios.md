@@ -126,9 +126,10 @@ marked `release` is required before publication. Evidence follows
 | MB08-002 | Create-from-type tool | Typed creation returns durable instance/version/hash/next-check only after baseline and commit. | official-dsh | release |
 | MB08-003 | Validate/install tools | Invalid custom Bundle cannot install; valid result identity is reused by install and cannot be swapped after validation. | TOCTOU security | release |
 | MB08-004 | Tool lifecycle | Plugin install/unload adds/removes only its tools from every live root Agent; subagents receive none. | lifecycle integration | release |
-| MB08-005 | Skill prefers plugin | Given a supported condition, Skill lists types and instantiates the registered type rather than generating code. | isolated forward test | release |
-| MB08-006 | Skill authors fallback | Given unsupported process-exit request plus authorized capability, Skill generates, tests, validates, and installs one scoped Bundle. | isolated forward test + official-dsh | release |
-| MB08-007 | Skill fail-closed | Missing runtime, denied capability, failed validator, or ambiguous target produces no success claim or installation. | mutation tests | release |
+| MB08-005 | DSH Skill prefers plugin | Packed Author plugin is discovered through DSH's native Skill registry; given a supported condition, it lists types and instantiates the registered type rather than generating code. | DSH registry integration + isolated forward test + official-dsh | release |
+| MB08-006 | DSH Skill authors fallback | Given unsupported process-exit request plus authorized capability, the Skill loaded in DSH generates, tests, validates, and installs one Session-scoped Bundle. | isolated forward test + official-dsh | release |
+| MB08-007 | DSH Skill fail-closed | Missing Monitor tools, denied capability, failed validator, or ambiguous target produces no success claim or installation. | mutation tests | release |
+| MB08-011 | Author plugin lifecycle | Installing/unloading the DSH Author plugin adds/removes only `relay-monitor-author`; existing Monitors remain intact and no Codex plugin metadata is present. | packed + DSH registry lifecycle | release |
 | MB08-008 | Catalog UI | English/Chinese catalog shows identity, Events, origin, status, scope, permissions, remediation, and no secrets. | browser | release |
 | MB08-009 | Instance UI | Custom/plugin instances show version/hash/lifecycle/check/trigger/error and support authorized management. | browser + sqlite | release |
 | MB08-010 | UI edge matrix | Empty/loading/error, long Unicode, pagination, concurrent refresh, stale mutation, plugin unload, narrow/wide, light/dark, keyboard/focus, and console/network cleanliness pass. | browser | release |
@@ -143,7 +144,7 @@ marked `release` is required before publication. Evidence follows
 | MBE2E-004 | GitHub push/poll flow | Agent discovers GitHub Bundle, creates a PR Wait, and independently authenticated poll/webhook paths for one canonical transition converge on one continuation. | local HTTP + signed protocol + SQLite + official-dsh | release |
 | MBE2E-005 | Least-authority failure flow | Malicious custom Bundle requests ambient/undeclared authority; validation or broker denies it, no external mutation/Event/Wait claim occurs, and UI explains safely. | adversarial sandbox + browser | release |
 | MBE2E-006 | Upgrade flow | Existing timer/GitHub data upgrades to extension types, active work survives, catalog is correct, and rollback/incompatibility is explicit. | prior-version profile + official-dsh | release |
-| MBE2E-007 | Packaging flow | Core, Time, GitHub Bundle, fixture extension, and Skill install from packed artifacts with no workspace imports or private/generated residue. | package audit | release |
+| MBE2E-007 | Packaging flow | Core, Time, GitHub Bundle, fixture extension, and DSH Author plugin install from packed artifacts with no workspace imports, Codex plugin metadata, or private/generated residue. | package audit | release |
 | MBE2E-008 | Test integrity | Intentional mutations to registry conflict, sandbox authority, trigger dedupe, plugin unload, catalog freshness, and Session ownership each make their required gate fail. | mutation review | release |
 
 ## Delivery Rule

@@ -1,12 +1,10 @@
----
-name: relay-monitor-author
-description: Discover and create durable Relay Monitor Bundles when an Agent needs to wait for a timer, GitHub state, process exit, or another external condition. Use for listing supported monitor types, preferring a registered plugin Bundle, or safely authoring and installing a temporary custom Bundle through Relay validation tools.
----
-
 # Relay Monitor Author
 
-Create a Monitor only when the user wants later work to resume after an external
-condition. A generated module is not an installed Monitor.
+Use this skill when the user wants the current DeepSeek Harness Session to resume
+after an external condition. A generated module is not an installed Monitor.
+
+Reply in the user's language. Preserve identifiers, tool results, and validation
+errors exactly, but localize explanations in English or Simplified Chinese.
 
 ## Required workflow
 
@@ -31,17 +29,18 @@ condition. A generated module is not an installed Monitor.
    provider, operation, and arguments. Set an explicitly zoned expiry no more than
    30 days away, a bounded cadence, complete schemas, one declared Event type, and
    both `en-US` and `zh-CN` presentation text.
-7. Test `observe` and `detect` mentally against at least: initial baseline, no
-   change, target transition, repeated target state, malformed provider result,
-   denied capability, and expiry. Detection must emit no initial Event and must use
-   a stable non-secret trigger key.
+7. Check `observe` and `detect` against at least: initial baseline, no change,
+   target transition, repeated target state, malformed provider result, denied
+   capability, and expiry. Detection must emit no initial Event and must use a
+   stable non-secret trigger key.
 8. Call `relay_validate_monitor_bundle` with the exact manifest and source. If it
    fails, stop or correct the reported issue. Never claim success.
 9. Call `relay_install_monitor_bundle` using only the returned `validationId`.
    Never regenerate, edit, or substitute source or manifest after validation.
-10. Report success only from the install result. Include Monitor IDs, artifact hash,
-   approved capability names, next check, Bundle expiry, and that the Monitor can be
-   inspected, paused, resumed, run now, or stopped with `relay_manage_monitor`.
+10. Report success only from the install result. Include Monitor IDs, artifact
+    hash, approved capability names, next check, Bundle expiry, and that the
+    Monitor can be inspected, paused, resumed, run now, or stopped with
+    `relay_manage_monitor`.
 
 For an update, validate the complete replacement first, then call
 `relay_update_monitor_bundle` with the returned receipt, owned Monitor ID, and the
@@ -58,10 +57,10 @@ capabilities.
   network/browser access, or another Session/project's resource.
 - Never invent a capability provider or assume a plugin is installed.
 - Do not weaken schemas to `additionalProperties: true` merely to pass validation.
-- Treat missing tools, denied handles, failed validation, expired receipts, failed
-  baselines, or missing durable IDs as a failed installation.
+- Treat missing Relay Monitor tools, denied handles, failed validation, expired
+  receipts, failed baselines, or missing durable IDs as a failed installation.
 - Keep the continuation specific enough that the resumed Agent knows the next
   action, success condition, and relevant artifact.
 
-For the reference process-exit Bundle shape and expected transitions, read
-`references/process-exit.md`.
+For a process-exit custom Bundle, load `process-exit.md` from this skill's resource
+directory before generating the manifest or module.

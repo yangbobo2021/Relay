@@ -1,0 +1,3 @@
+- insert:
+    - id: relay-monitor-author-host
+      name: 'relay-dsh-plugin-monitor-author'
