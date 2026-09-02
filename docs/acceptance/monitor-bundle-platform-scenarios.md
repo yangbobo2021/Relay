@@ -146,6 +146,7 @@ marked `release` is required before publication. Evidence follows
 | MBE2E-006 | Upgrade flow | Existing timer/GitHub data upgrades to extension types, active work survives, catalog is correct, and rollback/incompatibility is explicit. | prior-version profile + official-dsh | release |
 | MBE2E-007 | Packaging flow | Core, Time, GitHub Bundle, fixture extension, and DSH Author plugin install from packed artifacts with no workspace imports, Codex plugin metadata, or private/generated residue. | package audit | release |
 | MBE2E-008 | Test integrity | Intentional mutations to registry conflict, sandbox authority, trigger dedupe, plugin unload, catalog freshness, and Session ownership each make their required gate fail. | mutation review | release |
+| MBE2E-009 | Public distribution | Time, Process, and Author live in independent public repositories pinned as Relay submodules; exact Git tags and npm `latest` packages install into a fresh official DSH profile and pass the functional/UI matrix. | clean clone + GitHub CI + npm registry + official-dsh | release |
 
 ## Delivery Rule
 

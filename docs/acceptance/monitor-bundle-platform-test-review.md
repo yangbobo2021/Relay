@@ -169,3 +169,54 @@ for unrelated contract assertions. A concurrent full-suite run reached
 `resource_limit` before checking `invalid_module`; the test now isolates CPU, memory,
 and contract/output budgets. The corrected production-sandbox case passed ten
 consecutive runs before the final full-suite pass.
+
+## Standalone Repositories And Public Release — 2026-09-03
+
+Time, Process, and Author are now separate public repositories and Relay records
+only their immutable submodule commits:
+
+| Package | Repository commit | npm version | npm SHA-1 |
+| --- | --- | --- | --- |
+| `relay-dsh-plugin-monitor-time` | `22097a189f719e1ab66f90e08b47978694c06ec2` | `0.1.0` | `919a203f8ec9d657613d9cdfe7b3b95a5b7de79c` |
+| `relay-dsh-plugin-monitor-process` | `349520e09b929fd9a2e1ca2a1971c751b1969725` | `0.1.0` | `b7468f18cb2e942bf32224f32642ae3ac726a336` |
+| `relay-dsh-plugin-monitor-author` | `655f98295f92ea4aaa0a9e1c2b7df993cb6d12d1` | `0.1.0` | `7b3db3b7e1cb9649ded74f08ace7e30cf8e9333d` |
+
+Monitor Core `0.3.0` was released first because all three extensions require its
+public registry/capability contracts. Its OIDC release workflow passed against
+official DSH and npm `latest` resolves to `0.3.0`. Each new repository has bilingual
+installation docs, a normative SPEC and acceptance matrix, package-local lockfile,
+CI, exact tag validation, idempotent release verification, MIT license, public
+metadata, GitHub `v0.1.0` release, and an npm Trusted Publisher restricted to that
+repository's `release.yml`.
+
+Sufficiency evidence:
+
+- fresh standalone clones ran `npm ci --workspaces=false` and `verify`: Time 7/7,
+  Process 6/6, Author 4/4, all with zero fail/skip/todo;
+- all push/PR CI runs for the three initial release PRs and the idempotent
+  first-release correction passed;
+- Relay package audit accepted eight Event/Monitor packages with no install script,
+  private artifact, or undeclared runtime import;
+- the full Relay suite passed 467/467 after a clean root install and official DSH
+  link preparation;
+- a fresh official DSH `0.1.2-alpha.3` profile installed Monitor Core `0.3.0` and
+  Time, Process, and Author `0.1.0` from npm, loaded the Author Skill in a real root
+  Session, created and owned a durable `time.deadline` Monitor, and passed the full
+  English/Chinese, light/dark, keyboard, responsive, error, pagination, redaction,
+  console, and network UI matrix;
+- npm-downloaded artifact SHA-256 values used by that run were Core
+  `7e542a2e86d43245cbe4ecd00cbb906bb151e20b1f1f88b9515d001acfacd9f0`,
+  Time `2e28d038f4db7af41993bb87ca5a806b34798e260b44dbe27b7083486b896da7`,
+  Process `713192287ac9c89a8508973203d2d8135e56d2f1281ea4838a75ac80c5908671`,
+  and Author `34eb0e1fe08aec4571d9fd10bf18bfd6f6fffcdcc48e075b2d15b7555bda8cb7`.
+
+Execution-integrity review rejected several invalid conclusions before accepting the
+release: Time's first test still imported `../../monitors` from the parent workspace;
+the first clean-clone command forgot to change into the cloned directory; two Relay
+runs omitted `DSH_ROOT`; workspace-local npm commands removed root development
+dependencies; Playwright had no matching cached browser after the clean install; and
+the first artifact comparison omitted destination directories and then masked a
+locale failure with a later successful command. Each gate was corrected and rerun
+from the beginning. The final Core comparison confirms that the npm and local
+archives have byte-identical unpacked files; compressed archive hashes are not used
+as a substitute for that content comparison.

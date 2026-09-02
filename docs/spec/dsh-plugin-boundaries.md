@@ -24,6 +24,9 @@ Remote, or a type-only public contract.
 | `relay-dsh-plugin-events` | installable DSH plugin | Durable Wait/Event/Delivery and Monitor records, inbox admission, ingress, management, public contracts. |
 | `relay-dsh-plugin-semantic-router` | installable DSH plugin | Tool-free DSH model routing; no persistence or admission. |
 | `relay-dsh-plugin-monitors` | installable DSH plugin | Bounded observation and deterministic triggers; only high-level Events persistence operations. |
+| `relay-dsh-plugin-monitor-time` | installable DSH plugin | Discoverable `time.deadline` Bundle Type, host-clock provider, and Session-bound timer tool. |
+| `relay-dsh-plugin-monitor-process` | installable DSH plugin | Read-only process capability using opaque Session/project-bound Handles; no prebuilt Bundle Type. |
+| `relay-dsh-plugin-monitor-author` | installable DSH plugin | Native DSH Skill that prefers registered Bundle Types and safely authors a custom fallback. |
 
 Package-owned contracts contain no service implementation and are not added to a
 DSH profile by themselves. Workbench view plugins use
@@ -41,6 +44,13 @@ Router absence does not disable ingress or delivery. Monitor proposals fail befo
 Wait replacement when no Monitor provider can prepare a baseline. Monitors exposes
 `ctx.relayMonitorObservers` API v1 for trusted providers. No plugin imports another
 plugin's runtime implementation or Relay parent source.
+
+Time registers one localized Bundle Type and clock provider through Monitor Core's
+public services. Process registers only a read-only capability and Handle tool; it
+does not advertise a generic process Bundle Type. Author registers one native DSH
+Skill through `ctx.skills`, lists live Bundle Types first, and uses only
+Session-scoped Monitor tools for custom fallback. Unloading any extension removes
+its registration without rewriting existing durable records.
 
 ### Workbench
 

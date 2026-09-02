@@ -18,6 +18,9 @@ released DSH plugins are pinned as Git submodules:
 - `integrations/events/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-events.git`
 - `integrations/semantic-router/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-semantic-router.git`
 - `integrations/monitors/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-monitors.git`
+- `integrations/monitor-time/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-monitor-time.git`
+- `integrations/monitor-process/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-monitor-process.git`
+- `integrations/monitor-author/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-monitor-author.git`
 - `integrations/dsh-workbench/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-workbench.git`
 - `integrations/dsh-files/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-files.git`
 - `integrations/dsh-terminal/` -> `git@github.com:yangbobo2021/relay-dsh-plugin-terminal.git`
@@ -60,8 +63,10 @@ exact revision. It must stop rather than overwrite local DSH changes.
 
 Relay-owned DSH-facing implementation belongs under one of these locations:
 
-- `integrations/events/`, `integrations/semantic-router/`, `integrations/monitors/`
-  for the independent event subsystem plugins; no parent runtime dependency;
+- `integrations/events/`, `integrations/semantic-router/`, `integrations/monitors/`,
+  `integrations/monitor-time/`, `integrations/monitor-process/`, and
+  `integrations/monitor-author/` for the independent event and Monitor subsystem
+  plugins; no parent runtime dependency;
 - `integrations/codex/`, `integrations/claude/`, `integrations/dsh-workbench/`,
   `integrations/dsh-files/`, `integrations/dsh-terminal/`, and
   `integrations/dsh-plugin-manager/` for pinned independent plugin checkouts;

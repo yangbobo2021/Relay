@@ -2,9 +2,9 @@
 
 English | [中文](dsh-plugins.zh.md)
 
-> **All 10 Relay plugins now support the latest DSH `0.1.2-alpha.3`.** Stable
-> `0.2.1` is verified on `0.1.2-alpha.3`, `0.1.2-alpha.2`, and `0.1.1-rc.2`.
-> Install the complete suite below or choose only the capabilities you need.
+> **The 13-plugin Relay suite is release-tested on DSH `0.1.2-alpha.3`.** The
+> established plugin line uses `0.2.1`; Monitor Core uses `0.3.0`, and the new
+> Time, Process, and Author extensions use `0.1.0`.
 
 Discover and manage plugins from a conversation, or add Codex, Claude Code,
 workspace files, and an interactive terminal to the official DeepSeek Harness.
@@ -34,6 +34,9 @@ workspace.
 | Import existing provider sessions | [`relay-dsh-plugin-session-import`](https://github.com/yangbobo2021/relay-dsh-plugin-session-import) | Shared import surface used by the Codex and Claude providers. |
 | Receive external events in an existing DSH Session | [`relay-dsh-plugin-events`](https://github.com/yangbobo2021/relay-dsh-plugin-events) | Durable Wait, Event, and Delivery runtime. |
 | Watch systems that cannot push events | Events + [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | Runs restricted durable monitors and emits normal Relay Events. |
+| Wait for a durable deadline | Events + Monitor Core + [`relay-dsh-plugin-monitor-time`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-time) | Adds the discoverable `time.deadline` Bundle Type and timer tool. |
+| Wait for a process to exit | Monitor Core + [`relay-dsh-plugin-monitor-process`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-process) + [`relay-dsh-plugin-monitor-author`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-author) | Issues an opaque Process Handle, then authors a least-authority Session-scoped Bundle. |
+| Create a temporary custom Monitor | Monitor Core + Monitor Author + the required capability plugin | Lists installed types first; custom code is a restricted fallback, not the default. |
 | Route events with a DSH model | Events + [`relay-dsh-plugin-semantic-router`](https://github.com/yangbobo2021/relay-dsh-plugin-semantic-router) | Optional semantic routing for `deliver`, `escalate`, or `dismiss`. |
 
 Plugin Manager, Codex, and Claude do not depend on the Relay runtime or
@@ -55,8 +58,8 @@ list installed plugins and whether DSH needs a restart
 
 ## Install From npm
 
-All ten plugins use the same stable `0.2.1` release line. npm `latest` points to
-`0.2.1`; `next` points to the `0.2.1-rc.1` release candidate.
+The established plugins remain on stable `0.2.1`. The extensible Monitor runtime is
+`0.3.0`; Time, Process, and Author begin at `0.1.0`. Pin exact versions in production.
 
 ```bash
 pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
@@ -68,7 +71,10 @@ pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
   relay-dsh-plugin-files@0.2.1 \
   relay-dsh-plugin-terminal@0.2.1 \
   relay-dsh-plugin-events@0.2.1 \
-  relay-dsh-plugin-monitors@0.2.1 \
+  relay-dsh-plugin-monitors@0.3.0 \
+  relay-dsh-plugin-monitor-time@0.1.0 \
+  relay-dsh-plugin-monitor-process@0.1.0 \
+  relay-dsh-plugin-monitor-author@0.1.0 \
   relay-dsh-plugin-semantic-router@0.2.1
 
 pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 web
@@ -94,7 +100,10 @@ pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
   github:yangbobo2021/relay-dsh-plugin-workbench#main \
   github:yangbobo2021/relay-dsh-plugin-files#main \
-  github:yangbobo2021/relay-dsh-plugin-terminal#main
+  github:yangbobo2021/relay-dsh-plugin-terminal#main \
+  github:yangbobo2021/relay-dsh-plugin-monitor-time#v0.1.0 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-process#v0.1.0 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-author#v0.1.0
 ```
 
 Restart DSH Web after installing, updating, or removing plugins.
@@ -107,6 +116,9 @@ dsh plugin --profile web why relay-dsh-plugin-claude
 dsh plugin --profile web why relay-dsh-plugin-files
 dsh plugin --profile web why relay-dsh-plugin-terminal
 dsh plugin --profile web why relay-dsh-plugin-manager
+dsh plugin --profile web why relay-dsh-plugin-monitor-time
+dsh plugin --profile web why relay-dsh-plugin-monitor-process
+dsh plugin --profile web why relay-dsh-plugin-monitor-author
 ```
 
 Then open a new DSH session. Ask to list installed plugins, or open **Settings >
@@ -114,7 +126,7 @@ Plugins > Plugin marketplace** for concise usage help. Codex and Claude Code
 should appear in the mode menu. With a workspace selected, the Workbench menu
 should expose Files and Terminal.
 
-All ten plugin repositories include English and Chinese setup and document
+All 13 plugin repositories include English and Chinese setup and document
 verification, npm publishing, and a GitHub development path. See the longer article,
 [No Fork Required: Add Codex, Claude Code, Files, and Terminal to DSH](articles/no-fork-dsh-plugins.md),
 for the design rationale and a guided walkthrough.

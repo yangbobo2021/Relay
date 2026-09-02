@@ -61,9 +61,9 @@ Agent or bind a Codex Thread as its execution and model-context backend.
 
 Published plugins can be installed on official DSH without checking out this
 repository. Relay pins their repositories as submodules for distribution,
-compatibility testing, and cross-plugin validation. Events, Semantic Router and
-Monitors now also have independent repositories; their initial delivery uses
-built tarballs, not an assumed npm publication.
+compatibility testing, and cross-plugin validation. Monitor Core, Time, Process,
+and Author are separate repositories and npm packages so an Agent can discover
+installed Bundle Types and add least-authority custom Monitors when needed.
 
 See the [complete plugin chooser and installation guide](docs/dsh-plugins.md)
 ([中文](docs/dsh-plugins.zh.md)) for npm and GitHub setup recipes, dependencies,
@@ -79,7 +79,10 @@ verification, and real DSH UI evidence.
 | Terminal | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Adds a bottom terminal panel and provider registry. |
 | Events | [`relay-dsh-plugin-events`](https://github.com/yangbobo2021/relay-dsh-plugin-events) | `relay-dsh-plugin-events` (tarball) | Durable Wait/Event/Delivery, ingress, and management UI. |
 | Semantic Router | [`relay-dsh-plugin-semantic-router`](https://github.com/yangbobo2021/relay-dsh-plugin-semantic-router) | `relay-dsh-plugin-semantic-router` (tarball) | Tool-free semantic routing through an existing DSH model route. |
-| Monitors | [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | `relay-dsh-plugin-monitors` (tarball) | Durable timers, trusted observers, deterministic checks, and bound triggers. |
+| Monitor Core | [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | [`relay-dsh-plugin-monitors`](https://www.npmjs.com/package/relay-dsh-plugin-monitors) | Durable Monitor registry, restricted custom Bundles, checks, and bound triggers. |
+| Time Monitor | [`relay-dsh-plugin-monitor-time`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-time) | [`relay-dsh-plugin-monitor-time`](https://www.npmjs.com/package/relay-dsh-plugin-monitor-time) | Adds discoverable `time.deadline` and the Session-bound timer tool. |
+| Process Monitor | [`relay-dsh-plugin-monitor-process`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-process) | [`relay-dsh-plugin-monitor-process`](https://www.npmjs.com/package/relay-dsh-plugin-monitor-process) | Adds opaque, identity-safe process status capability for custom Bundles. |
+| Monitor Author | [`relay-dsh-plugin-monitor-author`](https://github.com/yangbobo2021/relay-dsh-plugin-monitor-author) | [`relay-dsh-plugin-monitor-author`](https://www.npmjs.com/package/relay-dsh-plugin-monitor-author) | Adds the native DSH Skill that discovers plugin types or safely authors a fallback Bundle. |
 
 The individual plugin READMEs link back here and describe their boundary with
 Relay. Relay's repository workflow for these submodules is documented in
