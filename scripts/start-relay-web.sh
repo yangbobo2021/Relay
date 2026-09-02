@@ -2,7 +2,7 @@
 set -euo pipefail
 
 relay_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-dsh_root="$relay_root/upstream/deepseek-harness"
+dsh_root="${DSH_ROOT:-$relay_root/upstream/deepseek-harness}"
 plugin_roots=(
   "$relay_root/integrations/dsh-workbench"
   "$relay_root/integrations/dsh-files"
@@ -10,6 +10,8 @@ plugin_roots=(
   "$relay_root/integrations/events"
   "$relay_root/integrations/semantic-router"
   "$relay_root/integrations/monitors"
+  "$relay_root/integrations/monitor-time"
+  "$relay_root/integrations/monitor-process"
   "$relay_root/integrations/codex"
   "$relay_root/integrations/claude"
 )

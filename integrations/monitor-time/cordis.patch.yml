@@ -1,0 +1,3 @@
+- insert:
+    - id: relay-monitor-time-host
+      name: 'relay-dsh-plugin-monitor-time'

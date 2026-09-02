@@ -53,6 +53,8 @@ const packages = [
   ["integrations/events", "relay-dsh-plugin-events"],
   ["integrations/semantic-router", "relay-dsh-plugin-semantic-router"],
   ["integrations/monitors", "relay-dsh-plugin-monitors"],
+  ["integrations/monitor-time", "relay-dsh-plugin-monitor-time"],
+  ["integrations/monitor-process", "relay-dsh-plugin-monitor-process"],
   ["integrations/github", "relay-dsh-plugin-github"],
   ["integrations/email", "relay-dsh-plugin-email"],
   ["integrations/dsh-workbench", "relay-dsh-plugin-workbench"],
@@ -61,9 +63,9 @@ const packages = [
 ].filter(([, name]) => {
   if (codexOnly) return [clientFixture, "relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"].includes(name);
   if (eventsOnly) return [clientFixture, "relay-dsh-plugin-events"].includes(name);
-  if (eventsUiOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email"].includes(name);
-  if (eventBackendsOnly) return [clientFixture, "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router"].includes(name);
-  if (backendControlledLive) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router"].includes(name);
+  if (eventsUiOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email"].includes(name);
+  if (eventBackendsOnly) return [clientFixture, "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router"].includes(name);
+  if (backendControlledLive) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-semantic-router"].includes(name);
   if (githubCodexClosedLoop) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github"].includes(name);
   if (githubControlledLive) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github"].includes(name);
   if (gmailControlledLive) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-email"].includes(name);
@@ -110,7 +112,7 @@ try {
   } else if (eventsOnly) {
     await verifyScenario("events-only", ["relay-dsh-plugin-events"], tarballs, 3193);
   } else if (eventsUiOnly) {
-    await verifyScenario("event-management-ui", ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors", "relay-dsh-plugin-github", "relay-dsh-plugin-email", "relay-dsh-event-acceptance-fixture"], tarballs, 3207);
+    await verifyScenario("event-management-ui", ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-github", "relay-dsh-plugin-email", "relay-dsh-event-acceptance-fixture"], tarballs, 3207);
   } else if (eventBackendsOnly) {
     const eventPlugins = ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors"];
     await verifyScenario("event-plugins-codex", [...eventPlugins, "relay-dsh-plugin-codex"], tarballs, 3203);
@@ -184,6 +186,11 @@ async function verifyScenarioImpl(id, selected, tarballs, port) {
   await mkdir(workspace, { recursive: true });
   await writeFile(join(workspace, "dual-compatibility.md"), "# Synthetic file\n\n```text\nRELAY_DUAL_FILE\n```\n");
   const env = { ...process.env, RELAY_ACCEPTANCE_WORKSPACE: workspace, DSH_HOME: home, RELAY_DATABASE_PATH: join(home, "events.sqlite"), RELAY_EMAIL_DATABASE_PATH: join(home, "email.sqlite"), RELAY_ROUTER_PROVIDER: "", RELAY_ROUTER_MODEL: "" };
+  if (id === "event-management-ui") Object.assign(env, {
+    RELAY_GITHUB_TOKEN: "",
+    RELAY_GITHUB_WEBHOOK_SECRET: "",
+    RELAY_GITHUB_WEBHOOK_SECRET_PREVIOUS: "",
+  });
   if (id === "event-codex-controlled-live") Object.assign(env, {
     RELAY_CONTROLLED_BACKEND: "codex", RELAY_CODEX_LINK_PATH: join(home, "codex-links.json"),
   });
@@ -320,7 +327,9 @@ async function bootAndProbe(id, env, port, selected) {
       await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
       const graph = await page.evaluate(() => window.__DSH_BOOT__);
       for (const name of selected) {
-        if (["relay-dsh-plugin-monitors", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email", "relay-dsh-event-acceptance-fixture"].includes(name)) continue;
+        if (["relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process",
+          "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email",
+          "relay-dsh-event-acceptance-fixture"].includes(name)) continue;
         assert.ok(graph.entries.some(entry => entry.id === name), `${id}: ${name} missing from boot graph`);
         const asset = hostVersion === '0.1.1-rc.2'
           ? graph.entries.find(entry => entry.id === name)
@@ -409,6 +418,33 @@ async function verifyEventsManagementUi(page, env, consoleErrors, errors) {
   await setLocale("en");
   await openManagement("Waiting events");
   const origin = new URL(page.url()).origin;
+  await page.getByRole("heading", { name: "Supported Monitor Bundles", exact: true }).waitFor();
+  assert.match(await page.locator("[data-relay-bundle-catalog]").innerText(), /24 types/u);
+  const bundleCatalog = page.locator("[data-relay-bundle-catalog]");
+  const firstBundleIds = await bundleCatalog.locator("[data-relay-bundle-type]").evaluateAll(nodes => nodes.map(node => node.getAttribute("data-relay-bundle-type")));
+  assert.equal(firstBundleIds.length, 20, "first Bundle catalog page must contain its configured page size");
+  const bundlePagination = page.getByRole("navigation", { name: "Monitor Bundle catalog pagination", exact: true });
+  await bundlePagination.getByRole("button", { name: "Next", exact: true }).click();
+  await page.waitForFunction(() => document.querySelector("section[aria-live='polite']")?.getAttribute("aria-busy") === "true");
+  await page.waitForFunction(() => document.querySelector("section[aria-live='polite']")?.getAttribute("aria-busy") === "false");
+  await bundlePagination.getByText("Page 2", { exact: true }).waitFor();
+  const timeBundle = bundleCatalog.locator('[data-relay-bundle-type="time.deadline"]');
+  await timeBundle.getByText("Deadline timer", { exact: true }).waitFor();
+  const secondBundleIds = await bundleCatalog.locator("[data-relay-bundle-type]").evaluateAll(nodes => nodes.map(node => node.getAttribute("data-relay-bundle-type")));
+  assert.equal(new Set([...firstBundleIds, ...secondBundleIds]).size, 24, "Bundle catalog pagination must not duplicate or omit types");
+  assert.equal(await timeBundle.getAttribute("data-relay-bundle-status"), "available");
+  assert.match(await timeBundle.innerText(), /time\.deadline@1/u);
+  assert.match(await timeBundle.innerText(), /relay-monitor-time/u);
+  assert.match(await timeBundle.innerText(), /timer\.elapsed/u);
+  assert.match(await timeBundle.innerText(), /clock\.read/u);
+  assert.match(await timeBundle.innerText(), /Reads Relay's host clock/u);
+  const githubBundle = bundleCatalog.locator('[data-relay-bundle-type="github.pull-request"]');
+  await githubBundle.getByText("GitHub pull request", { exact: true }).waitFor();
+  assert.equal(await githubBundle.getAttribute("data-relay-bundle-status"), "configuration_required");
+  assert.match(await githubBundle.innerText(), /github\.pull_request\.transition/u);
+  assert.match(await githubBundle.innerText(), /github\.pull-request\.read/u);
+  assert.match(await githubBundle.innerText(), /Configure a project-scoped GitHub token/u);
+  console.log("UI_STAGE packed live Bundle catalog, status, metadata, and keyset pagination passed");
   await page.getByText("Synthetic pending timer for management QA", { exact: true }).waitFor();
   const monitorRow = page.locator("li").filter({ hasText: "Synthetic pending timer for management QA" }).first();
   await monitorRow.getByText("Monitor target: octo/relay#42", { exact: true }).waitFor();
@@ -475,19 +511,20 @@ async function verifyEventsManagementUi(page, env, consoleErrors, errors) {
   await sourceFilter.fill("ui-pagination");
   const firstPageIds = await page.locator("ol").last().locator("strong").allTextContents();
   assert.equal(firstPageIds.length, 20, "first Event page must contain the configured page size");
-  await page.getByRole("button", { name: "Next", exact: true }).click();
+  const eventPagination = page.getByRole("navigation", { name: "Event history pagination", exact: true });
+  await eventPagination.getByRole("button", { name: "Next", exact: true }).click();
   await page.waitForFunction(() => document.querySelector("section[aria-live='polite']")?.getAttribute("aria-busy") === "true");
   await page.waitForFunction(() => document.querySelector("section[aria-live='polite']")?.getAttribute("aria-busy") === "false");
-  await page.getByText("Page 2", { exact: true }).waitFor();
+  await eventPagination.getByText("Page 2", { exact: true }).waitFor();
   assert.equal(await sourceFilter.inputValue(), "ui-pagination", "filters must survive page refresh");
   const secondPageIds = await page.locator("ol").last().locator("strong").allTextContents();
   assert.ok(secondPageIds.length >= 5);
   assert.equal(new Set([...firstPageIds, ...secondPageIds]).size, firstPageIds.length + secondPageIds.length,
     "pagination must not duplicate Event rows");
-  await page.getByRole("button", { name: "Previous", exact: true }).click();
+  await eventPagination.getByRole("button", { name: "Previous", exact: true }).click();
   await page.waitForFunction(() => document.querySelector("section[aria-live='polite']")?.getAttribute("aria-busy") === "true");
   await page.waitForFunction(() => document.querySelector("section[aria-live='polite']")?.getAttribute("aria-busy") === "false");
-  await page.getByText("Page 1", { exact: true }).waitFor();
+  await eventPagination.getByText("Page 1", { exact: true }).waitFor();
   assert.equal(await sourceFilter.inputValue(), "ui-pagination");
 
   const routerProvider = router.getByLabel("Model provider", { exact: true });
@@ -638,6 +675,11 @@ async function verifyEventsManagementUi(page, env, consoleErrors, errors) {
   assert.equal(await stop.evaluate(node => document.activeElement === node), true, "Escape must return focus to the destructive trigger");
 
   await setLocale("zh");
+  await page.getByRole("heading", { name: "支持的 Monitor Bundle", exact: true }).waitFor();
+  await timeBundle.getByText("截止时间计时器", { exact: true }).waitFor();
+  await githubBundle.getByText("GitHub 拉取请求", { exact: true }).waitFor();
+  assert.match(await timeBundle.innerText(), /仅读取 Relay 主机时钟/u);
+  assert.match(await githubBundle.innerText(), /请配置项目范围的 GitHub Token/u);
   await page.getByText("事件历史", { exact: true }).waitFor();
   const providerFaultZh = page.locator("article").filter({ hasText: "provider@example.test" });
   await providerFaultZh.getByRole("button", { name: "暂停", exact: true }).click();
@@ -702,7 +744,7 @@ async function verifyEventsManagementUi(page, env, consoleErrors, errors) {
   assert.equal(await page.getByRole("heading", { name: "事件历史", exact: true }).count(), 1);
   assert.deepEqual(errors, [], "management UI emitted page/resource errors");
   assert.deepEqual(consoleErrors, [], "management UI emitted console warnings/errors");
-  return ["English/Chinese management UI", "light/dark WCAG AA computed text contrast", "1280x720 and 1440x900 geometry", "keyboard pause/resume/stop confirmation", "Monitor cadence validation/update", "PR Monitor target/SHA/review/check/rate-limit details", "durable localized Monitor terminal reason", "hostile text escaping", "locale reload persistence", "browser console/network cleanliness", "Semantic Router disable/configure", "stable keyset pagination and filters", "GitHub configure/rotate/overlap/revoke", "Gmail configure/push/pause/resume/disconnect", "stale/busy/provider/server/load/missing-Session fault matrix", "credential redaction", "history and destructive-state screenshots"];
+  return ["English/Chinese management UI", "live packed Monitor Bundle catalog and status", "Bundle catalog keyset pagination", "light/dark WCAG AA computed text contrast", "1280x720 and 1440x900 geometry", "keyboard pause/resume/stop confirmation", "Monitor cadence validation/update", "PR Monitor target/SHA/review/check/rate-limit details", "durable localized Monitor terminal reason", "hostile text escaping", "locale reload persistence", "browser console/network cleanliness", "Semantic Router disable/configure", "stable Event keyset pagination and filters", "GitHub configure/rotate/overlap/revoke", "Gmail configure/push/pause/resume/disconnect", "stale/busy/provider/server/load/missing-Session fault matrix", "credential redaction", "history and destructive-state screenshots"];
 }
 
 async function sendGitHubPing(page, origin, secret, delivery) {

@@ -1,12 +1,27 @@
 # Relay GitHub Plugin Specification
 
-Status: Productization implementation baseline
+Status: GitHub Connector plus Monitor Bundle extension `0.2.0` development specification
 
 The plugin owns signed GitHub webhook protocol handling, supported-event
 normalization, GitHub pull-request read observation, and the high-level authenticated
 root-Agent pull-request waiting workflow. Events owns durable Event/Wait/Delivery
 state and trusted binding validation. Monitors owns baseline, leases, scheduling,
 retry, and trigger commits.
+
+## Monitor Bundle Extension Contract
+
+The plugin registers the localized `github.pull-request` Bundle Type and the
+`github.pull-request.read` trusted Observer/Detector provider through Monitor Core's
+public services. Discovery reports `available` only when the current project has an
+authorized configured token; an unauthorized project sees no type metadata, while a
+permitted project without a token sees `configuration_required` with localized
+remediation.
+
+The type factory and `relay_watch_github_pull_request` tool use the same proposal
+implementation. New Monitors persist type/plugin version metadata and use the
+provider-owned `github.pull-request` detector. The plugin temporarily registers the
+legacy `github` Observer alias so persisted pre-platform Monitors remain executable
+during migration. Core contains no GitHub-specific observation or detection logic.
 
 ## Webhook Contract
 
@@ -24,7 +39,7 @@ retry, and trigger commits.
 
 ## Observer Contract
 
-The observer uses only read-only GitHub API requests. Canonical state includes PR
+The `github.pull-request.read` provider uses only read-only GitHub API requests. Canonical state includes PR
 state, merge/draft/mergeable state, head SHA, sorted checks, sorted reviews, review
 decision, and a stable fingerprint. Volatile HTTP metadata is excluded. Provider
 errors use stable classes and never include credentials.

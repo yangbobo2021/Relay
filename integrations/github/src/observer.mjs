@@ -1,12 +1,12 @@
 import { GitHubConnectorError } from "./contracts.mjs";
 import { parsePullRequestTarget, stableJsonHash } from "./normalize.mjs";
 
-export function createGitHubPullRequestObserver({ client, clientForMonitor } = {}) {
+export function createGitHubPullRequestObserver({ id = "github.pull-request.read", client, clientForMonitor } = {}) {
   if (typeof client?.getPullRequestSnapshot !== "function" && typeof clientForMonitor !== "function") {
     throw new TypeError("GitHub observer requires getPullRequestSnapshot() or clientForMonitor()");
   }
   return Object.freeze({
-    id: "github",
+    id,
     async observe({ monitor, previous, signal }) {
       const target = parsePullRequestTarget(monitor.artifact ?? monitor.target);
       const selected = clientForMonitor ? await clientForMonitor(monitor) : client;
@@ -18,7 +18,25 @@ export function createGitHubPullRequestObserver({ client, clientForMonitor } = {
       const transition = classifyPullRequestTransition(previous, current);
       return { ...current, ...(transition ? transition : {}) };
     },
+    detect: detectGitHubPullRequestEvents,
   });
+}
+
+export function detectGitHubPullRequestEvents({ monitor, previous, current }) {
+  const detector = monitor?.detector;
+  if (!["github.pull-request", "snapshot_changed"].includes(detector?.kind)) {
+    throw new GitHubConnectorError("invalid_detector", "GitHub provider requires the GitHub pull-request detector");
+  }
+  if (previous == null || previous.state_fingerprint === current?.state_fingerprint) return [];
+  if (typeof current?.transition_key !== "string" || typeof current?.correlation_key !== "string") {
+    throw new GitHubConnectorError("malformed_observation", "GitHub transition identity is missing");
+  }
+  return [{
+    type: "github.pull_request.transition",
+    key: current.transition_key,
+    data: current,
+    correlation_key: current.correlation_key,
+  }];
 }
 
 export function classifyPullRequestTransition(previous, current) {

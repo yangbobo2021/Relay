@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { GitHubApiClient } from "../src/github-api.mjs";
-import { canonicalizePullRequestSnapshot, classifyPullRequestTransition, createGitHubPullRequestObserver } from "../src/observer.mjs";
+import { canonicalizePullRequestSnapshot, classifyPullRequestTransition, createGitHubPullRequestObserver, detectGitHubPullRequestEvents } from "../src/observer.mjs";
 
 test("EP05-001/002: canonical observation is stable across provider array order and volatile metadata", async () => {
   const target = { repository: "octo/relay", pull_number: 42 };
@@ -55,6 +55,28 @@ test("EP04-005/EP05-010: polling and webhook check transitions share one canonic
   });
   assert.equal(classifyPullRequestTransition(previous, current).correlation_key,
     "github:octo/relay#42@abc:check_run:check-1:failure");
+});
+
+test("MB06-003: GitHub extension owns deterministic detection and declared Event output", () => {
+  const target = { repository: "octo/relay", pull_number: 42 };
+  const previous = canonicalizePullRequestSnapshot(target, {
+    head_sha: "abc", state: "open", merged: false, draft: false, mergeable: true,
+    checks: [{ id: "check-1", name: "test", status: "in_progress", conclusion: null }], reviews: [],
+  });
+  const currentBase = canonicalizePullRequestSnapshot(target, {
+    head_sha: "abc", state: "open", merged: false, draft: false, mergeable: true,
+    checks: [{ id: "check-1", name: "test", status: "completed", conclusion: "failure" }], reviews: [],
+  });
+  const current = { ...currentBase, ...classifyPullRequestTransition(previous, currentBase) };
+  const [event] = detectGitHubPullRequestEvents({
+    monitor: { detector: { kind: "github.pull-request" } }, previous, current,
+  });
+  assert.equal(event.type, "github.pull_request.transition");
+  assert.equal(event.key, current.transition_key);
+  assert.equal(event.correlation_key, "github:octo/relay#42@abc:check_run:check-1:failure");
+  assert.deepEqual(detectGitHubPullRequestEvents({
+    monitor: { detector: { kind: "github.pull-request" } }, previous: current, current,
+  }), []);
 });
 
 test("EP05-003/004/005/007: check, review, draft, and terminal transitions classify deterministically", () => {

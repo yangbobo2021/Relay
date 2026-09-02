@@ -4,17 +4,49 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { createUserMessage, LlmAdapter } from "@deepseek-ai/dsh-llm";
 
-export const inject = ["relayEvents", "relayMonitorObservers", "llm", "agents", "agentPresets", "sessions"];
+export const inject = ["relayEvents", "relayMonitorObservers", "relayMonitorBundles", "llm", "agents", "agentPresets", "sessions"];
 export function apply(ctx) {
   assert.ok(process.env.RELAY_ACCEPTANCE_REPORT, "fixture requires an explicit report path");
   const adapter = new ReplayAdapter();
   ctx.llm.registerAdapter(["relay-acceptance"], adapter);
+  for (let index = 0; index < 22; index += 1) {
+    const suffix = String(index).padStart(2, "0");
+    ctx.effect(() => ctx.relayMonitorBundles.registerBundleType(acceptanceBundleType(suffix)), `synthetic Monitor Bundle Type ${suffix}`);
+  }
   installManagementFaultFixtures(ctx);
   const timer = setTimeout(() => void run(ctx, adapter).then(
     result => writeFile(process.env.RELAY_ACCEPTANCE_REPORT, JSON.stringify({ ok: true, ...result })),
     error => writeFile(process.env.RELAY_ACCEPTANCE_REPORT, JSON.stringify({ ok: false, error: error.stack })),
   ), 100);
   ctx.effect(() => () => clearTimeout(timer));
+}
+
+function acceptanceBundleType(suffix) {
+  return {
+    api_version: 1,
+    type_id: `acceptance.bundle-${suffix}`,
+    bundle_version: 1,
+    origin: { kind: "plugin", plugin_id: "relay-dsh-event-acceptance-fixture", plugin_version: "0.0.0" },
+    event_types: [`acceptance.bundle_${suffix}.changed`],
+    parameter_schema: { type: "object", additionalProperties: false, properties: {} },
+    capabilities: [],
+    lifecycle: ["one_shot"],
+    locales: {
+      "en-US": {
+        name: `Acceptance Bundle ${suffix}`,
+        description: "Synthetic packed extension used only for catalog delivery acceptance.",
+        permissions: "No host capabilities.",
+        remediation: "Reinstall the disposable acceptance fixture.",
+      },
+      "zh-CN": {
+        name: `验收 Bundle ${suffix}`,
+        description: "仅用于目录交付验收的合成打包扩展。",
+        permissions: "不使用主机能力。",
+        remediation: "请重新安装一次性验收插件。",
+      },
+    },
+    create() { throw new Error("Synthetic catalog-only Bundle Type must not be instantiated"); },
+  };
 }
 
 class ReplayAdapter extends LlmAdapter {

@@ -12,6 +12,7 @@ import { RelayEventsService } from "../../integrations/events/events-service.js"
 import { createSinglePassSemanticRouter } from "../../integrations/semantic-router/index.mjs";
 import { RelayMonitorsController } from "../../integrations/monitors/src/controller.mjs";
 import { RelayMonitorObserverRegistry } from "../../integrations/monitors/src/observer-registry.mjs";
+import { createTimeProvider, createTimerWait } from "../../integrations/monitor-time/src/time-bundle.mjs";
 import { createGitHubPullRequestObserver } from "../../integrations/github/src/observer.mjs";
 import { createGitHubWebhookHandler } from "../../integrations/github/src/webhook.mjs";
 import { createPullRequestWatchProposal } from "../../integrations/github/src/workflow.mjs";
@@ -64,11 +65,12 @@ test("Monitors registers a timer atomically through Events and delivers one boun
   const accepted = [];
   const ctx = new Context();
   const events = createEvents({ async deliver(input) { accepted.push(input); } }, { clock: () => new Date(now) });
-  const observers = new RelayMonitorObserverRegistry(ctx, { clock: () => new Date(now) });
+  const observers = new RelayMonitorObserverRegistry(ctx);
+  observers.register(createTimeProvider({ clock: () => new Date(now) }));
   const monitors = new RelayMonitorsController({ events, observers, pollIntervalMs: 60_000 });
   const release = events.registerMonitorProvider(monitors.provider);
   try {
-    const proposal = monitors.createTimer({
+    const proposal = createTimerWait({
       sessionId: "session-timer",
       afterSeconds: 1,
       resumePrompt: "Continue the delivery check.",
@@ -101,7 +103,7 @@ test("Monitors registers a timer atomically through Events and delivers one boun
 test("EP13-004/006/007: timer reconciles backward/forward clocks and delivers timeout continuation once", async t => {
   let now = new Date("2026-08-30T00:00:00.000Z");
   const f = await fixture(t, { clock: () => new Date(now) });
-  const proposal = f.monitors.createTimer({
+  const proposal = createTimerWait({
     sessionId: "timer-clock-owner", afterSeconds: 10, resumePrompt: "Report the timeout without claiming approval.",
     now, idFactory: () => "clock-movement",
   });
@@ -127,7 +129,7 @@ test("EP13-004/006/007: timer reconciles backward/forward clocks and delivers ti
 test("EP13-005: timer deadline update and cancel/check races have one serializable outcome", async t => {
   let now = new Date("2026-08-30T00:00:00.000Z");
   const f = await fixture(t, { clock: () => new Date(now) });
-  const proposal = f.monitors.createTimer({
+  const proposal = createTimerWait({
     sessionId: "timer-race-owner", afterSeconds: 10, resumePrompt: "continue", now, idFactory: () => "race-timer",
   });
   await f.events.registerWaits(proposal);
@@ -185,10 +187,38 @@ async function fixture(t, options = {}) {
   const ctx = new Context();
   const events = createEvents({ async deliver(input) { accepted.push(input); } }, options);
   const observers = new RelayMonitorObserverRegistry(ctx);
+  if (options.clock) observers.register(createTimeProvider({ clock: () => new Date(options.clock()) }));
   const monitors = new RelayMonitorsController({ events, observers, pollIntervalMs: 60_000 });
   const release = events.registerMonitorProvider(monitors.provider);
   t.after(async () => { release(); await monitors.stop(); await events.stop(); await ctx.fiber.dispose(); });
   return { accepted, events, observers, monitors };
+}
+
+async function persistentMonitorFixture({ databasePath, clock, providers }) {
+  const accepted = [];
+  const ctx = new Context();
+  const events = createEvents({ async deliver(input) { accepted.push(input); } }, {
+    databasePath,
+    clock,
+  });
+  const observers = new RelayMonitorObserverRegistry(ctx);
+  for (const provider of providers) observers.register(provider);
+  const monitors = new RelayMonitorsController({ events, observers, pollIntervalMs: 60_000 });
+  const release = events.registerMonitorProvider(monitors.provider);
+  let stopped = false;
+  return {
+    accepted,
+    events,
+    monitors,
+    async stop() {
+      if (stopped) return;
+      stopped = true;
+      release();
+      await monitors.stop();
+      await events.stop();
+      await ctx.fiber.dispose();
+    },
+  };
 }
 
 function monitored(id = "owner", lifecycle = "one_shot") {
@@ -287,7 +317,7 @@ test("MON-004: an overdue timer is recovered from SQLite after controller and Ev
   let now = new Date("2026-08-30T00:00:00Z");
   const options = { databasePath: join(directory, "events.sqlite"), clock: () => now };
   const first = await fixture(t, options);
-  const proposal = first.monitors.createTimer({ sessionId: "timer-owner", afterSeconds: 1, resumePrompt: "continue", now });
+  const proposal = createTimerWait({ sessionId: "timer-owner", afterSeconds: 1, resumePrompt: "continue", now });
   await first.events.registerWaits(proposal);
   await first.monitors.stop(); await first.events.stop();
   now = new Date("2026-08-30T00:00:02Z");
@@ -295,6 +325,144 @@ test("MON-004: an overdue timer is recovered from SQLite after controller and Ev
   await second.monitors.runtime.runDue();
   assert.equal(second.accepted.length, 1);
   assert.equal(second.accepted[0].sessionId, "timer-owner");
+});
+
+test("MB05-007: a persisted legacy clock/deadline_reached timer migrates across restart without identity or continuation loss", async t => {
+  const directory = await mkdtemp(join(tmpdir(), "relay-legacy-time-migration-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const databasePath = join(directory, "events.sqlite");
+  let now = new Date("2026-08-30T00:00:00.000Z");
+  const legacy = {
+    sessionId: "legacy-timer-session",
+    taskSummary: "Resume the pre-platform timer.",
+    waits: [{
+      wait_id: "wait-legacy-timer",
+      phase: "waiting_for_time",
+      exclusive: true,
+      expected_event: "timer.elapsed",
+      caused_by: "A timer was registered before Monitor Bundle extraction.",
+      actors: [],
+      entities: ["legacy-timer"],
+      prior_exchange: "Continue the legacy timer task.",
+      continuation: {
+        next_action: "Continue the exact legacy timer task.",
+        success_condition: "The original deadline elapsed.",
+        constraints: ["Do not replace the Session."],
+        artifacts: [{ kind: "relay_timer", id: "legacy-timer", label: "2026-08-30T00:00:01.000Z" }],
+        on_failure: "Report the timer failure.",
+        on_timeout: "Continue the exact legacy timer task.",
+      },
+    }],
+    monitors: [{
+      monitor_id: "legacy-timer",
+      wait_id: "wait-legacy-timer",
+      lifecycle: "one_shot",
+      observer: { provider: "clock" },
+      detector: {
+        kind: "deadline_reached",
+        timer_id: "legacy-timer",
+        deadline: "2026-08-30T00:00:01.000Z",
+        event_type: "timer.elapsed",
+        resume_prompt: "Continue the exact legacy timer task.",
+      },
+      schedule: { interval_seconds: 1, jitter_seconds: 0 },
+      capabilities: { clock: true },
+      artifact: { kind: "trusted-provider", name: "relay.timer" },
+    }],
+  };
+
+  const first = await persistentMonitorFixture({
+    databasePath,
+    clock: () => new Date(now),
+    providers: [createTimeProvider({ id: "clock", clock: () => new Date(now) })],
+  });
+  await first.events.registerWaits(legacy);
+  const before = first.events.inspectMonitor("legacy-timer");
+  assert.equal(before.wait_id, "wait-legacy-timer");
+  assert.equal(before.last_observation.data.observed_at, "2026-08-30T00:00:00.000Z");
+  await first.stop();
+
+  now = new Date("2026-08-30T00:00:02.000Z");
+  const second = await persistentMonitorFixture({
+    databasePath,
+    clock: () => new Date(now),
+    providers: [createTimeProvider({ id: "clock", clock: () => new Date(now) })],
+  });
+  t.after(() => second.stop());
+  const recovered = second.events.inspectMonitor("legacy-timer");
+  assert.equal(recovered.wait_id, "wait-legacy-timer");
+  assert.equal(recovered.active_version_id, before.active_version_id);
+  assert.equal(recovered.detector.deadline, "2026-08-30T00:00:01.000Z");
+  const [triggered] = await second.monitors.runtime.runDue();
+  assert.equal(triggered.status, "triggered");
+  assert.equal(second.accepted.length, 1);
+  assert.equal(second.accepted[0].sessionId, "legacy-timer-session");
+  const delivery = second.accepted[0].deliveries[0];
+  assert.equal(delivery.event.type, "timer.elapsed");
+  assert.equal(delivery.event.trigger_key, "legacy-timer:2026-08-30T00:00:01.000Z");
+  assert.equal(delivery.matched_waits[0].wait_id, "wait-legacy-timer");
+  assert.equal(delivery.matched_waits[0].continuation.next_action, "Continue the exact legacy timer task.");
+});
+
+test("MB06-008: a persisted legacy github/snapshot_changed Monitor migrates across restart with its baseline and correlation", async t => {
+  const directory = await mkdtemp(join(tmpdir(), "relay-legacy-github-migration-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const databasePath = join(directory, "events.sqlite");
+  const now = new Date("2026-08-30T00:00:00.000Z");
+  let conclusion = null;
+  const client = { async getPullRequestSnapshot() {
+    return {
+      head_sha: "legacy-head", state: "open", merged: false, draft: false, mergeable: true,
+      checks: [{ id: "legacy-check", name: "test", status: conclusion ? "completed" : "in_progress", conclusion }],
+      reviews: [],
+    };
+  } };
+  const proposal = createPullRequestWatchProposal({
+    sessionId: "legacy-github-session",
+    pullRequest: "octo/relay#42",
+    taskSummary: "Resume the pre-platform GitHub wait.",
+    continuation: { next_action: "Continue the exact legacy GitHub task." },
+    cadenceSeconds: 60,
+    idFactory: () => "legacy",
+  });
+  proposal.monitors[0].observer.provider = "github";
+  proposal.monitors[0].detector.kind = "snapshot_changed";
+  proposal.monitors[0].artifact.name = "github.pull_request.legacy";
+  delete proposal.monitors[0].artifact.type_id;
+  delete proposal.monitors[0].artifact.bundle_version;
+
+  const first = await persistentMonitorFixture({
+    databasePath,
+    clock: () => new Date(now),
+    providers: [createGitHubPullRequestObserver({ id: "github", client })],
+  });
+  await first.events.registerWaits(proposal);
+  const before = first.events.inspectMonitor("github-pr-legacy");
+  const baselineFingerprint = before.last_observation.data.state_fingerprint;
+  assert.equal(before.wait_id, "wait-github-pr-legacy");
+  assert.equal(before.artifact.stable_subject, "octo/relay#42");
+  await first.stop();
+
+  conclusion = "failure";
+  const second = await persistentMonitorFixture({
+    databasePath,
+    clock: () => new Date(now),
+    providers: [createGitHubPullRequestObserver({ id: "github", client })],
+  });
+  t.after(() => second.stop());
+  const recovered = second.events.inspectMonitor("github-pr-legacy");
+  assert.equal(recovered.active_version_id, before.active_version_id);
+  assert.equal(recovered.last_observation.data.state_fingerprint, baselineFingerprint);
+  assert.equal(recovered.artifact.stable_subject, "octo/relay#42");
+  const triggered = await second.events.checkMonitor("github-pr-legacy", { force: true });
+  assert.equal(triggered.status, "triggered");
+  assert.equal(second.accepted.length, 1);
+  assert.equal(second.accepted[0].sessionId, "legacy-github-session");
+  const delivery = second.accepted[0].deliveries[0];
+  assert.equal(delivery.event.type, "github.pull_request.transition");
+  assert.equal(delivery.event.correlation_key, "github:octo/relay#42@legacy-head:check_run:legacy-check:failure");
+  assert.equal(delivery.matched_waits[0].wait_id, "wait-github-pr-legacy");
+  assert.equal(delivery.matched_waits[0].continuation.next_action, "Continue the exact legacy GitHub task.");
 });
 
 test("recurring rearm stays active when an old trigger identity disappears and reappears", async t => {

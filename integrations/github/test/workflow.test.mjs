@@ -20,8 +20,8 @@ test("EP09-001/EP01-001: PR workflow creates one bound Wait, complete continuati
   assert.equal(proposal.waits[0].expected_event, "github.pull_request.transition");
   assert.equal(proposal.waits[0].continuation.next_action, "Inspect the transition.");
   assert.deepEqual(proposal.waits[0].continuation.artifacts, [{ kind: "github_pull_request", id: "octo/relay#42", label: "octo/relay#42" }]);
-  assert.equal(proposal.monitors[0].observer.provider, "github");
-  assert.equal(proposal.monitors[0].detector.kind, "snapshot_changed");
+  assert.equal(proposal.monitors[0].observer.provider, "github.pull-request.read");
+  assert.equal(proposal.monitors[0].detector.kind, "github.pull-request");
   assert.equal(proposal.monitors[0].artifact.stable_subject, "octo/relay#42");
   assert.equal(proposal.monitors[0].schedule.interval_seconds, 90);
 });

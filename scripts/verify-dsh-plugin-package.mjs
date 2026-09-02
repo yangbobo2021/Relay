@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { linkDshWorkspacePackagesInto, prepareDshLocalWorkspaceLinks } from "./lib/dsh-local-workspace-links.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-const dshRoot = join(root, "upstream", "deepseek-harness");
+const dshRoot = resolve(process.env.DSH_ROOT ?? join(root, "upstream", "deepseek-harness"));
 const temporary = mkdtempSync(join(tmpdir(), "relay-dsh-packages-"));
 const availablePackages = [
   ["integrations/codex", "relay-dsh-plugin-codex"],

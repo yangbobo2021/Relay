@@ -105,6 +105,8 @@ await runCheck("runtime.node", "blocking", async () => {
 });
 await runCheck("packages.events", "blocking", () => packageCheck("integrations/events", "relay-dsh-plugin-events"));
 await runCheck("packages.monitors", "blocking", () => packageCheck("integrations/monitors", "relay-dsh-plugin-monitors"));
+await runCheck("packages.monitor_time", "blocking", () => packageCheck("integrations/monitor-time", "relay-dsh-plugin-monitor-time"));
+await runCheck("packages.monitor_process", "blocking", () => packageCheck("integrations/monitor-process", "relay-dsh-plugin-monitor-process"));
 await runCheck("packages.github", "blocking", () => packageCheck("integrations/github", "relay-dsh-plugin-github"));
 await runCheck("packages.router", "optional", () => packageCheck("integrations/semantic-router", "relay-dsh-plugin-semantic-router"));
 await runCheck("packages.email", "optional", () => packageCheck("integrations/email", "relay-dsh-plugin-email"));

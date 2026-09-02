@@ -3,6 +3,7 @@ import { GitHubApiClient } from "./src/github-api.mjs";
 import { createGitHubPullRequestObserver } from "./src/observer.mjs";
 import { registerGitHubWebhook } from "./src/webhook.mjs";
 import { createPullRequestWatchProposal } from "./src/workflow.mjs";
+import { createGitHubPullRequestBundleType } from "./src/bundle-type.mjs";
 import { authorizeProjectRepository, normalizeProjectPolicies, resolveProjectPolicy } from "./src/project-policy.mjs";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
 
@@ -15,7 +16,7 @@ const API_TOKEN = credentialRef("RELAY_GITHUB_TOKEN");
 
 export function apply(ctx, config = {}) {
   const projectPolicies = normalizeProjectPolicies(config.projects);
-  const fiber = ctx.inject(["relayEvents", "relayMonitorObservers"], scope => {
+  const fiber = ctx.inject(["relayEvents", "relayMonitorObservers", "relayMonitorBundles"], scope => {
     const outcome = { last_success_at: null, last_error_class: null };
     const configuredSecrets = async () => {
       const values = await Promise.all([WEBHOOK_CURRENT, WEBHOOK_PREVIOUS].map(ref => scope.credentials.resolve(ref)));
@@ -33,15 +34,49 @@ export function apply(ctx, config = {}) {
         baseUrl: policy.apiBaseUrl ?? config.apiBaseUrl,
       })];
     }));
-    const observer = createGitHubPullRequestObserver({
+    const observerOptions = {
       client,
       clientForMonitor(monitor) {
         const projectScope = monitor?.artifact?.project_scope;
         if (projectScope) return projectClients.get(projectScope) ?? null;
         return projectPolicies.length === 0 ? client : null;
       },
-    });
-    scope.effect(() => scope.relayMonitorObservers.register(observer), "relay GitHub observer");
+    };
+    scope.effect(() => scope.relayMonitorObservers.register(createGitHubPullRequestObserver(observerOptions)), "relay GitHub observer");
+    scope.effect(() => scope.relayMonitorObservers.register(createGitHubPullRequestObserver({
+      ...observerOptions, id: "github",
+    })), "relay GitHub legacy observer alias");
+    scope.effect(() => scope.relayMonitorBundles.registerBundleType(createGitHubPullRequestBundleType({
+      authorize({ cwd }) {
+        return projectPolicies.length === 0 || resolveProjectPolicy(projectPolicies, cwd) != null;
+      },
+      async availability({ cwd }) {
+        if (config.apiToken) return "available";
+        const policy = projectPolicies.length > 0 ? resolveProjectPolicy(projectPolicies, cwd) : null;
+        const ref = policy ? projectCredentialRefs.get(policy.id) : API_TOKEN;
+        if (!ref) return "configuration_required";
+        return (await scope.credentials.describe(ref)).configured ? "available" : "configuration_required";
+      },
+      create({ sessionId, taskSummary, parameters, authorization }) {
+        const projectPolicy = projectPolicies.length > 0
+          ? resolveProjectPolicy(projectPolicies, authorization.cwd)
+          : null;
+        if (projectPolicies.length > 0) authorizeProjectRepository(projectPolicy, parameters.pull_request);
+        return createPullRequestWatchProposal({
+          sessionId,
+          taskSummary,
+          pullRequest: parameters.pull_request,
+          cadenceSeconds: parameters.cadence_seconds,
+          continuation: {
+            next_action: parameters.next_action,
+            success_condition: parameters.success_condition,
+            on_failure: parameters.on_failure,
+            on_timeout: parameters.on_timeout,
+          },
+          ...(projectPolicy ? { projectScope: projectPolicy.id } : {}),
+        });
+      },
+    })), "relay GitHub Bundle Type");
     const boundSource = scope.relayEvents.registerBoundEventSource({ id: "relay.github", sources: ["github"] });
     scope.effect(() => () => boundSource.dispose(), "relay GitHub bound source");
     scope.effect(() => registerGitHubWebhook(scope, {
@@ -116,9 +151,20 @@ export function apply(ctx, config = {}) {
         sessionId: agent.id,
         watchPullRequest: async input => {
           if (projectPolicies.length > 0) authorizeProjectRepository(projectPolicy, input.pullRequest);
-          const proposal = createPullRequestWatchProposal({
-            ...input,
-            ...(projectPolicy ? { projectScope: projectPolicy.id } : {}),
+          const proposal = await scope.relayMonitorBundles.instantiateBundleType({
+            typeId: "github.pull-request",
+            bundleVersion: 1,
+            sessionId: input.sessionId,
+            taskSummary: input.taskSummary,
+            authorization: { sessionId: input.sessionId, cwd: agent.session.header.cwd },
+            parameters: {
+              pull_request: input.pullRequest,
+              ...(input.cadenceSeconds === undefined ? {} : { cadence_seconds: input.cadenceSeconds }),
+              ...(input.continuation?.next_action === undefined ? {} : { next_action: input.continuation.next_action }),
+              ...(input.continuation?.success_condition === undefined ? {} : { success_condition: input.continuation.success_condition }),
+              ...(input.continuation?.on_failure === undefined ? {} : { on_failure: input.continuation.on_failure }),
+              ...(input.continuation?.on_timeout === undefined ? {} : { on_timeout: input.continuation.on_timeout }),
+            },
           });
           const registration = await scope.relayEvents.registerWaits(proposal);
           return { proposal, registration, workflow: proposal.workflow };
@@ -130,6 +176,8 @@ export function apply(ctx, config = {}) {
   });
   ctx.effect(() => () => fiber.dispose(), "relay GitHub injection");
 }
+
+export { createGitHubPullRequestBundleType } from "./src/bundle-type.mjs";
 
 function positiveInteger(value, fallback) {
   return Number.isSafeInteger(value) && value > 0 ? value : fallback;
