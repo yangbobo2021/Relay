@@ -9,6 +9,8 @@ evidence. They do not redefine requirements.
 - [GitHub event-loop delivery review](github-loop-review.md)
 - [Gmail controlled-live acceptance runbook](gmail-controlled-live-runbook.md)
 - [Event productization release status](event-productization-release-status.md)
+- [Monitor Bundle Platform scenarios](monitor-bundle-platform-scenarios.md)
+- [Monitor Bundle Platform test review](monitor-bundle-platform-test-review.md)
 - [Codex App Server scenarios](codex-app-server-scenarios.md)
 - [Codex App Server acceptance report](codex-app-server-report.md)
 - [Conversation presentation scenarios](conversation-presentation-scenarios.md)

@@ -23,6 +23,9 @@ choice, but neither should redefine the requirements here.
 - [Event Productization](event-productization.md): release requirements for
   continuation, GitHub callbacks and monitoring, lifecycle management, bilingual UI,
   operations, semantic routing, and the first email connector.
+- [Monitor Bundle Platform](monitor-bundle-platform.md): public Bundle discovery,
+  plugin registration, Agent-authored scoped Bundles, sandboxed capability execution,
+  and migration of Time/GitHub monitoring out of Core.
 - [Repository Workflow](repository-workflow.md): Relay and DSH repository ownership,
   official checkout synchronization and development checks.
 - [DSH Upstream Boundary](dsh-upstream-boundary.md): mandatory immutability and
