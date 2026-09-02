@@ -117,6 +117,11 @@ restating fixtures:
   `DSH_ROOT` and assumed a worktree-local upstream checkout. The verifier now resolves
   the explicit immutable checkout; the same command then installed and imported all
   packages successfully;
+- the first Monitors CI push failed at standalone `npm ci`: its child lockfile lacked
+  QuickJS even though the hoisted root workspace made local tests green. A first
+  attempted lock refresh was itself rejected because npm still discovered the parent
+  workspace. The accepted fix uses `--workspaces=false`; standalone install and the
+  complete 50-test/build/pack verification then pass before the lockfile is committed;
 - the first in-app-browser launch inherited an unrelated old Events database and failed
   on a missing schema column. It was rejected as contaminated evidence; a new isolated
   Events/Email database profile then rendered the live Time catalog successfully;
