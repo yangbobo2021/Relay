@@ -1,0 +1,18 @@
+{
+  "name": "relay-monitor-author",
+  "version": "0.1.0",
+  "description": "Safely discover, create, validate, and install Relay Monitor Bundles.",
+  "author": {
+    "name": "Relay"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Relay Monitor Author",
+    "shortDescription": "Create durable Relay monitors from live capabilities.",
+    "longDescription": "Guides an Agent through live Monitor Bundle discovery, least-authority custom authoring, deterministic validation, and durable installation.",
+    "developerName": "Relay",
+    "category": "Developer Tools",
+    "capabilities": [],
+    "defaultPrompt": "Help me create a safe Relay Monitor Bundle for an external condition."
+  }
+}
