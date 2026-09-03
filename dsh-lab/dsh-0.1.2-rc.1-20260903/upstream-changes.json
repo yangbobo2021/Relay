@@ -1,0 +1,36 @@
+{
+  "base": {
+    "version": "0.1.2-alpha.3",
+    "tag": "dsh-v0.1.2-alpha.3",
+    "commit": "dd6322d604e00eec1ba5e0c8541159906a21094a"
+  },
+  "head": {
+    "version": "0.1.2-rc.1",
+    "tag": "dsh-v0.1.2-rc.1",
+    "commit": "a66e4702047846cdaa10c66c9d3df3951f5ea70d"
+  },
+  "comparison": {
+    "commits": 305,
+    "changedFiles": 2391,
+    "url": "https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-alpha.3...dsh-v0.1.2-rc.1"
+  },
+  "topLevelChangedFileCountsWithoutRenameDetection": {
+    "packages": 1982,
+    ".agents": 197,
+    "snapshots": 82,
+    "docs": 63,
+    "apps": 60,
+    "scripts": 18,
+    "root": 7
+  },
+  "relayBlockingChanges": [
+    "Session.events was removed in favor of seq, eventAt(), snapshotEvents(), ownEvents(), and isOwnSeq().",
+    "Session event identities and log offsets now use distinct SessionSeq and SessionLogOffset brands.",
+    "SessionHeader.seedLength moved to logical isSeeded plus body-bearing inheritedEventCount.",
+    "Relay 0.2.1 Codex, Claude, Events, and Plugin Manager runtime code still reads session.events."
+  ],
+  "storageCompatibility": {
+    "jsonlV0Header": "physical seedLength encoding remains byte-compatible",
+    "projectionCache": "v3/v4/v5 cross-version reads and backup-and-skip recovery were added"
+  }
+}

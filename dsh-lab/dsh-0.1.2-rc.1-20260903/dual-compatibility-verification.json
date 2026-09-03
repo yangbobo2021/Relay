@@ -1,0 +1,109 @@
+{
+  "date": "2026-09-03",
+  "releaseState": {
+    "status": "candidate-branches",
+    "publishedRelayVersionsContainFix": false,
+    "requiredAction": "merge and publish the compatibility patch releases in dependency order"
+  },
+  "dshHosts": [
+    {
+      "version": "0.1.2-alpha.3",
+      "tag": "dsh-v0.1.2-alpha.3",
+      "commit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
+      "runtimeSource": "exact official tag archive built with its frozen lockfile"
+    },
+    {
+      "version": "0.1.2-rc.1",
+      "tag": "dsh-v0.1.2-rc.1",
+      "commit": "a66e4702047846cdaa10c66c9d3df3951f5ea70d",
+      "runtimeSource": "official npm @deepseek-ai/dsh@0.1.2-rc.1"
+    }
+  ],
+  "candidateBuildReference": {
+    "tag": "dsh-v0.1.2-rc.1",
+    "commit": "a66e4702047846cdaa10c66c9d3df3951f5ea70d",
+    "checkoutCleanAfterVerification": true
+  },
+  "relayArtifacts": {
+    "source": "candidate branches, npm pack --ignore-scripts after build against the exact rc.1 tag",
+    "relay-dsh-plugin-manager@0.2.2": "49d4a215a8c396437a0cda5585261539dcb3ba01bdbfb003fda0cca4b2891eae",
+    "relay-dsh-plugin-session-import@0.2.2": "acdc00c6f8a0ae7082b9c6c7006d065ce807c6bede3905af0784c51ea2269538",
+    "relay-dsh-plugin-codex@0.2.2": "1a218c8650ba126061a2ee0fd70c6ab89edeb014a1e2c9eea271f9425bf43329",
+    "relay-dsh-plugin-claude@0.2.2": "9dd31b01ae2b52c51b2e02c73d583503edb67772b7884f14c6a0bde3dc38c78c",
+    "relay-dsh-plugin-events@0.2.2": "ba59072f999f5d48af2cae89ba558615f413ccb081adb885b05585dfa67f76b1",
+    "relay-dsh-plugin-semantic-router@0.2.2": "b6f40b0311fe144d58124a1bc2668599ab6e816cb95e35e761c0b6051e698bce",
+    "relay-dsh-plugin-monitors@0.3.1": "ebcb79d2fc9ad0661234fcdaf06602e6a0ef976861d234a36398d0d3d8ce42fd",
+    "relay-dsh-plugin-monitor-time@0.1.1": "13d791cfc05ebc739b6a6df9c6cb27ea6ade4703c22d8d6225dffc78f567919b",
+    "relay-dsh-plugin-monitor-process@0.1.1": "1dd389fda7a89f18d2dad0a8169e20309c9f2d088999187b51438a4ceec05c1b",
+    "relay-dsh-plugin-monitor-author@0.1.1": "00d8cdbdae57b96c4a22f560cd7d22e225ea3e7962b7ed1d54b37ab4a7c7b087",
+    "relay-dsh-plugin-github@0.2.0": "86415339c839a8e219e974eb580fb615ac80f9a611c665f6a7c8572189c9c8eb",
+    "relay-dsh-plugin-email@0.1.0": "911de6b4ad31b73fe8b14a99fc38fe8de6f394e6fb8786c6e63df9bcfb727cf5",
+    "relay-dsh-plugin-workbench@0.2.2": "7c1843538f3289bbc2883ce34564f95a13fbba8665e689d38d2f3f97594b5704",
+    "relay-dsh-plugin-files@0.2.2": "57ead853cb0cfe5e34c25179d61a5e706893a98b457cf74307c7ea921d98921e",
+    "relay-dsh-plugin-terminal@0.2.2": "5bcad72bb84a4e48c6899bf610e242ba08627b8f881f7b28e935717cca75faf9"
+  },
+  "profileMatrix": {
+    "scenarios": [
+      "manager-only",
+      "session-import-only",
+      "router-only",
+      "monitors-only",
+      "event-plugins",
+      "monitor-author",
+      "github-event-loop",
+      "email-event-loop",
+      "event-plugins-codex",
+      "event-plugins-claude",
+      "events-only",
+      "codex-only",
+      "claude-only",
+      "codex-and-claude",
+      "workbench-only",
+      "workbench-files",
+      "workbench-terminal",
+      "codex-terminal",
+      "all-plugins"
+    ],
+    "0.1.2-alpha.3": { "passed": 19, "failed": 0 },
+    "0.1.2-rc.1": { "passed": 19, "failed": 0 },
+    "total": { "passed": 38, "failed": 0 }
+  },
+  "upgradeVerification": {
+    "report": "alpha3-to-rc1-upgrade-verification.json",
+    "passed": true,
+    "phases": ["alpha3 persisted seed", "rc1 resume", "rc1 cold restart"],
+    "businessTurnsAndSessionIdentityPreserved": true
+  },
+  "sourceValidation": {
+    "rc1Linkers": { "passed": 9, "failed": 0 },
+    "standaloneMonitorExtensionVerifies": { "passed": 3, "failed": 0 },
+    "eventAndMonitorTests": { "passed": 201, "failed": 0 },
+    "relayRootExactRc1Tests": { "passed": 477, "failed": 0 },
+    "packageAudits": { "passed": 8, "failed": 0 },
+    "publishDryRuns": {
+      "passed": 13,
+      "failed": 0,
+      "versionsAvailable": true,
+      "published": false
+    },
+    "pluginManagerControlledLifecycle": {
+      "passed": 10,
+      "failed": 0,
+      "operations": ["install", "disable", "enable", "update", "remove"],
+      "coldBootChecks": 5,
+      "confirmationRequired": true,
+      "tokenReplayRejected": true
+    }
+  },
+  "result": {
+    "candidateCompatible": true,
+    "supportedWindow": ["0.1.2-alpha.3", "0.1.2-rc.1"],
+    "rc1OnlyForkRequired": false,
+    "publishedPackagesCompatible": false
+  },
+  "coverageCaveats": [
+    "No paid Codex or Claude model request was made.",
+    "The matrix uses deterministic GitHub and Gmail HTTP fixtures, not external production accounts.",
+    "Provider-owned native Session import remains covered by package tests rather than an external provider account."
+  ]
+}

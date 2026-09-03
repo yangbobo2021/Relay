@@ -49,7 +49,7 @@ or inbox evidence rather than handler return values alone.
 ## Implementation Review 3 — Bundle extension boundary
 
 - GitHub verification discovers 24/24 tests with zero skip/todo and packs version
-  `0.2.0` against Monitor Core `0.3.0`; dependency resolution must reject the old
+  `0.2.0` against Monitor Core `0.3.1`; dependency resolution must reject the old
   Core instead of using a forced install.
 - Registry tests prove bilingual metadata, authorized hiding, live
   `configuration_required` to `available` health, and provider-owned factory output.

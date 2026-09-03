@@ -114,7 +114,7 @@ try {
   for (const host of hosts) {
   dshBin = host;
   hostVersion = JSON.parse(await readFile(join(dirname(dirname(host)), 'package.json'), 'utf8')).version;
-  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2', '0.1.2-alpha.3'].includes(hostVersion), 'select an audited official DSH runtime');
+  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2', '0.1.2-alpha.3', '0.1.2-rc.1'].includes(hostVersion), 'select an audited official DSH runtime');
 
   if (codexOnly) {
     await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 3191);
@@ -150,8 +150,10 @@ try {
   await verifyScenario("session-import-only", ["relay-dsh-plugin-session-import"], tarballs, 0);
   await verifyScenario("router-only", [eventPlugins[1]], tarballs, 3200);
   await verifyScenario("monitors-only", [eventPlugins[2]], tarballs, 3201);
-  await verifyScenario("event-plugins", [...eventPlugins, "relay-dsh-event-acceptance-fixture"], tarballs, 3202);
+  await verifyScenario("event-plugins", [...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-event-acceptance-fixture"], tarballs, 3202);
   await verifyScenario("monitor-author", [...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author", "relay-dsh-event-acceptance-fixture"], tarballs, 3214);
+  await verifyScenario("github-event-loop", [eventPlugins[0], eventPlugins[2], "relay-dsh-plugin-github"], tarballs, 3205);
+  await verifyScenario("email-event-loop", [eventPlugins[0], "relay-dsh-plugin-email"], tarballs, 3206);
   await verifyScenario("event-plugins-codex", [...eventPlugins, "relay-dsh-plugin-codex"], tarballs, 3203);
   await verifyScenario("event-plugins-claude", [...eventPlugins, "relay-dsh-plugin-claude"], tarballs, 3204);
   await verifyScenario("events-only", [eventPlugins[0]], tarballs, 3193);
@@ -162,7 +164,7 @@ try {
   await verifyScenario("workbench-files", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-files"], tarballs, 3196);
   await verifyScenario("workbench-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal"], tarballs, 3197);
   await verifyScenario("codex-terminal", ["relay-dsh-plugin-workbench", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex"], tarballs, 3198);
-  await verifyScenario("all-plugins", ["relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author"], tarballs, 3199);
+  await verifyScenario("all-plugins", ["relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-workbench", "relay-dsh-plugin-files", "relay-dsh-plugin-terminal", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-github", "relay-dsh-plugin-email"], tarballs, 3199);
   }
   }
 } finally {
@@ -274,8 +276,9 @@ async function bootAndProbe(id, env, port, selected) {
     const cookieHeader = (await authenticated.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
     const fetch = (url, options = {}) => globalThis.fetch(url, {...options, headers: {...options.headers, cookie: cookieHeader}});
     const response = await fetch(`http://127.0.0.1:${port}/`);
-    assert.equal(response.ok, true, `${id}: Web root did not respond`);
-    assert.match(await response.text(), /<html/i, `${id}: Web root is not HTML`);
+    const responseText = await response.text();
+    assert.equal(response.ok, true, `${id}: Web root returned ${response.status}: ${responseText.slice(0, 500)}\nHost: ${output.slice(-2000)}`);
+    assert.match(responseText, /<html/i, `${id}: Web root is not HTML`);
     const probeEventsHttp = id === "events-only" ? async () => {
       const url = `http://127.0.0.1:${port}/api/relay/events`;
       const post = () => fetch(url, { method: "POST", headers: { "content-type": "application/json" },

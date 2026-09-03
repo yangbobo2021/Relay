@@ -2,9 +2,9 @@
 
 [English](dsh-plugins.md) | 中文
 
-> **13 个 Relay 插件组成的套件已在 DSH `0.1.2-alpha.3` 上完成发布验收。**
-> 原有插件线使用 `0.2.1`，Monitor Core 使用 `0.3.0`，新的 Time、Process 和
-> Author 扩展使用 `0.1.0`。
+> **13 个 Relay 插件组成的套件已在 DSH `0.1.2-rc.1` 上完成发布验收，并保留
+> 已审计的 `0.1.2-alpha.3` 兼容性。** 原有插件线使用 `0.2.2`，Monitor Core
+> 使用 `0.3.1`，Time、Process 和 Author 扩展使用 `0.1.1`。
 
 在对话中发现和管理插件，或为官方 DeepSeek Harness 增加 Codex、Claude Code、
 工作区文件浏览和交互终端。无需维护 DSH Fork，也不需要修改官方核心代码。
@@ -45,8 +45,8 @@ Terminal 只依赖 Workbench 的公开插件契约。Relay Events 是独立的�
 语言请求：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add --save-exact \
-  relay-dsh-plugin-manager@0.2.1
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add --save-exact \
+  relay-dsh-plugin-manager@0.2.2
 ```
 
 ```text
@@ -56,26 +56,26 @@ npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add --save-exact \
 
 ## 从 npm 安装
 
-原有插件继续使用稳定版 `0.2.1`。可扩展 Monitor 运行时版本为 `0.3.0`，Time、
-Process 和 Author 首个正式版为 `0.1.0`。生产环境应固定精确版本。
+原有插件使用 `0.2.2`。可扩展 Monitor 运行时版本为 `0.3.1`，Time、Process 和
+Author 使用 `0.1.1`。生产环境应固定精确版本。
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
-  relay-dsh-plugin-manager@0.2.1 \
-  relay-dsh-plugin-codex@0.2.1 \
-  relay-dsh-plugin-claude@0.2.1 \
-  relay-dsh-plugin-session-import@0.2.1 \
-  relay-dsh-plugin-workbench@0.2.1 \
-  relay-dsh-plugin-files@0.2.1 \
-  relay-dsh-plugin-terminal@0.2.1 \
-  relay-dsh-plugin-events@0.2.1 \
-  relay-dsh-plugin-monitors@0.3.0 \
-  relay-dsh-plugin-monitor-time@0.1.0 \
-  relay-dsh-plugin-monitor-process@0.1.0 \
-  relay-dsh-plugin-monitor-author@0.1.0 \
-  relay-dsh-plugin-semantic-router@0.2.1
+pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
+  relay-dsh-plugin-manager@0.2.2 \
+  relay-dsh-plugin-codex@0.2.2 \
+  relay-dsh-plugin-claude@0.2.2 \
+  relay-dsh-plugin-session-import@0.2.2 \
+  relay-dsh-plugin-workbench@0.2.2 \
+  relay-dsh-plugin-files@0.2.2 \
+  relay-dsh-plugin-terminal@0.2.2 \
+  relay-dsh-plugin-events@0.2.2 \
+  relay-dsh-plugin-monitors@0.3.1 \
+  relay-dsh-plugin-monitor-time@0.1.1 \
+  relay-dsh-plugin-monitor-process@0.1.1 \
+  relay-dsh-plugin-monitor-author@0.1.1 \
+  relay-dsh-plugin-semantic-router@0.2.2
 
-pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 web
+pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 web
 ```
 
 只安装自己需要的插件即可。安装 Files 或 Terminal 时，需要在同一条命令中
@@ -91,16 +91,16 @@ GitHub 安装适合测试尚未发布的新代码。正式或可复现环境应�
 Tag 或完整 Commit SHA。
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
+pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
   github:yangbobo2021/relay-dsh-plugin-manager#main \
   github:yangbobo2021/relay-dsh-plugin-codex#main \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
   github:yangbobo2021/relay-dsh-plugin-workbench#main \
   github:yangbobo2021/relay-dsh-plugin-files#main \
   github:yangbobo2021/relay-dsh-plugin-terminal#main \
-  github:yangbobo2021/relay-dsh-plugin-monitor-time#v0.1.0 \
-  github:yangbobo2021/relay-dsh-plugin-monitor-process#v0.1.0 \
-  github:yangbobo2021/relay-dsh-plugin-monitor-author#v0.1.0
+  github:yangbobo2021/relay-dsh-plugin-monitor-time#v0.1.1 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-process#v0.1.1 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-author#v0.1.1
 ```
 
 安装、更新或删除插件后，请重启 DSH Web。

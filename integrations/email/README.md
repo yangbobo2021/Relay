@@ -27,3 +27,6 @@ Gmail message identity.
 Normalized evidence covers plain text/HTML, Unicode, replies, forwards, BCC, quoted
 history, lists, automated replies, delivery failures, and bounded attachment metadata.
 Attachment content is never downloaded or executed.
+
+This package is validated on DSH `0.1.2-rc.1` and retains compatibility with the
+audited `0.1.2-alpha.3` runtime.
