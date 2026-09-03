@@ -1,4 +1,4 @@
-# DSH 0.1.2-rc.1 与 Relay 0.2.1 兼容性验证报告
+# DSH 0.1.2-rc.1 与 Relay 兼容性验证报告
 
 本次检查使用官方标签 `dsh-v0.1.2-rc.1`，对应提交
 `a66e4702047846cdaa10c66c9d3df3951f5ea70d`。比较基线是 Relay 最近完成验收的
@@ -16,12 +16,12 @@ detached HEAD 停在当时的官方 `master` `76fda729799fe9b3848dbe2c211d4b2310
 **当前已发布的 Relay 插件 `0.2.1` 不兼容 DSH `0.1.2-rc.1`，不得把 peer range
 可解析、插件可安装或 Host 可启动解释为已经适配。**
 
-**本轮修复后的 Relay 工作树产物已经同时通过 DSH `0.1.2-alpha.3` 和
-`0.1.2-rc.1` 的全部 16 个隔离场景。修复尚未发布，不能把 npm 上现有的 `0.2.1`
-解释为已经获得兼容修复。**
+**本轮候选版本已经同时通过 DSH `0.1.2-alpha.3` 和 `0.1.2-rc.1` 的全部
+19 个隔离场景（合计 38/38）。因此 Relay 可以继续维护同一套双版本兼容代码，
+不需要分叉成 rc.1 专用实现。修复尚未发布，不能把 npm 上现有版本解释为已经获得兼容修复。**
 
 决定性阻断是 DSH 删除了 `Session.events` 数组访问器，改为显式的 `seq`、
-`eventAt()`、`snapshotEvents()`、`ownEvents()` 和 `isOwnSeq()`。Relay 当前运行时代码仍在
+`eventAt()`、`snapshotEvents()`、`ownEvents()` 和 `isOwnSeq()`。Relay 已发布的 `0.2.1` 代码仍在
 以下路径读取 `session.events`：
 
 - Codex 的正常对话、权限/位置恢复、有效 preset 读取与原生 Session 导入/同步；
@@ -36,7 +36,7 @@ Codex 与 Claude 的官方 Host 创建 Session 验收均实际失败，浏览器
 拒绝这个已知不兼容组合。这是发布元数据风险，适配修复发布前应收紧当前发行线的支持声明，
 或尽快发布经过 `rc.1` 验收的新版本。
 
-当前源码验证入口也尚未接受新版本：Codex 的 `npm run prepare:dsh` 在 typecheck 之前即因
+适配前的源码验证入口也不接受新版本：Codex 的 `npm run prepare:dsh` 在 typecheck 之前即因
 版本白名单只含 `alpha.2/alpha.3` 而退出。相同硬编码存在于 Codex、Claude、Events、Router、
 Monitors、Workbench、Files、Terminal 和 Session Import 九个插件；Manager 的 DSH
 devDependencies 则仍精确固定为 `0.1.2-alpha.3`。因此现有 `npm test` 无法进入测试主体，
@@ -106,25 +106,31 @@ Web Preview、Inspector、WebFetch 和安全说明等变化；这些并不都发
 
 ## 修复后的双版本矩阵
 
-工作树产物增加了一个结构化 Session 读取边界：rc.1 优先使用 `snapshotEvents()` 和
+候选产物增加了一个结构化 Session 读取边界：rc.1 优先使用 `snapshotEvents()` 和
 `seq`，alpha.3 回退到不可变 `events` 快照。Codex 的对话、位置恢复、导入与同步，Claude
 的对话与 preset 恢复，Events 的 inbox 去重，以及 Plugin Manager 的确认游标均已迁移。
+Codex 持久化写入也按能力区分两套官方接口：alpha.3/rc.1 使用数值型
+`inheritedEventCount` 服务 API，后续 DSH 主线使用 options 对象和写句柄。
 
 | DSH Host | Relay 产物 | 结果 |
 | --- | --- | --- |
-| `0.1.2-alpha.3` / `dd6322d...` | 本轮本地打包产物 | **16/16 通过** |
-| `0.1.2-rc.1` / `a66e470...` | 本轮本地打包产物 | **16/16 通过** |
+| `0.1.2-alpha.3` / `dd6322d...` | 本轮候选版本制品 | **19/19 通过** |
+| `0.1.2-rc.1` / `a66e470...` | 本轮候选版本制品 | **19/19 通过** |
 
-补充验证：九个 linker 均接受并链接 rc.1；九个插件和 Manager 的 rc.1 typecheck 通过；
-Relay 根测试 **456/456** 通过；Manager 测试 **94/94** 通过（另有 2 项按原条件跳过）。
+补充验证：九个 linker 均接受并链接 rc.1；三个新增 Monitor 扩展均在独立仓库执行
+`npm ci` 与 `verify`；Events、Router、Monitors、Time、Process、Author、GitHub、Email
+及其组合共 **201/201** 项测试通过，8 个发布制品审计通过。
 Manager 新增了 rc.1 `snapshotEvents()` 确认游标用例，Events 新增了 rc.1 durable retry
 去重用例。Manager 的 rc.1 本地包验收通过；受控生命周期的安装、禁用、启用、更新、删除及
 对应冷启动共 **10/10** 步通过，每个变更都验证了确认要求和 token 重放拒绝。结构化证据见
 [dual-compatibility-verification.json](dual-compatibility-verification.json)。
 
-该矩阵证明当前 smoke 覆盖内的双版本兼容，但未发起付费模型请求，也未执行完整的真实
-Codex/Claude 原生 Session 导入与旧数据升级。因此发布前仍应完成真实 stream、导入/重启和
-版本升级验收，并以新 Relay 版本发布，不能覆盖已经发布的 `0.2.1`。
+Relay 根目录在精确 rc.1 TAG 声明下的聚合测试为 **477/477**；13 个需要发布的独立候选包均
+确认版本未占用，并通过 `npm publish --dry-run`。dry-run 没有实际发布任何 npm 包。
+
+此外，受控升级验收已经使用精确 alpha.3 运行时写入 Session，再由 rc.1 恢复并冷启动复核；
+Session ID、业务 turns、事件前缀均保留。该矩阵仍未发起付费模型请求，也没有连接生产
+GitHub/Gmail 账号，因此这些属于外部环境验收，不作为本次 API 兼容发布的阻断项。
 
 ## 适配进度与发布前剩余验证
 
@@ -133,13 +139,14 @@ Codex/Claude 原生 Session 导入与旧数据升级。因此发布前仍应完�
 2. **已完成：**把 Relay 生产代码的 `session.events` 读取迁移到双版本兼容边界；当前生产路径
    未发现需要 Relay 自行构造的 rc.1 seed header。
 3. **已完成：**十插件均以官方 rc.1 graph 完成 typecheck，四个受影响插件重新构建并通过测试。
-4. **已完成：**用同一批本地 packed tarball 在 alpha.3 和 rc.1 各跑全部 16 个官方 Profile 场景；单插件、依赖组合、
-   Codex/Claude、Events/Router/Monitors、Workbench/Files/Terminal 和 all-plugins 必须全过。
-5. **发布前必做：**补充当前 smoke 缺失的高信号断言：Codex/Claude 至少完成一次真实或受控 stream；Events
-   对同一 activation 在持久化后重试不重复 followup；Manager plan→拒绝/批准/令牌重放；
-   Codex/Claude 导入、增量同步、重启和旧 alpha.3 Session 升级。
-6. **发布前必做：**使用新版本号重新打包，完成旧/新四向安装矩阵和发布 dry-run，避免覆盖 npm
-   上已发布的 `0.2.1`；最后复核浏览器错误与 DSH checkout 前后 clean 状态。
+4. **已完成：**用同一批候选 tarball 在 alpha.3 和 rc.1 各跑 19 个官方 Profile 场景；覆盖单插件、
+   Codex/Claude、Events/Router/Monitors、Time/Process/Author、GitHub/Email HTTP、Workbench/Files/Terminal
+   以及包含全部 15 个 Relay 插件的组合安装。
+5. **已完成：**Events 持久化重试去重、Manager 确认/拒绝/令牌重放、alpha.3 Session 写入后由 rc.1
+   恢复和冷启动均通过受控验收。
+6. **已完成：**候选版本号、锁文件和制品 SHA-256 已生成；13 个候选包的版本可用性、发布元数据和
+   `npm publish --dry-run` 均已通过。
+7. **待合并发布：**合并各仓库兼容分支，并按基础依赖到上层插件的顺序打 Tag 发布。
 
-当前可以声明工作树已通过双版本 smoke；只有第 5–6 步完成并记录最终版本 tarball SHA-256 后，
-才能声明新的 Relay 发布版已正式支持 `dsh-v0.1.2-rc.1`。
+当前可以声明候选分支支持 alpha.3 与 rc.1；只有这些候选版本合并并发布后，才可声明 npm
+正式版本支持 `dsh-v0.1.2-rc.1`。
