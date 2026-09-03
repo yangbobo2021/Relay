@@ -13,14 +13,19 @@ detached HEAD 停在当时的官方 `master` `76fda729799fe9b3848dbe2c211d4b2310
 
 ## 结论
 
-**当前已发布的 Relay 插件 `0.2.1` 不兼容 DSH `0.1.2-rc.1`，不得把 peer range
-可解析、插件可安装或 Host 可启动解释为已经适配。**
+**兼容修改已合并并完成双通道发布。npm `latest` 和 `next` 均包含对
+DSH `0.1.2-rc.1` 的适配，同时保留 `0.1.2-alpha.3` 兼容。**
 
-**本轮候选版本已经同时通过 DSH `0.1.2-alpha.3` 和 `0.1.2-rc.1` 的全部
+**发布前候选版本已经同时通过 DSH `0.1.2-alpha.3` 和 `0.1.2-rc.1` 的全部
 19 个隔离场景（合计 38/38）。因此 Relay 可以继续维护同一套双版本兼容代码，
-不需要分叉成 rc.1 专用实现。修复尚未发布，不能把 npm 上现有版本解释为已经获得兼容修复。**
+不需要分叉成 rc.1 专用实现。相同修改现已进入正式版和预览版。**
 
-决定性阻断是 DSH 删除了 `Session.events` 数组访问器，改为显式的 `seq`、
+| npm 通道 | 已发布版本 |
+| --- | --- |
+| `latest` | 九个 0.2 系列插件 `0.2.2`；Monitors `0.3.1`；三个 Monitor 扩展 `0.1.1` |
+| `next` | 九个 0.2 系列插件 `0.2.3-rc.1`；Monitors `0.3.2-rc.1`；三个 Monitor 扩展 `0.1.2-rc.1` |
+
+发布前的决定性阻断是 DSH 删除了 `Session.events` 数组访问器，改为显式的 `seq`、
 `eventAt()`、`snapshotEvents()`、`ownEvents()` 和 `isOwnSeq()`。Relay 已发布的 `0.2.1` 代码仍在
 以下路径读取 `session.events`：
 
@@ -29,10 +34,10 @@ detached HEAD 停在当时的官方 `master` `76fda729799fe9b3848dbe2c211d4b2310
 - Events 投递重试的已入队去重检查；
 - Plugin Manager 的确认令牌与用户消息位置绑定。
 
-Codex 与 Claude 的官方 Host 创建 Session 验收均实际失败，浏览器收到
+旧版 Codex 与 Claude 的官方 Host 创建 Session 验收均实际失败，浏览器收到
 `gateway/internal`，根因是插件读取 `undefined.length`。全集成场景同样失败。
 
-十个 `0.2.1` 插件的现有 DSH peer range 都允许 `0.1.2-rc.1`，因此包管理器不会替我们
+作为历史基线，十个 `0.2.1` 插件的 DSH peer range 都允许 `0.1.2-rc.1`，因此包管理器不会替我们
 拒绝这个已知不兼容组合。这是发布元数据风险，适配修复发布前应收紧当前发行线的支持声明，
 或尽快发布经过 `rc.1` 验收的新版本。
 
@@ -114,8 +119,8 @@ Codex 持久化写入也按能力区分两套官方接口：alpha.3/rc.1 使用�
 
 | DSH Host | Relay 产物 | 结果 |
 | --- | --- | --- |
-| `0.1.2-alpha.3` / `dd6322d...` | 本轮候选版本制品 | **19/19 通过** |
-| `0.1.2-rc.1` / `a66e470...` | 本轮候选版本制品 | **19/19 通过** |
+| `0.1.2-alpha.3` / `dd6322d...` | 已发布版本的候选期制品 | **19/19 通过** |
+| `0.1.2-rc.1` / `a66e470...` | 已发布版本的候选期制品 | **19/19 通过** |
 
 补充验证：九个 linker 均接受并链接 rc.1；三个新增 Monitor 扩展均在独立仓库执行
 `npm ci` 与 `verify`；Events、Router、Monitors、Time、Process、Author、GitHub、Email
@@ -125,14 +130,15 @@ Manager 新增了 rc.1 `snapshotEvents()` 确认游标用例，Events 新增了 
 对应冷启动共 **10/10** 步通过，每个变更都验证了确认要求和 token 重放拒绝。结构化证据见
 [dual-compatibility-verification.json](dual-compatibility-verification.json)。
 
-Relay 根目录在精确 rc.1 TAG 声明下的聚合测试为 **477/477**；13 个需要发布的独立候选包均
-确认版本未占用，并通过 `npm publish --dry-run`。dry-run 没有实际发布任何 npm 包。
+Relay 根目录在精确 rc.1 TAG 声明下的聚合测试为 **477/477**；13 个独立包在发布前均
+通过版本可用性、发布元数据和 `npm publish --dry-run` 检查，随后 Release 工作流成功发布
+`latest` 与 `next`，并逐包验证 npm dist-tag。
 
 此外，受控升级验收已经使用精确 alpha.3 运行时写入 Session，再由 rc.1 恢复并冷启动复核；
 Session ID、业务 turns、事件前缀均保留。该矩阵仍未发起付费模型请求，也没有连接生产
 GitHub/Gmail 账号，因此这些属于外部环境验收，不作为本次 API 兼容发布的阻断项。
 
-## 适配进度与发布前剩余验证
+## 适配与发布状态
 
 1. **已完成：**将九个插件的 `prepare:dsh` 版本门禁和 Manager 的精确 DSH devDependencies 更新到
    `0.1.2-rc.1`，使源码真正解析 `rc.1` 声明，不能继续从父目录解析 `alpha.3`。
@@ -146,7 +152,8 @@ GitHub/Gmail 账号，因此这些属于外部环境验收，不作为本次 API
    恢复和冷启动均通过受控验收。
 6. **已完成：**候选版本号、锁文件和制品 SHA-256 已生成；13 个候选包的版本可用性、发布元数据和
    `npm publish --dry-run` 均已通过。
-7. **待合并发布：**合并各仓库兼容分支，并按基础依赖到上层插件的顺序打 Tag 发布。
+7. **已完成：**各仓库兼容 PR 按基础依赖到上层插件的顺序合并；13 个正式版本与
+   13 个预览版本均已打 Tag、通过 Release 工作流并发布到 npm。
 
-当前可以声明候选分支支持 alpha.3 与 rc.1；只有这些候选版本合并并发布后，才可声明 npm
-正式版本支持 `dsh-v0.1.2-rc.1`。
+当前可以声明 npm 正式版和预览版均支持 alpha.3 与 rc.1。付费 Codex/Claude 模型请求和
+生产 GitHub/Gmail 账号联调仍属于外部环境验收，不影响本次 DSH API 兼容发布结论。

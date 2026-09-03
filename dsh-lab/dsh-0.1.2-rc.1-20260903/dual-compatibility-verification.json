@@ -1,9 +1,9 @@
 {
   "date": "2026-09-03",
   "releaseState": {
-    "status": "candidate-branches",
-    "publishedRelayVersionsContainFix": false,
-    "requiredAction": "merge and publish the compatibility patch releases in dependency order"
+    "status": "published",
+    "publishedRelayVersionsContainFix": true,
+    "requiredAction": "none"
   },
   "dshHosts": [
     {
@@ -25,7 +25,7 @@
     "checkoutCleanAfterVerification": true
   },
   "relayArtifacts": {
-    "source": "candidate branches, npm pack --ignore-scripts after build against the exact rc.1 tag",
+    "source": "published stable artifacts, originally packed and verified against the exact rc.1 tag",
     "relay-dsh-plugin-manager@0.2.2": "49d4a215a8c396437a0cda5585261539dcb3ba01bdbfb003fda0cca4b2891eae",
     "relay-dsh-plugin-session-import@0.2.2": "acdc00c6f8a0ae7082b9c6c7006d065ce807c6bede3905af0784c51ea2269538",
     "relay-dsh-plugin-codex@0.2.2": "1a218c8650ba126061a2ee0fd70c6ab89edeb014a1e2c9eea271f9425bf43329",
@@ -84,7 +84,49 @@
       "passed": 13,
       "failed": 0,
       "versionsAvailable": true,
-      "published": false
+      "published": true,
+      "stablePackagesPublished": 13,
+      "previewPackagesPublished": 13
+    },
+    "npmDistTags": {
+      "latest": {
+        "0.2.2": [
+          "relay-dsh-plugin-session-import",
+          "relay-dsh-plugin-workbench",
+          "relay-dsh-plugin-events",
+          "relay-dsh-plugin-codex",
+          "relay-dsh-plugin-claude",
+          "relay-dsh-plugin-files",
+          "relay-dsh-plugin-terminal",
+          "relay-dsh-plugin-semantic-router",
+          "relay-dsh-plugin-manager"
+        ],
+        "0.3.1": ["relay-dsh-plugin-monitors"],
+        "0.1.1": [
+          "relay-dsh-plugin-monitor-time",
+          "relay-dsh-plugin-monitor-process",
+          "relay-dsh-plugin-monitor-author"
+        ]
+      },
+      "next": {
+        "0.2.3-rc.1": [
+          "relay-dsh-plugin-session-import",
+          "relay-dsh-plugin-workbench",
+          "relay-dsh-plugin-events",
+          "relay-dsh-plugin-codex",
+          "relay-dsh-plugin-claude",
+          "relay-dsh-plugin-files",
+          "relay-dsh-plugin-terminal",
+          "relay-dsh-plugin-semantic-router",
+          "relay-dsh-plugin-manager"
+        ],
+        "0.3.2-rc.1": ["relay-dsh-plugin-monitors"],
+        "0.1.2-rc.1": [
+          "relay-dsh-plugin-monitor-time",
+          "relay-dsh-plugin-monitor-process",
+          "relay-dsh-plugin-monitor-author"
+        ]
+      }
     },
     "pluginManagerControlledLifecycle": {
       "passed": 10,
@@ -99,7 +141,7 @@
     "candidateCompatible": true,
     "supportedWindow": ["0.1.2-alpha.3", "0.1.2-rc.1"],
     "rc1OnlyForkRequired": false,
-    "publishedPackagesCompatible": false
+    "publishedPackagesCompatible": true
   },
   "coverageCaveats": [
     "No paid Codex or Claude model request was made.",
