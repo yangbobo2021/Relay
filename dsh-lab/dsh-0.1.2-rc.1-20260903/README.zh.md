@@ -134,6 +134,11 @@ Relay 根目录在精确 rc.1 TAG 声明下的聚合测试为 **477/477**；13 �
 通过版本可用性、发布元数据和 `npm publish --dry-run` 检查，随后 Release 工作流成功发布
 `latest` 与 `next`，并逐包验证 npm dist-tag。
 
+发布后又从 npm 重新下载全部 13 个 `next` 精确版本，在隔离的官方
+`@deepseek-ai/dsh@0.1.2-rc.1` Profile 中执行 `all-plugins` 验收。实际发布制品完成依赖解析、
+配置合成、Host 启动和浏览器加载，并通过 Session 创建/打开、Codex preset/model 同步、
+Workbench、Files 与 Terminal 功能检查，结果为 **1/1 通过**。
+
 此外，受控升级验收已经使用精确 alpha.3 运行时写入 Session，再由 rc.1 恢复并冷启动复核；
 Session ID、业务 turns、事件前缀均保留。该矩阵仍未发起付费模型请求，也没有连接生产
 GitHub/Gmail 账号，因此这些属于外部环境验收，不作为本次 API 兼容发布的阻断项。
