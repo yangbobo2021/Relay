@@ -2,9 +2,9 @@
 
 English | [中文](dsh-plugins.zh.md)
 
-> **The 13-plugin Relay suite is release-tested on DSH `0.1.2-alpha.3`.** The
-> established plugin line uses `0.2.1`; Monitor Core uses `0.3.0`, and the new
-> Time, Process, and Author extensions use `0.1.0`.
+> **The 13-plugin Relay suite is release-tested on DSH `0.1.2-rc.1` and retains
+> audited `0.1.2-alpha.3` compatibility.** The established plugin line uses
+> `0.2.2`; Monitor Core uses `0.3.1`, and Time, Process, and Author use `0.1.1`.
 
 Discover and manage plugins from a conversation, or add Codex, Claude Code,
 workspace files, and an interactive terminal to the official DeepSeek Harness.
@@ -47,8 +47,8 @@ Install the conversation-first manager by itself, restart DSH once, then use
 `/plugins` or an ordinary natural-language request:
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add --save-exact \
-  relay-dsh-plugin-manager@0.2.1
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add --save-exact \
+  relay-dsh-plugin-manager@0.2.2
 ```
 
 ```text
@@ -58,26 +58,26 @@ list installed plugins and whether DSH needs a restart
 
 ## Install From npm
 
-The established plugins remain on stable `0.2.1`. The extensible Monitor runtime is
-`0.3.0`; Time, Process, and Author begin at `0.1.0`. Pin exact versions in production.
+The established plugins use `0.2.2`. The extensible Monitor runtime is `0.3.1`;
+Time, Process, and Author use `0.1.1`. Pin exact versions in production.
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
-  relay-dsh-plugin-manager@0.2.1 \
-  relay-dsh-plugin-codex@0.2.1 \
-  relay-dsh-plugin-claude@0.2.1 \
-  relay-dsh-plugin-session-import@0.2.1 \
-  relay-dsh-plugin-workbench@0.2.1 \
-  relay-dsh-plugin-files@0.2.1 \
-  relay-dsh-plugin-terminal@0.2.1 \
-  relay-dsh-plugin-events@0.2.1 \
-  relay-dsh-plugin-monitors@0.3.0 \
-  relay-dsh-plugin-monitor-time@0.1.0 \
-  relay-dsh-plugin-monitor-process@0.1.0 \
-  relay-dsh-plugin-monitor-author@0.1.0 \
-  relay-dsh-plugin-semantic-router@0.2.1
+pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
+  relay-dsh-plugin-manager@0.2.2 \
+  relay-dsh-plugin-codex@0.2.2 \
+  relay-dsh-plugin-claude@0.2.2 \
+  relay-dsh-plugin-session-import@0.2.2 \
+  relay-dsh-plugin-workbench@0.2.2 \
+  relay-dsh-plugin-files@0.2.2 \
+  relay-dsh-plugin-terminal@0.2.2 \
+  relay-dsh-plugin-events@0.2.2 \
+  relay-dsh-plugin-monitors@0.3.1 \
+  relay-dsh-plugin-monitor-time@0.1.1 \
+  relay-dsh-plugin-monitor-process@0.1.1 \
+  relay-dsh-plugin-monitor-author@0.1.1 \
+  relay-dsh-plugin-semantic-router@0.2.2
 
-pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 web
+pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 web
 ```
 
 Install only the rows you need. Files and Terminal must list Workbench in the
@@ -94,16 +94,16 @@ Use GitHub installs to test the newest unreleased code. Pin a tag or commit SHA
 for reproducible environments instead of leaving `#main` in production.
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.2-alpha.3 plugin --profile web add \
+pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
   github:yangbobo2021/relay-dsh-plugin-manager#main \
   github:yangbobo2021/relay-dsh-plugin-codex#main \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
   github:yangbobo2021/relay-dsh-plugin-workbench#main \
   github:yangbobo2021/relay-dsh-plugin-files#main \
   github:yangbobo2021/relay-dsh-plugin-terminal#main \
-  github:yangbobo2021/relay-dsh-plugin-monitor-time#v0.1.0 \
-  github:yangbobo2021/relay-dsh-plugin-monitor-process#v0.1.0 \
-  github:yangbobo2021/relay-dsh-plugin-monitor-author#v0.1.0
+  github:yangbobo2021/relay-dsh-plugin-monitor-time#v0.1.1 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-process#v0.1.1 \
+  github:yangbobo2021/relay-dsh-plugin-monitor-author#v0.1.1
 ```
 
 Restart DSH Web after installing, updating, or removing plugins.

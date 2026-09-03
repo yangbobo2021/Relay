@@ -6,9 +6,12 @@ Agent operation `relay_watch_github_pull_request`.
 
 Version `0.2.0` is also a Monitor Bundle extension: it dynamically registers the
 localized `github.pull-request` type and `github.pull-request.read` provider with
-Monitor Core `0.3.0`. The live catalog distinguishes an authorized available setup
+Monitor Core `0.3.1`. The live catalog distinguishes an authorized available setup
 from one that still requires configuration. The webhook Connector remains usable as
 the push path and converges with polling by the same transition correlation key.
+
+This package is validated on DSH `0.1.2-rc.1` and retains compatibility with the
+audited `0.1.2-alpha.3` runtime.
 
 Configure `RELAY_GITHUB_WEBHOOK_SECRET` (minimum 16 characters) and optionally
 `RELAY_GITHUB_TOKEN`. GitHub should send webhooks to

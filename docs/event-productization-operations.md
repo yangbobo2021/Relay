@@ -2,8 +2,8 @@
 
 Status: release operating guide. Every shell block in this document is executed,
 unchanged, by scripts/verify-operations-docs.mjs in a clean temporary DSH home.
-The release reference is official DSH 0.1.2-alpha.3 at
-dd6322d604e00eec1ba5e0c8541159906a21094a.
+The release reference is official DSH 0.1.2-rc.1 at
+a66e4702047846cdaa10c66c9d3df3951f5ea70d.
 
 ## Prerequisites And Release Artifacts
 
@@ -82,10 +82,10 @@ forwards add and remove to pnpm and reconciles the DSH bundle stack.
 ~~~bash
 node "$DSH_ROOT/apps/cli/lib/bin.js" plugin --profile web install
 node "$DSH_ROOT/apps/cli/lib/bin.js" plugin --profile web add \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-events-0.2.1.tgz" \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-monitors-0.2.1.tgz" \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-semantic-router-0.2.1.tgz" \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-github-0.1.0.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-events-0.2.2.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-monitors-0.3.1.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-semantic-router-0.2.2.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-github-0.2.0.tgz" \
   "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-email-0.1.0.tgz"
 node scripts/relay-doctor.mjs --locale zh-CN --timezone Asia/Shanghai --probe
 node scripts/relay-doctor.mjs --json --probe > "$DSH_HOME/relay-doctor.json"
@@ -112,10 +112,10 @@ place:
 <!-- relay-doc-test -->
 ~~~bash
 node "$DSH_ROOT/apps/cli/lib/bin.js" plugin --profile web add \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-events-0.2.1.tgz" \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-monitors-0.2.1.tgz" \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-semantic-router-0.2.1.tgz" \
-  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-github-0.1.0.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-events-0.2.2.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-monitors-0.3.1.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-semantic-router-0.2.2.tgz" \
+  "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-github-0.2.0.tgz" \
   "$RELAY_ARTIFACT_DIR/relay-dsh-plugin-email-0.1.0.tgz"
 node scripts/relay-doctor.mjs --json --probe > "$DSH_HOME/relay-doctor-after-upgrade.json"
 ~~~

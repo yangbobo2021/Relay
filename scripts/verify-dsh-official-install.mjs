@@ -114,7 +114,7 @@ try {
   for (const host of hosts) {
   dshBin = host;
   hostVersion = JSON.parse(await readFile(join(dirname(dirname(host)), 'package.json'), 'utf8')).version;
-  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2', '0.1.2-alpha.3'].includes(hostVersion), 'select an audited official DSH runtime');
+  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2', '0.1.2-alpha.3', '0.1.2-rc.1'].includes(hostVersion), 'select an audited official DSH runtime');
 
   if (codexOnly) {
     await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 3191);
@@ -274,8 +274,9 @@ async function bootAndProbe(id, env, port, selected) {
     const cookieHeader = (await authenticated.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
     const fetch = (url, options = {}) => globalThis.fetch(url, {...options, headers: {...options.headers, cookie: cookieHeader}});
     const response = await fetch(`http://127.0.0.1:${port}/`);
-    assert.equal(response.ok, true, `${id}: Web root did not respond`);
-    assert.match(await response.text(), /<html/i, `${id}: Web root is not HTML`);
+    const responseText = await response.text();
+    assert.equal(response.ok, true, `${id}: Web root returned ${response.status}: ${responseText.slice(0, 500)}\nHost: ${output.slice(-2000)}`);
+    assert.match(responseText, /<html/i, `${id}: Web root is not HTML`);
     const probeEventsHttp = id === "events-only" ? async () => {
       const url = `http://127.0.0.1:${port}/api/relay/events`;
       const post = () => fetch(url, { method: "POST", headers: { "content-type": "application/json" },

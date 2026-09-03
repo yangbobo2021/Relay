@@ -47,10 +47,10 @@ try {
 
   const expectedTarballs = [
     "relay-dsh-plugin-email-0.1.0.tgz",
-    "relay-dsh-plugin-events-0.2.1.tgz",
-    "relay-dsh-plugin-github-0.1.0.tgz",
-    "relay-dsh-plugin-monitors-0.2.1.tgz",
-    "relay-dsh-plugin-semantic-router-0.2.1.tgz",
+    "relay-dsh-plugin-events-0.2.2.tgz",
+    "relay-dsh-plugin-github-0.2.0.tgz",
+    "relay-dsh-plugin-monitors-0.3.1.tgz",
+    "relay-dsh-plugin-semantic-router-0.2.2.tgz",
   ];
   assert.deepEqual((await readdir(artifacts)).sort(), expectedTarballs);
   for (const name of ["relay-doctor.json", "relay-doctor-after-upgrade.json"]) {

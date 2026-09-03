@@ -1,0 +1,85 @@
+{
+  "date": "2026-09-03",
+  "releaseState": {
+    "status": "working-tree-only",
+    "publishedRelayVersion": "0.2.1",
+    "publishedVersionContainsFix": false,
+    "requiredAction": "publish the compatibility changes under a new Relay version"
+  },
+  "dshHosts": [
+    {
+      "version": "0.1.2-alpha.3",
+      "tag": "dsh-v0.1.2-alpha.3",
+      "commit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
+      "runtimeSource": "official npm package"
+    },
+    {
+      "version": "0.1.2-rc.1",
+      "tag": "dsh-v0.1.2-rc.1",
+      "commit": "a66e4702047846cdaa10c66c9d3df3951f5ea70d",
+      "runtimeSource": "official npm package"
+    }
+  ],
+  "relayArtifacts": {
+    "source": "local working tree npm pack --ignore-scripts",
+    "relay-dsh-plugin-manager": "a8fcd3951de45c7dc772108bf2a0dccd8a90d6197d028b259cbdab3236adb9ff",
+    "relay-dsh-plugin-session-import": "1d468a2cd84857bbcf0dc03852d2ab11229555a9030b07f037c8f68ebf4f3e84",
+    "relay-dsh-plugin-codex": "c2835fc044ebfddc443deeb11b00c716c16c19325ac55a2f5c47b98e7577ac14",
+    "relay-dsh-plugin-claude": "bc99d7f9477c297756e8dfcd530a88ac54d62d7450a558b8ec9d41c12bf29d89",
+    "relay-dsh-plugin-events": "3f7450586d9825b5be93c35fe9ad2d56e8b79c8cd9611e0ddc685bf75b7456bf",
+    "relay-dsh-plugin-semantic-router": "48f0a3f2b9e981d6e63755b6898309e353e6af883da817d23e4ec04d1f0bdfe3",
+    "relay-dsh-plugin-monitors": "de33908086ccfce7ff662d577ecfb58ea1aba5c4402f7b005bfebd8d6c51dfd2",
+    "relay-dsh-plugin-workbench": "ab2033255c87b22194be49d40bf2d77b1532b392524015bf483a4af4005ce76d",
+    "relay-dsh-plugin-files": "1f7ed036911d8d59d46af954271805acdc6c7cebcab586fa9ad83d34eb76ad67",
+    "relay-dsh-plugin-terminal": "6dd38c2cded6d307d9d910adcca91dec6e9fae8bd0ff9244fa261a2eaaea7124"
+  },
+  "profileMatrix": {
+    "scenarios": [
+      "manager-only",
+      "session-import-only",
+      "router-only",
+      "monitors-only",
+      "event-plugins",
+      "event-plugins-codex",
+      "event-plugins-claude",
+      "events-only",
+      "codex-only",
+      "claude-only",
+      "codex-and-claude",
+      "workbench-only",
+      "workbench-files",
+      "workbench-terminal",
+      "codex-terminal",
+      "all-plugins"
+    ],
+    "0.1.2-alpha.3": { "passed": 16, "failed": 0 },
+    "0.1.2-rc.1": { "passed": 16, "failed": 0 }
+  },
+  "sourceValidation": {
+    "rc1Linkers": { "passed": 9, "failed": 0 },
+    "rc1PluginTypechecks": { "passed": 10, "failed": 0 },
+    "relayRootTests": { "passed": 456, "failed": 0 },
+    "pluginManagerTests": { "passed": 94, "failed": 0, "skipped": 2 },
+    "targetedSessionCompatibilityTests": { "passed": 10, "failed": 0 },
+    "pluginManagerPackageAcceptance": { "passed": 1, "failed": 0 },
+    "pluginManagerControlledLifecycle": {
+      "passed": 10,
+      "failed": 0,
+      "operations": ["install", "disable", "enable", "update", "remove"],
+      "coldBootChecks": 5,
+      "confirmationRequired": true,
+      "tokenReplayRejected": true,
+      "registry": "loopback controlled fixture"
+    }
+  },
+  "result": {
+    "workingTreeCompatible": true,
+    "supportedWindow": ["0.1.2-alpha.3", "0.1.2-rc.1"],
+    "publishedRelayCompatible": false
+  },
+  "coverageCaveats": [
+    "No real paid model request was made.",
+    "The profile matrix does not perform a complete provider-owned native Session import.",
+    "Old persisted alpha.3 Session upgrade and restart behavior still needs a dedicated release acceptance run."
+  ]
+}

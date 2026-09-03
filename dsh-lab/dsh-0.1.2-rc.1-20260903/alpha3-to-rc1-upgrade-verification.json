@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-03T10:09:53.083Z",
+  "result": "passed",
+  "mode": "controlled-no-paid-model",
+  "source": {
+    "alpha3": {
+      "tag": "dsh-v0.1.2-alpha.3",
+      "commit": "dd6322d604e00eec1ba5e0c8541159906a21094a",
+      "runtime": "official tag archive built from the frozen pnpm lockfile"
+    },
+    "rc1": {
+      "tag": "dsh-v0.1.2-rc.1",
+      "commit": "a66e4702047846cdaa10c66c9d3df3951f5ea70d",
+      "runtime": "official npm package with rc.1 dependency closure"
+    }
+  },
+  "versions": {
+    "alpha3": "0.1.2-alpha.3",
+    "rc1": "0.1.2-rc.1"
+  },
+  "phases": [
+    {
+      "phase": "create",
+      "runtimeVersion": "0.1.2-alpha.3",
+      "sessionId": "relay-alpha3-upgrade-seeded",
+      "eventSurface": "events",
+      "eventCount": 32,
+      "eventDigest": "b5af1d93c37a9035d51f4f9dedaab7d0453b26c6256f4727c5a44945b440fc90",
+      "inheritedEventCount": 16,
+      "turnEnds": 2,
+      "modelRequests": 2,
+      "emittedChunkTypes": [
+        "block-start",
+        "text-delta",
+        "text-delta",
+        "block-end",
+        "usage",
+        "finish",
+        "block-start",
+        "text-delta",
+        "text-delta",
+        "block-end",
+        "usage",
+        "finish"
+      ]
+    },
+    {
+      "phase": "resume",
+      "runtimeVersion": "0.1.2-rc.1",
+      "sessionId": "relay-alpha3-upgrade-seeded",
+      "eventSurface": "snapshotEvents",
+      "eventCount": 48,
+      "eventDigest": "81f3816f19059193b326752e37520acb2163c72177fe23f88477a5a7434eeaab",
+      "inheritedEventCount": 16,
+      "turnEnds": 3,
+      "modelRequests": 1,
+      "emittedChunkTypes": [
+        "block-start",
+        "text-delta",
+        "text-delta",
+        "block-end",
+        "usage",
+        "finish"
+      ],
+      "restoredPrefixEvents": 33,
+      "alpha3PrefixEvents": 32,
+      "migrationEvents": [
+        "session/end-seed"
+      ]
+    },
+    {
+      "phase": "verify",
+      "runtimeVersion": "0.1.2-rc.1",
+      "sessionId": "relay-alpha3-upgrade-seeded",
+      "eventSurface": "snapshotEvents",
+      "eventCount": 49,
+      "eventDigest": "9a9357beb90e558ad3ed481ab5b5f75b54336f68a0b3db8f068b2a1283c28d50",
+      "inheritedEventCount": 16,
+      "turnEnds": 3,
+      "modelRequests": 0,
+      "emittedChunkTypes": [],
+      "restoredPrefixEvents": 48,
+      "lifecycleEvents": [
+        "session/end-seed"
+      ]
+    }
+  ],
+  "assertions": {
+    "alpha3SeededSessionPersisted": true,
+    "rc1LoadedAlpha3PrefixExactly": true,
+    "rc1ContinuedSameSession": true,
+    "rc1SecondColdRestartPreservedBusinessHistory": true,
+    "rc1ResumeAddedOnlyDocumentedSeedBoundary": true,
+    "eventSequencesContiguousAndUnique": true,
+    "inheritedEventCountPreserved": true,
+    "controlledStreamChunkOrderVerified": true
+  },
+  "fixtureSha256": "9d17a947e391e8636bfe488fe836f38aa05374748eaaaee7ea281e9ced935086"
+}

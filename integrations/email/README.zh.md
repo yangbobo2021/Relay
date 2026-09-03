@@ -22,3 +22,6 @@ Audience，并把 `RELAY_GMAIL_PUSH_SERVICE_ACCOUNT` 设为推送认证服务账
 
 规范化证据覆盖纯文本/HTML、Unicode、回复、转发、BCC、引用历史、邮件列表、自动回复、
 投递失败和有边界的附件元数据。Relay 从不下载或执行附件内容。
+
+本包已在 DSH `0.1.2-rc.1` 上完成验证，同时保留对已审计
+`0.1.2-alpha.3` 运行时的兼容。

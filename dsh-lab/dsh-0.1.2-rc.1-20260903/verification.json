@@ -1,0 +1,131 @@
+{
+  "date": "2026-09-03",
+  "officialDsh": {
+    "package": "@deepseek-ai/dsh",
+    "version": "0.1.2-rc.1",
+    "tag": "dsh-v0.1.2-rc.1",
+    "commit": "a66e4702047846cdaa10c66c9d3df3951f5ea70d",
+    "sourceCheckoutModified": false,
+    "finalReferenceCheckoutHead": "76fda729799fe9b3848dbe2c211d4b231032b81e",
+    "profileIsolation": "temporary DSH_HOME per scenario"
+  },
+  "relayPlugins": {
+    "version": "0.2.1",
+    "source": "npm registry",
+    "peerRangesAcceptRc1": true,
+    "sourcePrepareGate": {
+      "status": "failed",
+      "sample": "root npm test stopped in relay-dsh-plugin-codex prepare:dsh because 0.1.2-rc.1 is not whitelisted",
+      "affectedLinkers": 9,
+      "testedLinkers": ["claude", "codex", "dsh-files", "dsh-terminal", "dsh-workbench", "events", "monitors", "semantic-router", "session-import"],
+      "managerDevDependencies": "still pinned to 0.1.2-alpha.3"
+    }
+  },
+  "artifacts": {
+    "relay-dsh-plugin-manager": "a0d67f7f3930db1bb4a95400c0afeca3942e03690a65b016403d7fe6105f8524",
+    "relay-dsh-plugin-session-import": "081ec660a450cffe6011a3b57aee71825373d739f3e56aef7ef16e11c8b05b78",
+    "relay-dsh-plugin-codex": "6413c4e9326da45541e609e53bffb78d34184a5c51fc53611dca4a3aeb3db67d",
+    "relay-dsh-plugin-claude": "23a96cb1cd6df6fe9206cc83b795cf9514c529a2a861d48bb88d0709f4905439",
+    "relay-dsh-plugin-events": "5bed0e7d6b9123695f782b0fd80eb11848900c990b2bc40e12781d2bf548a5d6",
+    "relay-dsh-plugin-semantic-router": "3ef4299753865abd4269fdf5e67564bc75e1af681792865a4ef6fc059d4cb567",
+    "relay-dsh-plugin-monitors": "c514aa1648c528b3836a2cb77b291c2996391c6aece352db0a6201c6d3302b8b",
+    "relay-dsh-plugin-workbench": "808e4049a6fc10339f2483f3d4db25c73376116cf87f5af1f394871f12643bc0",
+    "relay-dsh-plugin-files": "c5afb41f5cabfc8dc07db75b9fb0e851248607e2267d2f8b73418aa33882ea82",
+    "relay-dsh-plugin-terminal": "a8209d7f6b9df4dde45206e37687de3d1fb3c711ee273a3d075050f3db5af40d"
+  },
+  "scenarios": [
+    {
+      "id": "manager-only",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations"]
+    },
+    {
+      "id": "session-import-only",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations"]
+    },
+    {
+      "id": "router-only",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations"]
+    },
+    {
+      "id": "monitors-only",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations"]
+    },
+    {
+      "id": "event-plugins",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations", "event replay", "semantic routing", "timer completion"]
+    },
+    {
+      "id": "event-plugins-codex",
+      "status": "failed",
+      "failure": "SessionCreateError: gateway/internal: TypeError: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "id": "event-plugins-claude",
+      "status": "failed",
+      "failure": "SessionCreateError: gateway/internal: TypeError: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "id": "events-only",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "HTTP ingress deduplication and error validation"]
+    },
+    {
+      "id": "codex-only",
+      "status": "failed",
+      "failure": "SessionCreateError: gateway/internal: TypeError: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "id": "claude-only",
+      "status": "failed",
+      "failure": "SessionCreateError: gateway/internal: TypeError: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "id": "codex-and-claude",
+      "status": "failed",
+      "failure": "SessionCreateError: gateway/internal: TypeError: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "id": "workbench-only",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations", "create/open session", "Workbench mounted actions"]
+    },
+    {
+      "id": "workbench-files",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations", "create/open session", "Workbench mounted actions", "Files tree/Markdown/source", "resize", "close/reopen"]
+    },
+    {
+      "id": "workbench-terminal",
+      "status": "passed",
+      "coverage": ["install", "profile composition", "host boot", "browser loader", "client registrations", "create/open session", "Workbench mounted actions", "missing provider handling"]
+    },
+    {
+      "id": "codex-terminal",
+      "status": "failed",
+      "failure": "SessionCreateError: gateway/internal: TypeError: Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "id": "all-plugins",
+      "status": "failed",
+      "failure": "SessionCreateError: gateway/internal: TypeError: Cannot read properties of undefined (reading 'length')"
+    }
+  ],
+  "summary": {
+    "total": 16,
+    "passed": 9,
+    "failed": 7,
+    "compatible": false,
+    "releaseBlocker": "Relay 0.2.1 cannot create Codex or Claude sessions on DSH 0.1.2-rc.1"
+  },
+  "coverageCaveats": [
+    "Manager-only did not invoke confirmation-gated conversation tools.",
+    "Session-import-only did not perform a provider-owned native import.",
+    "Events-only did not retry delivery after durable DSH inbox admission.",
+    "No real paid model request was made."
+  ]
+}
