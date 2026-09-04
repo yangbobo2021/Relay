@@ -40,3 +40,7 @@
 	path = integrations/monitor-author
 	url = git@github.com:yangbobo2021/relay-dsh-plugin-monitor-author.git
 	branch = main
+[submodule "integrations/dsh-skill-creator"]
+	path = integrations/dsh-skill-creator
+	url = git@github.com:yangbobo2021/relay-dsh-plugin-skill-creator.git
+	branch = main
