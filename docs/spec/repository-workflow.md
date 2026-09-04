@@ -109,8 +109,13 @@ DSH installation scenarios pass.
 3. Build and type-check all selected DSH plugins against that checkout.
 4. Install the packed plugins into pristine official DSH profiles, both separately
    and in the supported distribution combinations.
-5. Run affected Relay tests and browser compatibility workflows.
-6. Record the tested official commit in the relevant Relay note or document.
+5. For every plugin that persists data, run the
+   [Plugin Persistent Data Lifecycle](plugin-persistent-data-lifecycle.md) matrix
+   against fresh storage, supported published schemas, retained data after uninstall,
+   and migration failure paths.
+6. Run affected Relay tests and browser compatibility workflows.
+7. Record the tested official commit and persistent-data evidence in the relevant
+   Relay note or document.
 
 ## Mandatory Checklist
 
@@ -129,6 +134,9 @@ DSH installation scenarios pass.
   package-owned contract entrypoints are allowed.
 - Keep generated dependencies and build output ignored and out of Relay commits.
 - Put every persistent implementation or compatibility change in Relay-owned paths.
+- Do not advance a persistent plugin pointer or npm dist-tag using fresh-install
+  evidence alone; require packed upgrade and uninstall/reinstall evidence from its
+  previously published data states.
 - Record the exact official DSH commit used for compatibility claims.
 
 If any item fails, stop and restore the repository boundary before continuing.
