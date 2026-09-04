@@ -171,7 +171,9 @@ non-zero for release-blocking failures.
 
 Doctor explains local-host availability limits, sleep/restart behavior, required
 GitHub scopes, configured locale/timezone, and remediation without printing secrets.
-Upgrade and database migration checks are part of the release path.
+Upgrade and database migration checks are part of the release path and MUST satisfy
+the [Plugin Persistent Data Lifecycle](plugin-persistent-data-lifecycle.md), including
+retained data after package uninstall and reinstall.
 
 ## EP-11: Unattended Security And Resource Boundaries
 

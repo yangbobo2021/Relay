@@ -32,6 +32,9 @@ choice, but neither should redefine the requirements here.
   extension rules for the official DSH source checkout.
 - [Plugin System](plugin-system.md): manifests, capability interaction, lifecycle,
   monorepo boundaries, distribution composition, and regression gates.
+- [Plugin Persistent Data Lifecycle](plugin-persistent-data-lifecycle.md): storage
+  ownership, automatic migrations, uninstall/reinstall behavior, recovery, and
+  release gates for plugins whose data survives package lifecycle operations.
 - [DSH Plugin Boundaries](dsh-plugin-boundaries.md): installable DSH plugin ownership,
   workbench extension contracts, and composition acceptance matrix.
 - [DSH Plugin Packaging](dsh-plugin-packaging.md): independently released package

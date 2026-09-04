@@ -87,6 +87,9 @@ The permanent gates are:
 - public-export and plugin/package manifest consistency checks;
 - tests that activate consumers against Fake Providers;
 - packed-artifact installation in a clean directory;
+- the [Plugin Persistent Data Lifecycle](plugin-persistent-data-lifecycle.md) gate for
+  every plugin whose correctness depends on data surviving restart or package
+  lifecycle operations;
 - unload/reload tests proving capabilities, Cordis Remotes, listeners, and in-flight
   database work are released safely;
 - official DSH browser tests for the selected distribution.

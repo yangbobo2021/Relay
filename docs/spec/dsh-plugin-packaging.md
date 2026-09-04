@@ -88,3 +88,7 @@ must not import Workbench source files or implementation modules.
 17. Plugin Manager passes its independent package verification, packed official
     DSH installation, real client-bundle registration, and control-free Settings
     help acceptance before Relay advances its submodule pointer.
+18. Every plugin that owns persistent data satisfies the
+    [Plugin Persistent Data Lifecycle](plugin-persistent-data-lifecycle.md), including
+    packed upgrades from every supported published schema and an uninstall-with-data
+    retained followed by candidate reinstall.
