@@ -24,7 +24,7 @@ The same 10 maintained plugins remain compatible with both `0.1.5-rc.2` and
 | --- | ---: | --- |
 | `relay-dsh-plugin-manager` | `0.3.1-rc.2` | pass |
 | `relay-dsh-plugin-session-import` | `0.2.3-rc.2` | pass |
-| `relay-dsh-plugin-codex` | `0.2.3-rc.2` | pass |
+| `relay-dsh-plugin-codex` | `0.2.3-rc.3` | pass |
 | `relay-dsh-plugin-claude` | `0.2.3-rc.2` | pass |
 | `relay-dsh-plugin-events` | `0.2.4-rc.1` | pass |
 | `relay-dsh-plugin-semantic-router` | `0.2.3-rc.2` | pass |

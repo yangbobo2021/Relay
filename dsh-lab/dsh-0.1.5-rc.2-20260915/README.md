@@ -20,7 +20,7 @@ The maintained matrix contains exactly these 10 plugins:
 
 1. `relay-dsh-plugin-manager@0.3.1-rc.2`
 2. `relay-dsh-plugin-session-import@0.2.3-rc.2`
-3. `relay-dsh-plugin-codex@0.2.3-rc.2`
+3. `relay-dsh-plugin-codex@0.2.3-rc.3`
 4. `relay-dsh-plugin-claude@0.2.3-rc.2`
 5. `relay-dsh-plugin-events@0.2.4-rc.1`
 6. `relay-dsh-plugin-semantic-router@0.2.3-rc.2`
