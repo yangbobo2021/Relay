@@ -1,5 +1,10 @@
 # External DSH Workbench
 
+> **Historical design:** Workbench, Files, and Terminal were retired on
+> 2026-09-15 after official DSH added the corresponding layout, file, document
+> preview, and terminal capabilities. This document explains the former design
+> and is not a current implementation or compatibility target.
+
 ## Decision
 
 Relay ships independently selectable external DSH plugins against an immutable

@@ -2,22 +2,27 @@
 
 Status: Accepted
 
+Current compatibility baselines: official DSH `0.1.5-rc.2`, tag commit
+`fb2c4b9e698e30edb738bca4cf0618587db7d203`, and `0.1.6-alpha.1`, tag commit
+`0a15e36e7f82b6ed45af6fa9759f29b40dcd965d`, accepted on 2026-09-15. See the
+[latest recorded compatibility run](../../dsh-lab/dsh-0.1.6-alpha.1-20260915/README.md).
+
 ## Purpose
 
-Relay's DSH integrations must remain installable on an unmodified official DSH
-release. Conversation backends, cross-cutting events, shell layout, and
-workbench surfaces are separate extension concerns. A plugin may communicate
-with another plugin only through a versioned Cordis service, DSH slot, Typert
-Remote, or a type-only public contract.
+Relay's maintained DSH integrations must remain installable on an unmodified
+official DSH release. Conversation backends and cross-cutting events are
+separate extension concerns. A plugin may communicate with another plugin only
+through a versioned Cordis service, DSH slot, Typert Remote, or a type-only
+public contract.
 
 ## Packages
 
 | Package | Kind | Responsibility |
 | --- | --- | --- |
-| `relay-dsh-plugin-workbench` | installable DSH plugin | Generic shell layout, panel state, view registry, extension slots, and the public `./contracts` entry for view plugins. |
-| `relay-dsh-plugin-files` | installable DSH plugin | Workspace file Remote, explorer UI, and one side-view contribution. |
-| `relay-dsh-plugin-terminal` | installable DSH plugin | Terminal provider registry, terminal Remote, xterm UI, and one bottom-view contribution. |
-| `relay-dsh-plugin-codex` | installable DSH plugin | Codex conversations and an optional Codex terminal-provider contribution. |
+| `relay-dsh-plugin-workbench` | retired legacy plugin | Historical replacement shell and view registry. Official DSH now owns layout and right-sidebar extension surfaces. |
+| `relay-dsh-plugin-files` | retired legacy plugin | Historical workspace explorer. Official DSH now owns workspace files, the file tree, and document preview. |
+| `relay-dsh-plugin-terminal` | retired legacy plugin | Historical xterm surface and provider registry. Official DSH now owns terminal control and the interactive sidebar terminal. |
+| `relay-dsh-plugin-codex` | installable DSH plugin | Codex conversations and App Server integration. |
 | `relay-dsh-plugin-claude` | installable DSH plugin | Claude conversations only. |
 | `relay-dsh-plugin-session-import` | installable DSH plugin | Neutral sidebar import entry and typed provider slot; each backend owns its import implementation. |
 | `relay-dsh-plugin-manager` | installable DSH plugin | Conversation-based plugin discovery and confirmation-gated lifecycle management, plus a read-only Settings help tab. |
@@ -29,9 +34,30 @@ Remote, or a type-only public contract.
 | `relay-dsh-plugin-monitor-author` | installable DSH plugin | Native DSH Skill that prefers registered Bundle Types and safely authors a custom fallback. |
 
 Package-owned contracts contain no service implementation and are not added to a
-DSH profile by themselves. Workbench view plugins use
-`relay-dsh-plugin-workbench/contracts` as a build-time type dependency. They
-must not import another plugin's implementation or internal source.
+DSH profile by themselves. Maintained plugins must not take a runtime dependency
+on any retired plugin or import another plugin's implementation or internal
+source.
+
+## Retired Workspace UI Plugins
+
+As of 2026-09-15, Workbench, Files, and Terminal are retired. They are retained
+only as historical source and published artifacts for previously verified DSH
+`0.1.2` installations.
+
+Relay MUST NOT:
+
+- adapt these three plugins to later DSH versions;
+- include them in current presets, recommended installation commands, newer-DSH
+  compatibility matrices, or maintained full-composition acceptance;
+- add features or new runtime dependencies to them; or
+- describe them as supported alternatives to the corresponding official DSH
+  capabilities.
+
+Current DSH installations MUST use the official layout/right-sidebar,
+workspace-files/files/document-preview, and terminal-controller/sidebar-terminal
+plugins. If Relay later needs behavior absent from official DSH, it MUST use an
+official extension boundary or a new narrowly scoped adapter; it MUST NOT revive
+the retired replacement layout, Files UI, or Terminal UI.
 
 ## Runtime Contracts
 
@@ -52,35 +78,13 @@ Skill through `ctx.skills`, lists live Bundle Types first, and uses only
 Session-scoped Monitor tools for custom fallback. Unloading any extension removes
 its registration without rewriting existing durable records.
 
-### Workbench
+### Historical Workbench, Files, and Terminal Contracts
 
-The workbench publishes `ctx.workbench` through Cordis. A feature registers a
-versioned view descriptor and contributes its renderer through the matching DSH
-keyed slot. The descriptor selects `side` or `bottom`, provides a stable id and
-label, and may provide an icon renderer. The workbench owns active-view state,
-panel geometry, tabs, menus, and view selection.
-
-The workbench has no built-in Files, Terminal, Codex, or Claude view. Removing a
-feature registration removes its view and selects the next registered view. A
-future right-side or bottom view must be addable without editing workbench
-source.
-
-### Terminal Providers
-
-The terminal plugin publishes `ctx.relayTerminalProviders` through Cordis. A
-conversation backend may park an optional `ctx.inject()` contribution against
-that service. The terminal plugin owns browser transport and presentation; the
-backend contribution owns only its PTY transport implementation.
-
-Codex remains fully usable when the terminal plugin is absent. The terminal
-plugin remains loadable with no provider and presents an unavailable state
-instead of failing DSH startup.
-
-### Files
-
-The files plugin resolves the active DSH Agent and uses DSH filesystem services.
-It has no Codex or Claude runtime dependency. Workspace containment and bounded
-UTF-8 previews remain Host-enforced.
+The former `ctx.workbench` and `ctx.relayTerminalProviders` services and the
+Workbench view contracts are frozen historical APIs. No maintained plugin may
+newly consume them. Their previous layout, file-preview, and terminal-provider
+contracts remain documented in the retired package repositories only to explain
+legacy DSH `0.1.2` installations.
 
 ### Plugin Management
 
@@ -93,21 +97,19 @@ read-only usage help and has no Remote or mutation control.
 
 ## Composition Rules
 
-- Codex-only and Claude-only profiles preserve the official DSH layout.
+- All maintained profiles preserve and use the official DSH layout, file, and
+  terminal surfaces.
 - Backends may depend on the published neutral Session Import hub. This exact
   exception does not permit Events, runtime, other backends, Workbench, or their
   implementation modules as required runtime dependencies.
-- Workbench is an explicit profile layer. Files and Terminal require it as a
-  peer and are installed with it by Relay's distribution tooling.
-- Events is optional and must not be required by any conversation or workbench
-  plugin.
-- Plugin Manager is independent of Events, conversation backends, and Workbench.
+- Events is optional and must not be required by any conversation plugin.
+- Plugin Manager is independent of Events, conversation backends, and the
+  retired workspace UI plugins.
   KeySync distribution installs it by default; standalone DSH users may install
   or remove it independently.
-- Codex may contribute a terminal provider, but may not import Terminal or
-  Workbench implementation code.
-- Files and Terminal may import only `relay-dsh-plugin-workbench/contracts`
-  from Workbench and must not import Workbench implementation code.
+- Maintained plugins may not require or auto-install Workbench, Files, or
+  Terminal. Any future terminal-backend integration must target an official DSH
+  terminal extension boundary.
 - No Relay package patches files under `upstream/deepseek-harness/`.
 
 ## Acceptance Matrix
@@ -117,34 +119,28 @@ read-only usage help and has no Remote or mutation control.
 | Codex only | Codex conversation backend loads; official layout remains. |
 | Claude only | Claude conversation backend loads; official layout remains. |
 | Plugin Manager only | Chat exposes discovery and management tools; Settings exposes read-only help; no public management route exists. |
-| Workbench only | Generic layout loads with no Files/Terminal identifiers or phantom views. |
-| Workbench + Files | Files appears as a side view and its Remote is mounted. |
-| Workbench + Terminal | Terminal appears as a bottom view; no provider is a contained empty state. |
-| Workbench + Terminal + Codex | Codex provider registers and interactive terminal transport is available. |
-| Full composition | Plugin Manager, Codex, Claude, Events, Files, and Terminal coexist on official DSH. |
-| Synthetic future view | A fixture registers another side/bottom view without changing Workbench. |
-| Workbench UI E2E | Clean official DSH profile installs tarballs through direct Files/Terminal installs and explicit Workbench composition, opens Web in a browser, uses the panel menu, opens/closes Files and Terminal views, previews a workspace file, confirms uninstalled views are absent, and reports no browser runtime or resource errors. |
+| Maintained full composition | Plugin Manager, Codex, Claude, Events, Router, and Monitor plugins coexist on official DSH without replacing official workspace UI. |
+| Official workspace UI | The official DSH layout, Files, document preview, and Terminal load without a retired Relay workspace UI plugin. |
+| Retired package exclusion | Current presets and newer-DSH compatibility jobs do not install Workbench, Files, or Terminal. Dedicated historical `0.1.2` checks may remain. |
 
 ## Recurrence Guards
 
 Automated tests must enforce all of the following:
 
 1. Production imports cannot cross plugin implementation directories.
-2. Imports from `relay-dsh-plugin-workbench/contracts` are type-only in Files
-   and Terminal client source.
-3. Codex source and bundle patch contain no workbench layout, Files Remote, or
-   Terminal Remote ownership.
-4. Workbench source contains no feature ids (`files`, `terminal`, `codex`, or
-   `claude`) in view defaults or registration logic.
-5. Every package is independently packable and exports only public built files.
-6. DSH profile dumps and boot probes pass for the acceptance matrix against a
+2. Maintained source and bundle patches contain no dependency on Workbench,
+   Files, Terminal, or their public contracts.
+3. Codex source and bundle patch contain no replacement workbench layout, Files
+   Remote, or Terminal UI ownership.
+4. Every maintained package is independently packable and exports only public
+   built files.
+5. DSH profile dumps and boot probes pass for the acceptance matrix against a
    recorded clean official DSH commit.
-7. The official DSH checkout is clean before and after verification.
-8. Browser E2E covers user-visible Workbench, Files, and Terminal panel paths,
-   not only package installation and Host boot.
-9. View plugins that activate Workbench for single-plugin installs must use
-   plugin-specific loader ids, and Workbench client initialization must remain
-   idempotent so multiple view plugins compose together.
-10. Plugin Manager package acceptance executes its packed browser bundle and
-    verifies one localized, control-free Marketplace help tab alongside its two
-    Host rows.
+6. The official DSH checkout is clean before and after verification.
+7. Current release and newer-DSH compatibility matrices reject accidental
+   installation of the three retired packages.
+8. Historical tests may remain, but failures against post-`0.1.2` DSH releases
+   do not create an adaptation requirement.
+9. Plugin Manager package acceptance executes its packed browser bundle and
+   verifies one localized, control-free Marketplace help tab alongside its two
+   Host rows.

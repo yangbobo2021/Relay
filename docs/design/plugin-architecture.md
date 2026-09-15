@@ -1,5 +1,10 @@
 # Relay Plugin Architecture
 
+> **Retirement note:** `relay-dsh-plugin-workbench`,
+> `relay-dsh-plugin-files`, and `relay-dsh-plugin-terminal` are historical DSH
+> `0.1.2` plugins. They are no longer maintained or adapted to newer DSH
+> releases; current integrations use the corresponding official DSH surfaces.
+
 ## Shape
 
 Relay remains a monorepo, but every plugin boundary is also a package boundary. The

@@ -1,4 +1,4 @@
-// Relay-owned compatibility probe for official DSH 0.1.2 prereleases.
+// Relay-owned compatibility probe for audited official DSH releases.
 // Adapts the existing installation verifier to launch-token authentication and advertised combo URLs.
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
@@ -18,6 +18,7 @@ const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const auditResults = [];
 process.env.DSH_TELEMETRY_DISABLED = "1";
 const dshRoot = resolve(process.env.DSH_ROOT ?? join(root, "upstream", "deepseek-harness"));
+const dshBuildRoot = resolve(process.env.DSH_BUILD_ROOT ?? dshRoot);
 let dshBin = process.env.DSH_BIN ?? join(dshRoot, "apps", "cli", "lib", "bin.js");
 let hostVersion;
 const hosts = process.env.DSH_LEGACY_BIN ? [process.env.DSH_LEGACY_BIN, dshBin] : [dshBin];
@@ -31,6 +32,7 @@ const githubControlledLive = process.argv.includes("--github-controlled-live");
 const gmailControlledLive = process.argv.includes("--gmail-controlled-live");
 const githubOnly = process.argv.includes("--github-only");
 const emailOnly = process.argv.includes("--email-only");
+const maintainedOnly = process.argv.includes("--maintained-only");
 if (gmailControlledLive) {
   for (const key of [
     "RELAY_GMAIL_TOKEN", "RELAY_GMAIL_PUSH_AUDIENCE", "RELAY_GMAIL_PUSH_SERVICE_ACCOUNT",
@@ -69,6 +71,7 @@ const packages = [
   ["integrations/dsh-files", "relay-dsh-plugin-files"],
   ["integrations/dsh-terminal", "relay-dsh-plugin-terminal"],
 ].filter(([, name]) => {
+  if (maintainedOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", "relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author"].includes(name);
   if (codexOnly) return [clientFixture, "relay-dsh-plugin-codex", "relay-dsh-plugin-session-import"].includes(name);
   if (eventsOnly) return [clientFixture, "relay-dsh-plugin-events"].includes(name);
   if (eventsUiOnly) return [clientFixture, "relay-dsh-event-acceptance-fixture", "relay-dsh-plugin-events", "relay-dsh-plugin-monitors", "relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-github", "relay-dsh-plugin-email"].includes(name);
@@ -97,7 +100,7 @@ try {
     if (!source) {
       try {
         execFileSync("npm", ["run", "build", "--if-present"], {
-          cwd: join(root, directory), env: { ...process.env, DSH_ROOT: dshRoot }, stdio: "pipe",
+          cwd: join(root, directory), env: { ...process.env, DSH_ROOT: dshBuildRoot }, stdio: "pipe",
         });
       } catch (error) {
         throw new Error(`${name}: package build failed\n${String(error.stderr ?? "").slice(-4000)}`, { cause: error });
@@ -114,9 +117,26 @@ try {
   for (const host of hosts) {
   dshBin = host;
   hostVersion = JSON.parse(await readFile(join(dirname(dirname(host)), 'package.json'), 'utf8')).version;
-  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2', '0.1.2-alpha.3', '0.1.2-rc.1'].includes(hostVersion), 'select an audited official DSH runtime');
+  assert.ok(['0.1.1-rc.2', '0.1.2-alpha.2', '0.1.2-alpha.3', '0.1.2-rc.1', '0.1.5-rc.2', '0.1.6-alpha.1'].includes(hostVersion), 'select an audited official DSH runtime');
 
-  if (codexOnly) {
+  if (maintainedOnly) {
+    const eventPlugins = ["relay-dsh-plugin-events", "relay-dsh-plugin-semantic-router", "relay-dsh-plugin-monitors"];
+    const monitorPlugins = ["relay-dsh-plugin-monitor-time", "relay-dsh-plugin-monitor-process", "relay-dsh-plugin-monitor-author"];
+    const maintainedPlugins = ["relay-dsh-plugin-manager", "relay-dsh-plugin-session-import", "relay-dsh-plugin-codex", "relay-dsh-plugin-claude", ...eventPlugins, ...monitorPlugins];
+    assert.ok(maintainedPlugins.every(name => ![/workbench/u, /files/u, /terminal/u].some(pattern => pattern.test(name))),
+      "maintained compatibility matrix must exclude retired workspace plugins");
+    await verifyScenario("manager-only", ["relay-dsh-plugin-manager"], tarballs, 0);
+    await verifyScenario("session-import-only", ["relay-dsh-plugin-session-import"], tarballs, 0);
+    await verifyScenario("router-only", ["relay-dsh-plugin-semantic-router"], tarballs, 0);
+    await verifyScenario("monitors-only", ["relay-dsh-plugin-monitors"], tarballs, 0);
+    await verifyScenario("event-plugins", [...eventPlugins, "relay-dsh-plugin-monitor-time", "relay-dsh-event-acceptance-fixture"], tarballs, 0);
+    await verifyScenario("monitor-author", [...eventPlugins, ...monitorPlugins, "relay-dsh-event-acceptance-fixture"], tarballs, 0);
+    await verifyScenario("events-only", ["relay-dsh-plugin-events"], tarballs, 0);
+    await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 0);
+    await verifyScenario("claude-only", ["relay-dsh-plugin-claude"], tarballs, 0);
+    await verifyScenario("codex-and-claude", ["relay-dsh-plugin-codex", "relay-dsh-plugin-claude"], tarballs, 0);
+    await verifyScenario("maintained-full-composition", maintainedPlugins, tarballs, 0);
+  } else if (codexOnly) {
     await verifyScenario("codex-only", ["relay-dsh-plugin-codex"], tarballs, 3191);
   } else if (eventsOnly) {
     await verifyScenario("events-only", ["relay-dsh-plugin-events"], tarballs, 3193);

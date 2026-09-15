@@ -2,12 +2,20 @@
 
 [English](dsh-plugins.md) | 中文
 
-> **13 个 Relay 插件组成的套件已在 DSH `0.1.2-rc.1` 上完成发布验收，并保留
-> 已审计的 `0.1.2-alpha.3` 兼容性。** 原有插件线使用 `0.2.2`，Monitor Core
-> 使用 `0.3.1`，Time、Process 和 Author 扩展使用 `0.1.1`。
+> **Relay 当前维护 10 个 DSH 插件。Workbench、Files、Terminal 已于
+> 2026-09-15 退役，不再适配后续 DSH 版本。** 三者的 `0.2.2` 发布包仅为历史
+> DSH `0.1.2` 安装保留。
 
-在对话中发现和管理插件，或为官方 DeepSeek Harness 增加 Codex、Claude Code、
-工作区文件浏览和交互终端。无需维护 DSH Fork，也不需要修改官方核心代码。
+其余 10 个维护插件已同时在官方 DSH `0.1.5-rc.2`（Tag 提交
+`fb2c4b9e698e30edb738bca4cf0618587db7d203`）和 `0.1.6-alpha.1`（Tag 提交
+`0a15e36e7f82b6ed45af6fa9759f29b40dcd965d`）完成独立、关键组合和全组合验证。
+Codex、Claude 和 Events 已针对新版流、结算、持久化和客户端状态契约完成定向
+适配；带 DSH peer 声明的 9 个包已把两个精确版本都加入兼容范围。
+[查看最新兼容性证据](../dsh-lab/dsh-0.1.6-alpha.1-20260915/README.md)。
+
+在对话中发现和管理插件，或为官方 DeepSeek Harness 增加 Codex、Claude Code 和
+Relay 异步事件能力。布局、工作区文件、文档预览和终端统一使用 DSH 官方实现。
+无需维护 DSH Fork，也不需要修改官方核心代码。
 
 ![在官方 DSH 中运行的 Codex 对话与工作区文件](media/dsh-plugin-suite-live.png)
 
@@ -26,9 +34,9 @@
 | 通过 Chat 查找、安装、更新或删除 DSH 插件 | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | 搜索 npm 与 GitHub；每次变更都要单独确认，设置页只提供只读帮助。 |
 | 在 DSH 中创建 Codex 对话 | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | 基于 Codex App Server 的独立对话后端。 |
 | 在 DSH 中创建 Claude Code 对话 | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | 基于 Claude Agent SDK 的独立对话后端。 |
-| 浏览工作区文件 | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) + [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | Files 使用 Workbench 的右侧面板宿主。 |
-| 打开终端面板 | Workbench + [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | 如需真实 Shell，再安装 Codex 或其他 provider。 |
-| 开发其他右侧或底部视图 | Workbench | 使用公开插件契约，不要导入其他功能插件代码。 |
+| 浏览工作区文件 | DSH 官方 Files 和文档预览 | Relay Workbench 与 Files 已退役。 |
+| 打开终端面板 | DSH 官方交互式侧边栏终端 | Relay Workbench 与 Terminal 已退役。 |
+| 开发其他右侧或底部视图 | DSH 官方布局/侧边栏扩展面 | 不要再依赖已退役的 Workbench 契约。 |
 | 导入已有 Provider 会话 | [`relay-dsh-plugin-session-import`](https://github.com/yangbobo2021/relay-dsh-plugin-session-import) | Codex 与 Claude Provider 共用的会话导入入口。 |
 | 将外部事件送回原 DSH Session | [`relay-dsh-plugin-events`](https://github.com/yangbobo2021/relay-dsh-plugin-events) | 持久化 Wait、Event 与 Delivery 运行时。 |
 | 监控无法主动推送事件的系统 | Events + [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | 运行受限的持久 Monitor，并产生普通 Relay Event。 |
@@ -37,15 +45,17 @@
 | 临时创建自定义 Monitor | Monitor Core + Monitor Author + 对应 capability 插件 | 先查询已安装类型；受限自定义代码只是兜底路径。 |
 | 使用 DSH 模型路由事件 | Events + [`relay-dsh-plugin-semantic-router`](https://github.com/yangbobo2021/relay-dsh-plugin-semantic-router) | 可选语义路由，决定 `deliver`、`escalate` 或 `dismiss`。 |
 
-Plugin Manager、Codex 和 Claude 都不依赖 Relay 运行时或 Workbench。Files 和
-Terminal 只依赖 Workbench 的公开插件契约。Relay Events 是独立的可选运行时，
-这些插件都不要求安装它。
+Plugin Manager、Codex 和 Claude 都不依赖 Relay 运行时或已退役的工作区 UI
+插件。Relay Events 是独立的可选运行时，这些插件都不要求安装它。
+
+三个退役仓库继续作为历史实现供查阅，但不再进入当前预设、推荐安装命令、发布
+流程或新版 DSH 兼容性测试；历史 `0.1.2` 验收证据可以保留。
 
 插件管理器可独立安装。首次安装后重启一次 DSH，然后使用 `/plugins` 或普通自然
 语言请求：
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add --save-exact \
+npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add --save-exact \
   relay-dsh-plugin-manager@0.2.2
 ```
 
@@ -60,14 +70,11 @@ npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add --save-exact \
 Author 使用 `0.1.1`。生产环境应固定精确版本。
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
+pnpm dlx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add \
   relay-dsh-plugin-manager@0.2.2 \
   relay-dsh-plugin-codex@0.2.2 \
   relay-dsh-plugin-claude@0.2.2 \
   relay-dsh-plugin-session-import@0.2.2 \
-  relay-dsh-plugin-workbench@0.2.2 \
-  relay-dsh-plugin-files@0.2.2 \
-  relay-dsh-plugin-terminal@0.2.2 \
   relay-dsh-plugin-events@0.2.2 \
   relay-dsh-plugin-monitors@0.3.1 \
   relay-dsh-plugin-monitor-time@0.1.1 \
@@ -75,12 +82,11 @@ pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
   relay-dsh-plugin-monitor-author@0.1.1 \
   relay-dsh-plugin-semantic-router@0.2.2
 
-pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 web
+pnpm dlx @deepseek-ai/dsh@0.1.6-alpha.1 web
 ```
 
-只安装自己需要的插件即可。安装 Files 或 Terminal 时，需要在同一条命令中
-明确列出 Workbench。真实交互终端还需要一个 provider；当前这组已发布插件中，
-Codex 可以提供该能力。
+只安装自己需要的插件即可。当前 Profile 不应再加入 Relay Workbench、Files 或
+Terminal，请使用对应的 DSH 官方能力。
 
 通过 KeySync 一键安装 DSH 时，Plugin Manager 已经内置安装，不要重复添加。
 上面的 npm 命令用于独立安装的官方 DSH Profile。
@@ -91,13 +97,10 @@ GitHub 安装适合测试尚未发布的新代码。正式或可复现环境应�
 Tag 或完整 Commit SHA。
 
 ```bash
-pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
+pnpm dlx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add \
   github:yangbobo2021/relay-dsh-plugin-manager#main \
   github:yangbobo2021/relay-dsh-plugin-codex#main \
   github:yangbobo2021/relay-dsh-plugin-claude#main \
-  github:yangbobo2021/relay-dsh-plugin-workbench#main \
-  github:yangbobo2021/relay-dsh-plugin-files#main \
-  github:yangbobo2021/relay-dsh-plugin-terminal#main \
   github:yangbobo2021/relay-dsh-plugin-monitor-time#v0.1.1 \
   github:yangbobo2021/relay-dsh-plugin-monitor-process#v0.1.1 \
   github:yangbobo2021/relay-dsh-plugin-monitor-author#v0.1.1
@@ -110,8 +113,6 @@ pnpm dlx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add \
 ```bash
 dsh plugin --profile web why relay-dsh-plugin-codex
 dsh plugin --profile web why relay-dsh-plugin-claude
-dsh plugin --profile web why relay-dsh-plugin-files
-dsh plugin --profile web why relay-dsh-plugin-terminal
 dsh plugin --profile web why relay-dsh-plugin-manager
 dsh plugin --profile web why relay-dsh-plugin-monitor-time
 dsh plugin --profile web why relay-dsh-plugin-monitor-process
@@ -119,13 +120,11 @@ dsh plugin --profile web why relay-dsh-plugin-monitor-author
 ```
 
 然后新建 DSH 会话，可以先询问“列出已安装插件”，也可以打开 **设置 > 插件 >
-插件市场** 查看简短说明。模式菜单中应出现 Codex 和 Claude Code；选择工作区后，
-Workbench 菜单中应出现 Files 和 Terminal。
+插件市场** 查看简短说明。模式菜单中应出现 Codex 和 Claude Code；工作区 Files
+和 Terminal 由 DSH 官方提供。
 
-13 个插件仓库均提供中英文安装说明，并记录验证、npm 发布和 GitHub 开发版安装
-方式。关于为什么采用这种插件边界，以及完整体验步骤，
-可继续阅读
-[《不改 DSH 核心：用插件加入 Codex、Claude Code、文件浏览和终端》](articles/no-fork-dsh-plugins.zh.md)。
+10 个仍在维护的插件仓库提供中英文安装和验证说明。原 13 插件方案的文章作为
+[历史设计记录](articles/no-fork-dsh-plugins.zh.md)保留，不再作为当前安装指南。
 
 Codex 插件还把 App Server 可靠性作为产品契约：Settings 状态会区分启动、连接、
 运行时不可用和重新绑定问题；空白 Session 的模型选择会跟随当前后端；正常 fork
@@ -139,5 +138,5 @@ Session、项目 Workbench 和未来协调边界。
 
 多设备完整实测见
 [《电脑没带走，AI 工作没停》](articles/keysync-dsh-multi-device-agent-workbench.zh.md)：
-KeySync 安装官方 DSH 时已经内置 Plugin Manager；其他可选插件加入三类会话、
-Files 和 Terminal，再从手机或另一台电脑回到原会话继续。
+KeySync 安装官方 DSH 时已经内置 Plugin Manager；其他可选插件加入对话后端和
+Relay 事件能力，Files 和 Terminal 则由 DSH 官方提供。
