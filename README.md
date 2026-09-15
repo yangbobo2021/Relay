@@ -2,8 +2,8 @@
 
 Plugin guide: [English](docs/dsh-plugins.md) | [中文](docs/dsh-plugins.zh.md)
 
-**Add Codex, Claude Code, plugin management, workspace files, and a terminal to
-the official DeepSeek Harness, without maintaining a DSH fork.**
+**Add Codex, Claude Code, plugin management, and asynchronous event capabilities
+to the official DeepSeek Harness, without maintaining a DSH fork.**
 
 Relay is an open-source integration and runtime workspace for long-running Agent
 work. Its independently published DSH plugins are usable today: install only the
@@ -42,10 +42,10 @@ confirmation. KeySync's one-click DSH setup already includes Plugin Manager.
 
 ## Why Star Relay?
 
-- Keep official DSH unpatched while adding the Agent backends and workspace views
-  your project needs.
-- Use Codex or Claude Code as native DSH conversation modes, then combine the
-  optional Files and Terminal views in the same workspace.
+- Keep official DSH unpatched while adding the Agent backends and asynchronous
+  event capabilities your project needs.
+- Use Codex or Claude Code as native DSH conversation modes, together with the
+  official DSH Files and Terminal surfaces.
 - Follow the next layer of long-running Agent work: durable Waits and Monitors,
   external Events, and delivery back into the correct existing conversation.
 
@@ -58,6 +58,11 @@ Events back into the correct conversation. A DSH Session may use DSH's default
 Agent or bind a Codex Thread as its execution and model-context backend.
 
 ## DSH Plugin Catalog
+
+The 10 maintained plugins are verified on both official DSH `0.1.5-rc.2` and
+`0.1.6-alpha.1`. Workbench, Files, and Terminal remain retired and are excluded
+from the compatibility matrix; current profiles use the corresponding official
+DSH surfaces. See the [latest compatibility record](dsh-lab/dsh-0.1.6-alpha.1-20260915/README.md).
 
 Published plugins can be installed on official DSH without checking out this
 repository. Relay pins their repositories as submodules for distribution,
@@ -74,9 +79,9 @@ verification, and real DSH UI evidence.
 | Plugin Manager | [`relay-dsh-plugin-manager`](https://github.com/yangbobo2021/relay-dsh-plugin-manager) | [`relay-dsh-plugin-manager`](https://www.npmjs.com/package/relay-dsh-plugin-manager) | Discovers and manages DSH plugins through Chat; included by KeySync's one-click DSH install. |
 | Codex | [`relay-dsh-plugin-codex`](https://github.com/yangbobo2021/relay-dsh-plugin-codex) | [`relay-dsh-plugin-codex`](https://www.npmjs.com/package/relay-dsh-plugin-codex) | Adds Codex as a DSH conversation backend. |
 | Claude Code | [`relay-dsh-plugin-claude`](https://github.com/yangbobo2021/relay-dsh-plugin-claude) | [`relay-dsh-plugin-claude`](https://www.npmjs.com/package/relay-dsh-plugin-claude) | Adds Claude Code as a DSH conversation backend. |
-| Workbench | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Provides the shared right/bottom panel shell for DSH view plugins. |
-| Files | [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | [`relay-dsh-plugin-files`](https://www.npmjs.com/package/relay-dsh-plugin-files) | Adds a right-side workspace file browser. |
-| Terminal | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Adds a bottom terminal panel and provider registry. |
+| Workbench (retired) | [`relay-dsh-plugin-workbench`](https://github.com/yangbobo2021/relay-dsh-plugin-workbench) | [`relay-dsh-plugin-workbench`](https://www.npmjs.com/package/relay-dsh-plugin-workbench) | Historical DSH `0.1.2` layout plugin; no further adaptation. Use official DSH layout/sidebar surfaces. |
+| Files (retired) | [`relay-dsh-plugin-files`](https://github.com/yangbobo2021/relay-dsh-plugin-files) | [`relay-dsh-plugin-files`](https://www.npmjs.com/package/relay-dsh-plugin-files) | Historical DSH `0.1.2` file browser; no further adaptation. Use official DSH Files. |
+| Terminal (retired) | [`relay-dsh-plugin-terminal`](https://github.com/yangbobo2021/relay-dsh-plugin-terminal) | [`relay-dsh-plugin-terminal`](https://www.npmjs.com/package/relay-dsh-plugin-terminal) | Historical DSH `0.1.2` terminal; no further adaptation. Use the official DSH terminal. |
 | Events | [`relay-dsh-plugin-events`](https://github.com/yangbobo2021/relay-dsh-plugin-events) | `relay-dsh-plugin-events` (tarball) | Durable Wait/Event/Delivery, ingress, and management UI. |
 | Semantic Router | [`relay-dsh-plugin-semantic-router`](https://github.com/yangbobo2021/relay-dsh-plugin-semantic-router) | `relay-dsh-plugin-semantic-router` (tarball) | Tool-free semantic routing through an existing DSH model route. |
 | Monitor Core | [`relay-dsh-plugin-monitors`](https://github.com/yangbobo2021/relay-dsh-plugin-monitors) | [`relay-dsh-plugin-monitors`](https://www.npmjs.com/package/relay-dsh-plugin-monitors) | Durable Monitor registry, restricted custom Bundles, checks, and bound triggers. |

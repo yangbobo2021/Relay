@@ -36,7 +36,14 @@ Those operations MUST leave tracked and untracked non-ignored DSH source clean.
 
 Every Relay capability MUST integrate through an official DSH extension boundary or
 an external Relay-owned adapter. This includes Codex and Claude conversations, Waits,
-Monitors, Events, file browsing, terminal access, and workbench presentation.
+Monitors, and Events. Official DSH owns file browsing, document preview, terminal
+access, and workbench presentation.
+
+Relay MUST NOT maintain parallel replacements for an official DSH capability.
+Accordingly, `relay-dsh-plugin-workbench`, `relay-dsh-plugin-files`, and
+`relay-dsh-plugin-terminal` are retired and MUST NOT be adapted to newer DSH
+versions. Historical source and releases may remain available for previously
+verified installations.
 
 Persistent implementation MUST live in independent plugin repositories under
 `integrations/` (including Events, Semantic Router and Monitors). Compatibility experiments and sanitized evidence
