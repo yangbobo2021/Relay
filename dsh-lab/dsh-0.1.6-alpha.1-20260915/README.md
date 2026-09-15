@@ -22,16 +22,16 @@ The same 10 maintained plugins remain compatible with both `0.1.5-rc.2` and
 
 | Package | Source version | Result on `0.1.6-alpha.1` |
 | --- | ---: | --- |
-| `relay-dsh-plugin-manager` | `0.3.1-rc.2` | pass |
-| `relay-dsh-plugin-session-import` | `0.2.3-rc.2` | pass |
-| `relay-dsh-plugin-codex` | `0.2.3-rc.3` | pass |
-| `relay-dsh-plugin-claude` | `0.2.3-rc.2` | pass |
-| `relay-dsh-plugin-events` | `0.2.4-rc.1` | pass |
-| `relay-dsh-plugin-semantic-router` | `0.2.3-rc.2` | pass |
-| `relay-dsh-plugin-monitors` | `0.3.2-rc.2` | pass |
-| `relay-dsh-plugin-monitor-time` | `0.1.2-rc.2` | pass |
-| `relay-dsh-plugin-monitor-process` | `0.1.2-rc.2` | pass |
-| `relay-dsh-plugin-monitor-author` | `0.1.2-rc.2` | pass |
+| `relay-dsh-plugin-manager` | `0.3.1` | pass |
+| `relay-dsh-plugin-session-import` | `0.2.3` | pass |
+| `relay-dsh-plugin-codex` | `0.2.3` | pass |
+| `relay-dsh-plugin-claude` | `0.2.3` | pass |
+| `relay-dsh-plugin-events` | `0.2.4` | pass |
+| `relay-dsh-plugin-semantic-router` | `0.2.3` | pass |
+| `relay-dsh-plugin-monitors` | `0.3.2` | pass |
+| `relay-dsh-plugin-monitor-time` | `0.1.2` | pass |
+| `relay-dsh-plugin-monitor-process` | `0.1.2` | pass |
+| `relay-dsh-plugin-monitor-author` | `0.1.2` | pass |
 
 Workbench, Files, and Terminal are retired. They were intentionally excluded
 from source adaptation, packaging, and the maintained compatibility matrix.
@@ -59,7 +59,7 @@ plugins above.
 ## Reproducible validation
 
 Complete `--maintained-only` runs were executed against the published
-`@deepseek-ai/dsh@0.1.6-alpha.1` CLI, including the final npm-published candidate
+`@deepseek-ai/dsh@0.1.6-alpha.1` CLI, including the final npm-published stable
 set shown above:
 
 1. Existing artifacts rebuilt against the already verified `0.1.5-rc.2`
