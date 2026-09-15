@@ -18,23 +18,23 @@ reference and clean before and after the tests.
 
 The maintained matrix contains exactly these 10 plugins:
 
-1. `relay-dsh-plugin-manager@0.3.1-rc.2`
-2. `relay-dsh-plugin-session-import@0.2.3-rc.2`
-3. `relay-dsh-plugin-codex@0.2.3-rc.3`
-4. `relay-dsh-plugin-claude@0.2.3-rc.2`
-5. `relay-dsh-plugin-events@0.2.4-rc.1`
-6. `relay-dsh-plugin-semantic-router@0.2.3-rc.2`
-7. `relay-dsh-plugin-monitors@0.3.2-rc.2`
-8. `relay-dsh-plugin-monitor-time@0.1.2-rc.2`
-9. `relay-dsh-plugin-monitor-process@0.1.2-rc.2`
-10. `relay-dsh-plugin-monitor-author@0.1.2-rc.2`
+1. `relay-dsh-plugin-manager@0.3.1`
+2. `relay-dsh-plugin-session-import@0.2.3`
+3. `relay-dsh-plugin-codex@0.2.3`
+4. `relay-dsh-plugin-claude@0.2.3`
+5. `relay-dsh-plugin-events@0.2.4`
+6. `relay-dsh-plugin-semantic-router@0.2.3`
+7. `relay-dsh-plugin-monitors@0.3.2`
+8. `relay-dsh-plugin-monitor-time@0.1.2`
+9. `relay-dsh-plugin-monitor-process@0.1.2`
+10. `relay-dsh-plugin-monitor-author@0.1.2`
 
 Retired Workbench, Files, and Terminal packages were excluded by design.
 
 ## Result
 
 No rc.2-specific implementation adaptation was required. The dual-version
-candidate line also contains the compatibility paths needed by `0.1.6-alpha.1`;
+stable line also contains the compatibility paths needed by `0.1.6-alpha.1`;
 those paths were regression-tested here against rc.2. DSH-facing peer ranges and
 development-version gates declare the exact release.
 
